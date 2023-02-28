@@ -5,9 +5,10 @@ My first python simulater implementation.
 
 
 Implementation course:
-1. Deep Learning
-2. Q-learning
-3. REINFORCE
+1. Deep Learning -> v
+2. Q-learning -> v
+3. Deep Q-learning -> on going
+3. REINFORCE -> on going
 4. Actor-critic
 5. DDPG
 6. PPO
