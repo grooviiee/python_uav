@@ -1,68 +1,74 @@
+import numpy as np
+import pandas as pd
+import random
+from collections import defaultdict
 import gym
-import math
-import funcpy
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
-import torchvision.transforms as T
+import gym_minigrid
+import matplotlib.pyplot as plt
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-env = gym.make('CartPole-v0').unwrapped
+class QLearning:
+    def __init__(self, actions, agent_indicator=10):
+        self.actions = actions
+        self.agent_indicator = agent_indicator
+        self.alpha = 0.01 # learning rate
+        self.gamma = 0.9 #
+        self.epsilon = 0.2 # greedy 
+        self.q_values = defaultdict(lambda: [0.0] * actions)
 
-def get_cart_location(screen_width):
-    world_width = env.x_threshold *2
-    scale = screen_width / world_width
-    return int(state[0] * scale + screen_width / 2.0)
+    def act(self, state): # epsilon greedy method is used
+        if np.random.rand() < self.epsilon:
+            action = np.random.choice(self.actions)
+        else:
+            state = self._convert_state(state)
+            q_values = self.q_values[state]
+            action = np.argmax(q_values)
+            
+        return action
+    
+    # how to distinguish target network and policy network??
+    def update(self, state, action, reward, next_state, next_action):
+        state = self._convert_state(state)
+        next_state = self._convert_state(next_state)
+        
+        q_value = self.q_values[state][action]
+        next_q_value = max(self.q_values[next_state])
+        
+        td_error = reward + self.gamma * next_q_value - q_value
+        self.q_values[state][action] = q_value + self.alpha * td_error
+        
+        
+env = gen_wrapped_env('MiniGrid-Empty-6x6-v0')
+obs = env.reset()
 
-def get_screen():
-    # gym이 요청한 화면은 400x600x3 이지만, 가끔 800x1200x3 처럼 큰 경우가 있습니다.
-    # 이것을 Torch order (CHW)로 변환한다.
+agent_position = obs[0]
 
-    screen = env.render(mode='rgb_array').transpose((2, 0, 1))
+# 3 actions: left, right, forward
+agent = QLearning(3, agent_position) 
 
-    _, screen_height, screen_width = screen.shape
-    screen = screen[:, int(screen_height*0.4):int(screen_height * 0.8)]
-    view_width = int(screen_width * 0.6)
-    cart_location = get_cart_location(screen_width)
-    if cart_location < view_width // 2:
-        slice_range = slice(view_width)
-    elif cart_location > (screen_width - view_width // 2):
-        slice_range = slice(-view_width, None)
-    else:
-        slice_range = slice(cart_location - view_width // 2,
-                            cart_location + view_width // 2)
-                            
-                
-    screen = screen[:, :, slice_range]
+rewards = []
 
-    screen = np.ascontiguousarray(screen, dtype=np.float32) / 255
-    screen = torch.from_numpy(screen)
-
-    return resize(screen).unsqueeze(0)
-
-
-
-
-num_episodes = 50
-
-resize = T.Compose([T.ToPILImage(),
-                    T.Resize(40, interpolation=T.InterpolationMode.BICUBIC),
-                    T.ToTensor()])
-
-for i_episode in range(num_episodes):
-    env.reset()
-    last_screen = get_screen()
-    current_screen = get_screen()
-    state = current_screen - last_screen
-
-    # for t in count():
-
-
-
-
-print('Complete')
-env.render()
+#repeat 5000 episode
+for ep in range(5000):
+    done = False
+    obs = env.reset()
+    action = agent.act(obs)
+    
+    ep_rewards = 0
+    while not done:
+        next_obs, reward, done, info = env.step(action)
+        
+        next_action = agent.act(next_obs)
+        
+        agent.update(obs, action, reward, next_obs, next_action)
+        
+        ep_rewards += reward
+        obs = next_obs
+        action = next_action
+    
+    rewards.append(ep_rewards)
+    if (ep+1) % 20 == 0:
+        print("episode: {}, rewards: {}".format(ep+1, ep_rewards))
+        
 env.close()
-plt.ioff()
-plt.show()
+
+show_video()
