@@ -30,11 +30,12 @@ class REINFORCE:
                                     lr=self.alpha)
         self.memory = []
         
+    # pi에서 softmax 함수에 의해 각 행동을 취할 확률이 나오고, 그에 따라 행동이 return된다.
     def act(self, state):
         with torch.no_grad():
             state = torch.FloatTensor(state)
             policy_probs = torch.distributions.Categorical(self.pi(state))
-            
+
         return policy_probs.sample()
         
     def append_sample(self, state, action, reward):
@@ -83,6 +84,8 @@ for ep in range(500):
     action = agent.act(obs)
 
     ep_rewards = 0
+    
+    #일단 실행을 하고
     while not done:
         next_obs, reward, done, info = env.step(action.item())
         ep_rewards += reward
@@ -92,6 +95,7 @@ for ep in range(500):
         obs = next_obs
         action = next_action
 
+    # 실행값을 REINFORCE 알고리즘을 통해 update
     pi_loss = agent.update()
     rewards.append(ep_rewards)
 
