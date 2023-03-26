@@ -8,6 +8,7 @@ from torch import optim
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 
+
 # PPO Class
 class PPO(nn.Module):
     def __init__(self):
@@ -27,18 +28,13 @@ class PPO(nn.Module):
     # PPO - Policy, Value Network 코드
     def pi(self, x, softmax_dim=0):
         x = F.relu(self.fc1(x))
-
         x = self.fc_pi(x)
-
         prob = F.softmax(x, dim=softmax_dim)
-
         return prob
 
     def v(self, x):
         x = F.relu(self.fc1(x))
-
         v = self.fc_v(x)
-
         return v
 
     def put_data(self, item):
@@ -55,17 +51,17 @@ class PPO(nn.Module):
         )
 
         for item in self.data:
+            # data로 쌓은 정보들을 각 배열에 저장
             s, a, r, s_prime, prob_a, done = item
             s_list.append(s)
-
             a_list.append([a])
             r_list.append([r])
-
             s_prime_list.append(s_prime)
             prob_a_list.append([prob_a])
             done_mask = 0 if done else 1
             done_list.append([done_mask])
 
+        # tensor로 값을 저장 후, 기존 data 배열은 flush
         s, a, r, s_prime, done_mask, prob_a = (
             torch.tensor(s_list, dtype=torch.float),
             torch.tensor(a_list),
@@ -74,20 +70,19 @@ class PPO(nn.Module):
             torch.tensor(done_list, dtype=torch.float),
             torch.tensor(prob_a_list),
         )
-
         self.data = []
 
         return s, a, r, s_prime, done_mask, prob_a
 
     def train(self):
+        # step 동안 쌓아둔 data들을 토대로 batch data를 만든다.
         s, a, r, s_prime, done_mask, prob_a = self.make_batch()
 
-        # 같은 batch data에 대해서 epoch 수만큼 반복해서 학습
+        # batch data를 가지고 epoch 수만큼 반복해서 학습
         for i in range(self.K):
             td_target = r + self.gamma * self.v(s_prime) * done_mask
 
             delta = td_target - self.v(s)
-            # TODO: detach의 의미와 하는 이유를 찾아볼 것
             delta = delta.detach().numpy()
 
             advantage_list = []
@@ -106,6 +101,7 @@ class PPO(nn.Module):
 
             ratio = torch.exp(torch.log(pi_a) - torch.log(prob_a))
 
+            # clipping
             surr1 = ratio * advantage
             surr2 = torch.clamp(ratio, 1 - self.eps, 1 + self.eps) * advantage
 
@@ -122,57 +118,57 @@ class PPO(nn.Module):
 
 
 def main():
-    env = gym.make("CartPole-v1")
+    env = gym.make("CartPole-v1")  # Gyme에서 CartPole을 학습시킬거다.
 
-    model = PPO()
-
-    gamma = 0.09
-
-    T = 20
+    model = PPO()  # Model을 PPO로 설정
+    gamma = 0.09  # Learning rate 설정
+    num_step = 20
 
     score = 0.0
-    print_interval = 20
+    print_interval = 20  # 20회 episode마다 출력
     scores = []
+    num_episode = 1000
 
-    # Main 2 code
     # 10000번의 에피소드를 돌린다.
-    for n_epi in range(1000):
-        # 환경을 리셋하여 초기 상태를 얻는다.
-        s = env.reset()
-        # 게임 종료 여부를 False로 초기화
+    for episode in range(num_episode):
+        state = env.reset()
         done = False
-        # 게임이 끝날 때까지 돌림
+
         while not done:
-            # T만큼 게임을 진행.
-            for t in range(T):
+            # T Step 만큼 게임을 진행 후에 training 진행
+            for step in range(num_step):
                 # PPO.pi - 정책 : 상태 s를 넣으면 행동확률분포를 돌려준다.
-                prob = model.pi(torch.from_numpy(s).float())
+                prob = model.pi(torch.from_numpy(state).float())
                 # Categorical : 확률 값을 Categorical 데이터로 변환해준다.
                 # e.g. [0.6, 0.3, 0.1] -> Categorical([0.6, 0.3, 0.1])
                 m = Categorical(prob)
                 # Categorical([0.6, 0.3, 0.1]) -> index 0 (확률 가장 높은 행동 출력)
-                a = m.sample().item()
+                action = m.sample().item()
+
                 # Action a일 때 State'와 Reward, 게임종료 여부 등을 받아냄.
-                s_prime, r, done, info = env.step(a)
+                s_prime, reward, done, info = env.step(action)
 
                 # 데이터를 집어 넣는다.
-                model.put_data((s, a, r / 100.0, s_prime, prob[a].item(), done))
+                model.put_data(
+                    (state, action, reward / 100.0, s_prime, prob[action].item(), done)
+                )
 
                 # 다음 상태를 기존 상태변수에 넣는다.
-                s = s_prime
+                state = s_prime
+
                 # 에이전트의 점수칸에 보상을 더해준다.
-                score += r
+                score += reward
 
                 if done:
                     break
 
-            # T까지 진행 후, train 실행
+            # step T까지 진행 후, train 실행
             model.train()
 
-        if n_epi % print_interval == 0 and n_epi != 0:
+        if episode % print_interval == 0 and episode != 0:
             print(
                 "# of episode :{}, avg score : {:.1f}".format(
-                    n_epi, score / print_interval
+                    episode, score / print_interval
                 )
             )
             scores.append(score)
