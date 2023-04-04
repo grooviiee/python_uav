@@ -1,0 +1,28 @@
+MADDPG란?
+* Agent마다 q-network와 p-network가 존재한다.
+train local q network -> train local p network
+
+
+- `./maddpg/trainer/maddpg.py`: core code for the MADDPG algorithm
+
+메인 함수: MADDPGAgentTrainer
+
+* 시뮬레이터는 매 100 step마다 replay buffer에서 data를 뽑아와서 update 진행한다.
+
+<code flow>
+train.py에 main함수 존재 (if __name__ == '__main__':)
+train
+- # Create environment
+- # Create agent trainers -> agent 추가.. "local q func"
+- # Initialize
+- # Load previous results, if necessary
+- while True: 구문부터 본격 시작
+- 아랫 부분에서 학습 시작
+            for agent in trainers:
+                agent.preupdate()
+            for agent in trainers: 
+                loss = agent.update(trainers, train_step)
+				
+- 매 step 마다 
+p_train (def p_train)
+q_train (def q_train)
