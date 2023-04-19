@@ -1,3 +1,12 @@
+import argparse
+import numpy as np
+import time
+import pickle
+
+import maddpg.common.tf_util as U
+from uav_env.trainer.mappo import MAPPOAgentTrainer
+
+
 def make_env(scenario_name, arglist, benchmark=False):
     from multiagent.environment import MultiAgentEnv
     import multiagent.scenarios as scenarios
@@ -25,7 +34,7 @@ def make_env(scenario_name, arglist, benchmark=False):
 def get_trainers(env, num_adversaries, obs_shape_n, arglist):
     traubers = []
     model = mlp_model
-    trainer = MAPPOAgentTrainer
+    trainer = MAPPOAgentTrainer  # AttentionMAPPOAgentTrainer
 
 
 def train(arglist):
