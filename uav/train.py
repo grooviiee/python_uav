@@ -39,7 +39,17 @@ def get_trainers(env, num_adversaries, obs_shape_n, arglist):
 
 def train(arglist):
     with U.single_threaded_session():
+        # basic procedure
         env = make_env(arglist.scenario, arglist, arglist.benchmark)
+        done = False
+        total_reward = 0
+
+        while not done:
+            action = policy(obs)
+
+            obs, reward, done, info = env.step(action)
+            total_reward += reward
+            env.render()
 
 
 if __name__ == "__main__":
