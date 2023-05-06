@@ -2,7 +2,12 @@ Implementation of MAPPO algorithm refered "https://github.com/marlbenchmark/on-p
 
 <MAPPO>
 * 이 repo는 environment가 여러 개다. 그래서 각자 env마다 돌아가는 코드가 다른다.
-* 여기서는 SMAC 시뮬레이터 기준으로 설명 ("smac_runner.py"파일에서 실행)
+  (소개된 scenario: SMAC, Hanabi, Multiagent Particle-World Environemtns, Google Research Football(GRF))
+* 여기서는 SMAC 시뮬레이터 기준으로 설명하겠다. "football_runner.py"파일 참고
+* patrial observation 환경과 fully sharing observation 환경이 있는데,
+우리가 주목해야할 환경은 fully sharing observarion 환경이다.
 
 기존과 동일하게 일정 Step동안 buffer에 저장 후, update 진행
 
+* 기존 PPO 알고리즘과 같이 MAPPO 또한 On-policy 알고리즘이다.
+   (training script path: train_mpe.sh)
