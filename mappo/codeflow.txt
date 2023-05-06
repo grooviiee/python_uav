@@ -1,5 +1,7 @@
+Implementation of MAPPO algorithm refered "https://github.com/marlbenchmark/on-policy"
+
 <MAPPO>
-* 이 repo는 env가 여러개라서 각자 env마다 돌아가는 코드가 다른다.
+* 이 repo는 environment가 여러 개다. 그래서 각자 env마다 돌아가는 코드가 다른다.
 * 여기서는 SMAC 시뮬레이터 기준으로 설명 ("smac_runner.py"파일에서 실행)
 
 기존과 동일하게 일정 Step동안 buffer에 저장 후, update 진행
