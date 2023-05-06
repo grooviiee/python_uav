@@ -11,3 +11,26 @@ Implementation of MAPPO algorithm refered "https://github.com/marlbenchmark/on-p
 
 * 기존 PPO 알고리즘과 같이 MAPPO 또한 On-policy 알고리즘이다.
    (training script path: train_mpe.sh)
+
+
+
+
+----------- football_runner.py -------------
+
+def run -> main environment running code
+
+1. episode동안 학습을 진행한다.
+2. self.collect(step)을 통해 현재 status에서 action을 뽑아낸다.
+3. epsiode에서 일정 step 동안은 replay buffer에 저장만 한다. 일정 step이 지나면 network를 update한다.
+	(self.train())
+4. training된 model을 save한다. (self.save())
+5. eval_interval마다 학습된 model을 evaluation한다. (얼마나 학습이 되었는지 실제로 exam)
+ (self.eval(total_num_steps))
+
+def collect(self, step) -> 여기서 self.trainer.policy.get_actions 함수를 호출
+   (각자 agent가 가지고 있는 policy에 따라서 값을 뱉어낸다)
+
+def warmup -> initialization part
+
+def render -> draw current update status in graphic motion
+
