@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 class PPO(nn.Module):
     def __init__(self):
         super(PPO, self).__init__()
-        self.data = []
+        self.data = []	# array storing status after a single step
         self.gamma = 0.98
         self.lmbda = 0.95
         self.eps = 0.1
