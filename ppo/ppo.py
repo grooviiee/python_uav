@@ -40,7 +40,7 @@ class PPO(nn.Module):
     def put_data(self, item):
         self.data.append(item)
 
-    def make_batch(self):
+    def make_batch(self):	# 그동안 쌓아온 값들을 batch에다 보내고 난 뒤에, flush
         s_list, a_list, r_list, s_prime_list, prob_a_list, done_list = (
             [],
             [],
@@ -71,14 +71,14 @@ class PPO(nn.Module):
             torch.tensor(prob_a_list),
         )
         self.data = []
-
+        
         return s, a, r, s_prime, done_mask, prob_a
 
     def train(self):	# Start training
         # step 동안 쌓아둔 data들을 토대로 batch data를 만든다.
         s, a, r, s_prime, done_mask, prob_a = self.make_batch()
 
-        # batch data를 가지고 epoch 수만큼 반복해서 학습
+        # batch data를 가지고 epoch(K) 수만큼 반복해서 학습
         for i in range(self.K):
             td_target = r + self.gamma * self.v(s_prime) * done_mask
 
@@ -97,7 +97,7 @@ class PPO(nn.Module):
 
             pi = self.pi(s, softmax_dim=1)
 
-            pi_a = pi.gather(1, a)
+            pi_a = pi.gather(1, a)	# gather를 통해서 	1차원의 idx만 추출
 
             ratio = torch.exp(torch.log(pi_a) - torch.log(prob_a))
 
