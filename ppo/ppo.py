@@ -17,9 +17,9 @@ class PPO(nn.Module):
         self.gamma = 0.98
         self.lmbda = 0.95
         self.eps = 0.1
-        self.K = 3
+        self.K = 3	# num_epoch
 
-        # 신경망 구축
+        # set neural network
         self.fc1 = nn.Linear(4, 256)
         self.fc_pi = nn.Linear(256, 2)
         self.fc_v = nn.Linear(256, 1)
@@ -74,7 +74,7 @@ class PPO(nn.Module):
 
         return s, a, r, s_prime, done_mask, prob_a
 
-    def train(self):
+    def train(self):	# Start training
         # step 동안 쌓아둔 data들을 토대로 batch data를 만든다.
         s, a, r, s_prime, done_mask, prob_a = self.make_batch()
 
