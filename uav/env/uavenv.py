@@ -84,15 +84,15 @@ class Scenario(object):
         # Receiving state and action as list 
         epsilon = 0.2
         # step 1. Get extr reward (Action에 대해서 state를 모두 바꾸었을 때, reward를 계산)
-        extr_reward = CalaExtrReward(self, state, action)
+        extr_reward = CalcExtrReward(self, state, action)
         
         # step 2. Get intr reward
         intr_reward = CalcIIntrReward(self)
 
         return (extr_reward + epsilon * intr_reward)
     
-    def CalcExtrReward(self, status, action):
-        num_agent = len(status)
+    def CalcExtrReward(self, state, action):
+        num_agent = len(state)
         # step 1. action에 대한 status 변경 
         for idx in num_agent:
             if (idx == 0):
