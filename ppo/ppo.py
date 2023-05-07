@@ -78,7 +78,7 @@ class PPO(nn.Module):
         # step 동안 쌓아둔 data들을 토대로 batch data를 만든다.
         s, a, r, s_prime, done_mask, prob_a = self.make_batch()
 
-        # batch data를 가지고 epoch(K) 수만큼 반복해서 학습
+        # batch data를 가지고 epoch (=: K) 수만큼 반복해서 학습
         for i in range(self.K):
             td_target = r + self.gamma * self.v(s_prime) * done_mask
 
@@ -88,6 +88,7 @@ class PPO(nn.Module):
             advantage_list = []
             advantage = 0.0
 
+			# GAE 값 산출
             for delta_t in delta[::-1]:
                 advantage = self.gamma * self.lmbda * advantage + delta_t[0]
                 advantage_list.append([advantage])
@@ -101,7 +102,7 @@ class PPO(nn.Module):
 
             ratio = torch.exp(torch.log(pi_a) - torch.log(prob_a))
 
-            # clipping
+            # surrogated clipping
             surr1 = ratio * advantage
             surr2 = torch.clamp(ratio, 1 - self.eps, 1 + self.eps) * advantage
 
@@ -135,34 +136,36 @@ def main():
         done = False
 
         while not done:
-            # T Step 만큼 게임을 진행 후에 training 진행
+            # STEP 1. T Step 만큼 게임을 진행 후에 training 진행
             for step in range(num_step):
-                # PPO.pi - 정책 : 상태 s를 넣으면 행동확률분포를 돌려준다.
+                # STEP 1.1. def PPO.pi policy(critic): 상태 s를 넣으면 행동확률분포를 돌려준다.
                 prob = model.pi(torch.from_numpy(state).float())
-                # Categorical : 확률 값을 Categorical 데이터로 변환해준다.
+                # STEP 1.2. Categorical : 확률 값을 Categorical 데이터로 변환해준다.
                 # e.g. [0.6, 0.3, 0.1] -> Categorical([0.6, 0.3, 0.1])
                 m = Categorical(prob)
+                
+                # STEP 1.3. Categorical(tensor값).sample().item()을 하면 행동 분포 중에서 가장 확률이 높은 index를 돌려준다.
                 # Categorical([0.6, 0.3, 0.1]) -> index 0 (확률 가장 높은 행동 출력)
                 action = m.sample().item()
 
-                # Action a일 때 State'와 Reward, 게임종료 여부 등을 받아냄.
+                # STEP 1.4. action a일 때 next_state와 reward, 게임종료 여부 등을 받아낸다.
                 s_prime, reward, done, info = env.step(action)
 
-                # 데이터를 집어 넣는다.
+                # STEP 1.5. replay buffer에다가 결과 데이터를 집어 넣는다.
                 model.put_data(
                     (state, action, reward / 100.0, s_prime, prob[action].item(), done)
                 )
 
+				# STEP 1.6. 다음 step으로 동작할 준비.
                 # 다음 상태를 기존 상태변수에 넣는다.
                 state = s_prime
-
                 # 에이전트의 점수칸에 보상을 더해준다.
                 score += reward
 
                 if done:
                     break
 
-            # step T까지 진행 후, train 실행
+            # STEP 2. step T까지 진행 후, train 실행
             model.train()
 
         if episode % print_interval == 0 and episode != 0:
