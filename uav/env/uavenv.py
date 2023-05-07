@@ -16,35 +16,42 @@ QUOTA_UAV = 4
 QUOTA_MBS = 20
 PATHLOSS_EXP = 2
 NOISE_POWER = -100 #dB/Hz
+
+
 class Scenario(object):
     def __init__(self, args):
-        # parameter setting
-        self.num_agents = args.num_agents
+        # parameter setting from args
+    	self.num_mbs = args.num_mbs
+        self.num_uavs = args.num_agents
         self.num_users = args.num_users
         self.num_files = args.num_files
         self.scenario_name = args.scenario_name
+        
+        # init parameters
         self.action_space = []
         self.observation_space = []
         self.share_observation_space = []
         
-        if self.num_agents == 1:
+        if (self.num_mbs + self.num_uavs) == 1:
             self.act_space.append(self.env.action_space)
             self.obs_space.append(self.env.observation_space)
             self.share_obs_space.append(self.env.observation_space)
         else:
-            for agentIdx in range(self.num_agents):
+            for nodeIdx in range(self.num_mbs + self.num_uavs):
                 self.action_space.append(spaces.Discrete(
-                    n=self.env.action_space[agentIdx].n
+                    n = self.env.action_space[nodeIdx].n
                 ))
+                
                 self.observation_space.append(spaces.Box(
-                    low=self.env.observation_space.low[agentIdx],
-                    high=self.env.observation_space.high[agentIdx],
+                    low=self.env.observation_space.low[nodeIdx],
+                    high=self.env.observation_space.high[nodeIdx],
                     shape=self.env.observation_space.shape[1:],
                     dtype=self.env.observation_space.dtype
                 ))
+                
                 self.share_observation_space.append(spaces.Box(
-                    low=self.env.observation_space.low[agentIdx],
-                    high=self.env.observation_space.high[agentIdx],
+                    low=self.env.observation_space.low[nodeIdx],
+                    high=self.env.observation_space.high[nodeIdx],
                     shape=self.env.observation_space.shape[1:],
                     dtype=self.env.observation_space.dtype
                 ))
