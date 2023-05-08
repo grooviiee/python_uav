@@ -1,7 +1,7 @@
 from uav.env.uavenv import env
 
 
-class singleBS_runner(object):
+class SingleBS_runner(object):
     def __init__(self, config):
         NotImplemented
 

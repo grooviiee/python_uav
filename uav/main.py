@@ -2,10 +2,11 @@ import argparse
 import numpy as np
 import time
 import pickle
+import torch
 
 # import maddpg.common.tf_util as U
 from uav.trainer.mappo import MAPPOAgentTrainer
-from uav.scenario.singleBS_runner import Scenario
+from uav.scenario.singleBS_runner import SingleBS_runner
 
 
 def make_env(arglist, benchmark=False):
@@ -32,7 +33,7 @@ def make_env(arglist, benchmark=False):
 
 def get_trainers(env, num_adversaries, obs_shape_n, arglist):
     traubers = []
-    model = mlp_model
+    # model = mlp_model
     trainer = MAPPOAgentTrainer  # AttentionMAPPOAgentTrainer
 
 
@@ -76,6 +77,20 @@ def main(arglist):
     runner.run()
 
     envs.close()
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        "Reinforcement Learning experiments for multiagent environments"
+    )
+    parser.add_argument(
+        "-s",
+        "--scenario",
+        default="simple.py",
+        help="Path of the scenario Python script.",
+    )
+
+    return parser
 
 
 if __name__ == "__main__":
