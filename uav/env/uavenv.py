@@ -5,6 +5,10 @@ import math
 
 # Refernece : C:\Users\June\Desktop\git\rl\maac\MAAC\envs\mpe_scenarios\fullobs_collect_treasure.py
 # UAV Environment scenario
+# Rate calculation type
+TYPE_MBS_USER = 0
+TYPE_UAV_USER = 1
+TYPE_MBS_UAV = 2
 
 S = 10 * 1024 * 1024 # 10 Mbits
 B = 20*10^6
@@ -24,6 +28,7 @@ class Scenario(object):
     	self.num_mbs = args.num_mbs
         self.num_uavs = args.num_agents
         self.num_users = args.num_users
+        self.num_nodes = self.num_uavs + self.num_mbs
         self.num_files = args.num_files
         self.scenario_name = args.scenario_name
         
@@ -125,13 +130,13 @@ class Scenario(object):
         
         return delay
 
-    def CalcT_down(self):
-        return S / R_2(i,u)
+    def Calc_T_down(self):
+        return S / R_T_down(self,i,u)
         
-    def CalcT_back(self):
-        return S / R_3(b,m,u)
+    def Calc_T_back(self):
+        return S / R_T_back(self,b,m,u)
 
-    def R_2(self, i, u):
+    def R_T_down(self, i, u):
         numfile = 0
         for file in self.num_files:
             numfile += x(u, file) * z(u, i)
@@ -144,7 +149,7 @@ class Scenario(object):
                 
         return (upper / lower * math.log2(1 + r(i, u)))
     
-    def R_3(self, b, m, u):
+    def R_T_back(self, b, m, u):
         left = math.log2(1 + r(b,m))
         upper, lower = 0
         for file in self.num_files:
@@ -157,6 +162,26 @@ class Scenario(object):
                     lower += x(user, file) * z(user, file) * (1 - y(node, file))
                     
         return (left * upper / lower)
-                    
-    def r(self, i , u):
+
+    def r(self, i , u, type):
+        if type == TYPE_MBS_USER:
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_MbsUav(self, i, u)/10))
+        elif type == TYPE_UAV_USER:     # follows UAV Power
+            lower = 0
+            for uavIdx in self.num_uavs:
+                if uavIdx == i:
+                    continue
+                
+                lower += P(uavIdx)*math.pow(10, -h_UavUser(i,u)/10)
+            res = P(i) / (NOISE_POWER * lower)
+        elif type == TYPE_MBS_UAV:
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_UavUser(self, i, u)/10))
+        else: 
+            res = 0
+            
+        return res
+    
+    def h_MbsUav(self, i, u):
+        NotImplemented
+    def h_UavUser(self, i, u):
         NotImplemented
