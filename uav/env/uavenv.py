@@ -165,23 +165,42 @@ class Scenario(object):
 
     def r(self, i , u, type):
         if type == TYPE_MBS_USER:
-            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_MbsUav(self, i, u)/10))
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_MbsUser(self, i, u)/10))
+        
         elif type == TYPE_UAV_USER:     # follows UAV Power
             lower = 0
             for uavIdx in self.num_uavs:
                 if uavIdx == i:
                     continue
-                
                 lower += P(uavIdx)*math.pow(10, -h_UavUser(i,u)/10)
-            res = P(i) / (NOISE_POWER * lower)
+                
+            res = P(i)* math.pow(10, -h_UavUser(i,u)/10) / (NOISE_POWER * lower)
+        
         elif type == TYPE_MBS_UAV:
-            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_UavUser(self, i, u)/10))
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_MbsUav(self, i, u)/10))
+        
         else: 
             res = 0
             
         return res
     
-    def h_MbsUav(self, i, u):
-        NotImplemented
-    def h_UavUser(self, i, u):
-        NotImplemented
+    # Calculate pathloss
+    def h_UavUser(self, m, u):
+        return PLos(m,u)*hLos(m,u) + (1-PLos(m,u))*hNLos(m,u)
+        
+    def h_MbsUav(self, b, m):   
+        return PLos(b,m)*hLos(b,m) + (1-PLos(b,m))*hNLos(b,m)
+
+    def h_MbsUser(self, b, u):
+        return 15.3 + 37.6*math.log10(d(self, b,u))
+    
+    def PLos(self, m, u):
+        return 1 / (1 + c_1*math.exp(-c_2*(theta(m,u)-c_1)))
+    
+    def hLos(self, m, u):
+        return 20 * math.log(4*math.pi*d(self, m,u)/v_c) + X_Los
+    
+    def hNLos(self, m, u):
+        return 20 * math.log(4*math.pi*d(self, m,u)/v_c) + X_NLos
+    
+    # Calculate Distance
