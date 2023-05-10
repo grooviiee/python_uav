@@ -14,7 +14,8 @@ def make_env(arglist, benchmark=False):
     # import multiagent.scenarios as scenarios
 
     # create world
-    world = Scenario.make_world()
+    runner = SingleBS_runner(arglist)
+    world = SingleBS_runner.make_world(runner, arglist)
     # create multiagent environment
     if benchmark:
         env = MultiAgentEnv(

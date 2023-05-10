@@ -1,12 +1,13 @@
-from env.uavenv import env
+from env.uavenv import UAV_ENV
 
 
 class SingleBS_runner(object):
     def __init__(self, config):
         NotImplemented
 
-    def make_world():
-        env = env()
+    def make_world(self, arglist):
+        ue = UAV_ENV()
+        env = UAV_ENV.make_env(ue, arglist)
         return env
 
     def run(self, arglist):

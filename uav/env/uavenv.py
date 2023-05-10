@@ -23,7 +23,7 @@ PATHLOSS_EXP = 2
 NOISE_POWER = -100  # dB/Hz
 
 
-class env:
+class UAV_ENV:
     def make_env(self, args):
         # parameter setting from args
         self.num_mbs = args.num_mbs
