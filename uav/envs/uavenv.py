@@ -23,8 +23,8 @@ PATHLOSS_EXP = 2
 NOISE_POWER = -100  # dB/Hz
 
 
-class UAV_ENV:
-    def make_env(self, args):
+class UAV_ENV(object):
+    def __init__(self, args):
         # parameter setting from args
         self.num_mbs = args.num_mbs
         self.num_uavs = args.num_agents
@@ -32,42 +32,47 @@ class UAV_ENV:
         self.num_nodes = self.num_uavs + self.num_mbs
         self.num_files = args.num_files
         self.scenario_name = args.scenario_name
-
+        # TODO: choose num actions
+        self.n_actions = self.n_actions_no_attack + self.n_enemies
+        
         # init parameters
         self.action_space = []
         self.observation_space = []
-        self.share_observation_space = []
 
-        if (self.num_mbs + self.num_uavs) == 1:
-            self.action_space.append(self.action_space)
-            self.observation_space.append(self.observation_space)
-            self.share_observation_space.append(self.observation_space)
+        # setting state, action 
+        if self.num_mbs == 1:
+            self.action_space.append(spaces.Discrete(self.n_actions))
+            # TODO: choose num observations
+            self.observation_space.append(self.get_obs_size())
 
         else:
-            for nodeIdx in range(self.num_mbs + self.num_uavs):
+            for nodeIdx in range (self.num_mbs + self.num_uavs):
                 self.action_space.append(
-                    spaces.Discrete(n=self.env.action_space[nodeIdx].n)
+                    spaces.Discrete(n=self.action_space[nodeIdx].n)
                 )
 
                 self.observation_space.append(
                     spaces.Box(
-                        low=self.env.observation_space.low[nodeIdx],
-                        high=self.env.observation_space.high[nodeIdx],
-                        shape=self.env.observation_space.shape[1:],
-                        dtype=self.env.observation_space.dtype,
+                        low=self.observation_space.low[nodeIdx],
+                        high=self.observation_space.high[nodeIdx],
+                        shape=self.observation_space.shape[1:],
+                        dtype=self.observation_space.dtype,
                     )
                 )
 
-                self.share_observation_space.append(
-                    spaces.Box(
-                        low=self.env.observation_space.low[nodeIdx],
-                        high=self.env.observation_space.high[nodeIdx],
-                        shape=self.env.observation_space.shape[1:],
-                        dtype=self.env.observation_space.dtype,
-                    )
-                )
+    def get_obs_size():
+        """Returns the size of the observation."""
+        return [all_feats, [n_allies, n_ally_feats], [n_enemies, n_enemy_feats], [1, move_feats], [1, own_feats+agent_id_feats+timestep_feats]]
+
+                
+    def seed(self, seed=None):
+        if seed is None:
+            random.seed(1)
+        else:
+            random.seed(seed)
 
     def reset(self):
+        # TODO: Need to clearence
         obs = self.env.reset()
         obs = self._obs_wrapper(obs)
         return obs
