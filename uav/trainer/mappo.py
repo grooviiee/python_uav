@@ -3,7 +3,7 @@ import torch
 
 class MAPPOAgentTrainer:
     def __init__(
-        self, args, obs_space, cent_obs_space, act_space, device=torch.device("gpu")
+        self, args, obs_space, cent_obs_space, act_space, device  # =torch.device("gpu")
     ):
         self.device = device
         self.lr = args.lr

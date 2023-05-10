@@ -1,6 +1,7 @@
 import numpy as np
 from gym import spaces
-from uav.env.util import util
+
+# from util import util
 import math
 
 # Refernece : C:\Users\June\Desktop\git\rl\maac\MAAC\envs\mpe_scenarios\fullobs_collect_treasure.py
@@ -22,7 +23,7 @@ PATHLOSS_EXP = 2
 NOISE_POWER = -100  # dB/Hz
 
 
-class env():
+class env:
     def make_env(self, args):
         # parameter setting from args
         self.num_mbs = args.num_mbs

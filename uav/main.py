@@ -5,8 +5,8 @@ import pickle
 import torch
 
 # import maddpg.common.tf_util as U
-from uav.trainer.mappo import MAPPOAgentTrainer
-from uav.scenario.singleBS_runner import SingleBS_runner
+from trainer.mappo import MAPPOAgentTrainer
+from scenario.singleBS_runner import SingleBS_runner
 
 
 def make_env(arglist, benchmark=False):
@@ -41,9 +41,10 @@ def main(arglist):
     # device selection
 
     # cuda case
-    if arglist.cuda and torch.cuda.is_available():
+    print("choose device...", arglist.n_training_threads)
+    if torch.cuda.is_available():
         print("choose to use gpu...")
-        device = torch.device("cuda:0")
+        device = torch.device("gpu")
         torch.set_num_threads(arglist.n_training_threads)
         if arglist.cuda_deterministic:
             torch.backends.cudnn.benchmark = False
@@ -81,18 +82,84 @@ def main(arglist):
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        "Reinforcement Learning experiments for multiagent environments"
-    )
-    parser.add_argument(
-        "-s",
-        "--scenario",
-        default="simple.py",
-        help="Path of the scenario Python script.",
+        description="Reinforcement Learning experiments for multiagent environments"
     )
 
-    return parser
+    parser.add_argument("--device", default="gpu", help="Choose device. cpu or gpu?")
+
+    parser.add_argument(
+        "--scenario", type=str, default="mappo", choices=["rmappo", "mappo"]
+    )
+
+    parser.add_argument(
+        "--experiment_name",
+        type=str,
+        default="check",
+        help="an identifier to distinguish different experiment.",
+    )
+    parser.add_argument(
+        "--seed", type=int, default=1, help="Random seed for numpy/torch"
+    )
+    parser.add_argument(
+        "--cuda",
+        action="store_false",
+        default=True,
+        help="by default True, will use GPU to train; or else will use CPU;",
+    )
+    parser.add_argument(
+        "--cuda_deterministic",
+        action="store_false",
+        default=True,
+        help="by default, make sure random seed effective. if set, bypass such function.",
+    )
+    parser.add_argument(
+        "--n_training_threads",
+        type=int,
+        default=1,
+        help="Number of torch threads for training",
+    )
+    parser.add_argument(
+        "--n_rollout_threads",
+        type=int,
+        default=32,
+        help="Number of parallel envs for training rollouts",
+    )
+    parser.add_argument(
+        "--n_eval_rollout_threads",
+        type=int,
+        default=1,
+        help="Number of parallel envs for evaluating rollouts",
+    )
+    parser.add_argument(
+        "--n_render_rollout_threads",
+        type=int,
+        default=1,
+        help="Number of parallel envs for rendering rollouts",
+    )
+    parser.add_argument(
+        "--num_env_steps",
+        type=int,
+        default=10e6,
+        help="Number of environment steps to train (default: 10e6)",
+    )
+    parser.add_argument(
+        "--user_name",
+        type=str,
+        default="marl",
+        help="[for wandb usage], to specify user's name for simply collecting training data.",
+    )
+    parser.add_argument(
+        "--use_wandb",
+        action="store_false",
+        default=True,
+        help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.",
+    )
+
+    arglist = parser.parse_args()
+    return arglist
 
 
 if __name__ == "__main__":
+    print("Main code starts")
     arglist = parse_args()
     main(arglist)
