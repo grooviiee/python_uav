@@ -73,6 +73,8 @@ def main(arglist):
         "args": arglist,
         "envs": envs,
         "device": device,
+        "num_uavs": arglist.num_uavs,
+        "num_mbs": arglist.num_mbs,
         #"run_dir": run_dir,  -> used in wandb???
     }
 
@@ -172,7 +174,7 @@ def parse_args():
         "--num_mbs", type=int, default=1
     )
     parser.add_argument(
-        "--num_agents", type=int, default=4
+        "--num_uavs", type=int, default=4
     )
     parser.add_argument(
         "--num_users", type=int, default=20

@@ -28,7 +28,7 @@ class UAV_ENV(object):
     def __init__(self, args):
         # parameter setting from args
         self.num_mbs = args.num_mbs
-        self.num_uavs = args.num_agents
+        self.num_uavs = args.num_uavs
         self.num_users = args.num_users
         self.num_nodes = self.num_uavs + self.num_mbs
         self.num_files = args.num_files
@@ -90,8 +90,12 @@ class UAV_ENV(object):
 
     def reset(self):
         # TODO: Need to clearence
+        obs_n = []
+        
+        # for agent in self.num_mbs:
+        #     obs_n.append(np.zeros(0))
         print("Reset environment")
-        NotImplemented
+        return obs_n
 
     # returns: next state, reward, done, etc.
     def step(self, action):
