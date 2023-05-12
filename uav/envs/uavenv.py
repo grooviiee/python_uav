@@ -3,6 +3,7 @@ from gym import spaces
 
 # from util import util
 import math
+import random
 
 # Refernece : C:\Users\June\Desktop\git\rl\maac\MAAC\envs\mpe_scenarios\fullobs_collect_treasure.py
 # UAV Environment scenario
@@ -32,8 +33,18 @@ class UAV_ENV(object):
         self.num_nodes = self.num_uavs + self.num_mbs
         self.num_files = args.num_files
         self.scenario_name = args.scenario_name
-        # TODO: choose num actions
-        self.n_actions = self.n_actions_no_attack + self.n_enemies
+        self.x_len = args.map_size
+        self.y_len = args.map_size
+        
+        # for debugging
+        self.uav_obs_size = [ [1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [[self.num_users], [self.num_files]] ]
+        self.mbs_obs_size = [ [1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [self.num_uavs, [self.x_len, self.y_len]] ]
+        
+        self.n_uav_observation_space = len(self.uav_obs_size)
+        self.n_mbs_observation_space = len(self.mbs_obs_size)
+        self.n_mbs_action = 1
+        self.n_uav_action = 4
+        self.n_actions = self.n_mbs_action + self.n_uav_action
         
         # init parameters
         self.action_space = []
@@ -60,9 +71,15 @@ class UAV_ENV(object):
                     )
                 )
 
-    def get_obs_size():
+    def get_obs_size(self):
         """Returns the size of the observation."""
-        return [all_feats, [n_allies, n_ally_feats], [n_enemies, n_enemy_feats], [1, move_feats], [1, own_feats+agent_id_feats+timestep_feats]]
+        #     state = {x, y} for UAV itself, {x, y} for all users , file request dist. {x_u,f} for all user and files
+        #     state = {x, y} for MBS itself, {x, y} for all users , {x, y} for UAVs
+
+        # uav_obs_size = [[1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [[self.num_users], [self.num_files]] ]
+        # mbs_obs_size = [[1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [self.num_uavs, [self.x_len, self.y_len]]] 
+        #print("uav_obs_size: %d, mbs_obs_size: %d", %self.n_uav_observation_space, %self.n_mbs_observation_space)
+        return self.n_uav_observation_space + self.n_mbs_observation_space
 
                 
     def seed(self, seed=None):
@@ -73,9 +90,8 @@ class UAV_ENV(object):
 
     def reset(self):
         # TODO: Need to clearence
-        obs = self.env.reset()
-        obs = self._obs_wrapper(obs)
-        return obs
+        print("Reset environment")
+        NotImplemented
 
     # returns: next state, reward, done, etc.
     def step(self, action):

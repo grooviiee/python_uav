@@ -37,7 +37,7 @@ def make_train_env(arglist, benchmark=False):
         print("Can not support the " + arglist.scenario_name + " environment.")
         raise NotImplementedError
     
-    env.seed(arglist.seed + rank * 1000)
+    env.seed(arglist.seed + arglist.rank * 1000)
     return env
 
 def main(arglist):
@@ -67,7 +67,7 @@ def main(arglist):
 
     # env init
     envs = make_train_env(arglist)
-    e#val_envs = make_eval_env(arglist) if arglist.use_eval else None
+    #eval_envs = make_eval_env(arglist) if arglist.use_eval else None
 
     config = {
         "args": arglist,
@@ -179,6 +179,13 @@ def parse_args():
     )
     parser.add_argument(
         "--num_files", type=int, default=10
+    )
+    parser.add_argument(
+        "--map_size", type=int, default=1800
+    )
+    
+    parser.add_argument(
+        "--rank", type=int, default=5
     )
     
     parser.add_argument(
