@@ -1,0 +1,26 @@
+<MAPPO>
+* 이 repo는 env가 여러개라서 각자 env마다 돌아가는 코드가 다른다.
+* 여기서는 SMAC 시뮬레이터 기준으로 설명 ("smac_runner.py"파일에서 실행)
+
+기존과 동일하게 일정 Step동안 buffer에 저장 후, update 진행
+
+on-policy/algorithms
+ -> 실질적으로 RL Training을 실행하는 폴더
+
+on-policy/envs
+ -> 여러가지 환경에서의 강화학습을 제공한다. 여기는 그 환경에 대한 코드이다.
+ - envs/mpe를 주로 보면 될 듯 하다.
+ 
+on-policy/runner
+ - seperated와 shared 환경을 제공한다.
+ - 공통 부분을 base_runner로 빼낸 뒤, 이를 상속해서 각각의 환경에서 가져다 쓴다.
+
+on-policy/scripts
+ -> main 코드가 여기에 들어있음
+ - train/train_mpe.py를 통해서 main함수 진입
+ - 
+
+on-policy/onpolicy/config.py
+ - config.py에서 시뮬레이션 설정을 다 세팅한다. argparse API를 사용해서 parameter 관리를 한다.
+ 
+ 
