@@ -1,4 +1,6 @@
-<MAPPO>
+<MAPPO> - 2022년에 나온 "The Surprising Effectiveness of PPO in Cooperative Multi-Agent Games" 논문 검증을 위한 시뮬레이터
+타 알고리즘과 동일하게 CTDE 방식을 사용해서 학습한다.
+
 * 이 repo는 env가 여러개라서 각자 env마다 돌아가는 코드가 다른다.
 * 여기서는 SMAC 시뮬레이터 기준으로 설명 ("smac_runner.py"파일에서 실행)
 
@@ -6,6 +8,16 @@
 
 on-policy/algorithms
  -> 실질적으로 RL Training을 실행하는 폴더
+ - 그런데 알고리즘에 폴더가 꽤 많다.
+ -- r_mappo/r_actor_critic.py : 
+    - Actor와 critic 클래스가 존재.
+	-- Actor: Outputs actions given observations.
+	-- Critic: Outputs value function predictions given centralized input (MAPPO) or local observations (IPPO).
+ -- r_mappo/rMAPPOPolicy.py : Wraps actor and critic networks to compute actions and value function predictions.
+ - __init__.py : 
+ - r_mappo.py : Trainer class for MAPPO to update policies.
+ 
+ 
 
 on-policy/envs
  -> 여러가지 환경에서의 강화학습을 제공한다. 여기는 그 환경에 대한 코드이다.
