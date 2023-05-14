@@ -35,4 +35,7 @@ on-policy/scripts
 on-policy/onpolicy/config.py
  - config.py에서 시뮬레이션 설정을 다 세팅한다. argparse API를 사용해서 parameter 관리를 한다.
  
- 
+
+
+* Agent 선언은 어디서? -> envs의 core.py에서 구성한다.
+* core의 World class를 통해서 step, integrate_state, update_agent_state 등의 함수 구현 
