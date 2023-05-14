@@ -109,11 +109,19 @@ class Agent(Entity):
         # zoe 20200420
         self.goal = None
 
+class User(Entity):
+    def __init__(self):
+        #TODO
+        NotImplemented
+    
+    
+
 # multi-agent world
 class World(object):
     def __init__(self):
         # list of agents and entities (can change at execution-time!)
         self.agents = []
+        self.users = []
         self.walls = []
         # communication channel dimensionality
         self.dim_c = 0

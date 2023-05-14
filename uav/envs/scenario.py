@@ -1,5 +1,5 @@
 import numpy as np
-from core import World, Agent
+from core import World, Agent, User
 
 class BaseScenario(object):
     # Create Elements of the world.. It will be used as common settings
@@ -20,25 +20,34 @@ class Scenario(BaseScenario):
         world.world_length = args.map_size
         world.num_uavs = args.num_uavs
         world.num_mbs = args.num_mbs
+        world.num_users = args.num_users
+        world.users = [User() for i in range(world.num_users)]
         world.agents = [Agent(True) for i in range(world.num_mbs)]
         world.agents.append([Agent(False) for i in range(world.num_uavs)])
         
-        for i, agents in enumerate(world.agents):
+        for i, agent in enumerate(world.agents):
             agent.name = 'agent %d' % i
-            agent.collide = False
-            
+
+        for i, user in enumerate(world.users):
+            user.name = 'user %d' % i
+        
         self.reset_world(world)
         return world
 
     def reset_world(self, world):
-        #TODO
         # 위치 조정
         for agent in world.agents:
-            agent.goal_a = None
-            agent.goal_b = None
+            agent.x_loc = None
+            agent.y_loc = None
+            
+        for user in world.users:
+            user.x_loc = None
+            user.y_loc = None
         
     def reward():
         # It is used at uavenv.py
+        NotImplemented
         
     def observation(self, agent, world):
         # It is used at uavenv.py
+        NotImplemented

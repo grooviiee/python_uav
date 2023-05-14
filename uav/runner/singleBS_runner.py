@@ -41,7 +41,7 @@ class SingleBS_runner(object):
         
         
         from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
-        from algorithms.MAPPOPolicy import MAPPOAgentPolicy as Policy
+        from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
         
         # policy network
         self.policy = Policy(self.all_args,
