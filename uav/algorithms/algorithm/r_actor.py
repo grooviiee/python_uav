@@ -26,7 +26,7 @@ class R_Actor(nn.Module):
         self._use_naive_recurrent_policy = args.use_naive_recurrent_policy
         self._use_recurrent_policy = args.use_recurrent_policy
         self._recurrent_N = args.recurrent_N
-        self.tpdv = dict(dtype=torch.float32, device=device)
+        self.tpdv = dict(dtype=torch.float32, device=device)    # device type
 
         obs_shape = get_shape_from_obs_space(obs_space)
         base = CNNBase if len(obs_shape) == 3 else MLPBase

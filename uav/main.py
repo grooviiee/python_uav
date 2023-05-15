@@ -96,9 +96,11 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description="Reinforcement Learning experiments for multiagent environments"
     )
-
+    
+    # prepare parameters
     parser.add_argument("--device", default="gpu", help="Choose device. cpu or gpu?")
-
+    parser.add_argument("--num_env_steps", type=int, default=10e6,
+                        help='Number of environment steps to train (default: 10e6)')
     parser.add_argument(
         "--scenario_name", type=str, default="uavenv", choices=["uavenv"]
     )
@@ -157,17 +159,14 @@ def parse_args():
         help="Number of parallel envs for rendering rollouts",
     )
     parser.add_argument(
-        "--num_env_steps",
-        type=int,
-        default=10e6,
-        help="Number of environment steps to train (default: 10e6)",
-    )
-    parser.add_argument(
         "--user_name",
         type=str,
         default="marl",
         help="[for wandb usage], to specify user's name for simply collecting training data.",
     )
+    
+    # replay buffer parameters
+    parser.add_argument("--episode_length", type=int, default=200, help="Max length for any episode")
     
     # Environment settings
     parser.add_argument(
@@ -189,6 +188,34 @@ def parse_args():
     parser.add_argument(
         "--rank", type=int, default=5
     )
+
+    # network paramters
+    parser.add_argument("--share_policy", action='store_false',
+                        default=True, help='Whether agent share the same policy')
+    parser.add_argument("--use_centralized_V", action='store_false',
+                        default=True, help="Whether to use centralized V function")
+    parser.add_argument("--stacked_frames", type=int, default=1,
+                        help="Dimension of hidden layers for actor/critic networks")
+    parser.add_argument("--use_stacked_frames", action='store_true',
+                        default=False, help="Whether to use stacked_frames")
+    parser.add_argument("--hidden_size", type=int, default=64,
+                        help="Dimension of hidden layers for actor/critic networks") 
+    parser.add_argument("--layer_N", type=int, default=1,
+                        help="Number of layers for actor/critic networks")
+    parser.add_argument("--use_ReLU", action='store_false',
+                        default=True, help="Whether to use ReLU")
+    parser.add_argument("--use_popart", action='store_true', default=False, help="by default False, use PopArt to normalize rewards.")
+    parser.add_argument("--use_valuenorm", action='store_false', default=True, help="by default True, use running mean and std to normalize rewards.")
+    parser.add_argument("--use_feature_normalization", action='store_false',
+                        default=True, help="Whether to apply layernorm to the inputs")
+    parser.add_argument("--use_orthogonal", action='store_false', default=True,
+                        help="Whether to use Orthogonal initialization for weights and 0 initialization for biases")
+    parser.add_argument("--gain", type=float, default=0.01,
+                        help="The gain # of last action layer")
+
+    # run parameters
+    parser.add_argument("--use_linear_lr_decay", action='store_true',
+                        default=False, help='use a linear schedule on the learning rate')
     
     parser.add_argument(
         "--use_wandb",

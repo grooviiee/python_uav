@@ -27,11 +27,8 @@ class SingleBS_runner(object):
         self.buffer = []
         
         # parameters
-        self.env_name = self.all_args.env_name
-        self.algorithm_name = self.all_args.algorithm_name
-        self.experiment_name = self.all_args.experiment_name
         self.num_env_steps = self.all_args.num_env_steps
-        self.episode_length = self.all_args.episode_length
+        self.episode_length = self.all_args.episode_length  # step얼마 뒤에 train을 할지
         self.use_linear_lr_decay = self.all_args.use_linear_lr_decay
         self.hidden_size = self.all_args.hidden_size
 
