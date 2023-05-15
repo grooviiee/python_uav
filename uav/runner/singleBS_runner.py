@@ -1,6 +1,6 @@
 from envs.uavenv import UAV_ENV
 from utils.shared_buffer import SharedReplayBuffer
-
+from runner.base_runner import Runner
     
 import time
 # import wandb
@@ -13,7 +13,7 @@ import torch
 #   "envs": envs,
 #   "device": device,
 # }
-class SingleBS_runner(object):
+class SingleBS_runner(Runner):
     def __init__(self, config):
         print("Choose SingleBS_runner")
         self.done = False
@@ -40,6 +40,9 @@ class SingleBS_runner(object):
         from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
         from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
         
+        #TODO: Need to study meaning of this line
+        share_observation_space = self.envs.share_observation_space[0] if self.use_centralized_V else self.envs.observation_space[0]
+
         # policy network
         self.policy = Policy(self.all_args,
                             self.envs.observation_space[0],
@@ -73,8 +76,25 @@ class SingleBS_runner(object):
 
                 data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
                 
-                # insert data into buffer
+                # insert data into replay buffer
                 self.insert(data)
+            
+            # compute return and update network
+            self.compute()
+            train_info = self.train()
+            
+            # post process
+            total_num_steps = (episode + 1) * self.episode_length * self.n_rollout_threads
+            
+            # save model
+            if (episode % self.save_interval == 0 or episode == episodes - 1):
+                self.save()
+
+            # log render information 
+
+            # eval
+            if episode % self.eval_interval == 0 and self.use_eval:
+                self.eval(total_num_steps)
 
     def warmup(self):
         # reset env
@@ -119,3 +139,6 @@ class SingleBS_runner(object):
                                         values[:, agent_id],
                                         rewards[:, agent_id],
                                         masks[:, agent_id])
+            
+    def compute():
+        NotImplemented

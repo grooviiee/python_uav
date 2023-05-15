@@ -1,6 +1,6 @@
 import torch
-from r_actor import R_Actor
-from r_critic import R_Critic
+from algorithms.algorithm.r_actor import R_Actor
+from algorithms.algorithm.r_critic import R_Critic
 
 class MAPPOAgentPolicy:
     def __init__(self, args, obs_space, cent_obs_space, act_space, device=torch.device("cpu")):
@@ -49,11 +49,38 @@ class MAPPOAgentPolicy:
   
         NotImplemented
         
-    def get_values:
-        NotImplemented
+    def get_values(self, cent_obs, rnn_states_critic, masks):
+        """
+        Get value function predictions.
+        :param cent_obs (np.ndarray): centralized input to the critic.
+        :param rnn_states_critic: (np.ndarray) if critic is RNN, RNN states for critic.
+        :param masks: (np.ndarray) denotes points at which RNN states should be reset.
+
+        :return values: (torch.Tensor) value function predictions.
+        """
+        values, _ = self.critic(cent_obs, rnn_states_critic, masks)
+        return values
         
-    def evaluate_actions:
-        NotImplemented
+    def evaluate_actions(self, cent_obs, obs, rnn_states_actor, rnn_states_critic, action, masks,
+                         available_actions=None, active_masks=None):
+        action_log_probs, dist_entroby = self.actor.evaluate_actions(obs,
+                                                                     rnn_states_actor,
+                                                                     action,
+                                                                     masks,
+                                                                     available_actions,
+                                                                     active_masks)
+        values, _ = self.critic(cent_obs, rnn_states_critic, masks)
+        return values, action_log_probs, dist_entropy
     
-    def act:
-        NotImplemented
+    def act(self, obs, rnn_states_actor, masks, available_actions=None, deterministic=False):
+        """
+        Compute actions using the given inputs.
+        :param obs (np.ndarray): local agent inputs to the actor.
+        :param rnn_states_actor: (np.ndarray) if actor is RNN, RNN states for actor.
+        :param masks: (np.ndarray) denotes points at which RNN states should be reset.
+        :param available_actions: (np.ndarray) denotes which actions are available to agent
+                                  (if None, all actions available)
+        :param deterministic: (bool) whether the action should be mode of distribution or should be sampled.
+        """
+        actions, _, rnn_states_actor = self.actor(obs, rnn_states_actor, masks, available_actions, deterministic)
+        return actions, rnn_states_actor

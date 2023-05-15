@@ -164,6 +164,8 @@ def parse_args():
         default="marl",
         help="[for wandb usage], to specify user's name for simply collecting training data.",
     )
+    parser.add_argument("--use_wandb", action='store_false', default=True, help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.")
+
     
     # replay buffer parameters
     parser.add_argument("--episode_length", type=int, default=200, help="Max length for any episode")
@@ -216,13 +218,12 @@ def parse_args():
     # run parameters
     parser.add_argument("--use_linear_lr_decay", action='store_true',
                         default=False, help='use a linear schedule on the learning rate')
-    
-    parser.add_argument(
-        "--use_wandb",
-        action="store_false",
-        default=True,
-        help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.",
-    )
+
+    # save parameters
+    parser.add_argument("--save_interval", type=int, default=1, help="time duration between contiunous twice models saving.")
+
+    # evaluation parameters
+    parser.add_argument("--use_eval", action='store_true', default=False, help="by default, do not start evaluation. If set`, start evaluation alongside with training.")
 
     arglist = parser.parse_args()
     return arglist
