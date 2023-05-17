@@ -15,6 +15,7 @@ class Runner(object):
         for agent_id in range(self.num_agents):
             next_value = self.trainer[agent_id].policy.get_value()
             
+    # this code follows runner/seperated/base_runner.py
     def train(self):
         train_info_list = []
         for agent_id in range(self.num_uavs + self.num_mbs):
