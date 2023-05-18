@@ -15,6 +15,8 @@ import torch
 # }
 class SingleBS_runner(Runner):
     def __init__(self, config):
+        super(SingleBS_runner, self).__init__(config)
+
         print("Choose SingleBS_runner")
         self.done = False
         self.total_reward = 0

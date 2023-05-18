@@ -49,13 +49,14 @@ class UAV_ENV(object):
         # init parameters
         self.action_space = []
         self.observation_space = []
+        self.share_observation_space = []
 
         # setting state, action 
         if self.num_mbs == 1:
             self.action_space.append(spaces.Discrete(self.n_actions))
             # TODO: choose num observations
             self.observation_space.append(self.get_obs_size())
-
+            self.share_observation_space.append(self.observation_space)
         else:
             for nodeIdx in range (self.num_mbs + self.num_uavs):
                 self.action_space.append(

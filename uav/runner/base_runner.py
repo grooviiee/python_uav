@@ -5,7 +5,8 @@ class Runner(object):
     """ Base class for training recurrent policies. """
     
     def __init__(self, config):
-        self.all_args = config['all_args']
+        self.all_args = config['args']
+        self.use_centralized_V = self.all_args.use_centralized_V
     
     def train(self):
         NotImplemented
