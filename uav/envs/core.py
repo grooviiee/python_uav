@@ -14,15 +14,17 @@ class AgentState(EntityState):
     def __init__(self):
         super(AgentState, self).__init__()
         # communication utterance
-        self.c = None
+        self.hasFile = []
+        self.x = None
+        self.y = None
 
 # action of the agent
 class Action(object):
     def __init__(self):
         # physical action
-        self.u = None
+        self.moveX = None
         # communication action
-        self.c = None
+        self.moveY = None
 
 # properties of wall entities
 class Wall(object):
@@ -84,28 +86,19 @@ class Landmark(Entity):
 class Agent(Entity):
     def __init__(self):
         super(Agent, self).__init__()
-        # agent are adversary
-        self.adversary = False
-        # agent are dummy
-        self.dummy = False
-        # agents are movable by default
-        self.movable = True
-        # cannot send communication signals
-        self.silent = False
-        # cannot observe the world
-        self.blind = False
-        # physical motor noise amount
-        self.u_noise = None
-        # communication noise amount
-        self.c_noise = None
-        # control range
-        self.u_range = 1.0
+        # agent are UAV
+        self.isUAV = False
+        # agent are MBS
+        self.isMBS = False
+
         # state: including communication state(communication utterance) c and internal/mental state p_pos, p_vel
         self.state = AgentState()
         # action: physical action u & communication action c
         self.action = Action()
+        
         # script behavior to execute
         self.action_callback = None
+        
         # zoe 20200420
         self.goal = None
 

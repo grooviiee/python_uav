@@ -1,5 +1,6 @@
 from envs.uavenv import UAV_ENV
 from utils.shared_buffer import SharedReplayBuffer
+from utils.separated_buffer import SeparatedReplayBuffer
 from runner.base_runner import Runner
     
 import time
@@ -25,6 +26,7 @@ class SingleBS_runner(Runner):
         self.device = config['device']
         self.num_uavs = config['num_uavs']
         self.num_mbs = config['num_mbs']
+        self.num_agents = self.num_uavs + self.num_mbs
         self.trainer = []
         self.buffer = []
         
@@ -53,14 +55,20 @@ class SingleBS_runner(Runner):
                             device = self.device)
         
         # algorithm
-        self.trainer = TrainAlgo(self.all_args, self.policy, device = self.device)
-        
-        # buffer we will implement this further
-        self.buffer = SharedReplayBuffer(self.all_args,
-                                        self.num_agents,
-                                        self.envs.observation_space[0],
-                                        share_observation_space,
-                                        self.envs.action_space[0])
+        self.trainer = []
+        self.buffer = []
+        for agent_id in range(self.num_agents):
+            # algorithm
+            tr = TrainAlgo(self.all_args, self.policy[agent_id], device = self.device)
+            # buffer
+            share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
+            bu = SeparatedReplayBuffer(self.all_args,
+                                       self.envs.observation_space[agent_id],
+                                       share_observation_space,
+                                       self.envs.action_space[agent_id])
+            self.buffer.append(bu)
+            self.trainer.append(tr)
+            
     def run(self):
         # basic procedure
         self.warmup()   
