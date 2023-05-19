@@ -51,14 +51,10 @@ class Entity(object):
         self.i = 0
         # name
         self.name = ''
-        # properties:
-        self.size = 0.050
+
         # entity can move / be pushed
         self.movable = False
-        # entity collides with others
-        self.collide = True
-        # entity can pass through non-hard walls
-        self.ghost = False
+        
         # material density (affects mass)
         self.density = 25.0
         # color
@@ -84,12 +80,13 @@ class Landmark(Entity):
 
 # properties of agent entities
 class Agent(Entity):
-    def __init__(self):
+    def __init__(self, isMbs):
         super(Agent, self).__init__()
         # agent are UAV
-        self.isUAV = False
-        # agent are MBS
-        self.isMBS = False
+        if isMbs == True:
+            self.isUAV = False
+            # agent are MBS
+            self.isMBS = True
 
         # state: including communication state(communication utterance) c and internal/mental state p_pos, p_vel
         self.state = AgentState()
@@ -101,7 +98,7 @@ class Agent(Entity):
         
         # zoe 20200420
         self.goal = None
-
+        print(f'Create agent as : {isMbs}')
 class User(Entity):
     def __init__(self):
         #TODO

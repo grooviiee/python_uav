@@ -1,5 +1,6 @@
 import numpy as np
 from gym import spaces
+import gym
 
 # from util import util
 import math
@@ -25,7 +26,7 @@ PATHLOSS_EXP = 2
 NOISE_POWER = -100  # dB/Hz
 
 
-class UAV_ENV(object):
+class UAV_ENV(gym.Env):
     def __init__(self, world, reset_callback=None, reward_callback=None,
                  observation_callback=None, info_callback=None,
                  done_callback=None, post_step_callback=None,
@@ -33,15 +34,15 @@ class UAV_ENV(object):
 
         # parameter setting from args
         self.world = world
-        self.num_mbs = args.num_mbs
-        self.num_uavs = args.num_uavs
-        self.num_users = args.num_users
+        self.num_uavs = world.num_uavs
+        self.num_mbs = world.num_mbs
         self.num_nodes = self.num_uavs + self.num_mbs
         self.agents = self.world.agents
-        self.num_files = args.num_files
-        self.scenario_name = args.scenario_name
-        self.map_x_len = args.world.map_size
-        self.map_y_len = args.world.map_size
+        self.num_files = world.num_files
+        self.map_x_len = world.map_size
+        self.map_y_len = world.map_size
+        
+        self.num_users = world.num_users
         
         # for debugging
         self.uav_obs_size = [ [1, [self.map_x_len, self.map_y_len]], [self.num_users, [self.map_x_len, self.map_y_len]], [[self.num_users], [self.num_files]] ]
@@ -64,7 +65,6 @@ class UAV_ENV(object):
 
         for agent in self.agents:
             total_action_space = []
-            
             
             self.action_space.append(
                 spaces.Discrete(n=self.action_space[nodeIdx].n)

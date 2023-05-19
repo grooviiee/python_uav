@@ -23,9 +23,14 @@ class Scenario(BaseScenario):
         world.num_mbs = args.num_mbs
         world.num_users = args.num_users
         world.map_size = args.map_size
+        world.num_files = args.num_files
         world.users = [User() for i in range(world.num_users)]
-        world.agents = [Agent(True) for i in range(world.num_mbs)]
-        world.agents.append([Agent(False) for i in range(world.num_uavs)])
+        # Add agent as mbs
+        for i in range(world.num_mbs):
+            world.agents.append(Agent(True))
+        # Add agent as uav
+        for i in range(world.num_uavs):
+            world.agents.append(Agent(False))
         
         for i, agent in enumerate(world.agents):
             agent.name = 'agent %d' % i
