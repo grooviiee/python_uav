@@ -64,8 +64,19 @@ class UAV_ENV(gym.Env):
         share_obs_dim = 0
 
         for agent in self.agents:
+            # Action space Definition
             total_action_space = []
             
+            if self.discrete_action_space:
+                u_action_space = spaces.Discrete(world.dim_p * 2 + 1)
+            else:
+                u_action_space = spaces.Box(
+                    low=-agent.u_range, high=+agent.u_range, shape=(world.dim_p,), dtype=np.float32
+                )
+            
+            if agent.movable:
+                total_action_space.append(u_action_space)
+                
             self.action_space.append(
                 spaces.Discrete(n=self.action_space[nodeIdx].n)
             )
@@ -78,13 +89,6 @@ class UAV_ENV(gym.Env):
                     dtype=self.observation_space.dtype,
                 )
             )
-        # setting state, action 
-        # if self.num_mbs == 1:
-        #     self.action_space.append(spaces.Discrete(self.n_actions))
-        #     # TODO: choose num observations
-        #     self.observation_space.append(self.get_obs_size())
-        #     self.share_observation_space.append(self.observation_space)
-        # else:
            
 
     def get_obs_size(self):
