@@ -1,5 +1,5 @@
 import numpy as np
-from envs.core import World, Agent, User
+from core import World, Agent, User
 
 class BaseScenario(object):
     # Create Elements of the world.. It will be used as common settings

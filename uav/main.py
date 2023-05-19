@@ -6,7 +6,7 @@ import torch
 
 # import maddpg.common.tf_util as U
 from algorithms.mappo import MAPPOAgentTrainer
-from envs.uavenv import UAV_ENV
+from envs.UavEnvMain import UAVEnvMain
 
 # def make_train_env(arglist, benchmark=False):
     # from multiagent.environment import MultiAgentEnv
@@ -32,7 +32,8 @@ from envs.uavenv import UAV_ENV
 
 def make_train_env(arglist, benchmark=False):
     if arglist.scenario_name == "uavenv":
-        env = UAV_ENV(arglist)
+        print("You choose " + arglist.scenario_name + " environment.")
+        env = UAVEnvMain(arglist)
     else:
         print("Can not support the " + arglist.scenario_name + " environment.")
         raise NotImplementedError
@@ -178,7 +179,7 @@ def parse_args():
         "--num_uavs", type=int, default=4
     )
     parser.add_argument(
-        "--num_users", type=int, default=20
+        "--num_users", type=int, default=20, help="Number of User Equipment"
     )
     parser.add_argument(
         "--num_files", type=int, default=10

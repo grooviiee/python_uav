@@ -5,7 +5,8 @@ from gym import spaces
 import math
 import random
 
-# Refernece : C:\Users\June\Desktop\git\rl\maac\MAAC\envs\mpe_scenarios\fullobs_collect_treasure.py
+# Refernece : C:\Users\June\Desktop\git\rl\maac\MAAC\envs\mpe_scenario\environment.py
+
 # UAV Environment scenario
 # Rate calculation type
 TYPE_MBS_USER = 0
@@ -25,52 +26,66 @@ NOISE_POWER = -100  # dB/Hz
 
 
 class UAV_ENV(object):
-    def __init__(self, args):
+    def __init__(self, world, reset_callback=None, reward_callback=None,
+                 observation_callback=None, info_callback=None,
+                 done_callback=None, post_step_callback=None,
+                 shared_viewer=True, discrete_action=True):
+
         # parameter setting from args
+        self.world = world
         self.num_mbs = args.num_mbs
         self.num_uavs = args.num_uavs
         self.num_users = args.num_users
         self.num_nodes = self.num_uavs + self.num_mbs
+        self.agents = self.world.agents
         self.num_files = args.num_files
         self.scenario_name = args.scenario_name
-        self.x_len = args.map_size
-        self.y_len = args.map_size
+        self.map_x_len = args.world.map_size
+        self.map_y_len = args.world.map_size
         
         # for debugging
-        self.uav_obs_size = [ [1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [[self.num_users], [self.num_files]] ]
-        self.mbs_obs_size = [ [1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [self.num_uavs, [self.x_len, self.y_len]] ]
+        self.uav_obs_size = [ [1, [self.map_x_len, self.map_y_len]], [self.num_users, [self.map_x_len, self.map_y_len]], [[self.num_users], [self.num_files]] ]
+        self.mbs_obs_size = [ [1, [self.map_x_len, self.map_y_len]], [self.num_users, [self.map_x_len, self.map_y_len]], [self.num_uavs, [self.map_x_len, self.map_y_len]] ]
         
+        # init parameters
         self.n_uav_observation_space = len(self.uav_obs_size)
         self.n_mbs_observation_space = len(self.mbs_obs_size)
+        
+        # Number of action space
         self.n_mbs_action = 1
         self.n_uav_action = 4
         self.n_actions = self.n_mbs_action + self.n_uav_action
         
-        # init parameters
+        
         self.action_space = []
         self.observation_space = []
         self.share_observation_space = []
+        share_obs_dim = 0
 
+        for agent in self.agents:
+            total_action_space = []
+            
+            
+            self.action_space.append(
+                spaces.Discrete(n=self.action_space[nodeIdx].n)
+            )
+
+            self.observation_space.append(
+                spaces.Box(
+                    low=self.observation_space.low[nodeIdx],
+                    high=self.observation_space.high[nodeIdx],
+                    shape=self.observation_space.shape[1:],
+                    dtype=self.observation_space.dtype,
+                )
+            )
         # setting state, action 
-        if self.num_mbs == 1:
-            self.action_space.append(spaces.Discrete(self.n_actions))
-            # TODO: choose num observations
-            self.observation_space.append(self.get_obs_size())
-            self.share_observation_space.append(self.observation_space)
-        else:
-            for nodeIdx in range (self.num_mbs + self.num_uavs):
-                self.action_space.append(
-                    spaces.Discrete(n=self.action_space[nodeIdx].n)
-                )
-
-                self.observation_space.append(
-                    spaces.Box(
-                        low=self.observation_space.low[nodeIdx],
-                        high=self.observation_space.high[nodeIdx],
-                        shape=self.observation_space.shape[1:],
-                        dtype=self.observation_space.dtype,
-                    )
-                )
+        # if self.num_mbs == 1:
+        #     self.action_space.append(spaces.Discrete(self.n_actions))
+        #     # TODO: choose num observations
+        #     self.observation_space.append(self.get_obs_size())
+        #     self.share_observation_space.append(self.observation_space)
+        # else:
+           
 
     def get_obs_size(self):
         """Returns the size of the observation."""
