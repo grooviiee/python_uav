@@ -16,8 +16,8 @@ class MAPPOAgentTrainer:
         self.num_mini_batch = args.num_mini_batch
         
         self.data_chunk_length = args.data_chunk_length
-        self._use_recurrent_policy = args._use_recurrent_policy
-        self._use_naive_recurrent = args._use_naive_recurrent
+        self._use_recurrent_policy = args.use_recurrent_policy
+        self._use_naive_recurrent = args.use_naive_recurrent_policy
         self._use_max_grad_norm = args.use_max_grad_norm
 
     # Train is acheived per Agent

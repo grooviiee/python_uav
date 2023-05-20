@@ -29,13 +29,15 @@ class R_Actor(nn.Module):
         self.tpdv = dict(dtype=torch.float32, device=device)    # device type
 
         obs_shape = get_shape_from_obs_space(obs_space)
-        print(f'obs_shape : {obs_shape}')
+        print(f'obs_shape : {len(obs_shape)}. CNN Base if length is 3, or MLPBase')
         base = CNNBase if len(obs_shape) == 3 else MLPBase
         self.base = base(args, obs_shape)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
+            print(f'self.rnn = RNNLayer')
             self.rnn = RNNLayer(self.hidden_size, self.hidden_size, self._recurrent_N, self._use_orthogonal)
 
+        print(f'action_space : {action_space}')
         self.act = ACTLayer(action_space, self.hidden_size, self._use_orthogonal, self._gain)
 
         self.to(device)

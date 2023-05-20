@@ -76,7 +76,7 @@ class UAV_ENV(gym.Env):
                     low=0, high=1, shape=(world.num_uavs+1, world.num_users), dtype=np.bool8)  # [0,1][Num_files]
             total_action_space.append(u_action_space)
 
-            act_space = spaces.Tuple(total_action_space)
+            act_space = u_action_space
             self.action_space.append(act_space)
 
             # Observation space Definition (n*n 모양의 배열로 만들어준다)

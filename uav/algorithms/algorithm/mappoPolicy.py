@@ -6,17 +6,24 @@ class MAPPOAgentPolicy:
     def __init__(self, args, obs_space, cent_obs_space, act_space, device=torch.device("cpu")):
         self.device = device
         self.lr = args.lr
-        self.critic_lr = args.critic_lr
-        
+        self.critic_lr = args.critic_lr        
+        self.opti_eps = args.opti_eps
+        self.weight_decay = args.weight_decay
+
         self.obs_space = obs_space      # Individual obs space
         self.share_obs_space = cent_obs_space   # Merged obs space
         self.act_space = act_space
         
         self.actor = R_Actor(args, self.obs_space, self.act_space, self.device)
-        self.cirtic = R_Critic(args, self.share_obs_space, self.device)
+        self.actor_optimizer = torch.optim.Adam(self.actor.parameters(),
+                                                lr=self.lr, eps=self.opti_eps,
+                                                weight_decay=self.weight_decay)
         
-        self.actor_optimizer = torch.optim.Adam()
-        self.critic_optimizer = torch.optim.Adam()
+        self.critic = R_Critic(args, self.share_obs_space, self.device)
+        self.critic_optimizer = torch.optim.Adam(self.critic.parameters(),
+                                                 lr=self.critic_lr,
+                                                 eps=self.opti_eps,
+                                                 weight_decay=self.weight_decay)
         
     def lr_decay(self, episode, num_episodes):
         update_linear_schedule(self.actor_optimizer, episode, num_episodes, self.lr)

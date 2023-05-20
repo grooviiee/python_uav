@@ -14,7 +14,7 @@ class ACTLayer(nn.Module):
         super(ACTLayer, self).__init__()
         self.mixed_action = False
         self.multi_discrete = False
-
+        print(f'Init Actor, dtype: {action_space.__class__.__name__}')
         if action_space.__class__.__name__ == "Discrete":
             action_dim = action_space.n
             self.action_out = Categorical(inputs_dim, action_dim, use_orthogonal, gain)
@@ -29,6 +29,12 @@ class ACTLayer(nn.Module):
             action_dims = action_space.high - action_space.low + 1
             self.action_outs = []
             for action_dim in action_dims:
+                self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
+            self.action_outs = nn.ModuleList(self.action_outs)
+        elif action_space.__class__.__name__ == "Tuple":
+            self.action_outs = []
+            for action_info in action_space:
+                action_dim = action_info.shape[0]
                 self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
             self.action_outs = nn.ModuleList(self.action_outs)
         else:  # discrete + continous
