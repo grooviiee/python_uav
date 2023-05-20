@@ -45,23 +45,27 @@ class SingleBS_runner(Runner):
         from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
         
         #TODO: Need to study meaning of this line
-        share_observation_space = self.envs.share_observation_space[0] if self.use_centralized_V else self.envs.observation_space[0]
+        self.policy = []
+        for agent_id in range(self.num_agents):
+            # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
+            share_observation_space = self.envs.observation_space[agent_id]
 
-        # policy network
-        self.policy = Policy(self.all_args,
-                            self.envs.observation_space[0],
-                            share_observation_space,
-                            self.envs.action_space[0],
-                            device = self.device)
+            # policy network
+            po = Policy(self.all_args,
+                        self.envs.observation_space[agent_id],
+                        share_observation_space,
+                        self.envs.action_space[agent_id],
+                        device = self.device)
+            self.policy.append(po)
         
         # algorithm
         self.trainer = []
         self.buffer = []
         for agent_id in range(self.num_agents):
-            # algorithm
             tr = TrainAlgo(self.all_args, self.policy[agent_id], device = self.device)
             # buffer
-            share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
+            # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
+            share_observation_space = self.envs.observation_space[agent_id]
             bu = SeparatedReplayBuffer(self.all_args,
                                        self.envs.observation_space[agent_id],
                                        share_observation_space,

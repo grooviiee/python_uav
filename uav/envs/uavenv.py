@@ -57,38 +57,93 @@ class UAV_ENV(gym.Env):
         self.n_uav_action = 4
         self.n_actions = self.n_mbs_action + self.n_uav_action
         
-        
         self.action_space = []
         self.observation_space = []
         self.share_observation_space = []
         share_obs_dim = 0
 
+        # "Master MBS"
+        print(f'Set MBS state and action space')
         for agent in self.agents:
+            if agent.isMBS == False:
+                continue
+
             # Action space Definition
+            # Action = {z_u,i} which node connected with user(discrete)
             total_action_space = []
             
-            if self.discrete_action_space:
-                u_action_space = spaces.Discrete(world.dim_p * 2 + 1)
-            else:
-                u_action_space = spaces.Box(
-                    low=-agent.u_range, high=+agent.u_range, shape=(world.dim_p,), dtype=np.float32
-                )
-            
-            if agent.movable:
-                total_action_space.append(u_action_space)
-                
-            self.action_space.append(
-                spaces.Discrete(n=self.action_space[nodeIdx].n)
-            )
+            u_action_space = spaces.Box(
+                    low=0, high=1, shape=(world.num_uavs+1, world.num_users), dtype=np.bool8)  # [0,1][Num_files]
+            total_action_space.append(u_action_space)
 
-            self.observation_space.append(
-                spaces.Box(
-                    low=self.observation_space.low[nodeIdx],
-                    high=self.observation_space.high[nodeIdx],
-                    shape=self.observation_space.shape[1:],
-                    dtype=self.observation_space.dtype,
-                )
-            )
+            act_space = spaces.Tuple(total_action_space)
+            self.action_space.append(act_space)
+
+            # Observation space Definition (n*n 모양의 배열로 만들어준다)
+            # Observation = location {x, y} for BS(discrete) , {x, y} for all users(discrete) , {x, y} for UAVs(discrete)
+            total_observation_space = []
+
+            u_observation_space = spaces.Box(
+                    low=0, high=1, shape=(world.dim_p, world.num_mbs))  # [location][mbs]
+            total_observation_space.append(u_observation_space)
+            
+            u_observation_space = spaces.Box(
+                    low=0, high=world.map_size, shape=(world.dim_p, world.num_uavs), dtype=np.float32)  # [location][uav]
+            total_observation_space.append(u_observation_space)
+
+            u_observation_space = spaces.Box(
+                    low=0, high=world.map_size, shape=(world.dim_p, world.num_users), dtype=np.float32)  # [location][user]
+            total_observation_space.append(u_observation_space)
+
+            obs_space = spaces.Tuple(total_observation_space)
+            self.observation_space.append(obs_space)
+
+        # "UAV"
+        print(f'Set UAV state and action space')
+        for agent in self.agents:
+            if agent.isMBS == True:
+                continue
+            # Action space Definition
+            # Action = {y_m,f} for all files, {d_m}, {theta_m}, {power_m}
+            total_action_space = []
+            
+            u_action_space = spaces.Box(
+                    low=0, high=1, shape=(world.dim_p, world.num_files), dtype=np.bool8)  # [0,1][Num_files]
+            total_action_space.append(u_action_space)
+            
+            u_action_space = spaces.Box(
+                    low=0, high=23, shape=(world.dim_p, ), dtype=np.float32)  # [max_power]
+            total_action_space.append(u_action_space)
+            
+            u_action_space = spaces.Box(
+                    low=0, high=5, shape=(world.dim_p, ), dtype=np.float32)  # [d_m]
+            total_action_space.append(u_action_space)
+            
+            u_action_space = spaces.Box(
+                    low=0, high=3, shape=(world.dim_p, ), dtype=np.float32)  # [theta_m]
+            total_action_space.append(u_action_space)
+
+            act_space = spaces.Tuple(total_action_space)
+            self.action_space.append(act_space)
+
+            # Observation space Definition (n*n 모양의 배열로 만들어준다)
+            # Observation = location {x, y} for UAV , location {x, y} for all users , {x_u,f} for all user and files
+            total_observation_space = []
+
+            u_observation_space = spaces.Box(
+                    low=0, high=world.map_size, shape=(world.dim_p, world.num_uavs), dtype=np.float32)  # [location][uav]
+            total_observation_space.append(u_observation_space)
+
+            u_observation_space = spaces.Box(
+                    low=0, high=world.map_size, shape=(world.dim_p, world.num_users), dtype=np.float32)  # [location][user]
+            total_observation_space.append(u_observation_space)
+
+            u_observation_space = spaces.Box(
+                    low=0, high=1, shape=(world.num_users, world.num_files), dtype=np.bool8)  # [user][files]
+            total_observation_space.append(u_observation_space)
+
+            obs_space = spaces.Tuple(total_observation_space)
+            self.observation_space.append(obs_space)
            
 
     def get_obs_size(self):
@@ -130,12 +185,6 @@ class UAV_ENV(gym.Env):
         info = self._info_wrapper(info)
         return obs, reward, done, info
 
-    # "UAV"
-    #     state = {x, y} for UAV , {x, y} for all users , {x_u,f} for all user and files
-    #     action = {y_m,f} for all files, {d_m}, {theta_m}, {power_m}
-    # "Master MBS"
-    #     state = {x, y} for BS , {x, y} for all users , {x, y} for UAVs
-    #     action = {z_u,i} which node connected with user
     def reward(self, state, action):
         # Receiving state and action as list
         epsilon = 0.2

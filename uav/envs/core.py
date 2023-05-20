@@ -80,13 +80,15 @@ class Landmark(Entity):
 
 # properties of agent entities
 class Agent(Entity):
-    def __init__(self, isMbs):
+    def __init__(self, isMBS):
         super(Agent, self).__init__()
-        # agent are UAV
-        if isMbs == True:
+        # agent are MBS
+        if isMBS == True:
             self.isUAV = False
-            # agent are MBS
             self.isMBS = True
+        else:
+            self.isUAV = True
+            self.isMBS = False
 
         # state: including communication state(communication utterance) c and internal/mental state p_pos, p_vel
         self.state = AgentState()
@@ -98,7 +100,7 @@ class Agent(Entity):
         
         # zoe 20200420
         self.goal = None
-        print(f'Create agent as : {isMbs}')
+        print(f'Create agent as isMBS: {isMBS}')
 class User(Entity):
     def __init__(self):
         #TODO
