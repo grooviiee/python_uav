@@ -22,7 +22,8 @@ class CNNLayer(nn.Module):
         input_channel = obs_shape[0]
         input_width = obs_shape[1]
         input_height = obs_shape[2]
-
+    
+        print(f'{input_channel},\n{input_width},\n{input_height}')
         self.cnn = nn.Sequential(
             init_(nn.Conv2d(in_channels=input_channel,
                             out_channels=hidden_size // 2,
@@ -45,6 +46,7 @@ class CNNLayer(nn.Module):
 
 class CNNBase(nn.Module):
     def __init__(self, args, obs_shape):
+        print(f'..Init CNNBase')
         super(CNNBase, self).__init__()
 
         self._use_orthogonal = args.use_orthogonal

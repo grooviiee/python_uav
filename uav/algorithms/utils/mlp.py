@@ -30,6 +30,7 @@ class MLPLayer(nn.Module):
 
 class MLPBase(nn.Module):
     def __init__(self, args, obs_shape, cat_self=True, attn_internal=False):
+        print(f'..Init MLPBase')
         super(MLPBase, self).__init__()
 
         self._use_feature_normalization = args.use_feature_normalization

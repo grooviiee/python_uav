@@ -40,7 +40,7 @@ class SingleBS_runner(Runner):
         self.save_interval = self.all_args.save_interval
         self.use_eval = self.all_args.use_eval
         
-        
+        print(f'[INIT_RUNNER] Insert Agent settings into Trainer')
         from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
         from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
         
@@ -71,7 +71,9 @@ class SingleBS_runner(Runner):
                                        self.envs.action_space[agent_id])
             self.buffer.append(bu)
             self.trainer.append(tr)
-            
+        
+        print(f'[INIT_RUNNER] Insert Agent settings into Trainer Finished')
+
     def run(self):
         # basic procedure
         self.warmup()   

@@ -5,8 +5,8 @@ import torch
 
 # TODO. Study gym.Space... "https://www.gymlibrary.dev/api/spaces/#general-functions"
 def get_shape_from_obs_space(obs_space):
-    print(f'Type : {obs_space.__class__.__name__}')
-    obs_shape = 0
+    print(f'obs_space dType: {obs_space.__class__.__name__}')
+    obs_shape = []
     if obs_space.__class__.__name__ == 'Box':
         obs_shape = obs_space.shape
     elif obs_space.__class__.__name__ == 'list':
@@ -15,14 +15,15 @@ def get_shape_from_obs_space(obs_space):
         obs_shape = 1
     elif obs_space.__class__.__name__ == 'Tuple':
         for obs_info in obs_space:
-            obs_shape = obs_shape + obs_info.shape
+            print(f'obs_info..{obs_info.__class__.__name__}')
+            obs_shape.append(obs_info.shape)
     else:
         raise NotImplementedError
 
     return obs_shape
 
 def get_shape_from_act_space(act_space):
-    print(f'{act_space.__class__.__name__}')
+    print(f'act_space dType: {act_space.__class__.__name__}')
     act_shape = 0
     if act_space.__class__.__name__ == 'Discrete':
         act_shape = 1
@@ -34,7 +35,8 @@ def get_shape_from_act_space(act_space):
         act_shape = act_space.shape[0]
     elif act_space.__class__.__name__ == 'Tuple':
         for act_info in act_space:
-            act_shape = act_shape + act_info.shape
+            print(f'act_info..{act_info.__class__.__name__}')
+            act_shape = act_shape + act_info.shape[0]
     else:  # agar
         act_shape = act_space[0].shape[0] + 1  
 
