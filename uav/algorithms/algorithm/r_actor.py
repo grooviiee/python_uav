@@ -29,6 +29,7 @@ class R_Actor(nn.Module):
         self.tpdv = dict(dtype=torch.float32, device=device)    # device type
 
         obs_shape = get_shape_from_obs_space(obs_space)
+        print(f'obs_shape : {obs_shape}')
         base = CNNBase if len(obs_shape) == 3 else MLPBase
         self.base = base(args, obs_shape)
 

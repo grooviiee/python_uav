@@ -67,6 +67,7 @@ def main(arglist):
         raise NotImplementedError
 
     # env init
+    print("Load Environement...")
     envs = make_train_env(arglist)
     #eval_envs = make_eval_env(arglist) if arglist.use_eval else None
 
@@ -87,6 +88,7 @@ def main(arglist):
     else:
         NotImplemented
 
+    print(f'Load runner as {arglist.runner_name}')
     runner = Runner(config)
     runner.run()
 

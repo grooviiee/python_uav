@@ -5,15 +5,23 @@ import torch
 
 # TODO. Study gym.Space... "https://www.gymlibrary.dev/api/spaces/#general-functions"
 def get_shape_from_obs_space(obs_space):
+    print(f'Type : {obs_space.__class__.__name__}')
+        
     if obs_space.__class__.__name__ == 'Box':
         obs_shape = obs_space.shape
     elif obs_space.__class__.__name__ == 'list':
         obs_shape = obs_space
+    elif obs_space.__class__.__name__ == 'Discrete':
+        obs_shape = 1
+    elif obs_space.__class__.__name__ == 'Tuple':
+        obs_shape = obs_space[0].shape[0] + 1
     else:
         raise NotImplementedError
+
     return obs_shape
 
 def get_shape_from_act_space(act_space):
+    print(f'{act_space.__class__.__name__}')
     if act_space.__class__.__name__ == 'Discrete':
         act_shape = 1
     elif act_space.__class__.__name__ == "MultiDiscrete":
@@ -24,6 +32,7 @@ def get_shape_from_act_space(act_space):
         act_shape = act_space.shape[0]
     else:  # agar
         act_shape = act_space[0].shape[0] + 1  
+
     return act_shape
 
 def check(input):
