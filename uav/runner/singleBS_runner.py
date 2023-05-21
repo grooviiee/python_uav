@@ -44,6 +44,7 @@ class SingleBS_runner(Runner):
         from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
         from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
         
+        print(f'[INIT_RUNNER] Make Actor Critic Policy for Agents')
         self.policy = []
         for agent_id in range(self.num_agents):
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
@@ -57,6 +58,7 @@ class SingleBS_runner(Runner):
                         device = self.device)
             self.policy.append(policy)
         
+        print(f'[INIT_RUNNER] Set Policy into Replay buffer and Trainer')
         # algorithm
         self.trainer = []
         self.buffer = []

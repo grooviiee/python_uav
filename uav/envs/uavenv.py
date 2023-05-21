@@ -63,7 +63,7 @@ class UAV_ENV(gym.Env):
         share_obs_dim = 0
 
         # "Master MBS"
-        print(f'[INIT_ENV AGENT] Set MBS state and action space')
+        print(f'[INIT_ENV_AGENT] Set MBS state and action space')
         for agent in self.agents:
             if agent.isMBS == False:
                 continue
@@ -97,10 +97,10 @@ class UAV_ENV(gym.Env):
 
             obs_space = spaces.Tuple(total_observation_space)
             self.observation_space.append(obs_space)
-        print(f'[INIT_ENV AGENT] Set MBS state and action space Finished')
+        print(f'[INIT_ENV_AGENT] Set MBS state and action space Finished')
 
         # "UAV"
-        print(f'[INIT_ENV AGENT] Set UAV state and action space')
+        print(f'[INIT_ENV_AGENT] Set UAV state and action space')
         for agent in self.agents:
             if agent.isMBS == True:
                 continue
@@ -146,7 +146,7 @@ class UAV_ENV(gym.Env):
             obs_space = spaces.Tuple(total_observation_space)
             self.observation_space.append(obs_space)
             
-        print(f'[INIT_ENV AGENT] Set UAV state and action space Finished')
+        print(f'[INIT_ENV_AGENT] Set UAV state and action space Finished')
 
 
     def get_obs_size(self):

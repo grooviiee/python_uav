@@ -26,14 +26,29 @@ class SeparatedReplayBuffer(object):
         obs_shape = get_shape_from_obs_space(obs_space)
         share_obs_shape = get_shape_from_obs_space(share_obs_space)
 
+        print(f'[INIT_REPLAYBUFFER] obs_shape dType: {type(obs_shape[-1])}, {obs_shape}, {list(obs_shape)}')
+        print(f'[INIT_REPLAYBUFFER] share_obs_shape dType: {type(share_obs_shape[-1])}, {share_obs_shape}, {list(share_obs_shape)}')
         if type(obs_shape[-1]) == list:
-            obs_shape = obs_shape[:1]
+            obs_shape = obs_shape[:1] * obs_shape[:1]
 
         if type(share_obs_shape[-1]) == list:
             share_obs_shape = share_obs_shape[:1]
 
-        self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, *share_obs_shape), dtype=np.float32)
-        self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, *obs_shape), dtype=np.float32)
+        if type(obs_shape[-1]) == tuple:
+            listed_obs_shape = list(obs_shape)
+            res_obs_shape = 1
+            for obs_info in listed_obs_shape:
+                res_obs_shape *= obs_info[0] * obs_info[1]
+            print(f'res_obs_shape {res_obs_shape}')
+        if type(share_obs_shape[-1]) == tuple:
+            listed_share_obs_shape = list(share_obs_shape)
+            res_share_obs_shape = 1
+            for obs_info in listed_share_obs_shape:
+                res_share_obs_shape *= obs_info[0] * obs_info[1]
+            print(f'res_share_obs_shape: {res_share_obs_shape}')
+            
+        self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, res_share_obs_shape), dtype=np.float32)
+        self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, res_obs_shape), dtype=np.float32)
 
         self.rnn_states = np.zeros((self.episode_length + 1, self.n_rollout_threads, self.recurrent_N, self.rnn_hidden_size), dtype=np.float32)
         self.rnn_states_critic = np.zeros_like(self.rnn_states)
