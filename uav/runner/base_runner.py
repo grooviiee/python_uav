@@ -7,6 +7,8 @@ class Runner(object):
     def __init__(self, config):
         self.all_args = config['args']
         self.use_centralized_V = self.all_args.use_centralized_V
+        self.n_rollout_threads = self.all_args.n_rollout_threads
+
     
     def train(self):
         NotImplemented

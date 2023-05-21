@@ -14,6 +14,9 @@ import torch
 #   "envs": envs,
 #   "device": device,
 # }
+def _t2n(x):
+    return x.detach().cpu().numpy()
+
 class SingleBS_runner(Runner):
     def __init__(self, config):
         super(SingleBS_runner, self).__init__(config)
@@ -27,6 +30,7 @@ class SingleBS_runner(Runner):
         self.num_uavs = config['num_uavs']
         self.num_mbs = config['num_mbs']
         self.num_agents = self.num_uavs + self.num_mbs
+        self.num_users = config['num_users']
         self.trainer = []
         self.buffer = []
         
@@ -77,12 +81,14 @@ class SingleBS_runner(Runner):
         print(f'[INIT_RUNNER] Insert Agent settings into Trainer Finished')
 
     def run(self):
+        print(f'[RUNNER] Warm up')
         # basic procedure
         self.warmup()   
 
         start = time.time()
         episodes = int(self.num_env_steps) // self.episode_length // self.n_rollout_threads
 
+        print(f'[RUNNER] Run Episode')
         for episode in range(episodes):
             for step in range(self.episode_length):
                 # Sample actions
@@ -114,17 +120,75 @@ class SingleBS_runner(Runner):
                 self.eval(total_num_steps)
 
     def warmup(self):
+        NotImplemented
+        #TODO 
         # reset env
-        obs = self.envs.reset()
-        share_obs = []
-        for o in obs:
-            share_obs.append(list(chain(*o)))
-        share_obs = np.array(share_obs)
+        # obs = self.envs.reset()
+        # share_obs = []
+        # for o in obs:
+        #     share_obs.append(list(chain(*o)))
+        # share_obs = np.array(share_obs)
+        # print(f'[RUNNER] Warm up.. (share_obs) dType:{type(share_obs)}, {share_obs}')
 
         # insert obs to buffer
-        for agent_id in range(self.num_uavs + self.num_mbs):
-            self.buffer[agent_id].share_obs[0] = share_obs.copy()
-            self.buffer[agent_id].obs[0] = np.array(list(obs[:, agent_id])).copy()
+        # for agent_id in range(self.num_agents):
+        #     self.buffer[agent_id].share_obs[0] = share_obs.copy()
+        #     self.buffer[agent_id].obs[0] = np.array(list(obs[:, agent_id])).copy()
+
+    @torch.no_grad()
+    def collect(self, step):
+        values = []
+        actions = []
+        temp_actions_env = []
+        action_log_probs = []
+        rnn_states = []
+        rnn_states_critic = []
+
+        for agent_id in range(self.num_agents):
+            self.trainer[agent_id].prep_rollout()
+            value, action, action_log_prob, rnn_state, rnn_state_critic \
+                = self.trainer[agent_id].policy.get_actions(self.buffer[agent_id].share_obs[step],
+                                                            self.buffer[agent_id].obs[step],
+                                                            self.buffer[agent_id].rnn_states[step],
+                                                            self.buffer[agent_id].rnn_states_critic[step],
+                                                            self.buffer[agent_id].masks[step])
+            # [agents, envs, dim]
+            values.append(_t2n(value))
+            action = _t2n(action)
+            # rearrange action
+            if self.envs.action_space[agent_id].__class__.__name__ == 'MultiDiscrete':
+                for i in range(self.envs.action_space[agent_id].shape):
+                    uc_action_env = np.eye(self.envs.action_space[agent_id].high[i]+1)[action[:, i]]
+                    if i == 0:
+                        action_env = uc_action_env
+                    else:
+                        action_env = np.concatenate((action_env, uc_action_env), axis=1)
+            elif self.envs.action_space[agent_id].__class__.__name__ == 'Discrete':
+                action_env = np.squeeze(np.eye(self.envs.action_space[agent_id].n)[action], 1)
+            else:
+                raise NotImplementedError
+
+            actions.append(action)
+            temp_actions_env.append(action_env)
+            action_log_probs.append(_t2n(action_log_prob))
+            rnn_states.append(_t2n(rnn_state))
+            rnn_states_critic.append( _t2n(rnn_state_critic))
+
+        # [envs, agents, dim]
+        actions_env = []
+        for i in range(self.n_rollout_threads):
+            one_hot_action_env = []
+            for temp_action_env in temp_actions_env:
+                one_hot_action_env.append(temp_action_env[i])
+            actions_env.append(one_hot_action_env)
+
+        values = np.array(values).transpose(1, 0, 2)
+        actions = np.array(actions).transpose(1, 0, 2)
+        action_log_probs = np.array(action_log_probs).transpose(1, 0, 2)
+        rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
+        rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
+
+        return values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env
 
     def reset(self):
         """Reset sth here"""

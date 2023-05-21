@@ -34,6 +34,7 @@ class UAV_ENV(gym.Env):
 
         # parameter setting from args
         self.world = world
+        self.current_step = 0
         self.num_uavs = world.num_uavs
         self.num_mbs = world.num_mbs
         self.num_nodes = self.num_uavs + self.num_mbs
@@ -44,6 +45,10 @@ class UAV_ENV(gym.Env):
         
         self.num_users = world.num_users
         
+        # scenario callback
+        self.reset_callback = reset_callback
+        self.observation_callback = observation_callback
+
         # for debugging
         self.uav_obs_size = [ [1, [self.map_x_len, self.map_y_len]], [self.num_users, [self.map_x_len, self.map_y_len]], [[self.num_users], [self.num_files]] ]
         self.mbs_obs_size = [ [1, [self.map_x_len, self.map_y_len]], [self.num_users, [self.map_x_len, self.map_y_len]], [self.num_uavs, [self.map_x_len, self.map_y_len]] ]
@@ -167,13 +172,22 @@ class UAV_ENV(gym.Env):
             random.seed(seed)
 
     def reset(self):
-        # TODO: Need to clearence
+        # TODO: Need to be clear
+        self.current_step = 0
+        self.reset_callback(self.world)
         obs_n = []
+        self.agents = self.world.agents
         
-        # for agent in self.num_mbs:
-        #     obs_n.append(np.zeros(0))
-        print("Reset environment")
+        for agent in self.agents:
+            obs_n.append(self._get_obs(agent))
+        print(f'[ENV] Reset Environment.. (Obs) dType: {type(obs_n)}, {obs_n}')
         return obs_n
+
+    # get observation for a particular agent
+    def _get_obs(self, agent):
+        if self.observation_callback is None:
+            return np.zeros(0)
+        return self.observation_callback(agent, self.world)
 
     # returns: next state, reward, done, etc.
     def step(self, action):

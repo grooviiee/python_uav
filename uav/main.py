@@ -77,6 +77,7 @@ def main(arglist):
         "device": device,
         "num_uavs": arglist.num_uavs,
         "num_mbs": arglist.num_mbs,
+        "num_users": arglist.num_users,
         #"run_dir": run_dir,  -> used in wandb???
     }
 
