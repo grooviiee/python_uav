@@ -17,6 +17,7 @@ class AgentState(EntityState):
         self.hasFile = []
         self.x = None
         self.y = None
+        self.fileRequest = None
 
 # action of the agent
 class Action(object):
@@ -103,8 +104,8 @@ class Agent(Entity):
         print(f'Create agent as isMBS: {isMBS}')
 class User(Entity):
     def __init__(self):
-        #TODO
-        NotImplemented
+        self.state = AgentState()
+        self.movable = False
     
     
 

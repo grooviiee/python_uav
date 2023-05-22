@@ -47,8 +47,16 @@ class SeparatedReplayBuffer(object):
                 res_share_obs_shape *= obs_info[0] * obs_info[1]
             print(f'res_share_obs_shape: {res_share_obs_shape}')
             
-        self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, res_share_obs_shape), dtype=np.float32)
-        self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, res_obs_shape), dtype=np.float32)
+        print(f'[REPLAYBUFFER] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
+        print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
+
+        if res_obs_shape == 64000:  #UAV
+            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 8, 40, 200), dtype=np.float32)
+            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 8, 40, 200), dtype=np.float32)      
+        else:
+            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 2, 8, 40), dtype=np.float32)
+            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 2, 8, 40), dtype=np.float32)
+
 
         self.rnn_states = np.zeros((self.episode_length + 1, self.n_rollout_threads, self.recurrent_N, self.rnn_hidden_size), dtype=np.float32)
         self.rnn_states_critic = np.zeros_like(self.rnn_states)

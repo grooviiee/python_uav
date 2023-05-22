@@ -29,8 +29,13 @@ class R_Actor(nn.Module):
         self.tpdv = dict(dtype=torch.float32, device=device)    # device type
 
         obs_shape = get_shape_from_obs_space(obs_space)
-        print(f'returned obs_shape: {obs_shape}. CNN Base if length is 3, or MLPBase')
-        base = CNNBase if len(obs_shape) == 3 else MLPBase
+        if len(obs_shape) == 3:
+            print(f'returned obs_shape: {obs_shape}. CNN Base because length is 3')
+            base = CNNBase
+        else:
+            print(f'returned obs_shape: {obs_shape}. MLP Base because length is not 3')
+            base = MLPBase
+            
         self.base = base(args, obs_shape)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
@@ -62,6 +67,7 @@ class R_Actor(nn.Module):
         if available_actions is not None:
             available_actions = check(available_actions).to(**self.tpdv)
 
+        print(f'[ACTOR_FORWARD] obs: {obs}, shape: {obs.shape}')
         actor_features = self.base(obs)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:

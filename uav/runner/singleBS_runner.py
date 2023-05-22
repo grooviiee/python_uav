@@ -146,6 +146,8 @@ class SingleBS_runner(Runner):
 
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
+            
+            print(f'[RUNNER] share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
             value, action, action_log_prob, rnn_state, rnn_state_critic \
                 = self.trainer[agent_id].policy.get_actions(self.buffer[agent_id].share_obs[step],
                                                             self.buffer[agent_id].obs[step],

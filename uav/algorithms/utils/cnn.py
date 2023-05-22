@@ -23,7 +23,6 @@ class CNNLayer(nn.Module):
         input_width = obs_shape[1][0] * obs_shape[1][1]
         input_height = obs_shape[2][0] * obs_shape[2][1]
     
-        print(f'[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}]')
         self.cnn = nn.Sequential(
             init_(nn.Conv2d(in_channels=input_channel,
                             out_channels=hidden_size // 2,
@@ -32,11 +31,14 @@ class CNNLayer(nn.Module):
                   ),
             active_func,
             Flatten(),
-            init_(nn.Linear(hidden_size // 2 * (input_width - kernel_size + stride) * (input_height - kernel_size + stride),
-                            hidden_size)
+            # init_(nn.Linear(hidden_size // 2 * (input_width - kernel_size + stride) * (input_height - kernel_size + stride),
+            #                 hidden_size)
+            #       ),
+            init_(nn.Linear(1824,64)
                   ),
             active_func,
             init_(nn.Linear(hidden_size, hidden_size)), active_func)
+        print(f'[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}],{self.cnn}')
 
     def forward(self, x):
         x = x / 255.0

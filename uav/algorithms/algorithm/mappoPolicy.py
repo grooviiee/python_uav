@@ -54,7 +54,9 @@ class MAPPOAgentPolicy:
                                                                  available_actions,
                                                                  deterministic)
   
-        NotImplemented
+        values, rnn_states_critic = self.critic(cent_obs, rnn_states_critic, masks)
+        
+        return values, actions, action_log_probs, rnn_states_actor, rnn_states_critic
         
     def get_values(self, cent_obs, rnn_states_critic, masks):
         """

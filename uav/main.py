@@ -8,28 +8,6 @@ import torch
 from algorithms.mappo import MAPPOAgentTrainer
 from envs.UavEnvMain import UAVEnvMain
 
-# def make_train_env(arglist, benchmark=False):
-    # from multiagent.environment import MultiAgentEnv
-    # import multiagent.scenarios as scenarios
-
-    # create world
-        #runner = SingleBS_runner(arglist)
-        #world = SingleBS_runner.make_world(runner, arglist)
-    # create multiagent environment
-    # if arglist. :
-    #     env = MultiAgentEnv(
-    #         world,
-    #         scenario.reset_world,
-    #         scenario.reward,
-    #         scenario.observation,
-    #         scenario.benchmark_data,
-    #     )
-    # else:
-    #     env = MultiAgentEnv(
-    #         world, scenario.reset_world, scenario.reward, scenario.observation
-    #     )
-    # return env
-
 def make_train_env(arglist, benchmark=False):
     if arglist.scenario_name == "uavenv":
         print("You choose " + arglist.scenario_name + " environment.")

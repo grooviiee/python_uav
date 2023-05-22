@@ -44,6 +44,7 @@ class UAV_ENV(gym.Env):
         self.map_y_len = world.map_size
         
         self.num_users = world.num_users
+        self.users = self.world.users
         
         # scenario callback
         self.reset_callback = reset_callback
@@ -150,6 +151,11 @@ class UAV_ENV(gym.Env):
 
             obs_space = spaces.Tuple(total_observation_space)
             self.observation_space.append(obs_space)
+            
+        # "User"
+        print(f'[INIT_ENV_AGENT] Set UAV state and action space')
+        for user in self.users:
+            NotImplemented
             
         print(f'[INIT_ENV_AGENT] Set UAV state and action space Finished')
 
