@@ -2,7 +2,8 @@ from envs.uavenv import UAV_ENV
 from utils.shared_buffer import SharedReplayBuffer
 from utils.separated_buffer import SeparatedReplayBuffer
 from runner.base_runner import Runner
-    
+from gym.spaces.utils import flatdim
+
 import time
 # import wandb
 import os
@@ -215,6 +216,7 @@ class SingleBS_runner(Runner):
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
 
+            # 수신한 Agent별로 저장하는데??
             self.buffer[agent_id].insert(share_obs,
                                         np.array(list(obs[:, agent_id])),
                                         rnn_states[:, agent_id],
