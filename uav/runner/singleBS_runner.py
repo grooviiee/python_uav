@@ -227,5 +227,12 @@ class SingleBS_runner(Runner):
                                         rewards[:, agent_id],
                                         masks[:, agent_id])
             
-    def compute():
-        NotImplemented
+    @torch.no_grad()            
+    def compute(self):
+        for agent_id in range(self.num_agents):
+            self.trainer[agent_id].prep_rollout()
+            next_value = self.trainer[agent_id].policy.get_values(self.buffer[agent_id].share_obs[-1], 
+                                                                self.buffer[agent_id].rnn_states_critic[-1],
+                                                                self.buffer[agent_id].masks[-1])
+            next_value = _t2n(next_value)
+            self.buffer[agent_id].compute_returns(next_value, self.trainer[agent_id].value_normalizer)
