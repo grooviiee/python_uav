@@ -15,7 +15,6 @@ def get_shape_from_obs_space(obs_space):
         obs_shape = 1
     elif obs_space.__class__.__name__ == 'Tuple':
         for obs_info in obs_space:
-            print(f'obs_info..{obs_info.__class__.__name__}')
             obs_shape.append(obs_info.shape)
     else:
         raise NotImplementedError
@@ -35,7 +34,6 @@ def get_shape_from_act_space(act_space):
         act_shape = act_space.shape[0]
     elif act_space.__class__.__name__ == 'Tuple':
         for act_info in act_space:
-            print(f'act_info..{act_info.__class__.__name__}')
             act_shape = act_shape + act_info.shape[0]
     else:  # agar
         act_shape = act_space[0].shape[0] + 1  

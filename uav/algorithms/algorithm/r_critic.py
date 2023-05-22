@@ -54,6 +54,8 @@ class R_Critic(nn.Module):
         :return values: (torch.Tensor) value function predictions.
         :return rnn_states: (torch.Tensor) updated RNN hidden states.
         """
+        print(f'[CRITIC_FORWARD] obs: {cent_obs}, shape: {cent_obs.shape}')
+
         cent_obs = check(cent_obs).to(**self.tpdv)
         rnn_states = check(rnn_states).to(**self.tpdv)
         masks = check(masks).to(**self.tpdv)

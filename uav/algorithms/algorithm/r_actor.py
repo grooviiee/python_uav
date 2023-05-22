@@ -30,10 +30,10 @@ class R_Actor(nn.Module):
 
         obs_shape = get_shape_from_obs_space(obs_space)
         if len(obs_shape) == 3:
-            print(f'returned obs_shape: {obs_shape}. CNN Base because length is 3')
+            print(f'[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3')
             base = CNNBase
         else:
-            print(f'returned obs_shape: {obs_shape}. MLP Base because length is not 3')
+            print(f'[ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3')
             base = MLPBase
             
         self.base = base(args, obs_shape)
@@ -67,14 +67,16 @@ class R_Actor(nn.Module):
         if available_actions is not None:
             available_actions = check(available_actions).to(**self.tpdv)
 
-        print(f'[ACTOR_FORWARD] obs: {obs}, shape: {obs.shape}')
+        print(f'[ACTOR_FORWARD] shape: {obs.shape}')
         actor_features = self.base(obs)
-
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
+            print(f'[ACTOR_FORWARD] actor_features: {actor_features}({actor_features.shape}), rnn_states: {rnn_states}({rnn_states.shape})')
+    
+        print(f'[ACTOR_FORWARD] actor_features: {actor_features}({actor_features.shape})')
 
-        actions, action_log_probs = self.act(actor_features, available_actions, deterministic)
-
+        actions, action_log_probs = self.act(actor_features)
+        
         return actions, action_log_probs, rnn_states
 
     def evaluate_actions(self, obs, rnn_states, action, masks, available_actions=None, active_masks=None):

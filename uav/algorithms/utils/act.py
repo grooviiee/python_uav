@@ -14,7 +14,8 @@ class ACTLayer(nn.Module):
         super(ACTLayer, self).__init__()
         self.mixed_action = False
         self.multi_discrete = False
-        print(f'Init Actor, dtype: {action_space.__class__.__name__}')
+        self.tuple = False
+        print(f'Init Actor, dtype: {action_space.__class__.__name__}, shape: {action_space.shape}, value: {action_space}')
         if action_space.__class__.__name__ == "Discrete":
             action_dim = action_space.n
             self.action_out = Categorical(inputs_dim, action_dim, use_orthogonal, gain)
@@ -32,6 +33,7 @@ class ACTLayer(nn.Module):
                 self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
             self.action_outs = nn.ModuleList(self.action_outs)
         elif action_space.__class__.__name__ == "Tuple":
+            self.tuple = True
             self.action_outs = []
             for action_info in action_space:
                 action_dim = action_info.shape[0]
@@ -55,6 +57,8 @@ class ACTLayer(nn.Module):
         :return actions: (torch.Tensor) actions to take.
         :return action_log_probs: (torch.Tensor) log probabilities of taken actions.
         """
+
+        print(f'[ACTOR_ACTLAYER_FORWARD] input x: {x}, shape: {x.shape}')
         if self.mixed_action :
             actions = []
             action_log_probs = []
@@ -80,9 +84,22 @@ class ACTLayer(nn.Module):
 
             actions = torch.cat(actions, -1)
             action_log_probs = torch.cat(action_log_probs, -1)
-        
+
+        elif self.tuple:
+            actions = []
+            action_log_probs = []
+            for action_out in self.action_outs:
+                action_logit = action_out(x)
+                action = action_logit.mode() if deterministic else action_logit.sample()
+                action_log_prob = action_logit.log_probs(action)
+                actions.append(action)
+                action_log_probs.append(action_log_prob)
+
+            actions = torch.cat(actions, -1)
+            action_log_probs = torch.cat(action_log_probs, -1)
+            
         else:
-            action_logits = self.action_out(x, available_actions)
+            action_logits = self.action_out(x)
             actions = action_logits.mode() if deterministic else action_logits.sample() 
             action_log_probs = action_logits.log_probs(actions)
         

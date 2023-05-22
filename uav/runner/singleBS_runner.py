@@ -147,7 +147,7 @@ class SingleBS_runner(Runner):
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
             
-            print(f'[RUNNER] share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
+            print(f'[RUNNER] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
             value, action, action_log_prob, rnn_state, rnn_state_critic \
                 = self.trainer[agent_id].policy.get_actions(self.buffer[agent_id].share_obs[step],
                                                             self.buffer[agent_id].obs[step],
@@ -157,7 +157,9 @@ class SingleBS_runner(Runner):
             # [agents, envs, dim]
             values.append(_t2n(value))
             action = _t2n(action)
+            
             # rearrange action
+            print(f'[RUNNER] agent_id : {agent_id}, action space dType: {self.envs.action_space[agent_id].__class__.__name__} value: {self.envs.action_space[agent_id]}')
             if self.envs.action_space[agent_id].__class__.__name__ == 'MultiDiscrete':
                 for i in range(self.envs.action_space[agent_id].shape):
                     uc_action_env = np.eye(self.envs.action_space[agent_id].high[i]+1)[action[:, i]]

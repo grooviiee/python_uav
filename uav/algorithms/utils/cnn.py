@@ -34,10 +34,11 @@ class CNNLayer(nn.Module):
             # init_(nn.Linear(hidden_size // 2 * (input_width - kernel_size + stride) * (input_height - kernel_size + stride),
             #                 hidden_size)
             #       ),
-            init_(nn.Linear(1824,64)
+            init_(nn.Linear(1824, 64)
                   ),
             active_func,
-            init_(nn.Linear(hidden_size, hidden_size)), active_func)
+            init_(nn.Linear(hidden_size, 64)), active_func)
+        
         print(f'[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}],{self.cnn}')
 
     def forward(self, x):
