@@ -40,3 +40,5 @@ on-policy/onpolicy/config.py
 * Agent 선언은 어디서? -> envs의 core.py에서 구성한다.
 * 여기서 User에 대한 선언도 해줘야 한다.
 * core의 World class를 통해서 step, integrate_state, update_agent_state 등의 함수 구현 
+
+warmup에서 대략의 init 과정을 수행해줘야 한다
