@@ -2,7 +2,7 @@ from envs.uavenv import UAV_ENV
 from utils.shared_buffer import SharedReplayBuffer
 from utils.separated_buffer import SeparatedReplayBuffer
 from runner.base_runner import Runner
-from gym.spaces.utils import flatdim
+from gym.spaces.utils import flatdim, flatten
 
 import time
 # import wandb
@@ -161,7 +161,7 @@ class SingleBS_runner(Runner):
             action = _t2n(action)
             
             # rearrange action
-            print(f'[RUNNER] agent_id : {agent_id}, action space dType: {self.envs.action_space[agent_id].__class__.__name__} value: {self.envs.action_space[agent_id]}')
+            print(f'[RUNNER] agent_id : {agent_id}, action space dType: {self.envs.action_space[agent_id].__class__.__name__}')
             if self.envs.action_space[agent_id].__class__.__name__ == 'MultiDiscrete':
                 for i in range(self.envs.action_space[agent_id].shape):
                     uc_action_env = np.eye(self.envs.action_space[agent_id].high[i]+1)[action[:, i]]
@@ -175,6 +175,12 @@ class SingleBS_runner(Runner):
                 # TODO: Fix below shape into Discrete or Multi Discrete
                 # [RUNNER] agent_id : 0, action space dType: Box value: Box(False, True, (5, 20), bool)
                 action_env = self.envs.action_space[agent_id]
+                action_env = flatten(action_env, 1)
+            elif self.envs.action_space[agent_id].__class__.__name__ == 'Tuple':
+                # TODO: Fix below shape into Discrete or Multi Discrete
+                # [RUNNER] agent_id : 4, action space dType: Tuple value: Tuple(Box(False, True, (2, 10), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
+                action_env = self.envs.action_space[agent_id]
+                # for i in range 
             else:
                 raise NotImplementedError
 
@@ -184,7 +190,7 @@ class SingleBS_runner(Runner):
             rnn_states.append(_t2n(rnn_state))
             rnn_states_critic.append( _t2n(rnn_state_critic))
 
-            print(f'[RUNNER] agent_id : {agent_id} Done')
+            print(f'[RUNNER] agent_id: {agent_id} Done.. n_rollout_threads: {self.n_rollout_threads}')
         # [envs, agents, dim]
         actions_env = []
         for i in range(self.n_rollout_threads):
@@ -193,11 +199,11 @@ class SingleBS_runner(Runner):
                 one_hot_action_env.append(temp_action_env[i])
             actions_env.append(one_hot_action_env)
 
-        values = np.array(values).transpose(1, 0, 2)
-        actions = np.array(actions).transpose(1, 0, 2)
-        action_log_probs = np.array(action_log_probs).transpose(1, 0, 2)
-        rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
-        rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
+        # values = np.array(values).transpose(1, 0, 2)
+        # actions = np.array(actions).transpose(1, 0, 2)
+        # action_log_probs = np.array(action_log_probs).transpose(1, 0, 2)
+        # rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
+        # rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
 
         return values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env
 

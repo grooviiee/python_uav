@@ -125,7 +125,8 @@ def parse_args():
     parser.add_argument(
         "--n_rollout_threads",
         type=int,
-        default=32,
+        default=1,
+        # default=32,
         help="Number of parallel envs for training rollouts",
     )
     parser.add_argument(

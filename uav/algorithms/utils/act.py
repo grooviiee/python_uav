@@ -58,7 +58,7 @@ class ACTLayer(nn.Module):
         :return action_log_probs: (torch.Tensor) log probabilities of taken actions.
         """
 
-        print(f'[ACTOR_ACTLAYER_FORWARD] input x: {x}, shape: {x.shape}')
+        print(f'[ACTOR_ACTLAYER_FORWARD] input x.shape: {x.shape}')
         if self.mixed_action :
             actions = []
             action_log_probs = []

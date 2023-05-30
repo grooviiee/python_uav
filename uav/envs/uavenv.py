@@ -197,16 +197,40 @@ class UAV_ENV(gym.Env):
 
     # returns: next state, reward, done, etc.
     def step(self, action):
-        obs, reward, done, info = self.step(action)
-        obs = self._obs_wrapper(obs)
-        reward = reward.reshape(self.num_agents, 1)
-        if self.share_reward:
-            global_reward = np.sum(reward)
-            reward = [[global_reward]] * self.num_agents
+        print(f'[ENV] current_step: {self.current_step}, STEP: {action}')
+        self.current_step = self.current_step + 1
+        obs_n = []
+        reward_n = []
+        done_n = []
+        info_n = []
+        self.agents = self.world.agents
+        # set action for each agent
+        for i, agent in enumerate(self.agents):
+            self._set_action(action_n[i], agent, self.action_space[i])
+            
+        # advance world state
+        self.world.step()  # core.step()
+        
+        # record observation for each agent
+        for i, agent in enumerate(self.agents):
+            obs_n.append(self._get_obs(agent))
+            reward_n.append([self._get_reward(agent)])
+            done_n.append(self._get_done(agent))
+            info = {'individual_reward': self._get_reward(agent)}
+            env_info = self._get_info(agent)
+            if 'fail' in env_info.keys():
+                info['fail'] = env_info['fail']
+            info_n.append(info)
 
-        done = np.array([done] * self.num_agents)
-        info = self._info_wrapper(info)
-        return obs, reward, done, info
+        # all agents get total reward in cooperative case, if shared reward, all agents have the same reward, and reward is sum
+        reward = np.sum(reward_n)
+        if self.shared_reward:
+            reward_n = [[reward]] * self.n
+
+        if self.post_step_callback is not None:
+            self.post_step_callback(self.world)
+
+        return obs_n, reward_n, done_n, info_n
 
     def reward(self, state, action):
         # Receiving state and action as list
