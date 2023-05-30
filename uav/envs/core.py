@@ -202,13 +202,15 @@ class World(object):
             landmark.color = np.array([0.25, 0.25, 0.25])
 
     # update state of the world
-    def step(self):
-        print(f'[CORE]')
+    def world_step(self):
+        print(f'[CORE] Step in core')
         # zoe 20200420
         self.world_step += 1
         # set actions for scripted agents
+        
         for agent in self.scripted_agents:
             agent.action = agent.action_callback(agent, self)
+
         # gather forces applied to entities
         p_force = [None] * len(self.entities)
         # apply agent physical controls

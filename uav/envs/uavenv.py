@@ -194,7 +194,25 @@ class UAV_ENV(gym.Env):
         if self.observation_callback is None:
             return np.zeros(0)
         return self.observation_callback(agent, self.world)
-
+    
+    # get reward for a particular agent
+    def _get_reward(self, agent):
+        if self.reward_callback is None:
+            return 0.0
+        return self.reward_callback(agent, self.world)
+    
+    # set env action for a particular agent
+    def _set_action(self, action, agent, action_space, is_uav, time=None):
+        if is_uav == True:
+            NotImplemented
+            # Do UAV Action
+        else:
+            NotImplemented
+            # Do MBS Action
+            
+            
+        
+        
     # returns: next state, reward, done, etc.
     def step(self, action):
         print(f'[ENV] current_step: {self.current_step}, STEP: {action}')
@@ -206,10 +224,15 @@ class UAV_ENV(gym.Env):
         self.agents = self.world.agents
         # set action for each agent
         for i, agent in enumerate(self.agents):
-            self._set_action(action_n[i], agent, self.action_space[i])
+            if self.num_mbs > i:
+                is_uav = True
+            else:
+                is_uav = False
+                
+            self._set_action(action[i], agent, self.action_space[i], is_uav)
             
         # advance world state
-        self.world.step()  # core.step()
+        self.world.world_step()  # core.step()
         
         # record observation for each agent
         for i, agent in enumerate(self.agents):
