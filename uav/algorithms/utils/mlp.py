@@ -29,7 +29,7 @@ class MLPLayer(nn.Module):
 
 
 class MLPBase(nn.Module):
-    def __init__(self, args, obs_shape, cat_self=True, attn_internal=False):
+    def __init__(self, args, obs_shape, is_uav, cat_self=True, attn_internal=False):
         print(f'..Init MLPBase')
         super(MLPBase, self).__init__()
 
@@ -39,6 +39,7 @@ class MLPBase(nn.Module):
         self._stacked_frames = args.stacked_frames
         self._layer_N = args.layer_N
         self.hidden_size = args.hidden_size
+        self.is_uav = is_uav
 
         obs_dim = obs_shape[0]
 

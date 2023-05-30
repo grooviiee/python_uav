@@ -3,7 +3,7 @@ from algorithms.algorithm.r_actor import R_Actor
 from algorithms.algorithm.r_critic import R_Critic
 
 class MAPPOAgentPolicy:
-    def __init__(self, args, obs_space, cent_obs_space, act_space, device=torch.device("cpu")):
+    def __init__(self, args, obs_space, cent_obs_space, act_space, agent_id, device=torch.device("cpu")):
         self.device = device
         self.lr = args.lr
         self.critic_lr = args.critic_lr        
@@ -13,13 +13,17 @@ class MAPPOAgentPolicy:
         self.obs_space = obs_space      # Individual obs space
         self.share_obs_space = cent_obs_space   # Merged obs space
         self.act_space = act_space
-        
-        self.actor = R_Actor(args, self.obs_space, self.act_space, self.device)
+        if args.num_mbs > agent_id:
+            self.is_uav = False
+        else:
+            self.is_uav = True
+
+        self.actor = R_Actor(args, self.obs_space, self.act_space, self.is_uav, self.device)
         self.actor_optimizer = torch.optim.Adam(self.actor.parameters(),
                                                 lr=self.lr, eps=self.opti_eps,
                                                 weight_decay=self.weight_decay)
         
-        self.critic = R_Critic(args, self.share_obs_space, self.device)
+        self.critic = R_Critic(args, self.share_obs_space, self.is_uav, self.device)
         self.critic_optimizer = torch.optim.Adam(self.critic.parameters(),
                                                  lr=self.critic_lr,
                                                  eps=self.opti_eps,

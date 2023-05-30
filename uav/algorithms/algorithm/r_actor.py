@@ -16,7 +16,7 @@ class R_Actor(nn.Module):
     :param action_space: (gym.Space) action space.
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
     """
-    def __init__(self, args, obs_space, action_space, device=torch.device("cpu")):
+    def __init__(self, args, obs_space, action_space, is_uav, device=torch.device("cpu"), ):
         super(R_Actor, self).__init__()
         self.hidden_size = args.hidden_size
 
@@ -27,7 +27,7 @@ class R_Actor(nn.Module):
         self._use_recurrent_policy = args.use_recurrent_policy
         self._recurrent_N = args.recurrent_N
         self.tpdv = dict(dtype=torch.float32, device=device)    # device type
-
+        self.is_uav = is_uav
         obs_shape = get_shape_from_obs_space(obs_space)
         if len(obs_shape) == 3:
             print(f'[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3')
@@ -36,7 +36,7 @@ class R_Actor(nn.Module):
             print(f'[ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3')
             base = MLPBase
             
-        self.base = base(args, obs_shape)
+        self.base = base(args, obs_shape, is_uav)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             print(f'self.rnn = RNNLayer')

@@ -60,6 +60,7 @@ class SingleBS_runner(Runner):
                         self.envs.observation_space[agent_id],
                         share_observation_space,
                         self.envs.action_space[agent_id],
+                        agent_id,
                         device = self.device)
             self.policy.append(policy)
         
@@ -170,8 +171,10 @@ class SingleBS_runner(Runner):
                         action_env = np.concatenate((action_env, uc_action_env), axis=1)
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Discrete':
                 action_env = np.squeeze(np.eye(self.envs.action_space[agent_id].n)[action], 1)
-            elif self.envs.action_space[agent_id].__class__.__name__ == 'Tuple':
-                action_env = ?? TODO:
+            elif self.envs.action_space[agent_id].__class__.__name__ == 'Box':
+                # TODO: Fix below shape into Discrete or Multi Discrete
+                # [RUNNER] agent_id : 0, action space dType: Box value: Box(False, True, (5, 20), bool)
+                action_env = self.envs.action_space[agent_id]
             else:
                 raise NotImplementedError
 
@@ -181,6 +184,7 @@ class SingleBS_runner(Runner):
             rnn_states.append(_t2n(rnn_state))
             rnn_states_critic.append( _t2n(rnn_state_critic))
 
+            print(f'[RUNNER] agent_id : {agent_id} Done')
         # [envs, agents, dim]
         actions_env = []
         for i in range(self.n_rollout_threads):

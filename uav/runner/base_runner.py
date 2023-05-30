@@ -21,7 +21,7 @@ class Runner(object):
     # this code follows runner/seperated/base_runner.py
     def train(self):
         train_info_list = []
-        for agent_id in range(self.num_uavs + self.num_mbs):
+        for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_training()
             train_info = self.trainer[agent_id].train(self.buffer[agent_id])
             train_info_list.append(train_info)
