@@ -212,7 +212,7 @@ class UAV_ENV(gym.Env):
             
             
         
-        
+    # desc. Take step in environments    
     # returns: next state, reward, done, etc.
     def step(self, action):
         print(f'[ENV] current_step: {self.current_step}, STEP: {action}')
@@ -224,11 +224,8 @@ class UAV_ENV(gym.Env):
         self.agents = self.world.agents
         # set action for each agent
         for i, agent in enumerate(self.agents):
-            if self.num_mbs > i:
-                is_uav = True
-            else:
-                is_uav = False
-                
+            is_uav = agent.isUAV
+
             self._set_action(action[i], agent, self.action_space[i], is_uav)
             
         # advance world state

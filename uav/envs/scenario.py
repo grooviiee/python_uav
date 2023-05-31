@@ -47,6 +47,11 @@ class Scenario(BaseScenario):
         return world
 
     def reset_world(self, world):
+        # random properties for agents
+        world.assign_agent_colors()
+        # random properties for landmarks
+        world.assign_user_colors()
+        
         # 위치 조정 (randomly)
         for agent in world.agents:
             agent.x_loc = None

@@ -82,11 +82,6 @@ class Entity(object):
     def mass(self):
         return self.initial_mass
 
-# properties of landmark entities
-class Landmark(Entity):
-    def __init__(self):
-        super(Landmark, self).__init__()
-
 # properties of agent entities
 class Agent(Entity):
     def __init__(self, isMBS):
@@ -103,18 +98,21 @@ class Agent(Entity):
         self.state = AgentState()
         # action: physical action u & communication action c
         self.action = Action()
-        
+        self.mbs_associate = None
+        self.user_associate = None
         # script behavior to execute
         self.action_callback = None
-        
+                
         # zoe 20200420
-        self.goal = None
         print(f'Create agent as isMBS: {isMBS}')
         
 class User(Entity):
     def __init__(self):
         self.state = UserState()
+        self.file_requst = None
         self.movable = False
+        self.mbs_associate = None
+        self.user_associate = None
         print(f'Create user')
 
 # multi-agent world
@@ -144,12 +142,11 @@ class World(object):
         self.world_step = 0
         self.num_agents = 0
         self.num_users = 0
-        self.num_landmarks = 0
 
     # return all entities in the world
     @property
     def entities(self):
-        return self.agents + self.landmarks
+        return self.agents + self.users
 
     # return all agents controllable by external policies
     @property
@@ -205,10 +202,17 @@ class World(object):
         for color, agent in zip(colors, self.agents):
             agent.color = color
 
-    # landmark color
-    def assign_landmark_colors(self):
-        for landmark in self.landmarks:
-            landmark.color = np.array([0.25, 0.25, 0.25])
+    # user color
+    def assign_user_colors(self):
+        for user in self.users:
+            user.color = np.array([0.25, 0.50, 0.25])
+            
+    def assign_agent_colors(self):
+        for agent in self.agents:
+            if agent.isUAV == False:
+                agent.color = np.array([0.25, 0.25, 0.50])
+            else:
+                agent.color = np.array([0.50, 0.25, 0.25])
 
     # update state of the world
     def world_step(self):
