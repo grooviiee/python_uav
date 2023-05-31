@@ -31,6 +31,10 @@ class Scenario(BaseScenario):
         # Add agent as uav
         for i in range(world.num_uavs):
             world.agents.append(Agent(False))
+        # Add user
+        for i in range(world.num_users):
+            world.users.append(User())
+        
         
         for i, agent in enumerate(world.agents):
             agent.name = 'agent %d' % i
@@ -43,7 +47,7 @@ class Scenario(BaseScenario):
         return world
 
     def reset_world(self, world):
-        # 위치 조정
+        # 위치 조정 (randomly)
         for agent in world.agents:
             agent.x_loc = None
             agent.y_loc = None

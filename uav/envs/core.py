@@ -13,7 +13,15 @@ class EntityState(object):
 class AgentState(EntityState):
     def __init__(self):
         super(AgentState, self).__init__()
-        # communication utterance
+        # Set internal state set for uav or mbs
+        self.hasFile = []
+        self.x = None
+        self.y = None
+        self.fileRequest = None
+
+class UserState(EntityState):
+    def __init__(self):
+        # Set internal state set for user
         self.hasFile = []
         self.x = None
         self.y = None
@@ -102,12 +110,12 @@ class Agent(Entity):
         # zoe 20200420
         self.goal = None
         print(f'Create agent as isMBS: {isMBS}')
+        
 class User(Entity):
     def __init__(self):
-        self.state = AgentState()
+        self.state = UserState()
         self.movable = False
-    
-    
+        print(f'Create user')
 
 # multi-agent world
 class World(object):
@@ -135,6 +143,7 @@ class World(object):
         self.world_length = 25
         self.world_step = 0
         self.num_agents = 0
+        self.num_users = 0
         self.num_landmarks = 0
 
     # return all entities in the world

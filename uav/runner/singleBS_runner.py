@@ -98,14 +98,13 @@ class SingleBS_runner(Runner):
                     
                 # Obser reward and next obs
                 obs, rewards, dones, infos = self.envs.step(actions_env)
-
                 data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
                 
                 # insert data into replay buffer
                 self.insert(data)
             
-            # compute return and update network
-            self.compute()
+            # compute GAE and update network
+            self.compute_gae() 
             train_info = self.train()
             
             # post process
@@ -215,7 +214,7 @@ class SingleBS_runner(Runner):
         obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_cirtic = data
         
         rnn_states[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
-        rnn_states_critic[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
+        rnn_states_cirtic[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
         masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
         masks[dones == True] = np.zeros(((dones == True).sum(), 1), dtype=np.float32)
         
@@ -240,7 +239,7 @@ class SingleBS_runner(Runner):
                                         masks[:, agent_id])
             
     @torch.no_grad()            
-    def compute(self):
+    def compute_gae(self):
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
             next_value = self.trainer[agent_id].policy.get_values(self.buffer[agent_id].share_obs[-1], 
