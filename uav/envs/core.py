@@ -107,12 +107,13 @@ class Agent(Entity):
         print(f'Create agent as isMBS: {isMBS}')
         
 class User(Entity):
-    def __init__(self):
+    def __init__(self, file_size):
         self.state = UserState()
         self.file_requst = None
         self.movable = False
         self.mbs_associate = None
         self.user_associate = None
+        self.file_size = file_size
         print(f'Create user')
 
 # multi-agent world
@@ -235,6 +236,9 @@ class World(object):
         # update agent state
         for agent in self.agents:
             self.update_agent_state(agent)
+            
+        for user in self.users:
+            self.update_user_state(user)
         # calculate and store distances between all entities
         if self.cache_dists:
             self.calculate_distances()
@@ -300,6 +304,9 @@ class World(object):
                 agent.c_noise if agent.c_noise else 0.0
             agent.state.c = agent.action.c + noise
 
+    def update_user_state(self, user):
+        user.  np.random.zipf(self.a)
+        
     # get collision forces for any contact between two entities
     def get_entity_collision_force(self, ia, ib):
         entity_a = self.entities[ia]

@@ -161,15 +161,23 @@ def parse_args():
         "--num_uavs", type=int, default=4
     )
     parser.add_argument(
+        "--cache_capa", type=int, default=3, help="Max Number of File stored in UAV"
+    )
+    parser.add_argument(
         "--num_users", type=int, default=20, help="Number of User Equipment"
     )
     parser.add_argument(
-        "--num_files", type=int, default=10
+        "--num_files", type=int, default=30
+    )
+    parser.add_argument(
+        "--file_size", type=int, default=10*10^6, help="Constant File size."
     )
     parser.add_argument(
         "--map_size", type=int, default=1800
     )
-    
+    parser.add_argument(
+        "--zipf_parameter", type=float, default=0.8
+    )
     parser.add_argument(
         "--rank", type=int, default=5
     )

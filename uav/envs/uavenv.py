@@ -202,12 +202,12 @@ class UAV_ENV(gym.Env):
         return self.reward_callback(agent, self.world)
     
     # set env action for a particular agent
-    def _set_action(self, action, agent, action_space, is_uav, time=None):
-        if is_uav == True:
-            NotImplemented
+    def _set_action(self, action, agent, action_space, time=None):
+        if agent.isUAV == True:
+            print(f'UAV Action.. {action}')
             # Do UAV Action
         else:
-            NotImplemented
+            print(f'MBS Action.. {action}')
             # Do MBS Action
             
             
@@ -224,9 +224,7 @@ class UAV_ENV(gym.Env):
         self.agents = self.world.agents
         # set action for each agent
         for i, agent in enumerate(self.agents):
-            is_uav = agent.isUAV
-
-            self._set_action(action[i], agent, self.action_space[i], is_uav)
+            self._set_action(action[i], agent, self.action_space[i])
             
         # advance world state
         self.world.world_step()  # core.step()
