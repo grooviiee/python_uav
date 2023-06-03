@@ -103,10 +103,8 @@ class User(Entity):
         self.user_associate = None
         self.file_size = file_size
         self.zipf_parameter = zipf_parameter
-        print(f'Create user, {zipf_parameter},{file_size}')
-        self.file_request = np.random.zipf(zipf_parameter, file_size)
+        self.file_request = np.random.zipf(1 / zipf_parameter, file_size)
         
-
 # multi-agent world
 class World(object):
     def __init__(self):
