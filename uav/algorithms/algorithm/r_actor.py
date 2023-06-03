@@ -8,6 +8,7 @@ from algorithms.utils.act import ACTLayer
 from algorithms.utils.popart import PopArt
 from utils.util import get_shape_from_obs_space
 
+
 class R_Actor(nn.Module):
     """
     Actor network class for MAPPO. Outputs actions given observations.
@@ -16,7 +17,10 @@ class R_Actor(nn.Module):
     :param action_space: (gym.Space) action space.
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
     """
-    def __init__(self, args, obs_space, action_space, is_uav, device=torch.device("cpu"), ):
+
+    def __init__(
+        self, args, obs_space, action_space, is_uav, device=torch.device("cpu"),
+    ):
         super(R_Actor, self).__init__()
         self.hidden_size = args.hidden_size
 
@@ -26,28 +30,40 @@ class R_Actor(nn.Module):
         self._use_naive_recurrent_policy = args.use_naive_recurrent_policy
         self._use_recurrent_policy = args.use_recurrent_policy
         self._recurrent_N = args.recurrent_N
-        self.tpdv = dict(dtype=torch.float32, device=device)    # device type
+        self.tpdv = dict(dtype=torch.float32, device=device)  # device type
         self.is_uav = is_uav
         obs_shape = get_shape_from_obs_space(obs_space)
         if len(obs_shape) == 3:
-            print(f'[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3')
+            print(
+                f"[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3"
+            )
             base = CNNBase
         else:
-            print(f'[ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3')
+            print(
+                f"[ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3"
+            )
             base = MLPBase
-            
+
         self.base = base(args, obs_shape, is_uav)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
-            print(f'self.rnn = RNNLayer')
-            self.rnn = RNNLayer(self.hidden_size, self.hidden_size, self._recurrent_N, self._use_orthogonal)
+            print(f"self.rnn = RNNLayer")
+            self.rnn = RNNLayer(
+                self.hidden_size,
+                self.hidden_size,
+                self._recurrent_N,
+                self._use_orthogonal,
+            )
 
-        print(f'action_space : {action_space}')
-        self.act = ACTLayer(action_space, self.hidden_size, self._use_orthogonal, self._gain)
+        self.act = ACTLayer(
+            action_space, self.hidden_size, self._use_orthogonal, self._gain
+        )
 
         self.to(device)
 
-    def forward(self, obs, rnn_states, masks, available_actions=None, deterministic=False):
+    def forward(
+        self, obs, rnn_states, masks, available_actions=None, deterministic=False
+    ):
         """
         Compute actions from the given inputs.
         :param obs: (np.ndarray / torch.Tensor) observation inputs into network.
@@ -67,19 +83,25 @@ class R_Actor(nn.Module):
         if available_actions is not None:
             available_actions = check(available_actions).to(**self.tpdv)
 
-        print(f'[ACTOR_FORWARD] shape: {obs.shape}')
+        print(f"[ACTOR_FORWARD] shape: {obs.shape}")
         actor_features = self.base(obs)
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
-            print(f'[ACTOR_FORWARD] actor_features: {actor_features}({actor_features.shape}), rnn_states: {rnn_states}({rnn_states.shape})')
-    
-        print(f'[ACTOR_FORWARD] actor_features: {actor_features}({actor_features.shape})')
+            print(
+                f"[ACTOR_FORWARD] actor_features: {actor_features}({actor_features.shape}), rnn_states: {rnn_states}({rnn_states.shape})"
+            )
+
+        print(
+            f"[ACTOR_FORWARD] actor_features: {actor_features}({actor_features.shape})"
+        )
 
         actions, action_log_probs = self.act(actor_features)
-        
+
         return actions, action_log_probs, rnn_states
 
-    def evaluate_actions(self, obs, rnn_states, action, masks, available_actions=None, active_masks=None):
+    def evaluate_actions(
+        self, obs, rnn_states, action, masks, available_actions=None, active_masks=None
+    ):
         """
         Compute log probability and entropy of given actions.
         :param obs: (torch.Tensor) observation inputs into network.
@@ -108,10 +130,11 @@ class R_Actor(nn.Module):
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
 
-        action_log_probs, dist_entropy = self.act.evaluate_actions(actor_features,
-                                                                   action, available_actions,
-                                                                   active_masks=
-                                                                   active_masks if self._use_policy_active_masks
-                                                                   else None)
+        action_log_probs, dist_entropy = self.act.evaluate_actions(
+            actor_features,
+            action,
+            available_actions,
+            active_masks=active_masks if self._use_policy_active_masks else None,
+        )
 
         return action_log_probs, dist_entropy

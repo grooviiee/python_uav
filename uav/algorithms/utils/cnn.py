@@ -3,18 +3,28 @@ from .util import init
 
 """CNN Modules and utils."""
 
+
 class Flatten(nn.Module):
     def forward(self, x):
         return x.view(x.size(0), -1)
 
 
 class CNNLayer(nn.Module):
-    def __init__(self, obs_shape, hidden_size, use_orthogonal, use_ReLU, is_uav, kernel_size=3, stride=2):
+    def __init__(
+        self,
+        obs_shape,
+        hidden_size,
+        use_orthogonal,
+        use_ReLU,
+        is_uav,
+        kernel_size=3,
+        stride=2,
+    ):
         super(CNNLayer, self).__init__()
 
         active_func = [nn.Tanh(), nn.ReLU()][use_ReLU]
         init_method = [nn.init.xavier_uniform_, nn.init.orthogonal_][use_orthogonal]
-        gain = nn.init.calculate_gain(['tanh', 'relu'][use_ReLU])
+        gain = nn.init.calculate_gain(["tanh", "relu"][use_ReLU])
 
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
@@ -27,44 +37,57 @@ class CNNLayer(nn.Module):
             num_hidden_layer = 60192
         else:
             num_hidden_layer = 1824
-        
+
         self.cnn = nn.Sequential(
-            init_(nn.Conv2d(in_channels=input_channel,
-                            out_channels=hidden_size // 2,
-                            kernel_size=kernel_size,
-                            stride=stride)
-                  ),
+            init_(
+                nn.Conv2d(
+                    in_channels=input_channel,
+                    out_channels=hidden_size // 2,
+                    kernel_size=kernel_size,
+                    stride=stride,
+                )
+            ),
             active_func,
             Flatten(),
             # init_(nn.Linear(hidden_size // 2 * (input_width - kernel_size + stride) * (input_height - kernel_size + stride),
             #                 hidden_size)
             #       ),
-            init_(nn.Linear(num_hidden_layer, 64)
-                  ),
+            init_(nn.Linear(num_hidden_layer, 64)),
             active_func,
-            init_(nn.Linear(hidden_size, 64)), active_func)
-        
-        print(f'[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}],{self.cnn}')
+            init_(nn.Linear(hidden_size, 64)),
+            active_func,
+        )
+
+        print(
+            f"[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}],{self.cnn}"
+        )
 
     def forward(self, x):
         x = x / 255.0
+        print(f"CNN FORWARD: {x.shape}")
         x = self.cnn(x)
         return x
 
 
 class CNNBase(nn.Module):
     def __init__(self, args, obs_shape, is_uav):
-        print(f'..Init CNNBase')
+        print(f"..Init CNNBase")
         super(CNNBase, self).__init__()
 
         self._use_orthogonal = args.use_orthogonal
         self._use_ReLU = args.use_ReLU
-        
+
         self.hidden_size = args.hidden_size
 
         self.is_uav = is_uav
-        
-        self.cnn = CNNLayer(obs_shape, self.hidden_size, self._use_orthogonal, self._use_ReLU, self.is_uav)
+
+        self.cnn = CNNLayer(
+            obs_shape,
+            self.hidden_size,
+            self._use_orthogonal,
+            self._use_ReLU,
+            self.is_uav,
+        )
 
     def forward(self, x):
         x = self.cnn(x)
