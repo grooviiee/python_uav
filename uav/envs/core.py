@@ -68,19 +68,8 @@ class Entity(object):
         self.density = 25.0
         # color
         self.color = None
-        # max speed and accel
-        self.max_speed = None
-        self.accel = None
         # state: including internal/mental state p_pos, p_vel
         self.state = EntityState()
-        # mass
-        self.initial_mass = 1.0
-        # commu channel
-        self.channel = None
-
-    @property
-    def mass(self):
-        return self.initial_mass
 
 # properties of agent entities
 class Agent(Entity):
@@ -107,14 +96,16 @@ class Agent(Entity):
         print(f'Create agent as isMBS: {isMBS}')
         
 class User(Entity):
-    def __init__(self, file_size):
+    def __init__(self, file_size, num_file, zipf_parameter):
         self.state = UserState()
-        self.file_requst = None
         self.movable = False
         self.mbs_associate = None
         self.user_associate = None
         self.file_size = file_size
-        print(f'Create user')
+        self.zipf_parameter = zipf_parameter
+        print(f'Create user, {zipf_parameter},{file_size}')
+        self.file_request = np.random.zipf(zipf_parameter, file_size)
+        
 
 # multi-agent world
 class World(object):

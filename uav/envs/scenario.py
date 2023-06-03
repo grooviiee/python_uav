@@ -24,7 +24,8 @@ class Scenario(BaseScenario):
         world.num_users = args.num_users
         world.map_size = args.map_size
         world.num_files = args.num_files
-        world.users = [User(args.file_size) for i in range(world.num_users)]
+       # world.users = [User(args.file_size, args.zipf_parameter) for i in range(world.num_users)]
+        world.file_size = args.file_size
         world.zipf_parameter = args.zipf_parameter
         # Add agent as mbs
         for i in range(world.num_mbs):
@@ -34,7 +35,7 @@ class Scenario(BaseScenario):
             world.agents.append(Agent(False))
         # Add user
         for i in range(world.num_users):
-            world.users.append(User())
+            world.users.append(User(args.file_size, args.num_file, args.zipf_parameter))
         
         
         for i, agent in enumerate(world.agents):
