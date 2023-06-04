@@ -252,24 +252,27 @@ class UAV_ENV(gym.Env):
             return 0.0
         return self.reward_callback(agent, self.world)
 
-    # set env action for a particular agent
-    def _set_action(agent_id, self, action, agent, action_space, time=None):
+    # set env action for the agent.. Just setting. Change states at core.py 
+    def _set_action(self, agent_id, action, agent, action_space, time=None):
         print(f'Set action for agent_id {agent_id}, which agent isUAV value {agent.isUAV}')
 
         if agent.isUAV == True:
-            print(f"UAV Action({action.shape}).. {action}")
+            print(f"UAV Action({action})..")
             # Do UAV Action.. Caching, trajectory, power
-            
             for i, item in action:
-                print(f"UAV {i}th Action({item.shape}).. {item}")
-        else:
-            print(f"MBS Action({action.shape}).. {action}, ")
+                print(f"UAV {i}th Action({item}).. {item}")
+
+        elif agent.isUAV == False:
+            print(f"MBS Action({action})..")
             # Do MBS Action (Set associateion)
+
+        else:
+            NotImplementedError
 
     # desc. Take step in environments
     # returns: next state, reward, done, etc.
     def step(self, action):
-        print(f"[ENV] current_step: {self.current_step}, STEP: {action}")
+        print(f"[ENV_STEP] current_step: {self.current_step}, STEP: {action}, length: {len(action)}/{len(self.action_space)}")
         self.current_step = self.current_step + 1
         obs_n = []
         reward_n = []

@@ -203,14 +203,16 @@ class SingleBS_runner(Runner):
             action_log_probs.append(_t2n(action_log_prob))
             rnn_states.append(_t2n(rnn_state))
             rnn_states_critic.append( _t2n(rnn_state_critic))
+            # MBS: action_env [ True]
+            # UAV: action_env Tuple(Box(False, True, (2, 30), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
+            print(f'[RUNNER] agent_id: {agent_id} Done.. action_env.shape: {action_env} / len: {len(temp_actions_env)}, n_rollout_threads: {self.n_rollout_threads}')
 
-            print(f'[RUNNER] agent_id: {agent_id} Done.. n_rollout_threads: {self.n_rollout_threads}')
         # [envs, agents, dim]
         actions_env = []
         for i in range(self.n_rollout_threads):
             one_hot_action_env = []
             for temp_action_env in temp_actions_env:
-                one_hot_action_env.append(temp_action_env[i])
+                one_hot_action_env.append(temp_action_env)
             actions_env.append(one_hot_action_env)
 
         # values = np.array(values).transpose(1, 0, 2)
@@ -218,6 +220,8 @@ class SingleBS_runner(Runner):
         # action_log_probs = np.array(action_log_probs).transpose(1, 0, 2)
         # rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
         # rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
+        for return_action_info in actions_env:
+            print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(actions_env)}')
 
         return values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env
 
