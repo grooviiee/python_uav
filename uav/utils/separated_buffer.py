@@ -11,7 +11,7 @@ def _cast(x):
     return x.transpose(1,0,2).reshape(-1, *x.shape[2:])
 
 class SeparatedReplayBuffer(object):
-    def __init__(self, args, obs_space, share_obs_space, act_space):
+    def __init__(self, args, obs_space, share_obs_space, act_space, is_uav):
         self.episode_length = args.episode_length
         self.n_rollout_threads = args.n_rollout_threads
         self.rnn_hidden_size = args.hidden_size
@@ -22,6 +22,7 @@ class SeparatedReplayBuffer(object):
         self._use_popart = args.use_popart
         self._use_valuenorm = args.use_valuenorm
         self._use_proper_time_limits = args.use_proper_time_limits
+        self.is_uav = is_uav
 
         obs_shape = get_shape_from_obs_space(obs_space)
         share_obs_shape = get_shape_from_obs_space(share_obs_space)
@@ -50,7 +51,7 @@ class SeparatedReplayBuffer(object):
         print(f'[REPLAYBUFFER] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
         print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
 
-        if res_obs_shape == 64000:  #UAV
+        if is_uav == True:  #UAV
             self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 8, 40, 200), dtype=np.float32)
             self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 8, 40, 200), dtype=np.float32)      
         else:

@@ -68,18 +68,30 @@ class SingleBS_runner(Runner):
         # algorithm
         self.trainer = []
         self.buffer = []
+
         for agent_id in range(self.num_agents):
-            tr = TrainAlgo(self.all_args, self.policy[agent_id], device = self.device)
+            if agent_id < self.num_mbs:
+                is_uav = False
+            else:
+                is_uav = True
+            
+            tr = TrainAlgo(self.all_args, self.policy[agent_id], is_uav, device = self.device)
             # buffer
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
             bu = SeparatedReplayBuffer(self.all_args,
                                        self.envs.observation_space[agent_id],
                                        share_observation_space,
-                                       self.envs.action_space[agent_id])
+                                       self.envs.action_space[agent_id],
+                                       is_uav)
             self.buffer.append(bu)
             self.trainer.append(tr)
         
+        # For Debugging
+        for agent_id in range(self.num_agents):
+            print(f'agend_id {agent_id} | {self.envs.observation_space[agent_id]} | self.buffer[{agent_id}].obs.shape {self.buffer[agent_id].obs.shape}')
+
+        NotImplementedError
         print(f'[INIT_RUNNER] Insert Agent settings into Trainer Finished')
 
     def run(self):
@@ -145,16 +157,19 @@ class SingleBS_runner(Runner):
         rnn_states = []
         rnn_states_critic = []
 
+        # For Debugging
+        for agent_id in range(self.num_agents):
+            print(f'[RUNNER] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
+            NotImplementedError
+
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
-            
             print(f'[RUNNER] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
-            value, action, action_log_prob, rnn_state, rnn_state_critic \
-                = self.trainer[agent_id].policy.get_actions(self.buffer[agent_id].share_obs[step],
-                                                            self.buffer[agent_id].obs[step],
-                                                            self.buffer[agent_id].rnn_states[step],
-                                                            self.buffer[agent_id].rnn_states_critic[step],
-                                                            self.buffer[agent_id].masks[step])
+            value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(self.buffer[agent_id].share_obs[step],
+                                                                                    self.buffer[agent_id].obs[step],
+                                                                                    self.buffer[agent_id].rnn_states[step],
+                                                                                    self.buffer[agent_id].rnn_states_critic[step],
+                                                                                    self.buffer[agent_id].masks[step])
             # [agents, envs, dim]
             values.append(_t2n(value))
             action = _t2n(action)

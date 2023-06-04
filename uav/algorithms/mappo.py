@@ -6,6 +6,7 @@ class MAPPOAgentTrainer:
     def __init__(self,
                  args,
                  policy,
+                 is_uav,
                  device=torch.device("cpu")):
 
         self.device = device
