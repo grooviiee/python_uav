@@ -254,17 +254,21 @@ class UAV_ENV(gym.Env):
 
     # set env action for the agent.. Just setting. Change states at core.py 
     def _set_action(self, agent_id, action, agent, action_space, time=None):
-        print(f'Set action for agent_id {agent_id}, which agent isUAV value {agent.isUAV}')
-
+        print(f'Set action for agent_id: {agent_id}, isUAV: {agent.isUAV}, actionType: {type(action)}, len: {len(action)}')
+        action_set = action[agent_id]
         if agent.isUAV == True:
-            print(f"UAV Action({action})..")
-            # Do UAV Action.. Caching, trajectory, power
-            for i, item in action:
-                print(f"UAV {i}th Action({item}).. {item}")
+            # Do UAV Action  (Set caching, trajectory, power)
+            print(f"UAV Action({action_set})..")
+            # for i in len(action_set):
+            #     array = np.prod(action_set[i].shape)
+            print(f"UAV {agent_id}-th Action({type(action_set)})")
+
+            agent.action.append(action_set)
 
         elif agent.isUAV == False:
-            print(f"MBS Action({action})..")
             # Do MBS Action (Set associateion)
+            print(f"MBS Action({action_set})..")
+            agent.action = action_set
 
         else:
             NotImplementedError
@@ -272,6 +276,7 @@ class UAV_ENV(gym.Env):
     # desc. Take step in environments
     # returns: next state, reward, done, etc.
     def step(self, action):
+        # action is coming with n_threads
         print(f"[ENV_STEP] current_step: {self.current_step}, STEP: {action}, length: {len(action)}/{len(self.action_space)}")
         self.current_step = self.current_step + 1
         obs_n = []
@@ -281,7 +286,7 @@ class UAV_ENV(gym.Env):
         self.agents = self.world.agents
         # set action for each agent
         for i, agent in enumerate(self.agents):
-            self._set_action(i, action[i], agent, self.action_space[i])
+            self._set_action(i, action[0], agent, self.action_space[i])
 
         # advance world state
         self.world.world_step()  # core.step()
