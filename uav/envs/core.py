@@ -182,24 +182,6 @@ class World(object):
 
         self.cached_collisions = self.cached_dist_mag <= self.min_dists
 
-    def assign_agent_colors(self):
-        n_dummies = 0
-        if hasattr(self.agents[0], "dummy"):
-            n_dummies = len([a for a in self.agents if a.dummy])
-        n_adversaries = 0
-        if hasattr(self.agents[0], "adversary"):
-            n_adversaries = len([a for a in self.agents if a.adversary])
-        n_good_agents = len(self.agents) - n_adversaries - n_dummies
-        # r g b
-        dummy_colors = [(0.25, 0.75, 0.25)] * n_dummies
-        # sns.color_palette("OrRd_d", n_adversaries)
-        adv_colors = [(0.75, 0.25, 0.25)] * n_adversaries
-        # sns.color_palette("GnBu_d", n_good_agents)
-        good_colors = [(0.25, 0.25, 0.75)] * n_good_agents
-        colors = dummy_colors + adv_colors + good_colors
-        for color, agent in zip(colors, self.agents):
-            agent.color = color
-
     # user color
     def assign_user_colors(self):
         for user in self.users:
@@ -213,7 +195,7 @@ class World(object):
                 agent.color = np.array([0.50, 0.25, 0.25])
 
     # update state of the world
-    def world_step(self):
+    def world_take_step(self):
         print(f"[CORE] Step in core")
         # zoe 20200420
         self.world_step += 1
