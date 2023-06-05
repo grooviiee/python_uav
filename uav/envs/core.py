@@ -38,26 +38,6 @@ class Action(object):
         # communication action
         self.moveY = None
 
-
-# properties of wall entities
-class Wall(object):
-    def __init__(
-        self, orient="H", axis_pos=0.0, endpoints=(-1, 1), width=0.1, hard=True
-    ):
-        # orientation: 'H'orizontal or 'V'ertical
-        self.orient = orient
-        # position along axis which wall lays on (y-axis for H, x-axis for V)
-        self.axis_pos = axis_pos
-        # endpoints of wall (x-coords for H, y-coords for V)
-        self.endpoints = np.array(endpoints)
-        # width of wall
-        self.width = width
-        # whether wall is impassable to all agents
-        self.hard = hard
-        # color of wall
-        self.color = np.array([0.0, 0.0, 0.0])
-
-
 # properties and state of physical world entity
 class Entity(object):
     def __init__(self):
@@ -213,10 +193,6 @@ class World(object):
                 self.uav_apply_power(agent.action, agent)
                 self.uav_apply_trajectory(agent.action, agent)
                 # Set position, Set cache, set power
-        
-        # update agent state
-        for agent in self.agents:
-            self.update_agent_state(agent)
 
         for user in self.users:
             self.update_user_state(user)
@@ -227,13 +203,16 @@ class World(object):
     def mbs_apply_agent_association(self, action_set, agent_list):
         NotImplementedError
         
-    def uav_apply_cache(agent.action, agent):
+    def uav_apply_cache(self, action_set, agent):
+        print(f'[uav_apply_cache] {agent}, {action_set}')
         NotImplementedError
         
-    def uav_apply_power(agent.action, agent):
+    def uav_apply_power(self, action_set, agent):
+        print(f'[uav_apply_power] {agent}, {action_set}')
         NotImplementedError
         
-    def uav_apply_trajectory(agent.action, agent):
+    def uav_apply_trajectory(self, action_set, agent):
+        print(f'[uav_apply_trajectory] {agent}, {action_set}')
         NotImplementedError
                 
     # gather agent action forces
@@ -312,7 +291,7 @@ class World(object):
             agent.state.c = agent.action.c + noise
 
     def update_user_state(self, user):
-        user.np.random.zipf(self.a)
+        print(f'[update_user_state] {user}, {user.state}')
 
     # get collision forces for any contact between two entities
     def get_entity_collision_force(self, ia, ib):

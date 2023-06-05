@@ -45,6 +45,7 @@ class UAV_ENV(gym.Env):
         # parameter setting from args
         self.world = world
         self.current_step = 0
+        self.world_length = world.world_length
         self.num_uavs = world.num_uavs
         self.num_mbs = world.num_mbs
         self.num_nodes = self.num_uavs + self.num_mbs
@@ -90,6 +91,9 @@ class UAV_ENV(gym.Env):
         self.observation_space = []
         self.share_observation_space = []
         share_obs_dim = 0
+
+        # if true, every agent has the same reward
+        self.shared_reward = world.collaborative if hasattr(world, 'collaborative') else False
 
         # "Master MBS"
         print(f"[INIT_ENV_AGENT] Set MBS state and action space. NUM_UAV: {world.num_uavs}, NUM_MBS: {world.num_mbs}, NUM_USER: {world.num_users}")
@@ -251,6 +255,16 @@ class UAV_ENV(gym.Env):
             return 0.0
         return self.reward_callback(agent, self.world)
 
+    # get dones for a particular agent
+    # unused right now -- agents are allowed to go beyond the viewing screen
+    def _get_done(self, agent):
+        if self.done_callback is None:
+            if self.current_step >= self.world_length:
+                return True
+            else:
+                return False
+        return self.done_callback(agent, self.world)
+        
     # set env action for the agent.. Just setting. Change states at core.py 
     def _set_action(self, agent_id, action, agent, action_space, time=None):
         print(f'Set action for agent_id: {agent_id}, isUAV: {agent.isUAV}, actionType: {type(action)}, len: {len(action)}')

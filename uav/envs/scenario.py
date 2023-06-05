@@ -19,7 +19,7 @@ class Scenario(BaseScenario):
     def make_world(self, args):
         world = World()
         # set any world properties first
-        world.world_length = args.map_size
+        world.world_length = args.episode_length
         world.num_uavs = args.num_uavs
         world.num_mbs = args.num_mbs
         world.num_users = args.num_users
