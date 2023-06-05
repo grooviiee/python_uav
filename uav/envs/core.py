@@ -120,10 +120,7 @@ class World(object):
         self.agents = []
         self.users = []
         self.walls = []
-        # communication channel dimensionality
-        self.dim_c = 0
-        # position dimensionality
-        self.dim_p = 2
+        
         # color dimensionality
         self.dim_color = 3
         # simulation timestep
@@ -135,11 +132,17 @@ class World(object):
         self.cache_dists = False
         self.cached_dist_vect = None
         self.cached_dist_mag = None
-        # zoe 20200420
+
+        self.num_mbs = 0
+        self.num_uavs = 0
         self.world_length = 25
         self.world_step = 0
         self.num_agents = 0
         self.num_users = 0
+        self.map_size = 0
+        self.num_files = 0
+        self.file_size = 0
+        self.zipf_parameter = 0
 
     # return all entities in the world
     @property
@@ -196,22 +199,21 @@ class World(object):
 
     # update state of the world
     def world_take_step(self):
-        print(f"[CORE] Step in core")
-        # zoe 20200420
+        print(f"[WORLD_STEP] Take a step in core")
         self.world_step += 1
-        # set actions for scripted agents
 
-        for agent in self.scripted_agents:
-            agent.action = agent.action_callback(agent, self)
-
-        # gather forces applied to entities
-        p_force = [None] * len(self.entities)
-        # apply agent physical controls
-        p_force = self.apply_action_force(p_force)
-        # apply environment forces
-        p_force = self.apply_environment_force(p_force)
-        # integrate physical state
-        self.integrate_state(p_force)
+        for agent in self.agents:
+            if agent.isUAV == False:
+                # Set association
+                print(f'action: {agent.action}')
+                self.mbs_apply_agent_association(agent.action, self.agents)
+            else:
+                print(f'action: {agent.action}')
+                self.uav_apply_cache(agent.action, agent)
+                self.uav_apply_power(agent.action, agent)
+                self.uav_apply_trajectory(agent.action, agent)
+                # Set position, Set cache, set power
+        
         # update agent state
         for agent in self.agents:
             self.update_agent_state(agent)
@@ -222,6 +224,18 @@ class World(object):
         if self.cache_dists:
             self.calculate_distances()
 
+    def mbs_apply_agent_association(self, action_set, agent_list):
+        NotImplementedError
+        
+    def uav_apply_cache(agent.action, agent):
+        NotImplementedError
+        
+    def uav_apply_power(agent.action, agent):
+        NotImplementedError
+        
+    def uav_apply_trajectory(agent.action, agent):
+        NotImplementedError
+                
     # gather agent action forces
     def apply_action_force(self, p_force):
         # set applied forces

@@ -92,7 +92,7 @@ class UAV_ENV(gym.Env):
         share_obs_dim = 0
 
         # "Master MBS"
-        print(f"[INIT_ENV_AGENT] Set MBS state and action space")
+        print(f"[INIT_ENV_AGENT] Set MBS state and action space. NUM_UAV: {world.num_uavs}, NUM_MBS: {world.num_mbs}, NUM_USER: {world.num_users}")
         for agent in self.agents:
             if agent.isMBS == False:
                 continue
@@ -102,11 +102,8 @@ class UAV_ENV(gym.Env):
             total_action_space = []
 
             u_action_space = spaces.Box(
-                low=0,
-                high=1,
-                shape=(world.num_uavs + 1, world.num_users),
-                dtype=np.bool8,
-            )  # [0,1][Num_files]
+                low=0, high=1, shape=(world.num_uavs + world.num_mbs, world.num_users),  dtype=np.bool8,
+            )  # [0,1][Association]
             total_action_space.append(u_action_space)
 
             act_space = u_action_space
@@ -117,14 +114,14 @@ class UAV_ENV(gym.Env):
             total_observation_space = []
 
             u_observation_space = spaces.Box(
-                low=0, high=1, shape=(world.dim_p, world.num_mbs)
+                low=0, high=world.map_size, shape=(2, world.num_mbs)
             )  # [location][mbs]
             total_observation_space.append(u_observation_space)
 
             u_observation_space = spaces.Box(
                 low=0,
                 high=world.map_size,
-                shape=(world.dim_p, world.num_uavs),
+                shape=(2, world.num_uavs),
                 dtype=np.float32,
             )  # [location][uav]
             total_observation_space.append(u_observation_space)
@@ -132,7 +129,7 @@ class UAV_ENV(gym.Env):
             u_observation_space = spaces.Box(
                 low=0,
                 high=world.map_size,
-                shape=(world.dim_p, world.num_users),
+                shape=(2, world.num_users),
                 dtype=np.float32,
             )  # [location][user]
             total_observation_space.append(u_observation_space)
@@ -151,22 +148,22 @@ class UAV_ENV(gym.Env):
             total_action_space = []
 
             u_action_space = spaces.Box(
-                low=0, high=1, shape=(world.dim_p, world.num_files), dtype=np.bool8
+                low=0, high=1, shape=(world.num_files, ), dtype=np.bool8
             )  # [0,1][Num_files]
             total_action_space.append(u_action_space)
 
             u_action_space = spaces.Box(
-                low=0, high=23, shape=(world.dim_p,), dtype=np.float32
+                low=0, high=23, shape=(1, ), dtype=np.float32
             )  # [max_power]
             total_action_space.append(u_action_space)
 
             u_action_space = spaces.Box(
-                low=0, high=5, shape=(world.dim_p,), dtype=np.float32
+                low=0, high=20, shape=(1, ), dtype=np.float32
             )  # [d_m]
             total_action_space.append(u_action_space)
 
             u_action_space = spaces.Box(
-                low=0, high=3, shape=(world.dim_p,), dtype=np.float32
+                low=0, high=360, shape=(1, ), dtype=np.float32
             )  # [theta_m]
             total_action_space.append(u_action_space)
 
@@ -180,7 +177,7 @@ class UAV_ENV(gym.Env):
             u_observation_space = spaces.Box(
                 low=0,
                 high=world.map_size,
-                shape=(world.dim_p, world.num_uavs),
+                shape=(2, world.num_uavs),
                 dtype=np.float32,
             )  # [location][uav]
             total_observation_space.append(u_observation_space)
@@ -188,7 +185,7 @@ class UAV_ENV(gym.Env):
             u_observation_space = spaces.Box(
                 low=0,
                 high=world.map_size,
-                shape=(world.dim_p, world.num_users),
+                shape=(2, world.num_users),
                 dtype=np.float32,
             )  # [location][user]
             total_observation_space.append(u_observation_space)
@@ -265,7 +262,7 @@ class UAV_ENV(gym.Env):
             print(f"UAV Agent {agent_id}-th Action({type(action_set)})")
             # action = flatten(action_set[agent], 1)
             # agent.action = flatten(action_set[agent_id], 1)
-            agent.action = action_set[agent_id-self.num_mbs]
+            agent.action = action_set
 
         elif agent.isUAV == False:
             # Do MBS Action (Set associateion)
