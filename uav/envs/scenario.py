@@ -35,11 +35,16 @@ class Scenario(BaseScenario):
         # Add agent as uav
         for i in range(world.num_uavs):
             world.agents.append(Agent(False))
+
+        for i in range(world.num_agents):
+            world.agents[i].agent_id = i
+
         # Add user
         for i in range(world.num_users):
             world.users.append(
                 User(args.file_size, args.num_files, args.zipf_parameter)
             )
+            world.users[i].user_id = i
 
         for i, agent in enumerate(world.agents):
             agent.name = "agent %d" % i

@@ -71,6 +71,7 @@ class Agent(Entity):
             self.isUAV = True
             self.isMBS = False
 
+        self.agent_id = None
         # state: including communication state(communication utterance) c and internal/mental state p_pos, p_vel
         self.state = AgentState()
         # action: physical action u & communication action c
@@ -91,6 +92,7 @@ class Agent(Entity):
 
 class User(Entity):
     def __init__(self, file_size, num_file, zipf_parameter):
+        self.user_id = None
         self.state = UserState()
         self.movable = False
         self.mbs_associate = None
@@ -207,25 +209,36 @@ class World(object):
         Delay = 0
         for agent in self.agents:
             for user in self.users:
-                Delay += self.getDelay(agent, user, agent.isUAV)
+                Delay += self.getDelay(agent, user, user.user_id, agent.isUAV)
 
         return L - Delay
 
-    def getDelay(self, node, user, isMbs):
-        if isMbs == True:
-            for file in range(self.num_files):
-                delay = (self.x(user, file) * self.z(user, node) * self.T_down(node, user))
+    def getDelay(self, agent, user, user_id, isUAV):
+        #     if isMbs == True:
+        #         for file in range(self.num_files):
+        #             delay = (self.x(user, file) * self.z(user, node) * self.T_down(node, user))
+        #     else:
+        #         for file in range(self.num_files):
+        #             delay = (self.x(user, file) * self.z(user, node) * {self.T_down(node, user) + (1 - self.y(node, file)) * self.T_back(node, user)})
+        if isUAV == False:
+            if agent.association.contains(user_id):
+                for file_idx in range(self.num_files):
+                    if user.file_request == file_idx:
+                        delay = self.Calc_T_down(agent, user)
         else:
-            for file in range(self.num_files):
-                delay = (self.x(user, file) * self.z(user, node) * {self.T_down(node, user) + (1 - self.y(node, file)) * self.T_back(node, user)})
+            if agent.association.contains(user_id):
+                for file_idx in range(self.num_files):
+                    if user.file_request == file_idx and agent.state.hasFile.contains(file_idx):
+                        delay = self.Calc_T_down(agent, user) + (1 - self.y(agent, file)) * self.Calc_T_back(agent, user)
 
         return delay
 
-    def Calc_T_down(self):
-        return S / R_T_down(self, i, u)
 
-    def Calc_T_back(self):
-        return S / R_T_back(self, b, m, u)
+    def Calc_T_down(self, agent, user):
+        return S / self.R_T_down(agent, user)
+
+    def Calc_T_back(self, agent, user):
+        return S / self.R_T_back(b, m, u)
 
     def R_T_down(self, i, u):
         numfile = 0
