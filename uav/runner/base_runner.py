@@ -8,6 +8,7 @@ class Runner(object):
         self.all_args = config['args']
         self.use_centralized_V = self.all_args.use_centralized_V
         self.n_rollout_threads = self.all_args.n_rollout_threads
+        self.recurrent_N = self.all_args.recurrent_N
 
     
     def train(self):

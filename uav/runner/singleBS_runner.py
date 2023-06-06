@@ -230,10 +230,12 @@ class SingleBS_runner(Runner):
         
         
     def insert(self, data):
-        obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_cirtic = data
-        print(f'[RUNNER_INSERT] {obs}, {rewards}, {dones}, {infos}, {values}, {actions}, {action_log_probs}, {rnn_states}, {rnn_states_cirtic}')
+        obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic = data
+        
+        print(f'[RUNNER_INSERT] obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n {actions}, {action_log_probs}, {rnn_states}, {rnn_states_critic}')
+
         rnn_states[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
-        rnn_states_cirtic[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
+        rnn_states_critic[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
         masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
         masks[dones == True] = np.zeros(((dones == True).sum(), 1), dtype=np.float32)
         
@@ -246,7 +248,7 @@ class SingleBS_runner(Runner):
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
 
-            # 수신한 Agent별로 저장하는데??
+            # 수신한 Agent별로 저장
             self.buffer[agent_id].insert(share_obs,
                                         np.array(list(obs[:, agent_id])),
                                         rnn_states[:, agent_id],

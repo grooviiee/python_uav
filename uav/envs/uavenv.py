@@ -258,13 +258,13 @@ class UAV_ENV(gym.Env):
     # get dones for a particular agent
     # unused right now -- agents are allowed to go beyond the viewing screen
     def _get_done(self, agent):
+        is_done = False
         if self.done_callback is None:
             if self.current_step >= self.world_length:
-                return True
-            else:
-                return False
-        return self.done_callback(agent, self.world)
-        
+                is_done = True
+        print(f'is_done: {is_done}, self.current_step: {self.current_step}, self.world_length: {self.world_length}')
+        return is_done
+
     # set env action for the agent.. Just setting. Change states at core.py 
     def _set_action(self, agent_id, action, agent, action_space, time=None):
         print(f'Set action for agent_id: {agent_id}, isUAV: {agent.isUAV}, actionType: {type(action)}, len: {len(action)}')
