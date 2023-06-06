@@ -1,5 +1,6 @@
 import numpy as np
 import seaborn as sns
+import math
 
 # physical/external base state of all entites
 class EntityState(object):
@@ -15,15 +16,16 @@ class AgentState(EntityState):
     def __init__(self):
         super(AgentState, self).__init__()
         # Set internal state set for uav or mbs
+      
         self.hasFile = []
+        self.fileRequest = None
         self.x = None
         self.y = None
-        self.fileRequest = None
-
 
 class UserState(EntityState):
     def __init__(self):
         # Set internal state set for user
+        self.associate = []
         self.hasFile = []
         self.x = None
         self.y = None
@@ -73,8 +75,13 @@ class Agent(Entity):
         self.state = AgentState()
         # action: physical action u & communication action c
         self.action = Action()
+        
+        self.association = []
         self.mbs_associate = None
         self.user_associate = None
+        self.power_alloc = []
+        
+        
         # script behavior to execute
         self.action_callback = None
 
@@ -169,24 +176,166 @@ class World(object):
 
         for user in self.users:
             self.update_user_state(user)
-        # calculate and store distances between all entities
-        if self.cache_dists:
-            self.calculate_distances()
+            
+        for agent in self.agents:
+            self.calculateReward(agent)    
+
+
+    def calculateReward(self, state, action):
+        # Receiving state and action as list
+        epsilon = 0.2
+        # step 1. Get extr reward (Action에 대해서 state를 모두 바꾸었을 때, reward를 계산)
+        extr_reward = calcExtrReward()
+
+        # step 2. Get intr reward
+        intr_reward = calcIIntrReward()
+
+        return extr_reward + epsilon * intr_reward
+
+    def calcIIntrReward(self):
+        NotImplementedError
+
+    def calcExtrReward(self):
+        # step 1. action에 대한 status 변경
+        for agent in self.agents:
+            if agent.isUAV == False:
+                print("Process for MBS")
+            else:
+                print("Process for UAV")
+
+        # step 2. 변경된 status로 reward 계산
+        L = 100000000  # very large number
+        Delay = 0
+        for agent in self.agents:
+            for user in self.num_user:
+                Delay += GetDelay(self, agent, user, agent.isUAV)
+
+        return L - Delay
+
+    def GetDelay(self, node, user, isMbs):
+        if isMbs == True:  # for MBS
+            for file in self.num_files:
+                delay = (
+                    self.x(user, file) * self.z(user, node) * self.T_down(node, user)
+                )
+        else:  # for User
+            for file in self.num_files:
+                delay = (
+                    self.x(user, file)
+                    * self.z(user, node)
+                    * {
+                        self.T_down(node, user)
+                        + (1 - self.y(node, file)) * self.T_back(node, user)
+                    }
+                )
+
+        return delay
+
+    def Calc_T_down(self):
+        return S / R_T_down(self, i, u)
+
+    def Calc_T_back(self):
+        return S / R_T_back(self, b, m, u)
+
+    def R_T_down(self, i, u):
+        numfile = 0
+        for file in self.num_files:
+            numfile += x(u, file) * z(u, i)
+
+        upper = numfile * W
+        lower = 0
+        for user in self.num_users:
+            for file in self.num_files:
+                lower += x(u, file) * z(u, i)
+
+        return upper / lower * math.log2(1 + r(i, u))
+
+    def R_T_back(self, b, m, u):
+        left = math.log2(1 + r(b, m))
+        upper, lower = 0
+        for file in self.num_files:
+            upper += x(u, file) * z(u, m) * (1 - y(m, file))
+        upper *= B
+
+        for user in self.num_users:
+            for file in self.num_files:
+                for node in self.num_agents:
+                    lower += x(user, file) * z(user, file) * (1 - y(node, file))
+
+        return left * upper / lower
+
+    def r(self, i, u, type):
+        if type == TYPE_MBS_USER:
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_MbsUser(self, i, u) / 10))
+
+        elif type == TYPE_UAV_USER:  # follows UAV Power
+            lower = 0
+            for uavIdx in self.num_uavs:
+                if uavIdx == i:
+                    continue
+                lower += P(uavIdx) * math.pow(10, -h_UavUser(i, u) / 10)
+
+            res = P(i) * math.pow(10, -h_UavUser(i, u) / 10) / (NOISE_POWER * lower)
+
+        elif type == TYPE_MBS_UAV:
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_MbsUav(self, i, u) / 10))
+
+        else:
+            res = 0
+
+        return res
+
+    # Calculate pathloss
+    def h_UavUser(self, m, u):
+        return PLos(m, u) * hLos(m, u) + (1 - PLos(m, u)) * hNLos(m, u)
+
+    def h_MbsUav(self, b, m):
+        return PLos(b, m) * hLos(b, m) + (1 - PLos(b, m)) * hNLos(b, m)
+
+    def h_MbsUser(self, b, u):
+        return 15.3 + 37.6 * math.log10(d(self, b, u))
+
+    def PLos(self, m, u):
+        return 1 / (1 + c_1 * math.exp(-c_2 * (theta(m, u) - c_1)))
+
+    def hLos(self, m, u):
+        return 20 * math.log(4 * math.pi * d(self, m, u) / v_c) + X_Los
+
+    def hNLos(self, m, u):
+        return 20 * math.log(4 * math.pi * d(self, m, u) / v_c) + X_NLos
+
+    # Calculate Distance
+
 
     def mbs_apply_agent_association(self, action_set, agent_list):
-        NotImplementedError
+        association = action_set.sample
+        print(f'[mbs_apply_agent_association] {agent}, {agent_set}, {association}')
+        if len(action_set) == self.num_agents:
+            # for agent1 in self.agents:
+            #     for agent2 in self.        
+            NotImplementedError
+        else:
+            NotImplementedError
         
     def uav_apply_cache(self, action_cache, agent):
         print(f'[uav_apply_cache] {agent}, {action_cache}')
+        cache = action_cache.sample
         NotImplementedError
         
     def uav_apply_power(self, action_power, agent):
-        print(f'[uav_apply_power] {agent}, {action_power}')
-        NotImplementedError
+        data = action_power.sample()
+        print(f'[uav_apply_power] {agent}, {data}')
+        for i in len(agent.association):
+            agent.power[i] = data / len(agent.association)
         
     def uav_apply_trajectory(self, action_dist, action_angle,agent):
-        print(f'[uav_apply_trajectory] {agent}, {action_dist[0]}, {action_angle}')
-        NotImplementedError
+        print(f'[uav_apply_trajectory] {agent}, {action_dist}, {action_angle}')
+        dist = action_dist.sample()
+        angle = action_dist.sample()  # 0~360
+        print(f'traj_action : {action_dist.sample()}, {action_angle.sample()}')
+
+        agent.state.x =  agent.state.x + dist * math.cos(angle)
+        agent.state.y =  agent.state.y + dist * math.sin(angle)        
                 
     # gather agent action forces
     def apply_action_force(self, p_force):
@@ -265,6 +414,9 @@ class World(object):
 
     def update_user_state(self, user):
         print(f'[update_user_state] {user}, {user.state}')
+        # Check new cache file request
+        # Calculate remaining download size
+        
 
     # get collision forces for any contact between two entities
     def get_entity_collision_force(self, ia, ib):
