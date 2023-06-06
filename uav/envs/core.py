@@ -18,18 +18,18 @@ class AgentState(EntityState):
         # Set internal state set for uav or mbs
       
         self.hasFile = []
-        self.fileRequest = None
-        self.x = None
-        self.y = None
+        self.fileRequest = 0
+        self.x = 0
+        self.y = 0
 
 class UserState(EntityState):
     def __init__(self):
         # Set internal state set for user
         self.associate = []
         self.hasFile = []
-        self.x = None
-        self.y = None
-        self.fileRequest = None
+        self.x = 0
+        self.y = 0
+        self.fileRequest = 0
 
 
 # action of the agent
@@ -181,22 +181,21 @@ class World(object):
             self.calculateReward(agent)    
 
 
-    def calculateReward(self, state, action):
-        # Receiving state and action as list
+    def calculateReward(self, agent):
         epsilon = 0.2
-        # step 1. Get extr reward (Action에 대해서 state를 모두 바꾸었을 때, reward를 계산)
-        extr_reward = calcExtrReward()
 
+        # step 1. Get extr reward (Action에 대해서 state를 모두 바꾸었을 때, reward를 계산)
+        extr_reward = self.calcExtrReward(agent)
         # step 2. Get intr reward
-        intr_reward = calcIIntrReward()
+        intr_reward = self.calcIntrReward(agent)
 
         return extr_reward + epsilon * intr_reward
+    
 
-    def calcIIntrReward(self):
-        NotImplementedError
+    def calcIntrReward(self, agent):
+        return 0 #Temp
 
-    def calcExtrReward(self):
-        # step 1. action에 대한 status 변경
+    def calcExtrReward(self, agent):
         for agent in self.agents:
             if agent.isUAV == False:
                 print("Process for MBS")
@@ -207,27 +206,18 @@ class World(object):
         L = 100000000  # very large number
         Delay = 0
         for agent in self.agents:
-            for user in self.num_user:
-                Delay += GetDelay(self, agent, user, agent.isUAV)
+            for user in self.users:
+                Delay += self.getDelay(agent, user, agent.isUAV)
 
         return L - Delay
 
-    def GetDelay(self, node, user, isMbs):
-        if isMbs == True:  # for MBS
-            for file in self.num_files:
-                delay = (
-                    self.x(user, file) * self.z(user, node) * self.T_down(node, user)
-                )
-        else:  # for User
-            for file in self.num_files:
-                delay = (
-                    self.x(user, file)
-                    * self.z(user, node)
-                    * {
-                        self.T_down(node, user)
-                        + (1 - self.y(node, file)) * self.T_back(node, user)
-                    }
-                )
+    def getDelay(self, node, user, isMbs):
+        if isMbs == True:
+            for file in range(self.num_files):
+                delay = (self.x(user, file) * self.z(user, node) * self.T_down(node, user))
+        else:
+            for file in range(self.num_files):
+                delay = (self.x(user, file) * self.z(user, node) * {self.T_down(node, user) + (1 - self.y(node, file)) * self.T_back(node, user)})
 
         return delay
 
@@ -308,12 +298,14 @@ class World(object):
 
 
     def mbs_apply_agent_association(self, action_set, agent_list):
-        association = action_set.sample
-        print(f'[mbs_apply_agent_association] {agent}, {agent_set}, {association}')
+        association = action_set # [nodes][users]
+        tmp_association = [[1 for j in range(self.num_agents)] for i in range(self.num_users)]
+        print(f'[mbs_apply_agent_association] actual: {association}, tmp: {tmp_association}')
+        
         if len(action_set) == self.num_agents:
-            # for agent1 in self.agents:
-            #     for agent2 in self.        
-            NotImplementedError
+            for i, node in self.agents:
+                for j in self.users:
+                    node.association.append(tmp_association[i][j])
         else:
             NotImplementedError
         
@@ -325,7 +317,7 @@ class World(object):
     def uav_apply_power(self, action_power, agent):
         data = action_power.sample()
         print(f'[uav_apply_power] {agent}, {data}')
-        for i in len(agent.association):
+        for i in range(len(agent.association)):
             agent.power[i] = data / len(agent.association)
         
     def uav_apply_trajectory(self, action_dist, action_angle,agent):
