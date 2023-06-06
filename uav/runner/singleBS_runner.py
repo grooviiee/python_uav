@@ -231,7 +231,7 @@ class SingleBS_runner(Runner):
         
     def insert(self, data):
         obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_cirtic = data
-        
+        print(f'[RUNNER_INSERT] {obs}, {rewards}, {dones}, {infos}, {values}, {actions}, {action_log_probs}, {rnn_states}, {rnn_states_cirtic}')
         rnn_states[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
         rnn_states_cirtic[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
         masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)

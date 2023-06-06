@@ -198,18 +198,20 @@ class World(object):
         return 0 #Temp
 
     def calcExtrReward(self, agent):
-        for agent in self.agents:
-            if agent.isUAV == False:
-                print("Process for MBS")
-            else:
-                print("Process for UAV")
+        if agent.isUAV == False:
+            print("Process for MBS")
+        else:
+            print("Process for UAV")
 
         # step 2. 변경된 status로 reward 계산
         L = 100000000  # very large number
         Delay = 0
         for agent in self.agents:
+            agent.reward = 0
             for user in self.users:
-                Delay += self.getDelay(agent, user, user.user_id, agent.isUAV)
+                agent.reward += self.getDelay(agent, user, user.user_id, agent.isUAV)
+
+            Delay += agent.reward
 
         return L - Delay
 
@@ -220,16 +222,17 @@ class World(object):
         #     else:
         #         for file in range(self.num_files):
         #             delay = (self.x(user, file) * self.z(user, node) * {self.T_down(node, user) + (1 - self.y(node, file)) * self.T_back(node, user)})
+        delay = 0
         if isUAV == False:
-            if agent.association.contains(user_id):
+            if user_id in agent.association:
                 for file_idx in range(self.num_files):
                     if user.file_request == file_idx:
                         delay = self.Calc_T_down(agent, user)
         else:
-            if agent.association.contains(user_id):
+            if user_id in agent.association:
                 for file_idx in range(self.num_files):
-                    if user.file_request == file_idx and agent.state.hasFile.contains(file_idx):
-                        delay = self.Calc_T_down(agent, user) + (1 - self.y(agent, file)) * self.Calc_T_back(agent, user)
+                    if user.file_request == file_idx and file_idx in agent.state.hasFile:
+                        delay = self.Calc_T_down(agent, user) + self.Calc_T_back(agent, user)
 
         return delay
 
@@ -242,13 +245,13 @@ class World(object):
 
     def R_T_down(self, i, u):
         numfile = 0
-        for file in self.num_files:
+        for file in range(self.num_files):
             numfile += x(u, file) * z(u, i)
 
         upper = numfile * W
         lower = 0
-        for user in self.num_users:
-            for file in self.num_files:
+        for user in range(self.num_users):
+            for file in range(self.num_files):
                 lower += x(u, file) * z(u, i)
 
         return upper / lower * math.log2(1 + r(i, u))

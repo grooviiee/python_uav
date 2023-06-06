@@ -308,7 +308,7 @@ class UAV_ENV(gym.Env):
         # record observation for each agent
         for i, agent in enumerate(self.agents):
             obs_n.append(self._get_obs(agent))
-            reward_n.append([self._get_reward(agent)])
+            reward_n.append([agent.reward])
             done_n.append(self._get_done(agent))
             info = {"individual_reward": self._get_reward(agent)}
             env_info = self._get_info(agent)
@@ -319,7 +319,7 @@ class UAV_ENV(gym.Env):
         # all agents get total reward in cooperative case, if shared reward, all agents have the same reward, and reward is sum
         reward = np.sum(reward_n)
         if self.shared_reward:
-            reward_n = [[reward]] * self.n
+            reward_n = [[reward]] * len(self.agents)
 
         if self.post_step_callback is not None:
             self.post_step_callback(self.world)
