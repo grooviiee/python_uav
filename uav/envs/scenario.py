@@ -20,6 +20,7 @@ class Scenario(BaseScenario):
         world = World()
         # set any world properties first
         world.world_length = args.episode_length
+        world.collaborative = True  # whether agents share rewards
         world.num_uavs = args.num_uavs
         world.num_mbs = args.num_mbs
         world.num_users = args.num_users

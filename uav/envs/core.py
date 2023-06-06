@@ -134,36 +134,6 @@ class World(object):
     def policy_agents(self):
         return [agent for agent in self.agents if agent.action_callback is None]
 
-    # return all agents controlled by world scripts
-    @property
-    def scripted_agents(self):
-        return [agent for agent in self.agents if agent.action_callback is not None]
-
-    def calculate_distances(self):
-        if self.cached_dist_vect is None:
-            # initialize distance data structure
-            self.cached_dist_vect = np.zeros(
-                (len(self.entities), len(self.entities), self.dim_p)
-            )
-            # calculate minimum distance for a collision between all entities （size相加�?
-            self.min_dists = np.zeros((len(self.entities), len(self.entities)))
-            for ia, entity_a in enumerate(self.entities):
-                for ib in range(ia + 1, len(self.entities)):
-                    entity_b = self.entities[ib]
-                    min_dist = entity_a.size + entity_b.size
-                    self.min_dists[ia, ib] = min_dist
-                    self.min_dists[ib, ia] = min_dist
-
-        for ia, entity_a in enumerate(self.entities):
-            for ib in range(ia + 1, len(self.entities)):
-                entity_b = self.entities[ib]
-                delta_pos = entity_a.state.p_pos - entity_b.state.p_pos
-                self.cached_dist_vect[ia, ib, :] = delta_pos
-                self.cached_dist_vect[ib, ia, :] = -delta_pos
-
-        self.cached_dist_mag = np.linalg.norm(self.cached_dist_vect, axis=2)
-
-        self.cached_collisions = self.cached_dist_mag <= self.min_dists
 
     # user color
     def assign_user_colors(self):
@@ -185,14 +155,17 @@ class World(object):
         for agent in self.agents:
             if agent.isUAV == False:
                 # Set association
-                print(f'action: {agent.action}')
+                print(f'MBS action: {agent.action}, shape: {agent.action.shape}')
                 self.mbs_apply_agent_association(agent.action, self.agents)
             else:
-                print(f'action: {agent.action}')
-                self.uav_apply_cache(agent.action, agent)
-                self.uav_apply_power(agent.action, agent)
-                self.uav_apply_trajectory(agent.action, agent)
-                # Set position, Set cache, set power
+                print(f'UAV action: {agent.action}')
+                if len(agent.action) == 4:
+                    # Set position, Set cache, set power
+                    self.uav_apply_cache(agent.action[0], agent)
+                    self.uav_apply_power(agent.action[1], agent)
+                    self.uav_apply_trajectory(agent.action[2], agent.action[3], agent)
+                else:
+                    NotImplementedError
 
         for user in self.users:
             self.update_user_state(user)
@@ -203,16 +176,16 @@ class World(object):
     def mbs_apply_agent_association(self, action_set, agent_list):
         NotImplementedError
         
-    def uav_apply_cache(self, action_set, agent):
-        print(f'[uav_apply_cache] {agent}, {action_set}')
+    def uav_apply_cache(self, action_cache, agent):
+        print(f'[uav_apply_cache] {agent}, {action_cache}')
         NotImplementedError
         
-    def uav_apply_power(self, action_set, agent):
-        print(f'[uav_apply_power] {agent}, {action_set}')
+    def uav_apply_power(self, action_power, agent):
+        print(f'[uav_apply_power] {agent}, {action_power}')
         NotImplementedError
         
-    def uav_apply_trajectory(self, action_set, agent):
-        print(f'[uav_apply_trajectory] {agent}, {action_set}')
+    def uav_apply_trajectory(self, action_dist, action_angle,agent):
+        print(f'[uav_apply_trajectory] {agent}, {action_dist[0]}, {action_angle}')
         NotImplementedError
                 
     # gather agent action forces

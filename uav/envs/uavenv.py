@@ -273,10 +273,10 @@ class UAV_ENV(gym.Env):
             # Do UAV Action  (Set caching, trajectory, power)
             # for i in len(action_set):
             #     array = np.prod(action_set[i].shape)
-            print(f"UAV Agent {agent_id}-th Action({type(action_set)})")
+            print(f"UAV Agent {agent_id}-th Action({type(action_set)})\n{action_set})..")
             # action = flatten(action_set[agent], 1)
             # agent.action = flatten(action_set[agent_id], 1)
-            agent.action = action_set
+            agent.action = list(action_set)
 
         elif agent.isUAV == False:
             # Do MBS Action (Set associateion)
