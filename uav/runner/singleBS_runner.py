@@ -228,19 +228,23 @@ class SingleBS_runner(Runner):
     def reset(self):
         """Reset sth here"""
         
-        
+    """To get type of sturct: type(variable) or struct.__class__"""    
     def insert(self, data):
         obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic = data
         
         print(f'[RUNNER_INSERT] obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n {actions}, {action_log_probs}, {rnn_states}, {rnn_states_critic}')
-
-        rnn_states[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
-        rnn_states_critic[dones == True] = np.zeros(((dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
+        print(f'[RUNNER_INSERT] obs.type: {type(obs)}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}')
+        # Dones가 True인 index에 대해서는 모두 0으로 설정하나 보다. -> 이건 나중에 고려하기로.
+    
+        npDones = np.array(dones)
+        # rnn_states[npDones == True] = np.zeros(((npDones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
+        # rnn_states_critic[npDones == True] = np.zeros(((npDones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
         masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
-        masks[dones == True] = np.zeros(((dones == True).sum(), 1), dtype=np.float32)
+        # masks[npDones == True] = np.zeros(((npDones == True).sum(), 1), dtype=np.float32)
         
         share_obs = []
-        for o in obs:
+        for idx, o in obs:
+            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}')
             share_obs.append(list(chain(*o)))
         share_obs = np.array(share_obs)
         
