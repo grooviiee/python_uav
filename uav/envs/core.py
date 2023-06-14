@@ -21,7 +21,8 @@ class AgentState(EntityState):
         self.fileRequest = 0
         self.x = 0
         self.y = 0
-
+        self.cache = []
+        self.power = []
 class UserState(EntityState):
     def __init__(self):
         # Set internal state set for user
@@ -180,7 +181,7 @@ class World(object):
             self.update_user_state(user)
             
         for agent in self.agents:
-            self.calculateReward(agent)    
+            agent.reward = self.calculateReward(agent)    
 
 
     def calculateReward(self, agent):
@@ -328,6 +329,7 @@ class World(object):
     def uav_apply_cache(self, action_cache, agent):
         print(f'[uav_apply_cache] {agent}, {action_cache}')
         cache = action_cache.sample
+        agent.state.cache = cache
         NotImplementedError
         
     def uav_apply_power(self, action_power, agent):
@@ -335,8 +337,9 @@ class World(object):
         print(f'[uav_apply_power] {agent}, {data}')
         for i in range(len(agent.association)):
             agent.power[i] = data / len(agent.association)
+            agent.state.power[i] = agent.power[i]
         
-    def uav_apply_trajectory(self, action_dist, action_angle,agent):
+    def uav_apply_trajectory(self, action_dist, action_angle, agent):
         print(f'[uav_apply_trajectory] {agent}, {action_dist}, {action_angle}')
         dist = action_dist.sample()
         angle = action_dist.sample()  # 0~360

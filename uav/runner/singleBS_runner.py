@@ -253,8 +253,8 @@ class SingleBS_runner(Runner):
         # masks[npDones == True] = np.zeros(((npDones == True).sum(), 1), dtype=np.float32)
         
         share_obs = []
-        for idx, o in obs:
-            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {type(*o)}')
+        for idx, o in enumerate(obs):
+            # print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {type(*o)}')
             share_obs.append(list(chain(*o)))
             
         # Convert array type share_obs into np.array

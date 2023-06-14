@@ -245,15 +245,16 @@ class UAV_ENV(gym.Env):
 
     # get observation for a particular agent
     def _get_obs(self, agent):
-        if self.observation_callback is None:
-            return np.zeros(0)
-        return self.observation_callback(agent, self.world)
+        # obsList = []
+        # if self.observation_callback is None:
+        #     return np.zeros(0)
+        return agent.state
 
     # get reward for a particular agent
     def _get_reward(self, agent):
-        if self.reward_callback is None:
-            return 0.0
-        return self.reward_callback(agent, self.world)
+        # if self.reward_callback is None:
+        #     return 0.0
+        return agent.reward
 
     # get dones for a particular agent
     # unused right now -- agents are allowed to go beyond the viewing screen
@@ -305,7 +306,7 @@ class UAV_ENV(gym.Env):
         # advance world state
         self.world.world_take_step()  # core.step()
 
-        # record observation for each agent
+        # record observation for each agent (return type is "list")
         for i, agent in enumerate(self.agents):
             obs_n.append(self._get_obs(agent))
             reward_n.append([agent.reward])
