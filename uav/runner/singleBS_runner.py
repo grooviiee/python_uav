@@ -117,7 +117,7 @@ class SingleBS_runner(Runner):
             
             # compute GAE and update network
             self.compute_gae() 
-            train_info = self.train()
+            train_infos = self.train()
             
             # post process
             total_num_steps = (episode + 1) * self.episode_length * self.n_rollout_threads
@@ -126,11 +126,21 @@ class SingleBS_runner(Runner):
             if (episode % self.save_interval == 0 or episode == episodes - 1):
                 self.save()
 
-            # log render information 
-
-            # eval
+            # log information 
             if episode % self.eval_interval == 0 and self.use_eval:
-                self.eval(total_num_steps)
+                for agent_id in range(self.num_agents):
+                    individual_rewards = []
+                    for into in infos:
+                        for count, info in enumerate(infos):
+                            if 'individual_reward' in infos[count][agent_id].keys():
+                                individual_rewards.append(infos[count][agent_id].get('individual_reward', 0))
+
+                    train_infos[agent_id].update({'individual_rewards': np.mean(individual_rewards)})
+                    train_infos[agent_id].update({"average_episode_rewards": np.mean(self.buffer[agent_id].rewards) * self.episode_length})
+                self.log_train(train_infos, total_num_steps)
+                
+            # eval
+            self.eval(total_num_steps)
 
     def warmup(self):
         NotImplemented
@@ -244,15 +254,18 @@ class SingleBS_runner(Runner):
         
         share_obs = []
         for idx, o in obs:
-            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}')
+            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {type(*o)}')
             share_obs.append(list(chain(*o)))
+            
+        # Convert array type share_obs into np.array
         share_obs = np.array(share_obs)
         
         for agent_id in range(self.num_agents):
+            # We use centralized V as a default
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
 
-            # 수신한 Agent별로 저장
+            # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].insert(share_obs,
                                         np.array(list(obs[:, agent_id])),
                                         rnn_states[:, agent_id],
