@@ -20,7 +20,10 @@ import numpy as np
 #     for env.files
 
 
-def CovertToStateList(obs):
+def CovertToStateList(agentState):
     result = []
-    
+    result.append(agentState.x)
+    result.append(agentState.y)
+    result.append(agentState.cache)
+
     return result

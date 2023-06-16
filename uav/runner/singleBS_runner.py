@@ -108,14 +108,14 @@ class SingleBS_runner(Runner):
         for episode in range(episodes):
             for step in range(self.episode_length):
                 # Sample actions
-                values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.collect(step)
+                values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
                     
                 # Obser reward and next obs
                 obs, rewards, dones, infos = self.envs.step(actions_env)
-                data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
                 
                 # insert data into replay buffer
-                self.insert(data)
+                data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
+                self.runner_insert(data)
             
             # compute GAE and update network
             self.compute_gae() 
@@ -161,7 +161,7 @@ class SingleBS_runner(Runner):
         #     self.buffer[agent_id].obs[0] = np.array(list(obs[:, agent_id])).copy()
 
     @torch.no_grad()
-    def collect(self, step):
+    def runner_collect(self, step):
         values = []
         actions = []
         temp_actions_env = []
@@ -186,7 +186,7 @@ class SingleBS_runner(Runner):
             values.append(_t2n(value))
             action = _t2n(action)
             
-            # rearrange action
+            # re-arrange action
             print(f'[RUNNER] agent_id : {agent_id}, action space dType: {self.envs.action_space[agent_id].__class__.__name__}')
             if self.envs.action_space[agent_id].__class__.__name__ == 'MultiDiscrete':
                 for i in range(self.envs.action_space[agent_id].shape):
@@ -219,29 +219,31 @@ class SingleBS_runner(Runner):
             # UAV: action_env Tuple(Box(False, True, (2, 30), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
             print(f'[RUNNER] agent_id: {agent_id} Done.. action_env.shape: {action_env} / len: {len(temp_actions_env)}, n_rollout_threads: {self.n_rollout_threads}')
 
-        # [envs, agents, dim]
-        actions_env = []
+        # [envs, agents, dim] -> action dimension depends on num threads
+        action_env_results = []
         for i in range(self.n_rollout_threads):
             one_hot_action_env = []
             for temp_action_env in temp_actions_env:
                 one_hot_action_env.append(temp_action_env)
-            actions_env.append(one_hot_action_env)
+            action_env_results.append(one_hot_action_env)
 
         # values = np.array(values).transpose(1, 0, 2)
         # actions = np.array(actions).transpose(1, 0, 2)
         # action_log_probs = np.array(action_log_probs).transpose(1, 0, 2)
         # rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
         # rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
-        for return_action_info in actions_env:
-            print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(actions_env)}')
+        for return_action_info in action_env_results:
+            print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(action_env_results)}')
 
-        return values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env
+
+        # action_env_results will be insert into "Env".
+        return values, actions, action_log_probs, rnn_states, rnn_states_critic, action_env_results
 
     def reset(self):
         """Reset sth here"""
         
     """To get type of sturct: type(variable) or struct.__class__"""    
-    def insert(self, data):
+    def runner_insert(self, data):
         obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic = data
         
         print(f'[RUNNER_INSERT] obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n {actions}, {action_log_probs}, {rnn_states}, {rnn_states_critic}')
@@ -256,7 +258,7 @@ class SingleBS_runner(Runner):
         
         share_obs = []
         for idx, o in enumerate(obs):
-            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {obs[idx]}')
+            # print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {obs[idx]}')
             # share_obs.append(list(o)) TODO: Need to Have deep copy using "func CovertToStateList"
             state_list = CovertToStateList(obs[idx])
             share_obs.append(state_list)
@@ -270,6 +272,7 @@ class SingleBS_runner(Runner):
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
 
+            print(f'[RUNNER_INSERT] Refined_SHARE_OBS Output: {share_obs}')
             # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].buffer_insert(share_obs,
                                         np.array(list(obs[:, agent_id])),
