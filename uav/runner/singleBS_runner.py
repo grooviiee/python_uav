@@ -254,9 +254,10 @@ class SingleBS_runner(Runner):
         
         share_obs = []
         for idx, o in enumerate(obs):
-            # print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {type(*o)}')
-            share_obs.append(list(chain(*o)))
-            
+            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {obs[idx]}')
+            # share_obs.append(list(o))
+            share_obs.append(obs[idx])
+
         # Convert array type share_obs into np.array
         share_obs = np.array(share_obs)
         
