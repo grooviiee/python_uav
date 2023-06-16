@@ -1,8 +1,10 @@
 from envs.uavenv import UAV_ENV
+from envs.util import CovertToStateList
 from utils.shared_buffer import SharedReplayBuffer
 from utils.separated_buffer import SeparatedReplayBuffer
 from runner.base_runner import Runner
 from gym.spaces.utils import flatdim, flatten
+
 
 import time
 # import wandb
@@ -255,12 +257,14 @@ class SingleBS_runner(Runner):
         share_obs = []
         for idx, o in enumerate(obs):
             print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {obs[idx]}')
-            # share_obs.append(list(o))
-            share_obs.append(obs[idx])
+            # share_obs.append(list(o)) TODO: Need to Have deep copy using "func CovertToStateList"
+            state_list = CovertToStateList(obs[idx])
+            share_obs.append(state_list)
 
         # Convert array type share_obs into np.array
         share_obs = np.array(share_obs)
-        
+        print(f'[RUNNER_INSERT] SHARE_OBS Output: {share_obs}')
+
         for agent_id in range(self.num_agents):
             # We use centralized V as a default
             if not self.use_centralized_V:

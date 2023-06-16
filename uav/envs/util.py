@@ -18,3 +18,9 @@ import numpy as np
 
 # def R_2(i, u):
 #     for env.files
+
+
+def CovertToStateList(obs):
+    result = []
+    
+    return result
