@@ -199,6 +199,7 @@ class SingleBS_runner(Runner):
                 action_env = np.squeeze(np.eye(self.envs.action_space[agent_id].n)[action], 1)
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Box':
                 # TODO: Fix below shape into Discrete or Multi Discrete
+                # TODO: Change this implementation.. It has some bugs
                 # [RUNNER] agent_id : 0, action space dType: Box value: Box(False, True, (5, 20), bool)
                 action_env = self.envs.action_space[agent_id]
                 action_env = flatten(action_env, 1)
