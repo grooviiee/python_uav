@@ -271,7 +271,7 @@ class SingleBS_runner(Runner):
                 share_obs = np.array(list(obs[:, agent_id]))
 
             # Save share_obs and other agent resource into replay buffer
-            self.buffer[agent_id].insert(share_obs,
+            self.buffer[agent_id].buffer_insert(share_obs,
                                         np.array(list(obs[:, agent_id])),
                                         rnn_states[:, agent_id],
                                         rnn_states_critic[:, agent_id],
