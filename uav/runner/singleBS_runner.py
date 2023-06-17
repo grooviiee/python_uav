@@ -203,12 +203,14 @@ class SingleBS_runner(Runner):
                 # [RUNNER] agent_id : 0, action space dType: Box value: Box(False, True, (5, 20), bool)
                 print(f'[RUNNER] BOX dType GET_ACTION: {value}, action: {action}')
                 action_env = self.envs.action_space[agent_id]
-                action_env = flatten(action_env, 1)
+                #action_env = flatten(action_env, 1)
+                action_env = action
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Tuple':
                 # TODO: Fix below shape into Discrete or Multi Discrete
                 # [RUNNER] agent_id : 4, action space dType: Tuple value: Tuple(Box(False, True, (2, 10), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
                 print(f'[RUNNER] Tuple dType GET_ACTION: {value}, action: {action}')
                 action_env = self.envs.action_space[agent_id]
+                action_env = action
                 # for i in range 
             else:
                 raise NotImplementedError
