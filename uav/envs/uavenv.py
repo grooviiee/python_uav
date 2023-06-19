@@ -255,7 +255,8 @@ class UAV_ENV(gym.Env):
                 continue
             uav_location.append(uav.state.x)
             uav_location.append(uav.state.y)
-            
+
+        user_location = []            
         file_request = []
         for id, user in enumerate(world.users):
             user_location.append(user.state.x)
