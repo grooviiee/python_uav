@@ -18,6 +18,7 @@ class AgentState(EntityState):
         self.association = []
         # for UAV
         self.hasFile = []
+        self.FileRequest = []
         # for MBS
 
 class UserState(EntityState):

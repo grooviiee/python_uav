@@ -244,17 +244,40 @@ class UAV_ENV(gym.Env):
         return self.info_callback(agent, self.world)
 
     # get observation for a particular agent
-    def _get_obs(self, agent):
+    def _get_obs(self, agent, world):
         # obsList = []
         # if self.observation_callback is None:
         #     return np.zeros(0)
         obs = []
+        uav_location = []
+        for id, uav in enumerate(world.agents):
+            if uav.isUAV == False:
+                continue
+            uav_location.append(uav.state.x)
+            uav_location.append(uav.state.y)
+            
+        file_request = []
+        for id, user in enumerate(world.users):
+            user_location.append(user.state.x)
+            user_location.append(user.state.y)
+            file_request.append(user.state.fileRequest)
+        
         if agent.isUAV == False:
-            # return Association
-            obs.append(agent.state.association)
+            # Every entity location
+            my_location = []
+            my_location.append(agent.state.x)
+            my_location.append(agent.state.y)
+            obs.append(my_location)
+            obs.append(uav_location)
+            obs.append(user_location)
         else:
-            obs.append(agent.state.x)
-            obs.append(agent.state.y)
+            # UAV itself location + User location + User file request
+            my_location = []
+            my_location.append(agent.state.x)
+            my_location.append(agent.state.y)
+            obs.append(my_location)
+            obs.append(user_location)
+            obs.append(file_request)
 
         return obs
 
@@ -316,7 +339,7 @@ class UAV_ENV(gym.Env):
 
         # record observation for each agent (return type is "list")
         for i, agent in enumerate(self.agents):
-            obs_n.append(self._get_obs(agent))
+            obs_n.append(self._get_obs(agent, self.world))
             reward_n.append([agent.reward])
             done_n.append(self._get_done(agent))
             info = {"individual_reward": self._get_reward(agent)}
