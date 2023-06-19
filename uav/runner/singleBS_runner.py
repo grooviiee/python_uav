@@ -251,8 +251,11 @@ class SingleBS_runner(Runner):
     def runner_insert(self, data):
         obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic = data
         
-        print(f'[RUNNER_INSERT] obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n {actions}, {action_log_probs}, {rnn_states}, {rnn_states_critic}')
-        print(f'[RUNNER_INSERT] obs.type: {type(obs)}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}')
+        print(f'[RUNNER_INSERT] (VALUE) obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n actions: {actions}\n \
+              action_log_probs: {action_log_probs}\n rnn_states: {rnn_states}\n rnn_states_critic: {rnn_states_critic}\n')
+        
+        print(f'[RUNNER_INSERT] (TYPE)  obs.type: {type(obs)}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
+        print(f'[RUNNER_INSERT] (TYPE) actions: {type(actions)}, action_log_probs: {type(action_log_probs)}, rnn_states: {type(rnn_states)}, rnn_states_critic: {type(rnn_states_critic)}')
         # Dones가 True인 index에 대해서는 모두 0으로 설정하나 보다. -> 이건 나중에 고려하기로.
     
         npDones = np.array(dones)
@@ -263,31 +266,33 @@ class SingleBS_runner(Runner):
         
         share_obs = []
         for idx, o in enumerate(obs):
-            # print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {obs[idx]}')
-            # share_obs.append(list(o)) TODO: Need to Have deep copy using "func CovertToStateList"
-            state_list = CovertToStateList(obs[idx])
-            share_obs.append(state_list)
+            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {obs[idx]}')
+            # share_obs.append(list(chain(*o))) 
+            #TODO: Need to Have deep copy using "func CovertToStateList"
+            #state_list = CovertToStateList(obs[idx])
+            share_obs.append(obs[idx])
 
         # Convert array type share_obs into np.array
         share_obs = np.array(share_obs)
         print(f'[RUNNER_INSERT] SHARE_OBS Output: {share_obs}')
 
         for agent_id in range(self.num_agents):
+            
             # We use centralized V as a default
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
 
-            print(f'[RUNNER_INSERT] Refined_SHARE_OBS Output: {share_obs}')
+            print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} Refined_SHARE_OBS Output: {share_obs}')
             # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].buffer_insert(share_obs,
-                                        np.array(list(obs[:, agent_id])),
-                                        rnn_states[:, agent_id],
-                                        rnn_states_critic[:, agent_id],
-                                        actions[:, agent_id],
-                                        action_log_probs[:, agent_id],
-                                        values[:, agent_id],
-                                        rewards[:, agent_id],
-                                        masks[:, agent_id])
+                                        obs[agent_id],
+                                        rnn_states[agent_id],
+                                        rnn_states_critic[agent_id],
+                                        actions[agent_id],
+                                        action_log_probs[agent_id],
+                                        values[agent_id],
+                                        rewards[agent_id],
+                                        masks[agent_id])
             
     @torch.no_grad()            
     def compute_gae(self):

@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from envs.core import World, Agent, User
 
 
@@ -64,12 +65,12 @@ class Scenario(BaseScenario):
 
         # 위치 조정 (randomly)
         for agent in world.agents:
-            agent.x_loc = None
-            agent.y_loc = None
+            agent.state.x = random.randint(0, 100)#agent.agent_id%4
+            agent.state.y = random.randint(0, 100)#agent.agent_id%4
 
         for user in world.users:
-            user.x_loc = None
-            user.y_loc = None
+            user.state.x = random.randint(0, 100)#user.user_id%5
+            user.state.y = random.randint(0, 100)#user.user_id%5
 
     def reward(self, agent, world):
         # It is used at uavenv.py

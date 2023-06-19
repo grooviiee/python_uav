@@ -5,31 +5,26 @@ import math
 # physical/external base state of all entites
 class EntityState(object):
     def __init__(self):
-        # physical position
-        self.p_pos = None
-        # physical velocity
-        self.p_vel = None
-
+        # User and Agent in common
+        self.x = None
+        self.y = None
 
 # state of agents (including communication and internal/mental state)
 class AgentState(EntityState):
     def __init__(self):
         super(AgentState, self).__init__()
         # Set internal state set for uav or mbs
-      
+        # in common
+        self.association = []
+        # for UAV
         self.hasFile = []
-        self.fileRequest = 0
-        self.x = 0
-        self.y = 0
-        self.cache = []
-        self.power = []
+        # for MBS
+
 class UserState(EntityState):
     def __init__(self):
         # Set internal state set for user
-        self.associate = []
+        self.association = []
         self.hasFile = []
-        self.x = 0
-        self.y = 0
         self.fileRequest = 0
 
 

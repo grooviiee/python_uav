@@ -248,7 +248,15 @@ class UAV_ENV(gym.Env):
         # obsList = []
         # if self.observation_callback is None:
         #     return np.zeros(0)
-        return agent.state
+        obs = []
+        if agent.isUAV == False:
+            # return Association
+            obs.append(agent.state.association)
+        else:
+            obs.append(agent.state.x)
+            obs.append(agent.state.y)
+
+        return obs
 
     # get reward for a particular agent
     def _get_reward(self, agent):
