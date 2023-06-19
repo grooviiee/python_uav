@@ -86,23 +86,23 @@ class SeparatedReplayBuffer(object):
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
         toArray = np.array(obs)
-        print(f'[INSERT_BUFFER] type: {type(obs)}, obs: {obs}, size: {toArray.shape}')
-        self.share_obs[self.step + 1] = toArray.copy()
-        self.obs[self.step + 1] = toArray.copy()
+        print(f'[INSERT_BUFFER] obs type: {type(obs)}, obs: {obs}, size: {toArray.shape}')
+        # self.share_obs[self.step + 1] = toArray.copy()
+        # self.obs[self.step + 1] = toArray.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
         self.rnn_states_critic[self.step + 1] = rnn_states_critic.copy()
-
+        print(f'[INSERT_BUFFER] action type: {type(actions)}, obs: {actions}, size: {actions.shape}')
         self.actions[self.step] = actions.copy()
         self.action_log_probs[self.step] = action_log_probs.copy()
         self.value_preds[self.step] = value_preds.copy()
         self.rewards[self.step] = rewards.copy()
-        self.masks[self.step + 1] = masks.copy()
-        if bad_masks is not None:
-            self.bad_masks[self.step + 1] = bad_masks.copy()
-        if active_masks is not None:
-            self.active_masks[self.step + 1] = active_masks.copy()
-        if available_actions is not None:
-            self.available_actions[self.step + 1] = available_actions.copy()
+        # self.masks[self.step + 1] = masks.copy()
+        # if bad_masks is not None:
+        #     self.bad_masks[self.step + 1] = bad_masks.copy()
+        # if active_masks is not None:
+        #     self.active_masks[self.step + 1] = active_masks.copy()
+        # if available_actions is not None:
+        #     self.available_actions[self.step + 1] = available_actions.copy()
 
         self.step = (self.step + 1) % self.episode_length
 
