@@ -285,7 +285,7 @@ class SingleBS_runner(Runner):
             print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} Refined_SHARE_OBS Output: {share_obs}')
             # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].buffer_insert(share_obs,
-                                        obs[agent_id],
+                                        list(chain(*obs[agent_id])),
                                         rnn_states[agent_id],
                                         rnn_states_critic[agent_id],
                                         actions[agent_id],

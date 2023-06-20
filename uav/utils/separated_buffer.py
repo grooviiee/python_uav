@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+from itertools import chain
 from collections import defaultdict
 
 from utils.util import check, get_shape_from_obs_space, get_shape_from_act_space
@@ -52,11 +53,11 @@ class SeparatedReplayBuffer(object):
         print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
 
         if is_uav == True:  #UAV
-            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 8, 40, 200), dtype=np.float32)
-            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 8, 40, 200), dtype=np.float32)      
+            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 248), dtype=np.float32)
+            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 248), dtype=np.float32)      
         else:
-            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 2, 8, 40), dtype=np.float32)
-            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 2, 8, 40), dtype=np.float32)
+            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 50), dtype=np.float32)
+            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 50), dtype=np.float32)
 
 
         self.rnn_states = np.zeros((self.episode_length + 1, self.n_rollout_threads, self.recurrent_N, self.rnn_hidden_size), dtype=np.float32)
@@ -85,10 +86,9 @@ class SeparatedReplayBuffer(object):
     def buffer_insert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
-        toArray = np.array(obs)
-        print(f'[INSERT_BUFFER] obs type: {type(obs)}, obs: {obs}, size: {toArray.shape}')
+        print(f'[INSERT_BUFFER] obs type: {type(obs)}, flat_obs: {obs}')
         # self.share_obs[self.step + 1] = toArray.copy()
-        # self.obs[self.step + 1] = toArray.copy()
+        self.obs[self.step + 1] = obs.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
         self.rnn_states_critic[self.step + 1] = rnn_states_critic.copy()
         print(f'[INSERT_BUFFER] action type: {type(actions)}, obs: {actions}, size: {actions.shape}')
