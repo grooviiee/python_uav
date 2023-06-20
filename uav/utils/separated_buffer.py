@@ -48,9 +48,6 @@ class SeparatedReplayBuffer(object):
             for obs_info in listed_share_obs_shape:
                 res_share_obs_shape *= obs_info[0] * obs_info[1]
             print(f'res_share_obs_shape: {res_share_obs_shape}')
-            
-        print(f'[REPLAYBUFFER] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
-        print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
 
         if is_uav == True:  #UAV
             self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 248), dtype=np.float32)
@@ -82,16 +79,20 @@ class SeparatedReplayBuffer(object):
         self.active_masks = np.ones_like(self.masks)
 
         self.step = 0
+        
+        print(f'[REPLAYBUFFER] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
+        print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
+        print(f'[REPLAYBUFFER] actions Buffer size : {self.episode_length + 1}, {self.n_rollout_threads}, {act_shape}')
 
     def buffer_insert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
-        print(f'[INSERT_BUFFER] obs type: {type(obs)}, flat_obs: {obs}')
+        print(f'[INSERT_BUFFER] obs type: {type(obs)}, flat_obs: {len(obs)}')
         # self.share_obs[self.step + 1] = toArray.copy()
         self.obs[self.step + 1] = obs.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
         self.rnn_states_critic[self.step + 1] = rnn_states_critic.copy()
-        print(f'[INSERT_BUFFER] action type: {type(actions)}, obs: {actions}, size: {actions.shape}')
+        print(f'[INSERT_BUFFER] action type: {type(actions)}, size: {actions.shape}')
         self.actions[self.step] = actions.copy()
         self.action_log_probs[self.step] = action_log_probs.copy()
         self.value_preds[self.step] = value_preds.copy()

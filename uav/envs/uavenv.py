@@ -300,20 +300,18 @@ class UAV_ENV(gym.Env):
 
     # set env action for the agent.. Just setting. Change states at core.py 
     def _set_action(self, agent_id, action, agent, action_space, time=None):
-        print(f'Set action for agent_id: {agent_id}, isUAV: {agent.isUAV}, actionType: {type(action)}, len: {len(action)}')
+        # print(f'Set action for agent_id: {agent_id}, isUAV: {agent.isUAV}, actionType: {type(action)}, len: {len(action)}')
         action_set = action[agent_id]
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
             # for i in len(action_set):
             #     array = np.prod(action_set[i].shape)
-            print(f"UAV Agent {agent_id}-th Action({type(action_set)})\n{action_set})..")
             # action = flatten(action_set[agent], 1)
             # agent.action = flatten(action_set[agent_id], 1)
             agent.action = list(action_set)
 
         elif agent.isUAV == False:
             # Do MBS Action (Set associateion)
-            print(f"MBS Action({action_set})..")
             agent.action = action_set
 
         else:
@@ -323,7 +321,7 @@ class UAV_ENV(gym.Env):
     # returns: next state, reward, done, etc.
     def step(self, action):
         # action is coming with n_threads
-        print(f"[ENV_STEP] current_step: {self.current_step}, STEP: {action}, length: {len(action)}/{len(self.action_space)}")
+        print(f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}/{len(self.action_space)}")
         self.current_step = self.current_step + 1
         obs_n = []
         reward_n = []

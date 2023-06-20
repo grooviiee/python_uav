@@ -54,12 +54,11 @@ class MAPPOAgentPolicy:
         :return rnn_states_critic: (torch.Tensor) updated critic network RNN states.
         """
         if is_uav == False:
-            reshape_obs = np.reshape(obs, (2,5,-1))
+            reshape_obs = np.reshape(obs, (2,5,-1)) # (2, 5, 5)
         else:
-            reshape_obs = np.reshape(obs, (4,8,-1))
+            reshape_obs = np.reshape(obs, (2,4,-1)) # (2, 4, 31)
         
         
-        print(f'[get_actions]: {reshape_obs}')
         cent_obs = reshape_obs
         actions, action_log_probs, rnn_states_actor = self.actor(reshape_obs,
                                                                  rnn_states_actor,

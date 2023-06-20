@@ -87,13 +87,6 @@ class R_Actor(nn.Module):
         actor_features = self.base(obs)
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
-            print(
-                f"[ACTOR_FORWARD] actor_features: {actor_features}({actor_features.shape}), rnn_states: {rnn_states}({rnn_states.shape})"
-            )
-
-        print(
-            f"[ACTOR_FORWARD] actor_features: {actor_features}({actor_features.shape})"
-        )
 
         actions, action_log_probs = self.act(actor_features)
 

@@ -36,10 +36,10 @@ class CNNLayer(nn.Module):
         # MBS: input_channel 2, input_width 8, input_height 40, UAV: input_channel 8, input_width 40, input_height 600
         # inputs: [N, C, W, H]
         if is_uav == True:
-            num_hidden_layer = 60192
-            input_channel = 4
-            input_width = 8
-            input_height = 8
+            num_hidden_layer = 15
+            input_channel = 2
+            input_width = 4
+            input_height = 31
         else:
             num_hidden_layer = 4
             input_channel = 2

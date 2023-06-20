@@ -207,14 +207,14 @@ class SingleBS_runner(Runner):
                 # TODO: Fix below shape into Discrete or Multi Discrete
                 # TODO: Change this implementation.. It has some bugs
                 # [RUNNER] agent_id : 0, action space dType: Box value: Box(False, True, (5, 20), bool)
-                print(f'[RUNNER] BOX dType GET_ACTION: {value}, action: {action}')
+                # print(f'[RUNNER] BOX dType GET_ACTION: {value}, action: {action}')
                 action_env = self.envs.action_space[agent_id]
                 #action_env = flatten(action_env, 1)
                 action_env = action
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Tuple':
                 # TODO: Fix below shape into Discrete or Multi Discrete
                 # [RUNNER] agent_id : 4, action space dType: Tuple value: Tuple(Box(False, True, (2, 10), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-                print(f'[RUNNER] Tuple dType GET_ACTION: {value}, action: {action}')
+                # print(f'[RUNNER] Tuple dType GET_ACTION: {value}, action: {action}')
                 action_env = self.envs.action_space[agent_id]
                 action_env = action
                 # for i in range 
@@ -228,7 +228,7 @@ class SingleBS_runner(Runner):
             rnn_states_critic.append( _t2n(rnn_state_critic))
             # MBS: action_env [ True]
             # UAV: action_env Tuple(Box(False, True, (2, 30), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-            print(f'[RUNNER] agent_id: {agent_id} Done.. action_env.shape: {action_env} / len: {len(temp_actions_env)}, n_rollout_threads: {self.n_rollout_threads}')
+            print(f'[RUNNER] agent_id: {agent_id} Done.. action_env.shape: {len(action_env)} / len: {len(temp_actions_env)}, n_rollout_threads: {self.n_rollout_threads}')
 
         # [envs, agents, dim] -> action dimension depends on num threads
         action_env_results = []
@@ -244,7 +244,8 @@ class SingleBS_runner(Runner):
         # rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
         # rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
         for return_action_info in action_env_results:
-            print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(action_env_results)}')
+            NotImplemented
+            # print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(action_env_results)}')
 
 
         # action_env_results will be insert into "Env".
@@ -256,9 +257,9 @@ class SingleBS_runner(Runner):
     """To get type of sturct: type(variable) or struct.__class__"""    
     def runner_insert(self, data):
         obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic = data
-        
-        print(f'[RUNNER_INSERT] (VALUE) obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n actions: {actions}\n \
-              action_log_probs: {action_log_probs}\n rnn_states: {rnn_states}\n rnn_states_critic: {rnn_states_critic}\n')
+
+        # print(f'[RUNNER_INSERT] (VALUE) obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n actions: {actions}\n \
+        #       action_log_probs: {action_log_probs}\n rnn_states: {rnn_states}\n rnn_states_critic: {rnn_states_critic}\n')
         
         print(f'[RUNNER_INSERT] (TYPE)  obs.type: {type(obs)}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
         print(f'[RUNNER_INSERT] (TYPE) actions: {type(actions)}, action_log_probs: {type(action_log_probs)}, rnn_states: {type(rnn_states)}, rnn_states_critic: {type(rnn_states_critic)}')
@@ -272,7 +273,7 @@ class SingleBS_runner(Runner):
         
         share_obs = []
         for idx, o in enumerate(obs):
-            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, *o.type: {obs[idx]}')
+            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, len(obs[idx]): {len(obs[idx])}')
             # share_obs.append(list(chain(*o))) 
             #TODO: Need to Have deep copy using "func CovertToStateList"
             #state_list = CovertToStateList(obs[idx])
@@ -280,15 +281,19 @@ class SingleBS_runner(Runner):
 
         # Convert array type share_obs into np.array
         share_obs = np.array(share_obs)
-        print(f'[RUNNER_INSERT] SHARE_OBS Output: {share_obs}')
+        print(f'[RUNNER_INSERT] SHARE_OBS len(share_obs): {len(share_obs)}')
 
         for agent_id in range(self.num_agents):
-            
+            if agent_id < self.num_mbs:
+                is_uav = "MBS"
+            else:
+                is_uav = "UAV"
+
             # We use centralized V as a default
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
 
-            print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} Refined_SHARE_OBS Output: {share_obs}')
+            print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}')
             # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].buffer_insert(share_obs,
                                         list(chain(*obs[agent_id])),

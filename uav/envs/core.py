@@ -161,17 +161,14 @@ class World(object):
         for agent in self.agents:
             if agent.isUAV == False:
                 # Set association
-                print(f'MBS action: {agent.action}, shape: {agent.action.shape}')
+                print(f'[WORLD_STEP] MBS action: {len(agent.action)}')
                 self.mbs_apply_agent_association(agent.action, self.agents)
             else:
-                print(f'UAV action: {agent.action}')
-                if len(agent.action) == 4:
-                    # Set position, Set cache, set power
-                    self.uav_apply_cache(agent.action[0], agent)
-                    self.uav_apply_power(agent.action[1], agent)
-                    self.uav_apply_trajectory(agent.action[2], agent.action[3], agent)
-                else:
-                    NotImplementedError
+                print(f'[WORLD_STEP] UAV action: {len(agent.action)}')
+                # Set position, Set cache, set power
+                self.uav_apply_cache(agent.action[0], agent)
+                self.uav_apply_power(agent.action[1], agent)
+                self.uav_apply_trajectory(agent.action[2], agent.action[3], agent)
 
         for user in self.users:
             self.update_user_state(user)
@@ -313,7 +310,7 @@ class World(object):
     def mbs_apply_agent_association(self, action_set, agent_list):
         association = action_set # [nodes][users]
         tmp_association = [[1 for j in range(self.num_agents)] for i in range(self.num_users)]
-        print(f'[mbs_apply_agent_association] actual: {association}, tmp: {tmp_association}')
+        #print(f'[mbs_apply_agent_association] actual: {association}, tmp: {tmp_association}')
         
         if len(action_set) == self.num_agents:
             for i, node in self.agents:
@@ -323,26 +320,21 @@ class World(object):
             NotImplementedError
         
     def uav_apply_cache(self, action_cache, agent):
-        print(f'[uav_apply_cache] {agent}, {action_cache}')
-        cache = action_cache.sample
-        agent.state.cache = cache
+        print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
+        agent.state.cache = action_cache
         NotImplementedError
         
     def uav_apply_power(self, action_power, agent):
-        data = action_power.sample()
-        print(f'[uav_apply_power] {agent}, {data}')
+        print(f'[uav_apply_power] {agent}, {action_power}')
         for i in range(len(agent.association)):
-            agent.power[i] = data / len(agent.association)
+            agent.power[i] = action_power / len(agent.association)
             agent.state.power[i] = agent.power[i]
         
     def uav_apply_trajectory(self, action_dist, action_angle, agent):
         print(f'[uav_apply_trajectory] {agent}, {action_dist}, {action_angle}')
-        dist = action_dist.sample()
-        angle = action_dist.sample()  # 0~360
-        print(f'traj_action : {action_dist.sample()}, {action_angle.sample()}')
 
-        agent.state.x =  agent.state.x + dist * math.cos(angle)
-        agent.state.y =  agent.state.y + dist * math.sin(angle)        
+        agent.state.x =  agent.state.x + action_dist * math.cos(action_angle)
+        agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)        
                 
     # gather agent action forces
     def apply_action_force(self, p_force):
