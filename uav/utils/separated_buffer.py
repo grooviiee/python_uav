@@ -68,7 +68,7 @@ class SeparatedReplayBuffer(object):
         else:
             self.available_actions = None
 
-        act_shape = get_shape_from_act_space(act_space)
+        act_shape = get_shape_from_act_space(act_space, args, is_uav)
 
         self.actions = np.zeros((self.episode_length, self.n_rollout_threads, act_shape), dtype=np.float32)
         self.action_log_probs = np.zeros((self.episode_length, self.n_rollout_threads, act_shape), dtype=np.float32)

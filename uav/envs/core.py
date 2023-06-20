@@ -333,8 +333,8 @@ class World(object):
     def uav_apply_trajectory(self, action_dist, action_angle, agent):
         print(f'[uav_apply_trajectory] {agent}, {action_dist}, {action_angle}')
 
-        agent.state.x =  agent.state.x + action_dist * math.cos(action_angle)
-        agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)        
+        agent.state.x =  agent.state.x + action_dist[0] * math.cos(action_angle[0])
+        agent.state.y =  agent.state.y + action_dist[0] * math.sin(action_angle[0])        
                 
     # gather agent action forces
     def apply_action_force(self, p_force):
