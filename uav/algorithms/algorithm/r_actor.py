@@ -55,9 +55,7 @@ class R_Actor(nn.Module):
                 self._use_orthogonal,
             )
 
-        self.act = ACTLayer(
-            action_space, self.hidden_size, self._use_orthogonal, self._gain
-        )
+        self.act = ACTLayer(action_space, self.hidden_size, self._use_orthogonal, self._gain)
 
         self.to(device)
 
@@ -83,7 +81,6 @@ class R_Actor(nn.Module):
         if available_actions is not None:
             available_actions = check(available_actions).to(**self.tpdv)
 
-        print(f"[ACTOR_FORWARD] shape: {obs.shape}")
         actor_features = self.base(obs)
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)

@@ -41,6 +41,7 @@ class ACTLayer(nn.Module):
         elif action_space.__class__.__name__ == "Tuple":
             self.tuple = True
             self.action_outs = []
+            print(f'[ACTLayer] action_space: {action_space}')
             for action_info in action_space:
                 action_dim = action_info.shape[0]
                 self.action_outs.append(
@@ -111,7 +112,7 @@ class ACTLayer(nn.Module):
 
             actions = torch.cat(actions, -1)
             action_log_probs = torch.cat(action_log_probs, -1)
-
+            print(f'[ACTLayer_forward] self.action_outs: {self.action_outs}, actions: {actions}')
         else:
             action_logits = self.action_out(x)
             actions = action_logits.mode() if deterministic else action_logits.sample()

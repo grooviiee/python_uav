@@ -106,7 +106,7 @@ class UAV_ENV(gym.Env):
             total_action_space = []
 
             u_action_space = spaces.Box(
-                low=0, high=1, shape=(world.num_uavs + world.num_mbs, world.num_users),  dtype=np.bool8,
+                low=0, high=1, shape=((world.num_uavs + world.num_mbs * world.num_users),),  dtype=np.bool8,
             )  # [0,1][Association]
             total_action_space.append(u_action_space)
 
