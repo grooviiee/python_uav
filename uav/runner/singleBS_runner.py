@@ -175,9 +175,15 @@ class SingleBS_runner(Runner):
             NotImplementedError
 
         for agent_id in range(self.num_agents):
+            if agent_id < self.num_mbs:
+                is_uav = False
+            else:
+                is_uav = True
+                
             self.trainer[agent_id].prep_rollout()
             print(f'[RUNNER] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
-            value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(self.buffer[agent_id].share_obs[step],
+            value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(is_uav,
+                                                                                    self.buffer[agent_id].share_obs[step],
                                                                                     self.buffer[agent_id].obs[step],
                                                                                     self.buffer[agent_id].rnn_states[step],
                                                                                     self.buffer[agent_id].rnn_states_critic[step],

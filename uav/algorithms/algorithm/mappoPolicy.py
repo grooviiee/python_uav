@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 from algorithms.algorithm.r_actor import R_Actor
 from algorithms.algorithm.r_critic import R_Critic
 
@@ -33,7 +34,7 @@ class MAPPOAgentPolicy:
         update_linear_schedule(self.actor_optimizer, episode, num_episodes, self.lr)
         update_linear_schedule(self.critic_optimizer, episode, num_episodes, self.critic_lr)
         
-    def get_actions(self, cent_obs, obs, rnn_states_actor, rnn_states_critic, masks, available_actions=None,
+    def get_actions(self, is_uav, cent_obs, obs, rnn_states_actor, rnn_states_critic, masks, available_actions=None,
                     deterministic=False):
         """
         Compute actions and value function predictions for the given inputs.
@@ -52,7 +53,15 @@ class MAPPOAgentPolicy:
         :return rnn_states_actor: (torch.Tensor) updated actor network RNN states.
         :return rnn_states_critic: (torch.Tensor) updated critic network RNN states.
         """
-        actions, action_log_probs, rnn_states_actor = self.actor(obs,
+        if is_uav == False:
+            reshape_obs = np.reshape(obs, (2,5,-1))
+        else:
+            reshape_obs = np.reshape(obs, (4,8,-1))
+        
+        
+        print(f'[get_actions]: {reshape_obs}')
+        cent_obs = reshape_obs
+        actions, action_log_probs, rnn_states_actor = self.actor(reshape_obs,
                                                                  rnn_states_actor,
                                                                  masks,
                                                                  available_actions,

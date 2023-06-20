@@ -35,17 +35,18 @@ class CNNLayer(nn.Module):
 
         # MBS: input_channel 2, input_width 8, input_height 40, UAV: input_channel 8, input_width 40, input_height 600
         # inputs: [N, C, W, H]
-        print(f'[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}')
         if is_uav == True:
             num_hidden_layer = 60192
-            input_channel = 8
-            input_width = 40
-            input_height = 600
-        else:
-            num_hidden_layer = 1824
-            input_channel = 2
+            input_channel = 4
             input_width = 8
-            input_height = 40
+            input_height = 8
+        else:
+            num_hidden_layer = 4
+            input_channel = 2
+            input_width = 5
+            input_height = 5
+
+        print(f'[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}')
 
         self.cnn = nn.Sequential(
             init_(
