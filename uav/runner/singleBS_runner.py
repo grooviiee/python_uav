@@ -56,7 +56,7 @@ class SingleBS_runner(Runner):
         for agent_id in range(self.num_agents):
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
-
+            print(f'[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}')
             # policy network
             policy = Policy(self.all_args,
                         self.envs.observation_space[agent_id],
@@ -171,7 +171,7 @@ class SingleBS_runner(Runner):
 
         # For Debugging
         for agent_id in range(self.num_agents):
-            print(f'[RUNNER] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
+            print(f'[RUNNER_DEBUG] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
             NotImplementedError
 
         for agent_id in range(self.num_agents):
@@ -193,7 +193,7 @@ class SingleBS_runner(Runner):
             action = _t2n(action)
             
             # re-arrange action
-            print(f'[RUNNER] agent_id : {agent_id}, action space dType: {self.envs.action_space[agent_id].__class__.__name__}')
+            print(f'[RUNNER] agent_id : {agent_id}, action space: {self.envs.action_space[agent_id]}')
             if self.envs.action_space[agent_id].__class__.__name__ == 'MultiDiscrete':
                 for i in range(self.envs.action_space[agent_id].shape):
                     uc_action_env = np.eye(self.envs.action_space[agent_id].high[i]+1)[action[:, i]]
@@ -204,15 +204,11 @@ class SingleBS_runner(Runner):
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Discrete':
                 action_env = np.squeeze(np.eye(self.envs.action_space[agent_id].n)[action], 1)
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Box':
-                # TODO: Fix below shape into Discrete or Multi Discrete
-                # TODO: Change this implementation.. It has some bugs
-                # [RUNNER] agent_id : 0, action space dType: Box value: Box(False, True, (5, 20), bool)
-                # print(f'[RUNNER] BOX dType GET_ACTION: {value}, action: {action}')
-                action_env = self.envs.action_space[agent_id]
-                #action_env = flatten(action_env, 1)
+                # MBS Case -> [RUNNER] agent_id : 0, action space: Box(False, True, (100,), bool)
+                print(f'[RUNNER] BOX dType action.shape:  {action.shape}')
                 action_env = action
+                
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Tuple':
-                # TODO: Fix below shape into Discrete or Multi Discrete
                 # [RUNNER] agent_id : 4, action space dType: Tuple value: Tuple(Box(False, True, (2, 10), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
                 # print(f'[RUNNER] Tuple dType GET_ACTION: {value}, action: {action}')
                 action_env = self.envs.action_space[agent_id]
@@ -228,7 +224,7 @@ class SingleBS_runner(Runner):
             rnn_states_critic.append( _t2n(rnn_state_critic))
             # MBS: action_env [ True]
             # UAV: action_env Tuple(Box(False, True, (2, 30), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-            print(f'[RUNNER] agent_id: {agent_id} Done.. action_env.shape: {len(action_env)} / len: {len(temp_actions_env)}, n_rollout_threads: {self.n_rollout_threads}')
+            print(f'[RUNNER] agent_id: {agent_id} Done.. action_env.shape: {action_env.shape} / len: {len(temp_actions_env)}, n_rollout_threads: {self.n_rollout_threads}')
 
         # [envs, agents, dim] -> action dimension depends on num threads
         action_env_results = []

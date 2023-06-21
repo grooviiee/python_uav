@@ -17,14 +17,15 @@ class ACTLayer(nn.Module):
         self.mixed_action = False
         self.multi_discrete = False
         self.tuple = False
-        print(
-            f"Init Actor, dtype: {action_space.__class__.__name__}, shape: {action_space.shape}"
-        )
+
+        #MBS: Box, UAV: Tuple
+
         if action_space.__class__.__name__ == "Discrete":
             action_dim = action_space.n
             self.action_out = Categorical(inputs_dim, action_dim, use_orthogonal, gain)
         elif action_space.__class__.__name__ == "Box":
             action_dim = action_space.shape[0]
+            print(f"[INIT_ACTOR_NETWORK], dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}")
             self.action_out = DiagGaussian(inputs_dim, action_dim, use_orthogonal, gain)
         elif action_space.__class__.__name__ == "MultiBinary":
             action_dim = action_space.shape[0]
@@ -34,9 +35,7 @@ class ACTLayer(nn.Module):
             action_dims = action_space.high - action_space.low + 1
             self.action_outs = []
             for action_dim in action_dims:
-                self.action_outs.append(
-                    Categorical(inputs_dim, action_dim, use_orthogonal, gain)
-                )
+                self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
             self.action_outs = nn.ModuleList(self.action_outs)
         elif action_space.__class__.__name__ == "Tuple":
             self.tuple = True
@@ -44,9 +43,9 @@ class ACTLayer(nn.Module):
             print(f'[ACTLayer] action_space: {action_space}')
             for action_info in action_space:
                 action_dim = action_info.shape[0]
-                self.action_outs.append(
-                    Categorical(inputs_dim, action_dim, use_orthogonal, gain)
-                )
+                print(f"[INIT_ACTOR_NETWORK], dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}")
+
+                self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
             self.action_outs = nn.ModuleList(self.action_outs)
         else:  # discrete + continous
             self.mixed_action = True
@@ -71,7 +70,7 @@ class ACTLayer(nn.Module):
         :return action_log_probs: (torch.Tensor) log probabilities of taken actions.
         """
 
-        print(f"[ACTOR_ACTLAYER_FORWARD] input x.shape: {x.shape}")
+        print(f'[ACTOR_ACTLAYER_FORWARD] input x.shape: {x.shape}')
         if self.mixed_action:
             actions = []
             action_log_probs = []
@@ -106,6 +105,7 @@ class ACTLayer(nn.Module):
             for action_out in self.action_outs:
                 action_logit = action_out(x)
                 action = action_logit.mode() if deterministic else action_logit.sample()
+                print(f'[ACTLayer_forward] action: {action}')
                 action_log_prob = action_logit.log_probs(action)
                 actions.append(action)
                 action_log_probs.append(action_log_prob)

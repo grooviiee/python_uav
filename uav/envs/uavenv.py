@@ -96,7 +96,7 @@ class UAV_ENV(gym.Env):
         self.shared_reward = world.collaborative if hasattr(world, 'collaborative') else False
 
         # "Master MBS"
-        print(f"[INIT_ENV_AGENT] Set MBS state and action space. NUM_UAV: {world.num_uavs}, NUM_MBS: {world.num_mbs}, NUM_USER: {world.num_users}")
+        print(f"[INIT_ENV] NUM_UAV: {world.num_uavs}, NUM_MBS: {world.num_mbs}, NUM_USER: {world.num_users}")
         for agent in self.agents:
             if agent.isMBS == False:
                 continue
@@ -106,7 +106,7 @@ class UAV_ENV(gym.Env):
             total_action_space = []
 
             u_action_space = spaces.Box(
-                low=0, high=1, shape=((world.num_uavs + world.num_mbs * world.num_users),),  dtype=np.bool8,
+                low=0, high=1, shape=((world.num_uavs + world.num_mbs) * world.num_users, ),  dtype=np.bool8,
             )  # [0,1][Association]
             total_action_space.append(u_action_space)
 
@@ -140,10 +140,9 @@ class UAV_ENV(gym.Env):
 
             obs_space = spaces.Tuple(total_observation_space)
             self.observation_space.append(obs_space)
-        print(f"[INIT_ENV_AGENT] Set MBS state and action space Finished")
+            print(f"[INIT_ENV_MBS] agent_id {agent.agent_id} Finished, obs_space: {obs_space}, act_space: {act_space}")
 
         # "UAV"
-        print(f"[INIT_ENV_AGENT] Set UAV state and action space")
         for agent in self.agents:
             if agent.isMBS == True:
                 continue
@@ -202,12 +201,14 @@ class UAV_ENV(gym.Env):
             obs_space = spaces.Tuple(total_observation_space)
             self.observation_space.append(obs_space)
 
+            print(f"[INIT_ENV_UAV] agent_id {agent.agent_id} Finished, obs_space: {obs_space}, act_space: {act_space}")
+
         # "User"
         print(f"[INIT_ENV_AGENT] Set UAV state and action space")
         for user in self.users:
             NotImplemented
 
-        print(f"[INIT_ENV_AGENT] Set UAV state and action space Finished")
+
 
     def get_obs_size(self):
         """Returns the size of the observation."""
