@@ -87,12 +87,15 @@ class SeparatedReplayBuffer(object):
     def buffer_insert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
-        print(f'[INSERT_BUFFER] obs type: {type(obs)}, flat_obs: {len(obs)}')
+        if True == True:
+            print(f'[INSERT_BUFFER] obs type: {type(obs)}, flat_obs: {obs}')
+            print(f'[INSERT_BUFFER] action type: {type(actions)}, action_len: {actions}')
+            print(f'[INSERT_BUFFER] action_log_probs type: {type(action_log_probs)}, action_len: {action_log_probs}')
+            
         self.obs[self.step + 1] = obs.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
         self.rnn_states_critic[self.step + 1] = rnn_states_critic.copy()
         self.actions[self.step] = actions.copy()
-        print(f'action_log_probs: {action_log_probs.shape}')
         self.action_log_probs[self.step] = action_log_probs.copy()
         self.value_preds[self.step] = value_preds.copy()
         self.rewards[self.step] = rewards.copy()

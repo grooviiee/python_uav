@@ -257,14 +257,14 @@ class SingleBS_runner(Runner):
         # print(f'[RUNNER_INSERT] (VALUE) obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n actions: {actions}\n \
         #       action_log_probs: {action_log_probs}\n rnn_states: {rnn_states}\n rnn_states_critic: {rnn_states_critic}\n')
         
-        print(f'[RUNNER_INSERT] (TYPE)  obs.type: {type(obs)}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
-        print(f'[RUNNER_INSERT] (TYPE) actions: {type(actions)}, action_log_probs: {type(action_log_probs)}, rnn_states: {type(rnn_states)}, rnn_states_critic: {type(rnn_states_critic)}')
+        print(f'[RUNNER_INSERT] (TYPE) obs.type: {obs}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
+        print(f'[RUNNER_INSERT] (TYPE) actions: {actions}, action_log_probs: {type(action_log_probs)}, rnn_states: {rnn_states}, rnn_states_critic: {type(rnn_states_critic)}')
         # Dones가 True인 index에 대해서는 모두 0으로 설정하나 보다. -> 이건 나중에 고려하기로.
     
         npDones = np.array(dones)
         # rnn_states[npDones == True] = np.zeros(((npDones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
         # rnn_states_critic[npDones == True] = np.zeros(((npDones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
-        masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
+        masks = np.ones(self.num_agents, dtype=np.float32)
         # masks[npDones == True] = np.zeros(((npDones == True).sum(), 1), dtype=np.float32)
         
         share_obs = []
@@ -290,7 +290,7 @@ class SingleBS_runner(Runner):
                 share_obs = np.array(list(obs[:, agent_id]))
 
             print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}')
-
+            print(f'[RUNNER_BUFFER_INSERT] {len(share_obs)} {obs[agent_id]} {len(rnn_states)} {len(rnn_states_critic)} {len(actions)} {len(action_log_probs)} {len(values)} {len(rewards)} {len(masks)}')
             # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].buffer_insert(share_obs,
                                         list(chain(*obs[agent_id])),
