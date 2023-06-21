@@ -25,8 +25,8 @@ class ACTLayer(nn.Module):
             self.action_out = Categorical(inputs_dim, action_dim, use_orthogonal, gain)
         elif action_space.__class__.__name__ == "Box":
             action_dim = action_space.shape[0]
-            print(f"[INIT_ACTOR_NETWORK], dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}")
-            self.action_out = DiagGaussian(inputs_dim, action_dim, use_orthogonal, gain)
+            print(f"[INIT_ACTOR_NETWORK], dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}, use_orthogonal: {use_orthogonal}")
+            self.action_out = DiagGaussian(inputs_dim, action_dim, True, gain)
         elif action_space.__class__.__name__ == "MultiBinary":
             action_dim = action_space.shape[0]
             self.action_out = Bernoulli(inputs_dim, action_dim, use_orthogonal, gain)
@@ -105,15 +105,14 @@ class ACTLayer(nn.Module):
             for action_out in self.action_outs:
                 action_logit = action_out(x)
                 action = action_logit.mode() if deterministic else action_logit.sample()
-                print(f'[ACTLayer_forward] action: {action}')
                 action_log_prob = action_logit.log_probs(action)
                 actions.append(action)
                 action_log_probs.append(action_log_prob)
 
             actions = torch.cat(actions, -1)
             action_log_probs = torch.cat(action_log_probs, -1)
-            print(f'[ACTLayer_forward] self.action_outs: {self.action_outs}, actions: {actions}')
         else:
+            # MBS goes here (where 'x' came from)
             action_logits = self.action_out(x)
             actions = action_logits.mode() if deterministic else action_logits.sample()
             action_log_probs = action_logits.log_probs(actions)

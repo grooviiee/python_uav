@@ -59,9 +59,6 @@ class CNNLayer(nn.Module):
             ),
             active_func,
             Flatten(),
-            # init_(nn.Linear(hidden_size // 2 * (input_width - kernel_size + stride) * (input_height - kernel_size + stride),
-            #                 hidden_size)
-            #       ),
             init_(nn.Linear(num_hidden_layer, 64)),
             active_func,
             init_(nn.Linear(hidden_size, 64)),

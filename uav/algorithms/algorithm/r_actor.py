@@ -56,9 +56,7 @@ class R_Actor(nn.Module):
 
         self.to(device)
 
-    def forward(
-        self, obs, rnn_states, masks, available_actions=None, deterministic=False
-    ):
+    def forward(self, obs, rnn_states, masks, available_actions=None, deterministic=False):
         """
         Compute actions from the given inputs.
         :param obs: (np.ndarray / torch.Tensor) observation inputs into network.
@@ -79,6 +77,7 @@ class R_Actor(nn.Module):
             available_actions = check(available_actions).to(**self.tpdv)
 
         actor_features = self.base(obs)
+        # actor_features is 32x64
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
 

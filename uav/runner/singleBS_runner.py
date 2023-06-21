@@ -234,9 +234,9 @@ class SingleBS_runner(Runner):
                 one_hot_action_env.append(temp_action_env)
             action_env_results.append(one_hot_action_env)
 
-        # values = np.array(values).transpose(1, 0, 2)
-        # actions = np.array(actions).transpose(1, 0, 2)
-        # action_log_probs = np.array(action_log_probs).transpose(1, 0, 2)
+        # values = np.array(values).transpose()
+        # actions = np.transpose(actions, (1, 0, 2))
+        # action_log_probs = np.array(action_log_probs).transpose()
         # rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
         # rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
         for return_action_info in action_env_results:
@@ -290,6 +290,8 @@ class SingleBS_runner(Runner):
                 share_obs = np.array(list(obs[:, agent_id]))
 
             print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}')
+
+
             # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].buffer_insert(share_obs,
                                         list(chain(*obs[agent_id])),

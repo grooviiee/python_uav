@@ -41,13 +41,13 @@ class SeparatedReplayBuffer(object):
             res_obs_shape = 1
             for obs_info in listed_obs_shape:
                 res_obs_shape *= obs_info[0] * obs_info[1]
-            print(f'res_obs_shape {res_obs_shape}')
+
         if type(share_obs_shape[-1]) == tuple:
             listed_share_obs_shape = list(share_obs_shape)
             res_share_obs_shape = 1
             for obs_info in listed_share_obs_shape:
                 res_share_obs_shape *= obs_info[0] * obs_info[1]
-            print(f'res_share_obs_shape: {res_share_obs_shape}')
+
 
         if is_uav == True:  #UAV
             self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 248), dtype=np.float32)
@@ -88,13 +88,12 @@ class SeparatedReplayBuffer(object):
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
         print(f'[INSERT_BUFFER] obs type: {type(obs)}, flat_obs: {len(obs)}')
-        # self.share_obs[self.step + 1] = toArray.copy()
         self.obs[self.step + 1] = obs.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
         self.rnn_states_critic[self.step + 1] = rnn_states_critic.copy()
-        print(f'[INSERT_BUFFER] action type: {type(actions)}, size: {actions.shape}')
-        self.actions[self.step] = actions.copy()
-        self.action_log_probs[self.step] = action_log_probs.copy()
+        self.actions[self.step] = actions[0].reshape(1, 100).copy()
+        print(f'action_log_probs: {action_log_probs.shape}')
+        self.action_log_probs[self.step] = action_log_probs[0].reshape(1,100).copy()
         self.value_preds[self.step] = value_preds.copy()
         self.rewards[self.step] = rewards.copy()
         # self.masks[self.step + 1] = masks.copy()
