@@ -25,8 +25,9 @@ class ACTLayer(nn.Module):
             self.action_out = Categorical(inputs_dim, action_dim, use_orthogonal, gain)
         elif action_space.__class__.__name__ == "Box":
             action_dim = action_space.shape[0]
-            print(f"[INIT_ACTOR_NETWORK], dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}, use_orthogonal: {use_orthogonal}")
-            self.action_out = DiagGaussian(inputs_dim, action_dim, True, gain)
+            print(f"[INIT_ACTOR_NETWORK] dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}, use_orthogonal: {use_orthogonal}")
+            self.action_out = DiagGaussian(inputs_dim, action_dim, use_orthogonal, gain)
+            print(f"[INIT_ACTOR_NETWORK] self.action_out: {self.action_out}")
         elif action_space.__class__.__name__ == "MultiBinary":
             action_dim = action_space.shape[0]
             self.action_out = Bernoulli(inputs_dim, action_dim, use_orthogonal, gain)
@@ -47,6 +48,7 @@ class ACTLayer(nn.Module):
 
                 self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
             self.action_outs = nn.ModuleList(self.action_outs)
+            print(f"[INIT_ACTOR_NETWORK] self.action_out: {self.action_outs}")
         else:  # discrete + continous
             self.mixed_action = True
             continous_dim = action_space[0].shape[0]
@@ -116,7 +118,8 @@ class ACTLayer(nn.Module):
             action_logits = self.action_out(x)
             actions = action_logits.mode() if deterministic else action_logits.sample()
             action_log_probs = action_logits.log_probs(actions)
-
+            print(f"[ACTLayer_forward] action_logits: {action_logits}, actions: {actions.shape}, action_log_probs: {action_log_probs}")
+            
         return actions, action_log_probs
 
     def get_probs(self, x, available_actions=None):

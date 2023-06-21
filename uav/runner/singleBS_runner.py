@@ -210,7 +210,7 @@ class SingleBS_runner(Runner):
                 
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Tuple':
                 # [RUNNER] agent_id : 4, action space dType: Tuple value: Tuple(Box(False, True, (2, 10), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-                # print(f'[RUNNER] Tuple dType GET_ACTION: {value}, action: {action}')
+                print(f'[RUNNER] Tuple dType action.shape:  {action.shape}')
                 action_env = self.envs.action_space[agent_id]
                 action_env = action
                 # for i in range 
@@ -290,7 +290,6 @@ class SingleBS_runner(Runner):
                 share_obs = np.array(list(obs[:, agent_id]))
 
             print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}')
-
 
             # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].buffer_insert(share_obs,

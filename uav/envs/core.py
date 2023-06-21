@@ -166,9 +166,9 @@ class World(object):
             else:
                 print(f'[WORLD_STEP] UAV action: {len(agent.action)}')
                 # Set position, Set cache, set power
-                self.uav_apply_cache(agent.action[0], agent)
-                self.uav_apply_power(agent.action[1], agent)
-                self.uav_apply_trajectory(agent.action[2], agent.action[3], agent)
+                self.uav_apply_cache(agent.action[0][0], agent)
+                self.uav_apply_power(agent.action[0][1], agent)
+                self.uav_apply_trajectory(agent.action[0][2], agent.action[0][3], agent)
 
         for user in self.users:
             self.update_user_state(user)
@@ -333,8 +333,8 @@ class World(object):
     def uav_apply_trajectory(self, action_dist, action_angle, agent):
         print(f'[uav_apply_trajectory] {agent}, {action_dist}, {action_angle}')
 
-        agent.state.x =  agent.state.x + action_dist[0] * math.cos(action_angle[0])
-        agent.state.y =  agent.state.y + action_dist[0] * math.sin(action_angle[0])        
+        agent.state.x =  agent.state.x + action_dist * math.cos(action_angle)
+        agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)        
                 
     # gather agent action forces
     def apply_action_force(self, p_force):

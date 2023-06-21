@@ -52,7 +52,8 @@ class CNNLayer(nn.Module):
             init_(
                 nn.Conv2d(
                     in_channels=input_channel,
-                    out_channels=hidden_size // 2,
+                    #out_channels=hidden_size // 2,
+                    out_channels=1,
                     kernel_size=kernel_size,
                     stride=stride,
                 )
@@ -71,8 +72,9 @@ class CNNLayer(nn.Module):
 
     def forward(self, x):
         x = x / 255.0
-        print(f"[CNN FORWARD]: {x.shape}")
+        print(f"[CNN FORWARD]: input x: {x.shape}")
         x = self.cnn(x)
+        print(f"[CNN FORWARD]: returned x: {x.shape}")
         return x
 
 
