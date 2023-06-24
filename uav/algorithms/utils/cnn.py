@@ -17,7 +17,7 @@ class CNNLayer(nn.Module):
         use_orthogonal,
         use_ReLU,
         is_uav,
-        kernel_size=3,
+        kernel_size=2,
         stride=2,
     ):
         super(CNNLayer, self).__init__()
@@ -29,17 +29,17 @@ class CNNLayer(nn.Module):
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
 
-        # input_channel = obs_shape[0][0] * obs_shape[0][1]
-        # input_width = obs_shape[1][0] * obs_shape[1][1]
-        # input_height = obs_shape[2][0] * obs_shape[2][1]
+        input_channel = obs_shape[0][0]
+        input_width = obs_shape[1][0]
+        input_height = obs_shape[2][0]
 
         # MBS: input_channel 2, input_width 8, input_height 40, UAV: input_channel 8, input_width 40, input_height 600
         # inputs: [N, C, W, H]
         if is_uav == True:
             num_hidden_layer = 15
-            input_channel = 2
-            input_width = 3
-            input_height = 107
+            input_channel = 1
+            input_width = 2
+            input_height = 31
         else:
             num_hidden_layer = 4
             input_channel = 2

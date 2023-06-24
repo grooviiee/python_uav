@@ -38,7 +38,7 @@ def get_shape_from_act_space(act_space, args, is_uav):
     if is_uav == False:
         act_shape = (args.num_uavs + args.num_mbs) * args.num_users
     else:
-        act_shape = args.num_files + 3
+        act_shape = 4
     return act_shape
 
 def check(input):

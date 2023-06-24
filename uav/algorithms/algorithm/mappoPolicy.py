@@ -56,7 +56,7 @@ class MAPPOAgentPolicy:
         if is_uav == False:
             reshape_obs = np.reshape(obs, (2,5,-1)) # (2, 5, 5)
         else:
-            reshape_obs = np.reshape(obs, (2,4,-1)) # (2, 4, 31)
+            reshape_obs = np.reshape(obs, (1,2,-1)) # (2, 2, 17)
         
         
         cent_obs = reshape_obs

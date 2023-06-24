@@ -183,7 +183,7 @@ class UAV_ENV(gym.Env):
             u_observation_space = spaces.Box(low=0, high=world.map_size, shape=(2*world.num_users, ), dtype=np.int32)  # [location][user]
             total_observation_space.append(u_observation_space)
 
-            u_observation_space = spaces.Box(low=0, high=1, shape=(world.num_users*world.num_files, ), dtype=np.bool8)  # [user][files]
+            u_observation_space = spaces.Box(low=0, high=world.num_files, shape=(world.num_users, ), dtype=np.int16)  # [user][files]
             total_observation_space.append(u_observation_space)
 
             obs_space = spaces.Tuple(total_observation_space)
