@@ -177,25 +177,13 @@ class UAV_ENV(gym.Env):
             # Observation = location {x, y} for UAV , location {x, y} for all users , {x_u,f} for all user and files
             total_observation_space = []
 
-            u_observation_space = spaces.Box(
-                low=0,
-                high=world.map_size,
-                shape=(2, world.num_uavs),
-                dtype=np.float32,
-            )  # [location][uav]
+            u_observation_space = spaces.Box(low=0, high=world.map_size, shape=(2, ), dtype=np.int32)  # [location][uav]
             total_observation_space.append(u_observation_space)
 
-            u_observation_space = spaces.Box(
-                low=0,
-                high=world.map_size,
-                shape=(2, world.num_users),
-                dtype=np.float32,
-            )  # [location][user]
+            u_observation_space = spaces.Box(low=0, high=world.map_size, shape=(2*world.num_users, ), dtype=np.int32)  # [location][user]
             total_observation_space.append(u_observation_space)
 
-            u_observation_space = spaces.Box(
-                low=0, high=1, shape=(world.num_users, world.num_files), dtype=np.bool8
-            )  # [user][files]
+            u_observation_space = spaces.Box(low=0, high=1, shape=(world.num_users*world.num_files, ), dtype=np.bool8)  # [user][files]
             total_observation_space.append(u_observation_space)
 
             obs_space = spaces.Tuple(total_observation_space)
@@ -246,9 +234,6 @@ class UAV_ENV(gym.Env):
 
     # get observation for a particular agent
     def _get_obs(self, agent, world):
-        # obsList = []
-        # if self.observation_callback is None:
-        #     return np.zeros(0)
         obs = []
         uav_location = []
         for id, uav in enumerate(world.agents):

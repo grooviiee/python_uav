@@ -28,8 +28,8 @@ class SeparatedReplayBuffer(object):
         obs_shape = get_shape_from_obs_space(obs_space)
         share_obs_shape = get_shape_from_obs_space(share_obs_space)
 
-        print(f'[INIT_REPLAYBUFFER] obs_shape dType: {type(obs_shape[-1])}, {obs_shape}, {list(obs_shape)}')
-        print(f'[INIT_REPLAYBUFFER] share_obs_shape dType: {type(share_obs_shape[-1])}, {share_obs_shape}, {list(share_obs_shape)}')
+        print(f'[REPLAYBUFFER_INIT] obs_shape dType: {type(obs_shape[-1])}, {obs_shape}, {list(obs_shape)}')
+        print(f'[REPLAYBUFFER_INIT] share_obs_shape dType: {type(share_obs_shape[-1])}, {share_obs_shape}, {list(share_obs_shape)}')
         if type(obs_shape[-1]) == list:
             obs_shape = obs_shape[:1] * obs_shape[:1]
 
@@ -40,6 +40,7 @@ class SeparatedReplayBuffer(object):
             listed_obs_shape = list(obs_shape)
             res_obs_shape = 1
             for obs_info in listed_obs_shape:
+                print(f"obs_info[0]: {obs_info[0]}, obs_info[1]: {obs_info[1]}")
                 res_obs_shape *= obs_info[0] * obs_info[1]
 
         if type(share_obs_shape[-1]) == tuple:
@@ -50,8 +51,8 @@ class SeparatedReplayBuffer(object):
 
 
         if is_uav == True:  #UAV
-            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 248), dtype=np.float32)
-            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 248), dtype=np.float32)      
+            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 642), dtype=np.float32)
+            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 642), dtype=np.float32)      
         else:
             self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 50), dtype=np.float32)
             self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 50), dtype=np.float32)
@@ -88,7 +89,7 @@ class SeparatedReplayBuffer(object):
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
         if True == True:
-            print(f'[INSERT_BUFFER] obs type: {type(obs)}, flat_obs: {obs}')
+            print(f'[INSERT_BUFFER] obs type: {len(obs)}, buffer.obs: {len(self.obs[self.step + 1])}')
             print(f'[INSERT_BUFFER] action type: {type(actions)}, action_len: {actions}')
             print(f'[INSERT_BUFFER] action_log_probs type: {type(action_log_probs)}, action_len: {action_log_probs}')
             
