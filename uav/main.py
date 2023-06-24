@@ -80,6 +80,7 @@ def parse_args():
     )
     
     # prepare parameters
+    parser.add_argument("--print_log", type=bool, default=True, help="Choose printing logs")
     parser.add_argument("--device", default="gpu", help="Choose device. cpu or gpu?")
     parser.add_argument("--num_env_steps", type=int, default=10e6,
                         help='Number of environment steps to train (default: 10e6)')
@@ -151,7 +152,7 @@ def parse_args():
 
     
     # replay buffer parameters
-    parser.add_argument("--episode_length", type=int, default=200, help="Max length for any episode")
+    parser.add_argument("--episode_length", type=int, default=10, help="Max length for any episode")
     
     # Environment settings
     parser.add_argument(

@@ -24,12 +24,15 @@ class SeparatedReplayBuffer(object):
         self._use_valuenorm = args.use_valuenorm
         self._use_proper_time_limits = args.use_proper_time_limits
         self.is_uav = is_uav
+        self.args = args
 
         obs_shape = get_shape_from_obs_space(obs_space)
         share_obs_shape = get_shape_from_obs_space(share_obs_space)
 
-        print(f'[REPLAYBUFFER_INIT] obs_shape dType: {type(obs_shape[-1])}, obs_shape: {obs_shape}')
-        print(f'[REPLAYBUFFER_INIT] share_obs_shape dType: {type(share_obs_shape[-1])}, share_obs_shape: {share_obs_shape}')
+        if self.args.print_log:
+            print(f'[REPLAYBUFFER_INIT] obs_shape dType: {type(obs_shape[-1])}, obs_shape: {obs_shape}')
+            print(f'[REPLAYBUFFER_INIT] share_obs_shape dType: {type(share_obs_shape[-1])}, share_obs_shape: {share_obs_shape}')
+        
         if type(obs_shape[-1]) == list:
             obs_shape = obs_shape[:1] * obs_shape[:1]
 
@@ -40,14 +43,14 @@ class SeparatedReplayBuffer(object):
             listed_obs_shape = list(obs_shape)
             res_obs_shape = 1
             for obs_info in listed_obs_shape:
-                print(f"making obs_shape.. obs_info: {obs_info}, res_obs_shape: {res_obs_shape}")
+                #print(f"making obs_shape.. obs_info: {obs_info}, res_obs_shape: {res_obs_shape}")
                 res_obs_shape *= obs_info[0]
 
         if type(share_obs_shape[-1]) == tuple:
             listed_share_obs_shape = list(share_obs_shape)
             res_share_obs_shape = 1
             for obs_info in listed_share_obs_shape:
-                print(f"[REPLAYBUFFER_INIT] making share_obs_info.. obs_info: {obs_info}, res_share_obs_shape: {res_obs_shape}")
+                #print(f"[REPLAYBUFFER_INIT] making share_obs_info.. obs_info: {obs_info}, res_share_obs_shape: {res_obs_shape}")
                 res_share_obs_shape *= obs_info[0]
 
 
@@ -82,14 +85,15 @@ class SeparatedReplayBuffer(object):
 
         self.step = 0
         
-        print(f'[REPLAYBUFFER] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
-        print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
-        print(f'[REPLAYBUFFER] actions Buffer size : {self.episode_length + 1}, {self.n_rollout_threads}, {act_shape}')
+        if self.args.print_log:
+            print(f'[REPLAYBUFFER] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
+            print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
+            print(f'[REPLAYBUFFER] actions Buffer size : {self.episode_length + 1}, {self.n_rollout_threads}, {act_shape}')
 
     def buffer_insert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
-        if True == True:
+        if self.args.print_log:
             print(f'[INSERT_BUFFER] obs type: {len(obs)}, buffer.obs: {len(self.obs[self.step + 1])}')
             print(f'[INSERT_BUFFER] obs type: {len(actions)}, buffer.obs: {len(self.actions[self.step + 1])}')
             print(f'[INSERT_BUFFER] action_log_probs type: {type(action_log_probs)}, action_len: {action_log_probs}')
