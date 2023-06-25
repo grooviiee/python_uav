@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+from onpolicy.utils.valuenorm import ValueNorm
 from algorithms.utils.util import check
 
 class MAPPOAgentTrainer:
@@ -20,7 +21,19 @@ class MAPPOAgentTrainer:
         self._use_recurrent_policy = args.use_recurrent_policy
         self._use_naive_recurrent = args.use_naive_recurrent_policy
         self._use_max_grad_norm = args.use_max_grad_norm
+        self._use_popart = args.use_popart
+        self._use_valuenorm = args.use_valuenorm
+        self._use_value_active_masks = args.use_value_active_masks
+        self._use_policy_active_masks = args.use_policy_active_masks
 
+        assert (self._use_popart and self._use_valuenorm) == False, ("self._use_popart and self._use_valuenorm can not be set True simultaneously")
+        
+        if self._use_popart:
+            self.value_normalizer = self.policy.critic.v_out
+        elif self._use_valuenorm:
+            self.value_normalizer = ValueNorm(1).to(self.device)
+        else:
+            self.value_normalizer = None
     # Train is acheived per Agent
     def train(self, buffer, update_actor=True):
         advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
@@ -46,7 +59,7 @@ class MAPPOAgentTrainer:
             elif self._use_naive_recurrent:
                 data_generator = buffer.naive_recurrent_generator(advantages, self.num_mini_batch)
             else:
-                data_generator = buffer.feed_forward_generatro(advantages, self.num_mini_batch)    
+                data_generator = buffer.feed_forward_generator(advantages, self.num_mini_batch)    
             
             for sample in data_generator:
                 
