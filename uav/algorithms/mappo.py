@@ -53,6 +53,7 @@ class MAPPOAgentTrainer:
         train_info['ratio'] = 0
         
         # Start Train
+        print(f"[TRAIN] ppo_epoch: {self.ppo_epoch}")
         for _ in range(self.ppo_epoch):
             if self._use_recurrent_policy:
                 data_generator = buffer.recurrent_generator(advantages, self.num_mini_batch, self.data_chunk_length)
@@ -61,8 +62,9 @@ class MAPPOAgentTrainer:
             else:
                 data_generator = buffer.feed_forward_generator(advantages, self.num_mini_batch)    
             
+            print(f"[TRAIN] data_generator {data_generator}, num_mini_batch: {self.num_mini_batch}")
             for sample in data_generator:
-                
+
                 value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights = self.ppo_update(sample, update_actor)
         	        
                 train_info['value_loss'] += value_loss.item()
