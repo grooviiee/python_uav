@@ -29,7 +29,7 @@ class SeparatedReplayBuffer(object):
         obs_shape = get_shape_from_obs_space(obs_space)
         share_obs_shape = get_shape_from_obs_space(share_obs_space)
 
-        if self.args.print_log:
+        if self.args.log_level >= 3:
             print(f'[REPLAYBUFFER_INIT] obs_shape dType: {type(obs_shape[-1])}, obs_shape: {obs_shape}')
             print(f'[REPLAYBUFFER_INIT] share_obs_shape dType: {type(share_obs_shape[-1])}, share_obs_shape: {share_obs_shape}')
         
@@ -85,7 +85,7 @@ class SeparatedReplayBuffer(object):
 
         self.step = 0
         
-        if self.args.print_log:
+        if self.args.log_level >= 3:
             print(f'[REPLAYBUFFER] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
             print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
             print(f'[REPLAYBUFFER] actions Buffer size : {self.episode_length + 1}, {self.n_rollout_threads}, {act_shape}')
@@ -93,9 +93,9 @@ class SeparatedReplayBuffer(object):
     def buffer_insert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
-        if self.args.print_log:
+        if self.args.log_level >= 3:
             print(f'[INSERT_BUFFER] obs type: {len(obs)}, buffer.obs: {len(self.obs[self.step + 1])}')
-            print(f'[INSERT_BUFFER] obs type: {len(actions)}, buffer.obs: {len(self.actions[self.step + 1])}')
+            print(f'[INSERT_BUFFER] obs type: {len(actions)}, buffer.obs: {len(self.actions[self.step])}')
             print(f'[INSERT_BUFFER] action_log_probs type: {type(action_log_probs)}, action_len: {action_log_probs}')
             
         self.obs[self.step + 1] = obs.copy()

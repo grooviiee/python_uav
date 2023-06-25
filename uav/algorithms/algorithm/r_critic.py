@@ -38,10 +38,7 @@ class R_Critic(nn.Module):
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0))
 
-        if self._use_popart:
-            self.v_out = init_(PopArt(self.hidden_size, 1, device=device))
-        else:
-            self.v_out = init_(nn.Linear(self.hidden_size, 1))
+        self.v_out = init_(nn.Linear(self.hidden_size, 1))
 
         self.to(device)
 
@@ -55,7 +52,7 @@ class R_Critic(nn.Module):
         :return values: (torch.Tensor) value function predictions.
         :return rnn_states: (torch.Tensor) updated RNN hidden states.
         """
-        print(f'[CRITIC_FORWARD] cent_obs.shape: {cent_obs.shape}')
+        print(f'[CRITIC_FORWARD] cent_obs.shape: {cent_obs.shape}, _use_naive_recurrent_policy:{self._use_naive_recurrent_policy}, _use_recurrent_policy:{self._use_recurrent_policy}')
 
         cent_obs = check(cent_obs).to(**self.tpdv)
         rnn_states = check(rnn_states).to(**self.tpdv)

@@ -94,7 +94,7 @@ class SingleBS_runner(Runner):
             print(f'agend_id {agent_id} | {self.envs.observation_space[agent_id]} | self.buffer[{agent_id}].obs.shape {self.buffer[agent_id].obs.shape}')
 
         NotImplementedError
-        print(f'[INIT_RUNNER] Insert Agent settings into Trainer Finished')
+        print(f'[RUNNER] Insert Agent settings into Trainer Finished')
 
     def run(self):
         print(f'[RUNNER] Warm up')
@@ -118,7 +118,10 @@ class SingleBS_runner(Runner):
                 self.runner_insert(data)
             
             # compute GAE and update network
+            print(f'[RUNNER] Compute GAE')
             self.compute_gae() 
+
+            print(f'[RUNNER] TRAIN')
             train_infos = self.train()
             
             # post process
@@ -254,11 +257,9 @@ class SingleBS_runner(Runner):
     def runner_insert(self, data):
         obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic = data
 
-        # print(f'[RUNNER_INSERT] (VALUE) obs: {obs}\nreward: {rewards}\ndones: {dones}\ninfos: {infos}\nvalues: {values}\n actions: {actions}\n \
-        #       action_log_probs: {action_log_probs}\n rnn_states: {rnn_states}\n rnn_states_critic: {rnn_states_critic}\n')
-        
-        print(f'[RUNNER_INSERT] (TYPE) obs.type: {obs}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
-        print(f'[RUNNER_INSERT] (TYPE) actions: {actions}, action_log_probs: {type(action_log_probs)}, rnn_states: {rnn_states}, rnn_states_critic: {type(rnn_states_critic)}')
+        if self.all_args.log_level >= 3:
+            print(f'[RUNNER_INSERT] (TYPE) obs.type: {obs}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
+            print(f'[RUNNER_INSERT] (TYPE) actions: {actions}, action_log_probs: {type(action_log_probs)}, rnn_states: {rnn_states}, rnn_states_critic: {type(rnn_states_critic)}')
         # Dones가 True인 index에 대해서는 모두 0으로 설정하나 보다. -> 이건 나중에 고려하기로.
     
         npDones = np.array(dones)
@@ -289,8 +290,10 @@ class SingleBS_runner(Runner):
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
 
-            print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}')
-            print(f'[RUNNER_BUFFER_INSERT] {len(share_obs)} {obs[agent_id]} {len(rnn_states)} {len(rnn_states_critic)} {len(actions)} {len(action_log_probs)} {len(values)} {len(rewards)} {len(masks)}')
+            if self.all_args.log_level >= 3:
+                print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}')
+                print(f'[RUNNER_BUFFER_INSERT] {len(share_obs)} {obs[agent_id]} {len(rnn_states)} {len(rnn_states_critic)} {len(actions)} {len(action_log_probs)} {len(values)} {len(rewards)} {len(masks)}')
+
             # Save share_obs and other agent resource into replay buffer
             self.buffer[agent_id].buffer_insert(share_obs,
                                         list(chain(*obs[agent_id])),
@@ -305,8 +308,15 @@ class SingleBS_runner(Runner):
     @torch.no_grad()            
     def compute_gae(self):
         for agent_id in range(self.num_agents):
+            if agent_id < self.num_mbs:
+                is_uav = False
+            else:
+                is_uav = True
+            
+            print(f"[RUNNER_BUFFER_INSERT] agent_id:{agent_id}\nshare_obs:{self.buffer[agent_id].share_obs[-1]}\nrnn_states_critic:{self.buffer[agent_id].rnn_states_critic[-1]}, masks: {self.buffer[agent_id].masks[-1]}")
+
             self.trainer[agent_id].prep_rollout()
-            next_value = self.trainer[agent_id].policy.get_values(self.buffer[agent_id].share_obs[-1], 
+            next_value = self.trainer[agent_id].policy.get_values(is_uav, self.buffer[agent_id].share_obs[-1], 
                                                                 self.buffer[agent_id].rnn_states_critic[-1],
                                                                 self.buffer[agent_id].masks[-1])
             next_value = _t2n(next_value)

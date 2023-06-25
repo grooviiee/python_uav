@@ -70,7 +70,7 @@ class MAPPOAgentPolicy:
         
         return values, actions, action_log_probs, rnn_states_actor, rnn_states_critic
         
-    def get_values(self, cent_obs, rnn_states_critic, masks):
+    def get_values(self, is_uav, cent_obs, rnn_states_critic, masks):
         """
         Get value function predictions.
         :param cent_obs (np.ndarray): centralized input to the critic.
@@ -79,7 +79,12 @@ class MAPPOAgentPolicy:
 
         :return values: (torch.Tensor) value function predictions.
         """
-        values, _ = self.critic(cent_obs, rnn_states_critic, masks)
+        if is_uav == False:
+            reshaped_cent_obs = np.reshape(cent_obs, (2,5,-1)) # (2, 5, 5)
+        else:
+            reshaped_cent_obs = np.reshape(cent_obs, (1,2,-1)) # (2, 2, 17)
+        
+        values, _ = self.critic(reshaped_cent_obs, rnn_states_critic, masks)
         return values
         
     def evaluate_actions(self, cent_obs, obs, rnn_states_actor, rnn_states_critic, action, masks,
