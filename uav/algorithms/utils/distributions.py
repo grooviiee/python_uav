@@ -1,4 +1,5 @@
 import torch
+import torch.distributions
 import torch.nn as nn
 from .util import init
 
@@ -34,7 +35,7 @@ class FixedNormal(torch.distributions.Normal):
         return super().log_prob(actions).sum(-1, keepdim=True)
 
     def entropy(self):
-        return super.entropy().sum(-1)
+        return super().entropy().sum(-1)
 
     def mode(self):
         return self.mean
@@ -80,9 +81,10 @@ class DiagGaussian(nn.Module):
         self.logstd = AddBias(torch.zeros(num_outputs))
 
     def forward(self, x):
+        print(f'[DiagGaussian] param x: {x.shape}')
 
         action_mean = self.fc_mean(x)
-        print(f'[DiagGaussian] forward.. action_mean: {action_mean.shape}')
+        print(f'[DiagGaussian] returned action_mean: {action_mean.shape}')
         #  An ugly hack for my KFAC implementation.
         zeros = torch.zeros(action_mean.size())
         if x.is_cuda:
@@ -102,6 +104,7 @@ class Bernoulli(nn.Module):
         self.linear = init_(nn.Linear(num_inputs, num_outputs))
 
     def forward(self, x):
+        print(f"[Bernoulli] action_outs: {x.shape}")
         x = self.linear(x)
         return FixedBernoulli(logits=x)
 

@@ -1,4 +1,4 @@
-from .distributions import Bernoulli, Categorical, DiagGaussian
+from algorithms.utils.distributions import Bernoulli, Categorical, DiagGaussian, FixedNormal, FixedBernoulli
 import torch
 import torch.nn as nn
 
@@ -156,6 +156,7 @@ class ACTLayer(nn.Module):
         :return action_log_probs: (torch.Tensor) log probabilities of the input actions.
         :return dist_entropy: (torch.Tensor) action distribution entropy for the given inputs.
         """
+        print(f"[EVALUATE_ACTIONS] mixed_action: {self.mixed_action}, multi_discrete: {self.multi_discrete}")
         if self.mixed_action:
             a, b = action.split((2, 1), -1)
             b = b.long()
@@ -205,9 +206,11 @@ class ACTLayer(nn.Module):
             dist_entropy = sum(dist_entropy) / len(dist_entropy)
 
         else:
-            print(f"[ACT_EVALUATE_ACTIONS] x: {x}, available_actions: {available_actions}")
-            action_logits = self.action_out(x, available_actions)
+            print(f"[ACT_EVALUATE_ACTIONS] x: {x.shape}, available_actions: {available_actions}, self.action_out: {self.action_out}")
+            # action_logits = self.action_out(x, available_actions)
+            action_logits = self.action_out(x)
             action_log_probs = action_logits.log_probs(action)
+            print(f"[ACT_EVALUATE_ACTIONS] action_logits: {action_logits}")
             if active_masks is not None:
                 dist_entropy = (
                     action_logits.entropy() * active_masks.squeeze(-1)
