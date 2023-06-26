@@ -38,7 +38,7 @@ class R_Actor(nn.Module):
             base = CNNBase
         else:
             # We do not use this currently
-            print(f"[ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3")
+            print(f"(We do not use this currently) [ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3")
             base = MLPBase
 
         self.base = base(args, obs_shape, is_uav)
@@ -111,8 +111,12 @@ class R_Actor(nn.Module):
         if active_masks is not None:
             active_masks = check(active_masks).to(**self.tpdv)
 
-        actor_features = self.base(obs)
+        print(f"[EVALUATE_ACTION] <input> obs: {obs}")
 
+        actor_features = self.base(obs)
+        
+        print(f"[EVALUATE_ACTION] <output> actor_features: {actor_features}, _use_naive_recurrent_policy: {self._use_naive_recurrent_policy}, _use_recurrent_policy: {self._use_recurrent_policy} ")
+        
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
 

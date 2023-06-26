@@ -35,7 +35,7 @@ class MAPPOAgentTrainer:
         else:
             self.value_normalizer = None
     # Train is acheived per Agent
-    def train(self, buffer, update_actor=True):
+    def train(self, is_uav, buffer, update_actor=True):
         advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
         advantages_copy = advantages.copy()
         advantages_copy[buffer.active_masks[:-1] == 0.0] = np.nan
@@ -65,7 +65,7 @@ class MAPPOAgentTrainer:
             print(f"[TRAIN] data_generator {data_generator}, num_mini_batch: {self.num_mini_batch}")
             for sample in data_generator:
 
-                value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights = self.ppo_update(sample, update_actor)
+                value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights = self.ppo_update(is_uav, sample, update_actor)
         	        
                 train_info['value_loss'] += value_loss.item()
                 train_info['policy_loss'] += policy_loss.item()
@@ -81,13 +81,13 @@ class MAPPOAgentTrainer:
                 
             return train_info
         
-    def ppo_update(self, sample, update_actor=True):
+    def ppo_update(self, is_uav, sample, update_actor=True):
         # Update Actor and Critic Network
         
         # Step 1. Parse input data
         share_obs_batch, obs_batch, rnn_states_batch, rnn_states_critic_batch, actions_batch, \
             value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch, \
-            adv_targ, available_actions_batch = sample
+            adv_targ, available_actions_batch, batch_size = sample
         
         old_action_log_probs_batch = check(old_action_log_probs_batch).to(**self.tpdv)
         adv_targ = check(adv_targ).to(**self.tpdv)
@@ -95,8 +95,16 @@ class MAPPOAgentTrainer:
         return_batch = check(return_batch).to(**self.tpdv)
         active_masks_batch = check(active_masks_batch).to(**self.tpdv)
 
+        if is_uav == False:
+            share_obs_batch = np.reshape(share_obs_batch, (batch_size,2,5,-1)) # (2, 5, 5)
+            obs_batch = np.reshape(obs_batch, (batch_size,2,5,-1)) # (2, 5, 5)
+        else:
+            share_obs_batch = np.reshape(share_obs_batch, (batch_size,1,2,-1)) # (2, 2, 17)
+            obs_batch= np.reshape(obs_batch, (batch_size,1,2,-1)) # (2, 2, 17)
+
+
         # Reshape to do in a single forward pass for all steps
-        values, action_log_probs, dist_entropy = self.policy.evaluate_actions(share_obs_batch,
+        values, action_log_probs, dist_entropy = self.policy.evaluate_actions(is_uav, share_obs_batch,
                                                                               obs_batch, 
                                                                               rnn_states_batch, 
                                                                               rnn_states_critic_batch, 

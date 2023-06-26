@@ -200,6 +200,7 @@ class SeparatedReplayBuffer(object):
         episode_length, n_rollout_threads = self.rewards.shape[0:2]
         batch_size = n_rollout_threads * episode_length
 
+        print(f"[FEED_FORWARD_GEN] batch_size: {batch_size} = episode_length: {episode_length} * n_rollout_threads: {n_rollout_threads} || num_mini_batch: {num_mini_batch}")
         if mini_batch_size is None:
             assert batch_size >= num_mini_batch, (
                 "PPO requires the number of processes ({}) "
@@ -247,7 +248,7 @@ class SeparatedReplayBuffer(object):
             else:
                 adv_targ = advantages[indices]
 
-            yield share_obs_batch, obs_batch, rnn_states_batch, rnn_states_critic_batch, actions_batch, value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch, adv_targ, available_actions_batch
+            yield share_obs_batch, obs_batch, rnn_states_batch, rnn_states_critic_batch, actions_batch, value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch, adv_targ, available_actions_batch, batch_size
 
     def naive_recurrent_generator(self, advantages, num_mini_batch):
         n_rollout_threads = self.rewards.shape[1]

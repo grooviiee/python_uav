@@ -23,8 +23,13 @@ class Runner(object):
     def train(self):
         train_info_list = []
         for agent_id in range(self.num_agents):
+            if agent_id < self.num_mbs:
+                is_uav = False
+            else:
+                is_uav = True
+                
             self.trainer[agent_id].prep_training()
-            train_info = self.trainer[agent_id].train(self.buffer[agent_id])
+            train_info = self.trainer[agent_id].train(is_uav, self.buffer[agent_id])
             train_info_list.append(train_info)
             self.buffer[agent_id].after_update()
             

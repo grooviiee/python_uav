@@ -205,6 +205,7 @@ class ACTLayer(nn.Module):
             dist_entropy = sum(dist_entropy) / len(dist_entropy)
 
         else:
+            print(f"[ACT_EVALUATE_ACTIONS] x: {x}, available_actions: {available_actions}")
             action_logits = self.action_out(x, available_actions)
             action_log_probs = action_logits.log_probs(action)
             if active_masks is not None:
