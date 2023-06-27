@@ -21,6 +21,24 @@ def make_train_env(arglist, benchmark=False):
     env.seed(arglist.seed + arglist.rank * 1000)
     return env
 
+def make_eval_env(all_args):
+    def get_env_fn(rank):
+        def init_env():
+            if all_args.env_name == "MPE":
+                env = MPEEnv(all_args)
+            else:
+                print("Can not support the " +
+                      all_args.env_name + "environment.")
+                raise NotImplementedError
+            env.seed(all_args.seed * 50000 + rank * 10000)
+            return env
+        return init_env
+    if all_args.n_eval_rollout_threads == 1:
+        return DummyVecEnv([get_env_fn(0)])
+    else:
+        return SubprocVecEnv([get_env_fn(i) for i in range(all_args.n_eval_rollout_threads)])
+
+
 def main(arglist):
     # select device
     print("choose device...", arglist.n_training_threads)
@@ -51,19 +69,46 @@ def main(arglist):
     if not run_dir.exists():
         os.makedirs(str(run_dir))
 
+    # wandb
+    if arglist.use_wandb:
+        run = wandb.init(config=arglist,
+                         project=arglist.env_name,
+                         entity=arglist.user_name,
+                         notes=socket.gethostname(),
+                         name=str(arglist.algorithm_name) + "_" +
+                         str(arglist.experiment_name) +
+                         "_seed" + str(arglist.seed),
+                         group=arglist.scenario_name,
+                         dir=str(run_dir),
+                         job_type="training",
+                         reinit=True)
+    else:
+        if not run_dir.exists():
+            curr_run = 'run1'
+        else:
+            exst_run_nums = [int(str(folder.name).split('run')[1]) for folder in run_dir.iterdir() if str(folder.name).startswith('run')]
+            if len(exst_run_nums) == 0:
+                curr_run = 'run1'
+            else:
+                curr_run = 'run%i' % (max(exst_run_nums) + 1)
+        run_dir = run_dir / curr_run
+        if not run_dir.exists():
+            os.makedirs(str(run_dir))
+
     # env init
     print("Load Environement...")
     envs = make_train_env(arglist)
-    #eval_envs = make_eval_env(arglist) if arglist.use_eval else None
+    eval_envs = make_eval_env(arglist) if arglist.use_eval else None
 
     config = {
         "args": arglist,
         "envs": envs,
+        "eval_envs": eval_envs,
         "device": device,
         "num_uavs": arglist.num_uavs,
         "num_mbs": arglist.num_mbs,
         "num_users": arglist.num_users,
-        #"run_dir": run_dir,  -> used in wandb???
+        "run_dir": run_dir,
     }
 
     # run experiment
@@ -262,6 +307,8 @@ def parse_args():
 
     # evaluation parameters
     parser.add_argument("--use_eval", action='store_true', default=False, help="by default, do not start evaluation. If set`, start evaluation alongside with training.")
+    parser.add_argument("--eval_interval", type=int, default=25, help="time duration between contiunous twice evaluation progress.")
+    parser.add_argument("--eval_episodes", type=int, default=32, help="number of episodes of a single evaluation.")
 
     # render parameters
     parser.add_argument("--save_gifs", action='store_true', default=False, help="by default, do not save render video. If set, save video.")

@@ -2,6 +2,7 @@
 import torch
 import wandb
 import os
+from tensorboardX import SummaryWriter
 from itertools import chain
 
 class Runner(object):
@@ -11,6 +12,7 @@ class Runner(object):
         self.all_args = config['args']
         self.use_centralized_V = self.all_args.use_centralized_V
         self.n_rollout_threads = self.all_args.n_rollout_threads
+        self.eval_interval = self.all_args.eval_interval
 
         self.use_wandb = self.all_args.use_wandb
         self.use_render = self.all_args.use_render
