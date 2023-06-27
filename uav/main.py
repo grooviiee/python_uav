@@ -3,6 +3,8 @@ import numpy as np
 import time
 import pickle
 import torch
+import os
+from pathlib import Path
 
 # import maddpg.common.tf_util as U
 from algorithms.mappo import MAPPOAgentTrainer
@@ -44,6 +46,11 @@ def main(arglist):
     else:
         raise NotImplementedError
 
+    # run dir
+    run_dir = Path(os.path.split(os.path.dirname(os.path.abspath(__file__)))[0] + "/results") / arglist.env_name / arglist.scenario_name / arglist.algorithm_name / arglist.experiment_name
+    if not run_dir.exists():
+        os.makedirs(str(run_dir))
+
     # env init
     print("Load Environement...")
     envs = make_train_env(arglist)
@@ -84,24 +91,13 @@ def parse_args():
     parser.add_argument("--device", default="gpu", help="Choose device. cpu or gpu?")
     parser.add_argument("--num_env_steps", type=int, default=10e6,
                         help='Number of environment steps to train (default: 10e6)')
-    parser.add_argument(
-        "--scenario_name", type=str, default="uavenv", choices=["uavenv"]
-    )
-
-    parser.add_argument(
-        "--runner_name", type=str, default="singleBS", choices=["singleBS", "multipleBS"]
-    )
-
-    parser.add_argument(
-        "--algorithm_name", type=str, default="mappo", choices=["ddpg", "mappo", "attention_mappo"]
-    )
     
-    parser.add_argument(
-        "--experiment_name",
-        type=str,
-        default="check",
-        help="an identifier to distinguish different experiment.",
-    )
+    parser.add_argument("--env_name", type=str, default="uavnet", choices=["uavnet"])
+    parser.add_argument("--scenario_name", type=str, default="uavenv", choices=["uavenv"])
+    parser.add_argument("--runner_name", type=str, default="singleBS", choices=["singleBS", "multipleBS"]) #
+    parser.add_argument("--algorithm_name", type=str, default="mappo", choices=["ddpg", "mappo", "attention_mappo"])
+    parser.add_argument("--experiment_name",type=str,default="check",help="an identifier to distinguish different experiment.",)
+    
     parser.add_argument(
         "--seed", type=int, default=1, help="Random seed for numpy/torch"
     )
@@ -148,7 +144,7 @@ def parse_args():
         default="marl",
         help="[for wandb usage], to specify user's name for simply collecting training data.",
     )
-    parser.add_argument("--use_wandb", action='store_false', default=True, help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.")
+    parser.add_argument("--use_wandb", action='store_false', default=False, help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.")
 
     
     # replay buffer parameters
@@ -266,6 +262,11 @@ def parse_args():
 
     # evaluation parameters
     parser.add_argument("--use_eval", action='store_true', default=False, help="by default, do not start evaluation. If set`, start evaluation alongside with training.")
+
+    # render parameters
+    parser.add_argument("--save_gifs", action='store_true', default=False, help="by default, do not save render video. If set, save video.")
+    parser.add_argument("--use_render", action='store_true', default=False, help="by default, do not render the env during training. If set, start render. Note: something, the environment has internal render process which is not controlled by this hyperparam.")
+
 
     arglist = parser.parse_args()
     return arglist
