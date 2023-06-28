@@ -291,9 +291,9 @@ class World(object):
             for uavIdx in self.num_uavs:
                 if uavIdx == i:
                     continue
-                lower += self.P(uavIdx) * math.pow(10, -self.h_UavUser(i, u) / 10)
+                lower += self.GetPower(uavIdx, i) * math.pow(10, -self.h_UavUser(i, u) / 10)
 
-            res = self.P(i) * math.pow(10, -self.h_UavUser(i, u) / 10) / (NOISE_POWER * lower)
+            res = self.GetPower(uavIdx, i) * math.pow(10, -self.h_UavUser(i, u) / 10) / (NOISE_POWER * lower)
 
         elif type == TYPE_MBS_UAV:
             res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(self, i, u) / 10))
@@ -304,6 +304,17 @@ class World(object):
         return res
 
     # Calculate pathloss
+    def getPower(self, uav_id, user_id):
+        # getUserIdxFromAssociation
+        agent = self.agents[uav_id]
+        user_idx = None
+        for idx, value in enumerate(agent.state.association):
+            if value == user_id:
+                user_idx = idx
+                break
+            
+        return agent.state.power[user_idx]
+    
     def h_UavUser(self, m, u):
         return self.PLos(m, u) * self.hLos(m, u) + (1 - self.PLos(m, u)) * self.hNLos(m, u)
 
@@ -311,16 +322,16 @@ class World(object):
         return self.PLos(b, m) * self.hLos(b, m) + (1 - self.PLos(b, m)) * self.hNLos(b, m)
 
     def h_MbsUser(self, b, u):
-        return 15.3 + 37.6 * math.log10(self.d(self, b, u))
+        return 15.3 + 37.6 * math.log10(self.d(b, u))
 
     def PLos(self, m, u):
         return 1 / (1 + c_1 * math.exp(-c_2 * (theta(m, u) - c_1)))
 
     def hLos(self, m, u):
-        return 20 * math.log(4 * math.pi * self.d(self, m, u) / v_c) + X_Los
+        return 20 * math.log(4 * math.pi * self.d(m, u) / v_c) + X_Los
 
     def hNLos(self, m, u):
-        return 20 * math.log(4 * math.pi * self.d(self, m, u) / v_c) + X_NLos
+        return 20 * math.log(4 * math.pi * self.d(m, u) / v_c) + X_NLos
 
     def x(self, user, file):
         if user.state.file_request == file:
@@ -340,6 +351,13 @@ class World(object):
         else:
             return False
 
+    def d(self, m, u):
+        agent = self.agents[m]
+        user = self.users[u]
+        x = agent.state.x - user.state.x
+        y = agent.state.y - user.state.y
+        
+        return math.sqrt(math.pow(x, 2) + math.pow(y, 2))
     # Calculate Distance
 
 
