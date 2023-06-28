@@ -120,6 +120,8 @@ class SingleBS_runner(Runner):
                 self.sum_rewards(rewards)
                 #raise NotImplementedError("Breakpoint")
             
+            raise NotImplementedError("Breakpoint")
+
             # compute GAE and update network
             print(f'[RUNNER] Compute GAE')
             self.compute_gae() 

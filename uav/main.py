@@ -196,7 +196,7 @@ def parse_args():
 
     
     # replay buffer parameters
-    parser.add_argument("--episode_length", type=int, default=10, help="Max length for any episode")
+    parser.add_argument("--episode_length", type=int, default=3, help="Max length for any episode")
     
     # Environment settings
     parser.add_argument(

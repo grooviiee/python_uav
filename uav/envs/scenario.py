@@ -26,11 +26,13 @@ class Scenario(BaseScenario):
         world.num_uavs = args.num_uavs
         world.num_mbs = args.num_mbs
         world.num_users = args.num_users
+        world.num_agents = world.num_mbs + world.num_uavs
         world.map_size = args.map_size
         world.num_files = args.num_files
         # world.users = [User(args.file_size, args.zipf_parameter) for i in range(world.num_users)]
         world.file_size = args.file_size
         world.zipf_parameter = args.zipf_parameter
+        
         # Add agent as mbs
         for i in range(world.num_mbs):
             world.agents.append(Agent(True))
@@ -72,7 +74,7 @@ class Scenario(BaseScenario):
         for user in world.users:
             user.state.x = random.randint(0, world.map_size)   #user.user_id%5
             user.state.y = random.randint(0, world.map_size)   #user.user_id%5
-            user.state.hasFile = random.randint(0, world.num_files)
+            user.state.file_request = random.randint(0, world.num_files)
 
     def reward(self, agent, world):
         # It is used at uavenv.py

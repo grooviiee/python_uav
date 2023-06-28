@@ -2,6 +2,22 @@ import numpy as np
 import seaborn as sns
 import math
 
+# Rate calculation type
+TYPE_MBS_USER = 0
+TYPE_UAV_USER = 1
+TYPE_MBS_UAV = 2
+
+S = 10 * 1024 * 1024  # 10 Mbits
+B = 20 * 10 ^ 6
+W = 10 * 10 ^ 6
+MBS_POWER = 2  # Watt
+SPEED_OF_LIGHT = 3 * 10 ^ 8
+CARRIER_FREQEUENCY = 2 * 10 ^ 9
+QUOTA_UAV = 4
+QUOTA_MBS = 20
+PATHLOSS_EXP = 2
+NOISE_POWER = -100  # dB/Hz
+
 # physical/external base state of all entites
 class EntityState(object):
     def __init__(self):
@@ -17,16 +33,16 @@ class AgentState(EntityState):
         # in common
         self.association = []
         # for UAV
-        self.hasFile = []
-        self.FileRequest = []
+        self.has_file = []
+        self.file_request = []
         # for MBS
 
 class UserState(EntityState):
     def __init__(self):
         # Set internal state set for user
         self.association = []
-        self.hasFile = None
-        self.fileRequest = 0
+        self.has_file = None
+        self.file_request = 0
 
 
 # action of the agent
@@ -96,7 +112,7 @@ class User(Entity):
         self.user_associate = None
         self.file_size = file_size
         self.zipf_parameter = zipf_parameter
-        self.file_request = np.random.zipf(1 / zipf_parameter, file_size)
+        #self.state.file_request = np.random.zipf(1 / zipf_parameter, file_size)
 
 
 # multi-agent world
@@ -162,7 +178,7 @@ class World(object):
             if agent.isUAV == False:
                 # Set association
                 print(f'[WORLD_STEP] MBS action: {len(agent.action)}')
-                self.mbs_apply_agent_association(agent.action, self.agents)
+                self.mbs_apply_agent_association(agent.action)
             else:
                 print(f'[WORLD_STEP] UAV action: {len(agent.action)}')
                 # Set position, Set cache, set power
@@ -185,8 +201,9 @@ class World(object):
         extr_reward = self.calcExtrReward(agent)
         # step 2. Get intr reward
         intr_reward = self.calcIntrReward(agent)
-
-        return extr_reward + epsilon * intr_reward
+        reward = extr_reward + epsilon * intr_reward
+        print(f"[CALC_REWARD] reward: {extr_reward}, {epsilon}, {intr_reward}")
+        return reward
     
 
     def calcIntrReward(self, agent):
@@ -198,7 +215,8 @@ class World(object):
         Delay = 0
         for agent in self.agents:
             agent.reward = 0
-            for user in self.users:
+            for user_id in agent.state.association:
+                user = self.users[user_id]
                 agent.reward += self.getDelay(agent, user, user.user_id, agent.isUAV)
 
             Delay += agent.reward
@@ -214,14 +232,15 @@ class World(object):
         #             delay = (self.x(user, file) * self.z(user, node) * {self.T_down(node, user) + (1 - self.y(node, file)) * self.T_back(node, user)})
         delay = 0
         if isUAV == False:
-            if user_id in agent.association:
+            if user_id in agent.state.association:
                 for file_idx in range(self.num_files):
-                    if user.file_request == file_idx:
+                    print(f"user.state.file_request: {user.state.file_request}, file_idx: {file_idx}")
+                    if user.state.file_request == file_idx:
                         delay = self.Calc_T_down(agent, user)
         else:
-            if user_id in agent.association:
+            if user_id in agent.state.association:
                 for file_idx in range(self.num_files):
-                    if user.file_request == file_idx and file_idx in agent.state.hasFile:
+                    if (user.state.file_request == file_idx) and file_idx in agent.state.has_file:
                         delay = self.Calc_T_down(agent, user) + self.Calc_T_back(agent, user)
 
         return delay
@@ -231,50 +250,53 @@ class World(object):
         return S / self.R_T_down(agent, user)
 
     def Calc_T_back(self, agent, user):
-        return S / self.R_T_back(b, m, u)
+        return S / self.R_T_back(b, agent, user)
 
     def R_T_down(self, i, u):
         numfile = 0
         for file in range(self.num_files):
-            numfile += x(u, file) * z(u, i)
+            numfile += self.x(u, file) * self.z(u, i)
 
         upper = numfile * W
         lower = 0
         for user in range(self.num_users):
             for file in range(self.num_files):
-                lower += x(u, file) * z(u, i)
+                lower += self.x(u, file) * self.z(u, i)
 
-        return upper / lower * math.log2(1 + r(i, u))
+        if lower == 0:
+            return 0.0001
+
+        return upper / lower * math.log2(1 + self.r(i, u))
 
     def R_T_back(self, b, m, u):
-        left = math.log2(1 + r(b, m))
+        left = math.log2(1 + self.r(b, m))
         upper, lower = 0
         for file in self.num_files:
-            upper += x(u, file) * z(u, m) * (1 - y(m, file))
+            upper += self.x(u, file) * self.z(u, m) * (1 - self.y(m, file))
         upper *= B
 
         for user in self.num_users:
             for file in self.num_files:
                 for node in self.num_agents:
-                    lower += x(user, file) * z(user, file) * (1 - y(node, file))
+                    lower += self.x(user, file) * self.z(user, node) * (1 - self.y(node, file))
 
         return left * upper / lower
 
     def r(self, i, u, type):
         if type == TYPE_MBS_USER:
-            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_MbsUser(self, i, u) / 10))
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUser(self, i, u) / 10))
 
         elif type == TYPE_UAV_USER:  # follows UAV Power
             lower = 0
             for uavIdx in self.num_uavs:
                 if uavIdx == i:
                     continue
-                lower += P(uavIdx) * math.pow(10, -h_UavUser(i, u) / 10)
+                lower += self.P(uavIdx) * math.pow(10, -self.h_UavUser(i, u) / 10)
 
-            res = P(i) * math.pow(10, -h_UavUser(i, u) / 10) / (NOISE_POWER * lower)
+            res = self.P(i) * math.pow(10, -self.h_UavUser(i, u) / 10) / (NOISE_POWER * lower)
 
         elif type == TYPE_MBS_UAV:
-            res = MBS_POWER / (NOISE_POWER * math.pow(10, h_MbsUav(self, i, u) / 10))
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(self, i, u) / 10))
 
         else:
             res = 0
@@ -283,37 +305,62 @@ class World(object):
 
     # Calculate pathloss
     def h_UavUser(self, m, u):
-        return PLos(m, u) * hLos(m, u) + (1 - PLos(m, u)) * hNLos(m, u)
+        return self.PLos(m, u) * self.hLos(m, u) + (1 - self.PLos(m, u)) * self.hNLos(m, u)
 
     def h_MbsUav(self, b, m):
-        return PLos(b, m) * hLos(b, m) + (1 - PLos(b, m)) * hNLos(b, m)
+        return self.PLos(b, m) * self.hLos(b, m) + (1 - self.PLos(b, m)) * self.hNLos(b, m)
 
     def h_MbsUser(self, b, u):
-        return 15.3 + 37.6 * math.log10(d(self, b, u))
+        return 15.3 + 37.6 * math.log10(self.d(self, b, u))
 
     def PLos(self, m, u):
         return 1 / (1 + c_1 * math.exp(-c_2 * (theta(m, u) - c_1)))
 
     def hLos(self, m, u):
-        return 20 * math.log(4 * math.pi * d(self, m, u) / v_c) + X_Los
+        return 20 * math.log(4 * math.pi * self.d(self, m, u) / v_c) + X_Los
 
     def hNLos(self, m, u):
-        return 20 * math.log(4 * math.pi * d(self, m, u) / v_c) + X_NLos
+        return 20 * math.log(4 * math.pi * self.d(self, m, u) / v_c) + X_NLos
+
+    def x(self, user, file):
+        if user.state.file_request == file:
+            return 1
+        else:
+            return 0
+
+    def y(self, node, file):
+        if file in node.state.has_file:
+            return 1
+        else:
+            return 0
+        
+    def z(self, node, user):
+        if user in node.state.association:
+            return True
+        else:
+            return False
 
     # Calculate Distance
 
 
-    def mbs_apply_agent_association(self, action_set, agent_list):
+    def mbs_apply_agent_association(self, action_set):
         association = action_set # [nodes][users]
         tmp_association = [[1 for j in range(self.num_agents)] for i in range(self.num_users)]
-        #print(f'[mbs_apply_agent_association] actual: {association}, tmp: {tmp_association}')
         
-        if len(action_set) == self.num_agents:
-            for i, node in self.agents:
-                for j in self.users:
-                    node.association.append(tmp_association[i][j])
-        else:
-            NotImplementedError
+        #init 
+        for i, node in enumerate(self.agents):
+            node.state.association = []
+            for j, user in enumerate(self.users):
+                user.state.association = []
+
+        #set
+        for i, node in enumerate(self.agents):
+            for j, user in enumerate(self.users):
+                if tmp_association[j][i]:
+                    print(f'[mbs_apply_agent_association] Set agent: {i}, user: {j} TRUE')
+                    node.state.association.append(j)
+                    user.state.association.append(i)
+
         
     def uav_apply_cache(self, action_cache, agent):
         #print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
@@ -336,82 +383,3 @@ class World(object):
         #print(f'[update_user_state] {user}')
         # Check new cache file request
         NotImplemented
-        
-
-    # get collision forces for any contact between two entities
-    def get_entity_collision_force(self, ia, ib):
-        entity_a = self.entities[ia]
-        entity_b = self.entities[ib]
-        if (not entity_a.collide) or (not entity_b.collide):
-            return [None, None]  # not a collider
-        if (not entity_a.movable) and (not entity_b.movable):
-            return [None, None]  # neither entity moves
-        if entity_a is entity_b:
-            return [None, None]  # don't collide against itself
-        if self.cache_dists:
-            delta_pos = self.cached_dist_vect[ia, ib]
-            dist = self.cached_dist_mag[ia, ib]
-            dist_min = self.min_dists[ia, ib]
-        else:
-            # compute actual distance between entities
-            delta_pos = entity_a.state.p_pos - entity_b.state.p_pos
-            dist = np.sqrt(np.sum(np.square(delta_pos)))
-            # minimum allowable distance
-            dist_min = entity_a.size + entity_b.size
-        # softmax penetration
-        k = self.contact_margin
-        penetration = np.logaddexp(0, -(dist - dist_min) / k) * k
-        force = self.contact_force * delta_pos / dist * penetration
-        if entity_a.movable and entity_b.movable:
-            # consider mass in collisions
-            force_ratio = entity_b.mass / entity_a.mass
-            force_a = force_ratio * force
-            force_b = -(1 / force_ratio) * force
-        else:
-            force_a = +force if entity_a.movable else None
-            force_b = -force if entity_b.movable else None
-        return [force_a, force_b]
-
-    # get collision forces for contact between an entity and a wall
-    def get_wall_collision_force(self, entity, wall):
-        if entity.ghost and not wall.hard:
-            return None  # ghost passes through soft walls
-        if wall.orient == "H":
-            prll_dim = 0
-            perp_dim = 1
-        else:
-            prll_dim = 1
-            perp_dim = 0
-        ent_pos = entity.state.p_pos
-        if (
-            ent_pos[prll_dim] < wall.endpoints[0] - entity.size
-            or ent_pos[prll_dim] > wall.endpoints[1] + entity.size
-        ):
-            return None  # entity is beyond endpoints of wall
-        elif (
-            ent_pos[prll_dim] < wall.endpoints[0]
-            or ent_pos[prll_dim] > wall.endpoints[1]
-        ):
-            # part of entity is beyond wall
-            if ent_pos[prll_dim] < wall.endpoints[0]:
-                dist_past_end = ent_pos[prll_dim] - wall.endpoints[0]
-            else:
-                dist_past_end = ent_pos[prll_dim] - wall.endpoints[1]
-            theta = np.arcsin(dist_past_end / entity.size)
-            dist_min = np.cos(theta) * entity.size + 0.5 * wall.width
-        else:  # entire entity lies within bounds of wall
-            theta = 0
-            dist_past_end = 0
-            dist_min = entity.size + 0.5 * wall.width
-
-        # only need to calculate distance in relevant dim
-        delta_pos = ent_pos[perp_dim] - wall.axis_pos
-        dist = np.abs(delta_pos)
-        # softmax penetration
-        k = self.contact_margin
-        penetration = np.logaddexp(0, -(dist - dist_min) / k) * k
-        force_mag = self.contact_force * delta_pos / dist * penetration
-        force = np.zeros(2)
-        force[perp_dim] = np.cos(theta) * force_mag
-        force[prll_dim] = np.sin(theta) * np.abs(force_mag)
-        return force

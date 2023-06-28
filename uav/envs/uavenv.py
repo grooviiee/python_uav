@@ -8,26 +8,7 @@ from gym.spaces.utils import flatdim, flatten
 import math
 import random
 
-# Refernece : C:\Users\June\Desktop\git\rl\maac\MAAC\envs\mpe_scenario\environment.py
-
 # UAV Environment scenario
-# Rate calculation type
-TYPE_MBS_USER = 0
-TYPE_UAV_USER = 1
-TYPE_MBS_UAV = 2
-
-S = 10 * 1024 * 1024  # 10 Mbits
-B = 20 * 10 ^ 6
-W = 10 * 10 ^ 6
-MBS_POWER = 2  # Watt
-SPEED_OF_LIGHT = 3 * 10 ^ 8
-CARRIER_FREQEUENCY = 2 * 10 ^ 9
-QUOTA_UAV = 4
-QUOTA_MBS = 20
-PATHLOSS_EXP = 2
-NOISE_POWER = -100  # dB/Hz
-
-
 class UAV_ENV(gym.Env):
     def __init__(
         self,
@@ -246,7 +227,7 @@ class UAV_ENV(gym.Env):
         for id, user in enumerate(world.users):
             user_location.append(user.state.x)
             user_location.append(user.state.y)
-            file_request.append(user.state.fileRequest)
+            file_request.append(user.state.file_request)
         
         if agent.isUAV == False:
             # Every entity location
