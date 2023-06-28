@@ -25,7 +25,7 @@ class UserState(EntityState):
     def __init__(self):
         # Set internal state set for user
         self.association = []
-        self.hasFile = []
+        self.hasFile = None
         self.fileRequest = 0
 
 
@@ -170,9 +170,10 @@ class World(object):
                 self.uav_apply_power(agent.action[0][1], agent)
                 self.uav_apply_trajectory(agent.action[0][2], agent.action[0][3], agent)
 
-        for user in self.users:
+        for user in self.users:    
             self.update_user_state(user)
-            
+        print(f'[WORLD_STEP] USER state update done: {len(self.users)}')
+        
         for agent in self.agents:
             agent.reward = self.calculateReward(agent)    
 
@@ -192,11 +193,6 @@ class World(object):
         return 0 #Temp
 
     def calcExtrReward(self, agent):
-        if agent.isUAV == False:
-            print("Process for MBS")
-        else:
-            print("Process for UAV")
-
         # step 2. 변경된 status로 reward 계산
         L = 100000000  # very large number
         Delay = 0
@@ -320,101 +316,26 @@ class World(object):
             NotImplementedError
         
     def uav_apply_cache(self, action_cache, agent):
-        print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
+        #print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
         agent.state.cache = action_cache
         NotImplementedError
         
     def uav_apply_power(self, action_power, agent):
-        print(f'[uav_apply_power] {agent}, {action_power}')
+        #print(f'[uav_apply_power] {agent}, {action_power}')
         for i in range(len(agent.association)):
             agent.power[i] = action_power / len(agent.association)
             agent.state.power[i] = agent.power[i]
         
     def uav_apply_trajectory(self, action_dist, action_angle, agent):
-        print(f'[uav_apply_trajectory] {agent}, {action_dist}, {action_angle}')
-
+        #print(f'[uav_apply_trajectory] {agent}, prev: {agent.state.x}, {agent.state.y}')
         agent.state.x =  agent.state.x + action_dist * math.cos(action_angle)
-        agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)        
-                
-    # gather agent action forces
-    def apply_action_force(self, p_force):
-        # set applied forces
-        for i, agent in enumerate(self.agents):
-            if agent.movable:
-                noise = (
-                    np.random.randn(*agent.action.u.shape) * agent.u_noise
-                    if agent.u_noise
-                    else 0.0
-                )
-                # force = mass * a * action + n
-                p_force[i] = (
-                    agent.mass * agent.accel if agent.accel is not None else agent.mass
-                ) * agent.action.u + noise
-        return p_force
-
-    # gather physical forces acting on entities
-    def apply_environment_force(self, p_force):
-        # simple (but inefficient) collision response
-        for a, entity_a in enumerate(self.entities):
-            for b, entity_b in enumerate(self.entities):
-                if b <= a:
-                    continue
-                [f_a, f_b] = self.get_entity_collision_force(a, b)
-                if f_a is not None:
-                    if p_force[a] is None:
-                        p_force[a] = 0.0
-                    p_force[a] = f_a + p_force[a]
-                if f_b is not None:
-                    if p_force[b] is None:
-                        p_force[b] = 0.0
-                    p_force[b] = f_b + p_force[b]
-            if entity_a.movable:
-                for wall in self.walls:
-                    wf = self.get_wall_collision_force(entity_a, wall)
-                    if wf is not None:
-                        if p_force[a] is None:
-                            p_force[a] = 0.0
-                        p_force[a] = p_force[a] + wf
-        return p_force
-
-    def integrate_state(self, p_force):
-        for i, entity in enumerate(self.entities):
-            if not entity.movable:
-                continue
-            entity.state.p_vel = entity.state.p_vel * (1 - self.damping)
-            if p_force[i] is not None:
-                entity.state.p_vel += (p_force[i] / entity.mass) * self.dt
-            if entity.max_speed is not None:
-                speed = np.sqrt(
-                    np.square(entity.state.p_vel[0]) + np.square(entity.state.p_vel[1])
-                )
-                if speed > entity.max_speed:
-                    entity.state.p_vel = (
-                        entity.state.p_vel
-                        / np.sqrt(
-                            np.square(entity.state.p_vel[0])
-                            + np.square(entity.state.p_vel[1])
-                        )
-                        * entity.max_speed
-                    )
-            entity.state.p_pos += entity.state.p_vel * self.dt
-
-    def update_agent_state(self, agent):
-        # set communication state (directly for now)
-        if agent.silent:
-            agent.state.c = np.zeros(self.dim_c)
-        else:
-            noise = (
-                np.random.randn(*agent.action.c.shape) * agent.c_noise
-                if agent.c_noise
-                else 0.0
-            )
-            agent.state.c = agent.action.c + noise
+        agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)     
+        #print(f'[uav_apply_trajectory] {agent}, curr: {agent.state.x}, {agent.state.y}')   
 
     def update_user_state(self, user):
-        print(f'[update_user_state] {user}, {user.state}')
+        #print(f'[update_user_state] {user}')
         # Check new cache file request
-        # Calculate remaining download size
+        NotImplemented
         
 
     # get collision forces for any contact between two entities

@@ -3,7 +3,7 @@ import math
 import torch
 
 def get_shape_from_obs_space(obs_space):
-    print(f'obs_space dType: {obs_space.__class__.__name__}')
+    #print(f'obs_space dType: {obs_space.__class__.__name__}')
     obs_shape = []
     if obs_space.__class__.__name__ == 'Box':
         obs_shape = obs_space.shape
@@ -20,7 +20,7 @@ def get_shape_from_obs_space(obs_space):
     return obs_shape
 
 def get_shape_from_act_space(act_space, args, is_uav):
-    print(f'act_space dType: {act_space.__class__.__name__}')
+    #print(f'act_space dType: {act_space.__class__.__name__}')
     act_shape = 0
     # if act_space.__class__.__name__ == 'Discrete':
     #     act_shape = 1

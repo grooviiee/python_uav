@@ -44,6 +44,7 @@ class UAV_ENV(gym.Env):
 
         # parameter setting from args
         self.world = world
+        self.log_level = world.log_level
         self.current_step = 0
         self.world_length = world.world_length
         self.num_uavs = world.num_uavs
@@ -105,9 +106,7 @@ class UAV_ENV(gym.Env):
             # Action = {z_u,i} which node connected with user(discrete)
             total_action_space = []
 
-            u_action_space = spaces.Box(
-                low=0, high=1, shape=((world.num_uavs + world.num_mbs) * world.num_users, ),  dtype=np.bool8,
-            )  # [0,1][Association]
+            u_action_space = spaces.Box(low=0, high=1, shape=((world.num_uavs + world.num_mbs) * world.num_users, ),  dtype=np.bool8,)  # [0,1][Association]
             total_action_space.append(u_action_space)
 
             act_space = u_action_space
@@ -140,7 +139,7 @@ class UAV_ENV(gym.Env):
 
             obs_space = spaces.Tuple(total_observation_space)
             self.observation_space.append(obs_space)
-            print(f"[INIT_ENV_MBS] agent_id {agent.agent_id} Finished, obs_space: {obs_space}, act_space: {act_space}")
+            print(f"[INIT_ENV_MBS] obs_space: {obs_space}, act_space: {act_space}")
 
         # "UAV"
         for agent in self.agents:
@@ -286,7 +285,7 @@ class UAV_ENV(gym.Env):
 
     # set env action for the agent.. Just setting. Change states at core.py 
     def _set_action(self, agent_id, action, agent, action_space, time=None):
-        # print(f'Set action for agent_id: {agent_id}, isUAV: {agent.isUAV}, actionType: {type(action)}, len: {len(action)}')
+
         action_set = action[agent_id]
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
@@ -295,10 +294,15 @@ class UAV_ENV(gym.Env):
             # action = flatten(action_set[agent], 1)
             # agent.action = flatten(action_set[agent_id], 1)
             agent.action = list(action_set)
-
+            if self.log_level >= 3:
+                print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
+                print(f"[UAVENV] (_set_action) action: {agent.action}")
         elif agent.isUAV == False:
             # Do MBS Action (Set associateion)
-            agent.action = action_set
+            agent.action = action_space.sample()
+            if self.log_level >= 3:
+                print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
+                print(f"[UAVENV] (_set_action) action: {agent.action}")
 
         else:
             NotImplementedError

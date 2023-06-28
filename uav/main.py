@@ -5,6 +5,7 @@ import pickle
 import torch
 import os
 from pathlib import Path
+from envs.UavEnvMain import UAVEnvMain
 
 # import maddpg.common.tf_util as U
 from algorithms.mappo import MAPPOAgentTrainer
@@ -24,15 +25,17 @@ def make_train_env(arglist, benchmark=False):
 def make_eval_env(all_args):
     def get_env_fn(rank):
         def init_env():
-            if all_args.env_name == "MPE":
-                env = MPEEnv(all_args)
+            if all_args.env_name == "uavnet":
+                env = UAVEnvMain(all_args)
             else:
                 print("Can not support the " +
                       all_args.env_name + "environment.")
                 raise NotImplementedError
             env.seed(all_args.seed * 50000 + rank * 10000)
             return env
+
         return init_env
+    
     if all_args.n_eval_rollout_threads == 1:
         return DummyVecEnv([get_env_fn(0)])
     else:

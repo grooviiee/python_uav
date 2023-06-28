@@ -73,7 +73,8 @@ class ACTLayer(nn.Module):
         :return action_log_probs: (torch.Tensor) log probabilities of taken actions.
         """
 
-        print(f'[ACTOR_ACTLAYER_FORWARD] input x.shape: {x.shape}')
+        #print(f'[ACTOR_ACTLAYER_FORWARD] input x.shape: {x.shape}')
+
         if self.mixed_action:
             actions = []
             action_log_probs = []
@@ -108,6 +109,8 @@ class ACTLayer(nn.Module):
             for action_out in self.action_outs:
                 action_logit = action_out(x)
                 action = action_logit.mode() if deterministic else action_logit.sample()
+                print(f"[ACTLayer_forward] (MBS) action_logits: {action_logit}, actions: {action.shape}")
+
                 action_log_prob = action_logit.log_probs(action)
                 actions.append(action)
                 action_log_probs.append(action_log_prob)
@@ -119,7 +122,7 @@ class ACTLayer(nn.Module):
             action_logits = self.action_out(x)
             actions = action_logits.mode() if deterministic else action_logits.sample()
             action_log_probs = action_logits.log_probs(actions)
-            print(f"[ACTLayer_forward] action_logits: {action_logits}, actions: {actions.shape}, action_log_probs: {action_log_probs}")
+            print(f"[ACTLayer_forward] (MBS) action_logits: {action_logits}, actions: {actions.shape}, action_log_probs: {action_log_probs}")
             
         return actions, action_log_probs
 

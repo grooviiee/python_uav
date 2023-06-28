@@ -117,6 +117,8 @@ class SingleBS_runner(Runner):
                 # insert data into replay buffer
                 data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
                 self.runner_insert(data)
+                self.sum_rewards(rewards)
+                #raise NotImplementedError("Breakpoint")
             
             # compute GAE and update network
             print(f'[RUNNER] Compute GAE')
@@ -127,8 +129,9 @@ class SingleBS_runner(Runner):
             
             # post process
             total_num_steps = (episode + 1) * self.episode_length * self.n_rollout_threads
-            
-            # save model
+            print(f'[RUNNER] total_num_steps: {total_num_steps}')
+                        
+            # save trained model
             if (episode % self.save_interval == 0 or episode == episodes - 1):
                 self.save()
 
@@ -144,11 +147,15 @@ class SingleBS_runner(Runner):
                     train_infos[agent_id].update({'individual_rewards': np.mean(individual_rewards)})
                     train_infos[agent_id].update({"average_episode_rewards": np.mean(self.buffer[agent_id].rewards) * self.episode_length})
                 self.log_train(train_infos, total_num_steps)
+
+            # print(f'[RUNNER] EVAL')
+            # self.eval(total_num_steps)
+
                 
             # eval
-            if episode % self.eval_interval == 0 and self.use_eval:
-                print(f'[RUNNER] EVAL')
-                self.eval(total_num_steps)
+            # if episode % self.eval_interval == 0 and self.use_eval:
+            #     print(f'[RUNNER] EVAL')
+            #     self.eval(total_num_steps)
 
     def warmup(self):
         NotImplemented
@@ -159,7 +166,6 @@ class SingleBS_runner(Runner):
         # for o in obs:
         #     share_obs.append(list(chain(*o)))
         # share_obs = np.array(share_obs)
-        # print(f'[RUNNER] Warm up.. (share_obs) dType:{type(share_obs)}, {share_obs}')
 
         # insert obs to buffer
         # for agent_id in range(self.num_agents):
@@ -176,9 +182,10 @@ class SingleBS_runner(Runner):
         rnn_states_critic = []
 
         # For Debugging
-        for agent_id in range(self.num_agents):
-            print(f'[RUNNER_DEBUG] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
-            NotImplementedError
+        if self.all_args.log_level >= 3:
+            for agent_id in range(self.num_agents):
+                print(f'[RUNNER_DEBUG] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
+                NotImplementedError
 
         for agent_id in range(self.num_agents):
             if agent_id < self.num_mbs:
@@ -255,6 +262,15 @@ class SingleBS_runner(Runner):
 
     def reset(self):
         """Reset sth here"""
+        
+    def sum_rewards(self, rewards):
+        total_reward = 0
+        print(f'[RUNNER_REWARD] tatal_reward: {rewards}')
+        # # rewards = rewards.ravel()
+        # for reward in range(rewards):
+        #     print(f'[RUNNER_REWARD] tatal_reward: {reward}')
+        #     total_reward += reward
+        # print(f'[RUNNER_REWARD] tatal_reward: {total_reward}')
         
     """To get type of sturct: type(variable) or struct.__class__"""    
     def runner_insert(self, data):

@@ -19,6 +19,7 @@ class BaseScenario(object):
 class Scenario(BaseScenario):
     def make_world(self, args):
         world = World()
+        world.log_level = args.log_level
         # set any world properties first
         world.world_length = args.episode_length
         world.collaborative = True  # whether agents share rewards
@@ -65,12 +66,13 @@ class Scenario(BaseScenario):
 
         # 위치 조정 (randomly)
         for agent in world.agents:
-            agent.state.x = random.randint(0, 100)#agent.agent_id%4
-            agent.state.y = random.randint(0, 100)#agent.agent_id%4
+            agent.state.x = random.randint(0, world.map_size)  #agent.agent_id%4
+            agent.state.y = random.randint(0, world.map_size)  #agent.agent_id%4
 
         for user in world.users:
-            user.state.x = random.randint(0, 100)#user.user_id%5
-            user.state.y = random.randint(0, 100)#user.user_id%5
+            user.state.x = random.randint(0, world.map_size)   #user.user_id%5
+            user.state.y = random.randint(0, world.map_size)   #user.user_id%5
+            user.state.hasFile = random.randint(0, world.num_files)
 
     def reward(self, agent, world):
         # It is used at uavenv.py
