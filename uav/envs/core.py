@@ -196,17 +196,18 @@ class World(object):
 
     def calculateReward(self, agent):
         epsilon = 0.2
-
+        print(f"[CALC_REWARD] Start Calculating rewards. epsilon: {epsilon}")
         # step 1. Get extr reward (Action에 대해서 state를 모두 바꾸었을 때, reward를 계산)
         extr_reward = self.calcExtrReward(agent)
         # step 2. Get intr reward
         intr_reward = self.calcIntrReward(agent)
         reward = extr_reward + epsilon * intr_reward
-        print(f"[CALC_REWARD] reward: {extr_reward}, {epsilon}, {intr_reward}")
+        print(f"[CALC_REWARD] reward: {reward}, {extr_reward}, {epsilon}, {intr_reward}")
         return reward
     
 
     def calcIntrReward(self, agent):
+        print(f"[CALC_REWARD] Skip Calculating Intr. rewards.")
         return 0 #Temp
 
     def calcExtrReward(self, agent):
@@ -215,6 +216,8 @@ class World(object):
         Delay = 0
         for agent in self.agents:
             agent.reward = 0
+            print(f"[CALC_REWARD] Get AGENT({agent.agent_id})-USER{agent.state.association}.")
+            
             for user_id in agent.state.association:
                 user = self.users[user_id]
                 agent.reward += self.getDelay(agent, user, user.user_id, agent.isUAV)
@@ -232,11 +235,8 @@ class World(object):
         #             delay = (self.x(user, file) * self.z(user, node) * {self.T_down(node, user) + (1 - self.y(node, file)) * self.T_back(node, user)})
         delay = 0
         if isUAV == False:
-            if user_id in agent.state.association:
-                for file_idx in range(self.num_files):
-                    print(f"user.state.file_request: {user.state.file_request}, file_idx: {file_idx}")
-                    if user.state.file_request == file_idx:
-                        delay = self.Calc_T_down(agent, user)
+            print(f"[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
+            delay = self.Calc_T_down(agent, user)
         else:
             if user_id in agent.state.association:
                 for file_idx in range(self.num_files):
@@ -252,21 +252,24 @@ class World(object):
     def Calc_T_back(self, agent, user):
         return S / self.R_T_back(b, agent, user)
 
-    def R_T_down(self, i, u):
+    def R_T_down(self, mbs, user): # i : mbs , u: user
         numfile = 0
         for file in range(self.num_files):
-            numfile += self.x(u, file) * self.z(u, i)
+            numfile += self.x(user, file) * self.z(user, mbs)
 
         upper = numfile * W
         lower = 0
-        for user in range(self.num_users):
+        for user_idx, user in enumerate(self.users):
             for file in range(self.num_files):
-                lower += self.x(u, file) * self.z(u, i)
+                lower += self.x(user, file) * self.z(user, mbs)
 
         if lower == 0:
             return 0.0001
 
-        return upper / lower * math.log2(1 + self.r(i, u))
+        r_t_down = upper / lower * math.log2(1 + self.r(mbs, user))
+        
+        print(f"[CALC_REWARD] R_T_down between {mbs}, {user}: {r_t_down}")
+        return r_t_down
 
     def R_T_back(self, b, m, u):
         left = math.log2(1 + self.r(b, m))

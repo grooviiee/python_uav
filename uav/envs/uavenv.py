@@ -319,11 +319,14 @@ class UAV_ENV(gym.Env):
             info_n.append(info)
 
         # all agents get total reward in cooperative case, if shared reward, all agents have the same reward, and reward is sum
+        origin_reward_n = reward_n
         reward = np.sum(reward_n)
+        print(f"[ENV_STEP] get reward_n: {reward_n}, self.shared_reward: {self.shared_reward}, reward: {reward}")
+
         if self.shared_reward:
             reward_n = [[reward]] * len(self.agents)
 
         if self.post_step_callback is not None:
             self.post_step_callback(self.world)
 
-        return obs_n, reward_n, done_n, info_n
+        return obs_n, reward_n, origin_reward_n, done_n, info_n

@@ -112,12 +112,13 @@ class SingleBS_runner(Runner):
                 values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
                     
                 # Obser reward and next obs
-                obs, rewards, dones, infos = self.envs.step(actions_env)
+                obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env)
+                print(f'[RUNNER] Get rewards: {rewards}')
                 
                 # insert data into replay buffer
                 data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
                 self.runner_insert(data)
-                self.sum_rewards(rewards)
+                self.sum_rewards(origin_rewards)
                 #raise NotImplementedError("Breakpoint")
             
             raise NotImplementedError("Breakpoint")
@@ -266,13 +267,8 @@ class SingleBS_runner(Runner):
         """Reset sth here"""
         
     def sum_rewards(self, rewards):
-        total_reward = 0
-        print(f'[RUNNER_REWARD] tatal_reward: {rewards}')
-        # # rewards = rewards.ravel()
-        # for reward in range(rewards):
-        #     print(f'[RUNNER_REWARD] tatal_reward: {reward}')
-        #     total_reward += reward
-        # print(f'[RUNNER_REWARD] tatal_reward: {total_reward}')
+        total_reward = np.sum(rewards)
+        print(f'[RUNNER_REWARD] individual_reward: {rewards}, tatal_reward: {total_reward}')
         
     """To get type of sturct: type(variable) or struct.__class__"""    
     def runner_insert(self, data):
