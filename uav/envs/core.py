@@ -10,6 +10,7 @@ TYPE_MBS_UAV = 2
 S = 10 * 1024 * 1024  # 10 Mbits
 B = 20 * 10 ^ 6
 W = 10 * 10 ^ 6
+H = 10
 MBS_POWER = 2  # Watt
 SPEED_OF_LIGHT = 3 * 10 ^ 8
 CARRIER_FREQEUENCY = 2 * 10 ^ 9
@@ -17,6 +18,11 @@ QUOTA_UAV = 4
 QUOTA_MBS = 20
 PATHLOSS_EXP = 2
 NOISE_POWER = -100  # dB/Hz
+X_Los = 6 #dB
+X_NLos = 20 #dB
+c_1 = 11.9
+c_2 = 0.13
+v_c = 3 * 10^8 # speed of light
 
 # physical/external base state of all entites
 class EntityState(object):
@@ -216,13 +222,13 @@ class World(object):
             
             for user_id in agent.state.association:
                 user = self.users[user_id]
-                agent.reward += self.getDelay(agent, user, user.user_id, agent.isUAV)
+                agent.reward += self.getDelay(agent, user, self.agents[0], agent.isUAV)
 
             Delay += agent.reward
 
         return L - Delay
 
-    def getDelay(self, agent, user, user_id, isUAV):
+    def getDelay(self, agent, user, mbs, isUAV):
         #     if isMbs == True:
         #         for file in range(self.num_files):
         #             delay = (self.x(user, file) * self.z(user, node) * self.T_down(node, user))
@@ -234,9 +240,9 @@ class World(object):
             print(f"[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
             delay = self.Calc_T_down(agent, user)
         else:
-            print(f"[CALC_REWARD] HasFile {agent.state.has_file} || File_request {user.state.file_request}")
-            if user.state.file_request in agent.state.has_file:
-                delay = self.Calc_T_down(agent, user) + self.Calc_T_back(agent, user)
+            print(f"[CALC_REWARD] HasFile {agent.state.has_file}, {type(agent.state.has_file)} || File_request {user.state.file_request}, {type(user.state.file_request)}")
+            if np.isin(agent.state.has_file, user.state.file_request):
+                delay = self.Calc_T_down(agent, user) + self.Calc_T_back(mbs, agent, user)
 
         return delay
 
@@ -244,8 +250,8 @@ class World(object):
     def Calc_T_down(self, agent, user):
         return S / self.R_T_down(agent, user)
 
-    def Calc_T_back(self, agent, user):
-        return S / self.R_T_back(b, agent, user)
+    def Calc_T_back(self, mbs, agent, user):
+        return S / self.R_T_back(mbs, agent, user)
 
     def R_T_down(self, mbs, user): # i : mbs , u: user
         numfile = 0
@@ -261,14 +267,15 @@ class World(object):
         if lower == 0:
             return 0.0001
 
-        r_t_down = upper / lower * math.log2(1 + self.r(mbs, user))
+        r_t_down = upper / lower * math.log2(1 + self.r(mbs, user, TYPE_MBS_USER))
         
         print(f"[CALC_REWARD] R_T_down between {mbs}, {user}: {r_t_down}")
         return r_t_down
 
     def R_T_back(self, b, m, u):
-        left = math.log2(1 + self.r(b, m))
-        upper, lower = 0
+        left = math.log2(1 + self.r(b, m, TYPE_MBS_UAV))
+        upper = 0
+        lower = 0
         for file in self.num_files:
             upper += self.x(u, file) * self.z(u, m) * (1 - self.y(m, file))
         upper *= B
@@ -294,7 +301,7 @@ class World(object):
             res = self.GetPower(uavIdx, i) * math.pow(10, -self.h_UavUser(i, u) / 10) / (NOISE_POWER * lower)
 
         elif type == TYPE_MBS_UAV:
-            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(self, i, u) / 10))
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(i, u) / 10))
 
         else:
             res = 0
@@ -323,7 +330,7 @@ class World(object):
         return 15.3 + 37.6 * math.log10(self.d(b, u))
 
     def PLos(self, m, u):
-        return 1 / (1 + c_1 * math.exp(-c_2 * (theta(m, u) - c_1)))
+        return 1 / (1 + c_1 * math.exp(-c_2 * (self.theta(m, u) - c_1)))
 
     def hLos(self, m, u):
         return 20 * math.log(4 * math.pi * self.d(m, u) / v_c) + X_Los
@@ -349,11 +356,12 @@ class World(object):
         else:
             return False
 
-    def d(self, m, u):
-        agent = self.agents[m]
-        user = self.users[u]
-        x = agent.state.x - user.state.x
-        y = agent.state.y - user.state.y
+    def theta(self, uav, user):
+        return 180/math.pi*math.asin(H/self.d(uav,user))
+
+    def d(self, uav, user):
+        x = uav.state.x - user.state.x
+        y = uav.state.y - user.state.y
         
         return math.sqrt(math.pow(x, 2) + math.pow(y, 2))
     # Calculate Distance
@@ -379,9 +387,14 @@ class World(object):
 
         
     def uav_apply_cache(self, action_cache, agent):
-        #print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
-        agent.state.has_file = action_cache
-        NotImplementedError
+        print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
+        if action_cache.size > agent.state.cache_size:
+            print(f"[uav_apply_cache] agent_id: {agent}, action_space overs cache_size: ({action_cache}/{agent.state.cache_size})")
+            agent.state.cache_size = []
+            for _, file in enumerate(action_cache):
+                agent.state.cache_size.append(file)
+        else: # add all files to UAV
+            agent.state.has_file = action_cache
         
     def uav_apply_power(self, action_power, agent):
         #print(f'[uav_apply_power] {agent}, {action_power}')
