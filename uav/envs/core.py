@@ -27,13 +27,14 @@ class EntityState(object):
 
 # state of agents (including communication and internal/mental state)
 class AgentState(EntityState):
-    def __init__(self):
+    def __init__(self, cache_size):
         super(AgentState, self).__init__()
         # Set internal state set for uav or mbs
         # in common
         self.association = []
         # for UAV
         self.has_file = []
+        self.cache_size = cache_size
         self.file_request = []
         # for MBS
 
@@ -41,7 +42,6 @@ class UserState(EntityState):
     def __init__(self):
         # Set internal state set for user
         self.association = []
-        self.has_file = None
         self.file_request = 0
 
 
@@ -61,9 +61,6 @@ class Entity(object):
         # name
         self.name = ""
 
-        # entity can move / be pushed
-        self.movable = False
-
         # material density (affects mass)
         self.density = 25.0
         # color
@@ -74,7 +71,7 @@ class Entity(object):
 
 # properties of agent entities
 class Agent(Entity):
-    def __init__(self, isMBS):
+    def __init__(self, isMBS, cache_capa):
         super(Agent, self).__init__()
         # agent are MBS
         if isMBS == True:
@@ -86,10 +83,9 @@ class Agent(Entity):
 
         self.agent_id = None
         # state: including communication state(communication utterance) c and internal/mental state p_pos, p_vel
-        self.state = AgentState()
+        self.state = AgentState(cache_capa)
         # action: physical action u & communication action c
         self.action = Action()
-        
         self.association = []
         self.mbs_associate = None
         self.user_associate = None
@@ -238,10 +234,9 @@ class World(object):
             print(f"[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
             delay = self.Calc_T_down(agent, user)
         else:
-            if user_id in agent.state.association:
-                for file_idx in range(self.num_files):
-                    if (user.state.file_request == file_idx) and file_idx in agent.state.has_file:
-                        delay = self.Calc_T_down(agent, user) + self.Calc_T_back(agent, user)
+            print(f"[CALC_REWARD] HasFile {agent.state.has_file} || File_request {user.state.file_request}")
+            if user.state.file_request in agent.state.has_file:
+                delay = self.Calc_T_down(agent, user) + self.Calc_T_back(agent, user)
 
         return delay
 
@@ -385,7 +380,7 @@ class World(object):
         
     def uav_apply_cache(self, action_cache, agent):
         #print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
-        agent.state.cache = action_cache
+        agent.state.has_file = action_cache
         NotImplementedError
         
     def uav_apply_power(self, action_power, agent):

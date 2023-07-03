@@ -29,16 +29,17 @@ class Scenario(BaseScenario):
         world.num_agents = world.num_mbs + world.num_uavs
         world.map_size = args.map_size
         world.num_files = args.num_files
+        world.cache_capa = args.cache_capa
         # world.users = [User(args.file_size, args.zipf_parameter) for i in range(world.num_users)]
         world.file_size = args.file_size
         world.zipf_parameter = args.zipf_parameter
         
         # Add agent as mbs
         for i in range(world.num_mbs):
-            world.agents.append(Agent(True))
+            world.agents.append(Agent(True, 0))
         # Add agent as uav
         for i in range(world.num_uavs):
-            world.agents.append(Agent(False))
+            world.agents.append(Agent(False, world.cache_capa))
 
         for i in range(world.num_agents):
             world.agents[i].agent_id = i
