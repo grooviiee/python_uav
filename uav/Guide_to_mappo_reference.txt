@@ -22,10 +22,14 @@ on-policy/algorithms
 on-policy/envs
  -> 여러가지 환경에서의 강화학습을 제공한다. 여기는 그 환경에 대한 코드이다.
  - envs/mpe를 주로 보면 될 듯 하다.
+ - core.py 부분에서 agent와 user의 행동에 따른 state를 수정한다.
+  
  
 on-policy/runner
  - seperated와 shared 환경을 제공한다.
  - 공통 부분을 base_runner로 빼낸 뒤, 이를 상속해서 각각의 환경에서 가져다 쓴다.
+ - 생각을 해보니, multi mbs 환경은 상속이 어려울 수도 있을 것
+같다. ric 서버를 둬야할 것 같다는 생각이 든다. 
 
 on-policy/scripts
  -> main 코드가 여기에 들어있음
@@ -34,7 +38,7 @@ on-policy/scripts
 
 on-policy/onpolicy/config.py
  - config.py에서 시뮬레이션 설정을 다 세팅한다. argparse API를 사용해서 parameter 관리를 한다.
- 
+ - 현재 내 코드에는 main.py에 있는데 떼낼 예정이다. 
 
 
 * Agent 선언은 어디서? -> envs의 core.py에서 구성한다.
