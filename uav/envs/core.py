@@ -42,6 +42,7 @@ class AgentState(EntityState):
         self.has_file = []
         self.cache_size = cache_size
         self.file_request = []
+        self.power = []
         # for MBS
 
 class UserState(EntityState):
@@ -94,9 +95,7 @@ class Agent(Entity):
         self.action = Action()
         self.association = []
         self.mbs_associate = None
-        self.user_associate = None
-        self.power_alloc = []
-        
+        self.user_associate = None        
         
         # script behavior to execute
         self.action_callback = None
@@ -238,70 +237,72 @@ class World(object):
         delay = 0
         if isUAV == False:
             print(f"[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
-            delay = self.Calc_T_down(agent, user)
+            delay = self.Calc_T_down(agent, user, TYPE_MBS_USER)
         else:
             print(f"[CALC_REWARD] HasFile {agent.state.has_file}, {type(agent.state.has_file)} || File_request {user.state.file_request}, {type(user.state.file_request)}")
             if np.isin(agent.state.has_file, user.state.file_request):
-                delay = self.Calc_T_down(agent, user) + self.Calc_T_back(mbs, agent, user)
+                # Only consider UAV-User
+                delay = self.Calc_T_down(agent, user, TYPE_UAV_USER)
+            else:
+                # Consider backhaul network also
+                delay = self.Calc_T_down(agent, user, TYPE_UAV_USER) + self.Calc_T_back(mbs, agent, user)
 
         return delay
 
 
-    def Calc_T_down(self, agent, user):
-        return S / self.R_T_down(agent, user)
+    # it could be MBS-User or UAV-User
+    def Calc_T_down(self, agent, user, type):
+        return S / self.R_T_down(agent, user, type)
 
     def Calc_T_back(self, mbs, agent, user):
         return S / self.R_T_back(mbs, agent, user)
 
-    def R_T_down(self, mbs, user): # i : mbs , u: user
-        numfile = 0
-        for file in range(self.num_files):
-            numfile += self.x(user, file) * self.z(user, mbs)
-
+    # Tx to User.. i : mbs or uav , u: user, x: file req, y: has file, z: asso
+    def R_T_down(self, mbs, user, type): 
+        numfile = 1
         upper = numfile * W
-        lower = 0
-        for user_idx, user in enumerate(self.users):
-            for file in range(self.num_files):
-                lower += self.x(user, file) * self.z(user, mbs)
+        lower = 1
+        # for user_idx, user in enumerate(self.users):
+        #     for file in range(self.num_files):
+        #         lower += self.x(user, file) * self.z(user, mbs)
 
-        if lower == 0:
-            return 0.0001
-
-        r_t_down = upper / lower * math.log2(1 + self.r(mbs, user, TYPE_MBS_USER))
+        r_t_down = upper / lower * math.log2(1 + self.calc_rate(mbs, user, type))
         
         print(f"[CALC_REWARD] R_T_down between {mbs}, {user}: {r_t_down}")
         return r_t_down
 
     def R_T_back(self, b, m, u):
-        left = math.log2(1 + self.r(b, m, TYPE_MBS_UAV))
-        upper = 0
-        lower = 0
-        for file in self.num_files:
-            upper += self.x(u, file) * self.z(u, m) * (1 - self.y(m, file))
+        left = math.log2(1 + self.calc_rate(b, m, TYPE_MBS_UAV))
+        # upper = 0
+        # lower = 0
+        # for file in self.num_files:
+        #     upper += self.x(u, file) * self.z(u, m) * (1 - self.y(m, file))
+        upper = 1
         upper *= B
 
-        for user in self.num_users:
-            for file in self.num_files:
-                for node in self.num_agents:
-                    lower += self.x(user, file) * self.z(user, node) * (1 - self.y(node, file))
+        lower = 1
+        # for user in self.num_users:
+        #     for file in self.num_files:
+        #         for node in self.num_agents:
+        #             lower += self.x(user, file) * self.z(user, node) * (1 - self.y(node, file))
 
         return left * upper / lower
 
-    def r(self, i, u, type):
+    def calc_rate(self, src, dst, type):
         if type == TYPE_MBS_USER:
-            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUser(self, i, u) / 10))
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUser(src, dst) / 10))
 
         elif type == TYPE_UAV_USER:  # follows UAV Power
-            lower = 0
-            for uavIdx in self.num_uavs:
-                if uavIdx == i:
-                    continue
-                lower += self.GetPower(uavIdx, i) * math.pow(10, -self.h_UavUser(i, u) / 10)
-
-            res = self.GetPower(uavIdx, i) * math.pow(10, -self.h_UavUser(i, u) / 10) / (NOISE_POWER * lower)
+            # lower = 0
+            # for uavIdx in self.num_uavs:
+            #     if uavIdx == i:
+            #         continue
+            #     lower += self.GetPower(uavIdx, i) * math.pow(10, -self.h_UavUser(src, dst) / 10)
+            lower = self.GetPower(src, dst) * math.pow(10, -self.h_UavUser(src, dst) / 10)
+            res = self.GetPower(src, dst) * math.pow(10, -self.h_UavUser(src, dst) / 10) / (NOISE_POWER * lower)
 
         elif type == TYPE_MBS_UAV:
-            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(i, u) / 10))
+            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(src, dst) / 10))
 
         else:
             res = 0
@@ -309,16 +310,15 @@ class World(object):
         return res
 
     # Calculate pathloss
-    def getPower(self, uav_id, user_id):
+    def GetPower(self, uav, user):
         # getUserIdxFromAssociation
-        agent = self.agents[uav_id]
-        user_idx = None
-        for idx, value in enumerate(agent.state.association):
-            if value == user_id:
-                user_idx = idx
+        user_idx = user.user_id
+        for idx, value in enumerate(uav.state.association):
+            if value == user_idx:
+                user_id = idx
                 break
             
-        return agent.state.power[user_idx]
+        return uav.state.power[user_id]
     
     def h_UavUser(self, m, u):
         return self.PLos(m, u) * self.hLos(m, u) + (1 - self.PLos(m, u)) * self.hNLos(m, u)
@@ -338,18 +338,21 @@ class World(object):
     def hNLos(self, m, u):
         return 20 * math.log(4 * math.pi * self.d(m, u) / v_c) + X_NLos
 
+    # user requests file
     def x(self, user, file):
         if user.state.file_request == file:
             return 1
         else:
             return 0
 
-    def y(self, node, file):
-        if file in node.state.has_file:
+    # uav has file
+    def y(self, uav, file):
+        if file in uav.state.has_file:
             return 1
         else:
             return 0
-        
+    
+    # node associated with user
     def z(self, node, user):
         if user in node.state.association:
             return True
@@ -359,12 +362,13 @@ class World(object):
     def theta(self, uav, user):
         return 180/math.pi*math.asin(H/self.d(uav,user))
 
+    # Calculate Distance
     def d(self, uav, user):
         x = uav.state.x - user.state.x
         y = uav.state.y - user.state.y
         
         return math.sqrt(math.pow(x, 2) + math.pow(y, 2))
-    # Calculate Distance
+
 
 
     def mbs_apply_agent_association(self, action_set):
@@ -397,10 +401,14 @@ class World(object):
             agent.state.has_file = action_cache
         
     def uav_apply_power(self, action_power, agent):
-        #print(f'[uav_apply_power] {agent}, {action_power}')
-        for i in range(len(agent.association)):
-            agent.power[i] = action_power / len(agent.association)
-            agent.state.power[i] = agent.power[i]
+        print(f'[uav_apply_power] {agent}, {action_power}')
+        agent.power = action_power
+        for user_id in range(self.num_users):
+            if user_id in agent.state.association:
+                power = agent.power / len(agent.state.association)
+                agent.state.power.append(power)
+            else:
+                agent.state.power.append(0)
         
     def uav_apply_trajectory(self, action_dist, action_angle, agent):
         #print(f'[uav_apply_trajectory] {agent}, prev: {agent.state.x}, {agent.state.y}')
