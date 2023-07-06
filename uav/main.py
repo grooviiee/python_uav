@@ -1,9 +1,12 @@
-import argparse
+# Main function of system
+# Choose environment, algorithm and other settings
+
 import numpy as np
 import time
 import pickle
 import torch
 import os
+from envs.utils.config import parse_args
 from pathlib import Path
 from envs.UavEnvMain import UAVEnvMain
 
