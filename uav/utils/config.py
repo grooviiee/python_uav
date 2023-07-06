@@ -1,3 +1,8 @@
+# This py configures entire parameters
+# function parse_args is called at main.py for the first.
+# And it delivered to other parts such as variable "args"
+# API is used 
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Reinforcement Learning experiments for multiagent environments"
