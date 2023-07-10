@@ -120,9 +120,8 @@ class User(Entity):
 class World(object):
     def __init__(self):
         # list of agents and entities (can change at execution-time!)
-        self.agents = []
-        self.users = []
-        self.walls = []
+        self.agents = []        # {mbs + uav} dtype: list
+        self.users = []         # dtype: list
         
         # color dimensionality
         self.dim_color = 3
@@ -189,7 +188,6 @@ class World(object):
 
         for user in self.users:    
             self.update_user_state(user)
-        print(f'[WORLD_STEP] USER state update done: {len(self.users)}')
         
         for agent in self.agents:
             agent.reward = self.calculateReward(agent)    
@@ -245,7 +243,7 @@ class World(object):
                 delay = self.Calc_T_down(agent, user, TYPE_UAV_USER)
             else:
                 # Consider backhaul network also
-                delay = self.Calc_T_down(agent, user, TYPE_UAV_USER) + self.Calc_T_back(mbs, agent, user)
+                delay = self.Calc_T_down(agent, user, TYPE_UAV_USER) + self.Calc_T_back(mbs, agent)
 
         return delay
 
@@ -254,8 +252,9 @@ class World(object):
     def Calc_T_down(self, agent, user, type):
         return S / self.R_T_down(agent, user, type)
 
-    def Calc_T_back(self, mbs, agent, user):
-        return S / self.R_T_back(mbs, agent, user)
+    # MBS - UAV
+    def Calc_T_back(self, mbs, uav):
+        return S / self.R_T_back(mbs, uav)
 
     # Tx to User.. i : mbs or uav , u: user, x: file req, y: has file, z: asso
     def R_T_down(self, mbs, user, type): 
@@ -268,11 +267,11 @@ class World(object):
 
         r_t_down = upper / lower * math.log2(1 + self.calc_rate(mbs, user, type))
         
-        print(f"[CALC_REWARD] R_T_down between {mbs}, {user}: {r_t_down}")
+        print(f"[CALC_REWARD] R_T_down between {mbs.agent_id}, {user.user_id}: {r_t_down}")
         return r_t_down
 
-    def R_T_back(self, b, m, u):
-        left = math.log2(1 + self.calc_rate(b, m, TYPE_MBS_UAV))
+    def R_T_back(self, mbs, uav):
+        left = math.log2(1 + self.calc_rate(mbs, uav, TYPE_MBS_UAV))
         # upper = 0
         # lower = 0
         # for file in self.num_files:
@@ -285,6 +284,8 @@ class World(object):
         #     for file in self.num_files:
         #         for node in self.num_agents:
         #             lower += self.x(user, file) * self.z(user, node) * (1 - self.y(node, file))
+        
+        
 
         return left * upper / lower
 
