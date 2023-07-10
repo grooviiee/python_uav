@@ -110,7 +110,9 @@ class SingleBS_runner(Runner):
             for step in range(self.episode_length):
                 # Sample actions
                 values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
-                    
+                
+                raise NotImplementedError("Breakpoint")
+
                 # Obser reward and next obs
                 obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env)
                 print(f'[RUNNER] Get rewards: {rewards}')
@@ -121,8 +123,6 @@ class SingleBS_runner(Runner):
                 self.sum_rewards(origin_rewards)
                 #raise NotImplementedError("Breakpoint")
             
-            raise NotImplementedError("Breakpoint")
-
             # compute GAE and update network
             print(f'[RUNNER] Compute GAE')
             self.compute_gae() 

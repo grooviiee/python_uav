@@ -25,8 +25,8 @@ class Scenario(BaseScenario):
         world.collaborative = True  # whether agents share rewards
         world.num_uavs = args.num_uavs
         world.num_mbs = args.num_mbs
-        world.num_users = args.num_users
-        world.num_agents = world.num_mbs + world.num_uavs
+        world.num_users = args.num_users        # dtype: int 
+        world.num_agents = args.num_uavs + args.num_mbs       # dtype: int
         world.map_size = args.map_size
         world.num_files = args.num_files
         world.cache_capa = args.cache_capa

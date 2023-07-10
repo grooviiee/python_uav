@@ -41,6 +41,8 @@ class MAPPOAgentTrainer:
             self.value_normalizer = ValueNorm(1).to(self.device)
         else:
             self.value_normalizer = None
+            
+
     # Train is acheived per Agent
     def train(self, is_uav, buffer, update_actor=True):
         advantages = buffer.returns[:-1] - buffer.value_preds[:-1]

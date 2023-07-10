@@ -11,9 +11,9 @@ class MAPPOAgentPolicy:
         self.opti_eps = args.opti_eps
         self.weight_decay = args.weight_decay
 
-        self.obs_space = obs_space      # Individual obs space
-        self.share_obs_space = cent_obs_space   # Merged obs space
-        self.act_space = act_space
+        self.obs_space = obs_space      # Individual Obs space
+        self.share_obs_space = cent_obs_space   # Shared Obs space
+        self.act_space = act_space      # Action space
         if args.num_mbs > agent_id:
             self.is_uav = False
         else:

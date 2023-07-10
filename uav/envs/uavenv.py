@@ -28,10 +28,10 @@ class UAV_ENV(gym.Env):
         self.log_level = world.log_level
         self.current_step = 0
         self.world_length = world.world_length
-        self.num_uavs = world.num_uavs
-        self.num_mbs = world.num_mbs
-        self.num_nodes = self.num_uavs + self.num_mbs
-        self.agents = self.world.agents
+        self.num_uavs = world.num_uavs  # number of uavs
+        self.num_mbs = world.num_mbs    # number of base stations
+        #self.num_nodes = self.num_uavs + self.num_mbs    # Not used currently
+        self.agents = self.world.agents     # number of agents which has Deep Neural Network
         self.num_files = world.num_files
         self.map_x_len = world.map_size
         self.map_y_len = world.map_size
