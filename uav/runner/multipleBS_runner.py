@@ -1,4 +1,6 @@
-
+# Multiple BS environment will be used here.
+# Choose training algorithms and setup RIC existing env.
+# To control multiple BS and UAVs, central controller is needed.
 
 
 class MultipleBS_runner(object):
@@ -7,7 +9,7 @@ class MultipleBS_runner(object):
         
     def run(self):
         def __init__(self, arlist):
-            print("run MultipleBS")
+            print("run MultipleBS with RIC server")
             self.done = False
             self.total_reward = 0
 
