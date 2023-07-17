@@ -33,6 +33,8 @@ class R_Actor(nn.Module):
         self.tpdv = dict(dtype=torch.float32, device=device)  # device type
         self.is_uav = is_uav
         obs_shape = get_shape_from_obs_space(obs_space)
+        
+        # Choose base network
         if len(obs_shape) == 3:
             print(f"[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3")
             base = CNNBase
@@ -40,7 +42,6 @@ class R_Actor(nn.Module):
             # Only RIC will use this function 
             print(f"(We do not use this currently) [ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3")
             base = MLPBase
-
         self.base = base(args, obs_shape, is_uav)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
