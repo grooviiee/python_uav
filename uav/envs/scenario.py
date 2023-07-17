@@ -5,7 +5,7 @@ from envs.core import World, Agent, User
 
 class BaseScenario(object):
     # Create Elements of the world.. It will be used as common settings
-    def make_workd(self):
+    def make_world(self):
         raise NotImplementedError()
 
     # create initial conditions of the world
