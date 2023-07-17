@@ -37,7 +37,7 @@ class R_Actor(nn.Module):
             print(f"[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3")
             base = CNNBase
         else:
-            # We do not use this currently
+            # Only RIC will use this function 
             print(f"(We do not use this currently) [ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3")
             base = MLPBase
 
