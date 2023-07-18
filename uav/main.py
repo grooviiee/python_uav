@@ -65,8 +65,12 @@ def main(arglist):
         print("u are choosing to use mappo, we set use_recurrent_policy to be True")
     elif arglist.algorithm_name == "ddpg":
         print("u are choosing to use ddpg, we set use_recurrent_policy to be True")
+        print(f"Not implemented yet")
+        raise NotImplementedError
     elif arglist.algorithm_name == "attention_mappo":
         print("u are choosing to use attention_mappo, we set use_recurrent_policy to be True")
+        print(f"Not implemented yet")
+        raise NotImplementedError
     else:
         raise NotImplementedError
 

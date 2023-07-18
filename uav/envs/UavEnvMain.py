@@ -5,7 +5,7 @@ from envs import load
 def UAVEnvMain(args):
     print("Load Scenario: ", args.scenario_name)
     # load scenario from script
-    scenario = load("scenario.py").Scenario()
+    scenario = load(args.scenario_name).Scenario()
     # create world (from scenario,py)
     world = scenario.make_world(args)
     # create multiagent environment

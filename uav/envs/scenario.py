@@ -1,19 +1,7 @@
 import numpy as np
 import random
 from envs.core import World, Agent, User
-
-
-class BaseScenario(object):
-    # Create Elements of the world.. It will be used as common settings
-    def make_world(self):
-        raise NotImplementedError()
-
-    # create initial conditions of the world
-    def reset_world(self, world):
-        raise NotImplementedError()
-
-    def info(self, agent, world):
-        return {}
+from envs.scenario_base import BaseScenario
 
 
 class Scenario(BaseScenario):

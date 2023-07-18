@@ -4,6 +4,11 @@
 # API is used 
 import argparse
 
+# main settings:
+# env_name : uavnet
+# scenario_name : uavenv
+# runner_name: singleBS or multipleBS
+# algorithm_name: mappo
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Reinforcement Learning experiments for multiagent environments"
