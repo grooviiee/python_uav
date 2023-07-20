@@ -105,8 +105,10 @@ class MAPPOAgentTrainer:
         active_masks_batch = check(active_masks_batch).to(**self.tpdv)
 
         if is_uav == False:
-            share_obs_batch = np.reshape(share_obs_batch, (batch_size,2,5,-1)) # (2, 5, 5)
-            obs_batch = np.reshape(obs_batch, (batch_size,2,5,-1)) # (2, 5, 5)
+            share_obs_batch = np.reshape(share_obs_batch, (batch_size,8,2,-1)) # (2, 5, 5)
+            obs_batch = np.reshape(obs_batch, (batch_size,8,2,-1)) # (2, 5, 5)
+            # share_obs_batch = np.reshape(share_obs_batch, (batch_size,2,5,-1)) # (2, 5, 5)
+            # obs_batch = np.reshape(obs_batch, (batch_size,2,5,-1)) # (2, 5, 5)
         else:
             share_obs_batch = np.reshape(share_obs_batch, (batch_size,1,2,-1)) # (2, 2, 17)
             obs_batch= np.reshape(obs_batch, (batch_size,1,2,-1)) # (2, 2, 17)

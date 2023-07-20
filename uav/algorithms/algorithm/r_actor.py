@@ -77,11 +77,12 @@ class R_Actor(nn.Module):
         if available_actions is not None:
             available_actions = check(available_actions).to(**self.tpdv)
 
+        # Get action feature map (actor_features is 32x64)
         actor_features = self.base(obs) # CNN Base
-        # actor_features is 32x64
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
 
+        # Get action_space from feature_map
         actions, action_log_probs = self.act(actor_features)
         print(f"[R_Actor] Forward actor_features: {actor_features.shape}, actions: {actions.shape}, action_log_probs: {action_log_probs.shape}")
         return actions, action_log_probs, rnn_states
