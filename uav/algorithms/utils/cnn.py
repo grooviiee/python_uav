@@ -53,12 +53,12 @@ class CNNLayer(nn.Module):
                 nn.Conv2d(
                     in_channels=input_channel,
                     #out_channels=hidden_size // 2,
-                    out_channels=1,
+                    out_channels=3,
                     kernel_size=kernel_size,
                     stride=stride,
                 )
             ),
-            active_func,
+            active_func,    # call nn.ReLU()
             Flatten(),
             init_(nn.Linear(num_hidden_layer, 64)),
             active_func,

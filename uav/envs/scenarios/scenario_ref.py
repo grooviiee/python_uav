@@ -1,7 +1,7 @@
 import numpy as np
 import random
 from envs.core import World, Agent, User
-from envs.scenario_base import BaseScenario
+from envs.scenarios.scenario_base import BaseScenario
 
 
 class Scenario(BaseScenario):

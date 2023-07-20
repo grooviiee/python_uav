@@ -15,7 +15,7 @@ from algorithms.mappo import MAPPOAgentTrainer
 from envs.UavEnvMain import UAVEnvMain
 
 def make_train_env(arglist, benchmark=False):
-    if arglist.scenario_name == "uavenv":
+    if arglist.env_name == "uavnet":
         print("You choose " + arglist.scenario_name + " environment.")
         env = UAVEnvMain(arglist)
     else:

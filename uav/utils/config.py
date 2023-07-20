@@ -9,6 +9,7 @@ import argparse
 # scenario_name : uavenv
 # runner_name: singleBS or multipleBS
 # algorithm_name: mappo
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Reinforcement Learning experiments for multiagent environments"
@@ -21,7 +22,7 @@ def parse_args():
                         help='Number of environment steps to train (default: 10e6)')
     
     parser.add_argument("--env_name", type=str, default="uavnet", choices=["uavnet"])
-    parser.add_argument("--scenario_name", type=str, default="uavenv", choices=["uavenv"])
+    parser.add_argument("--scenario_name", type=str, default="scenario_ref", choices=["scenario_ref, scenario_ric"])
     parser.add_argument("--runner_name", type=str, default="singleBS", choices=["singleBS", "multipleBS"]) #
     parser.add_argument("--algorithm_name", type=str, default="mappo", choices=["ddpg", "mappo", "attention_mappo"])
     parser.add_argument("--experiment_name",type=str,default="check",help="an identifier to distinguish different experiment.",)

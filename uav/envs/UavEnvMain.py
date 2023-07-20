@@ -1,5 +1,5 @@
 from envs.uavenv import UAV_ENV
-from envs import load
+from envs.scenarios import load
 
 # Start of Environment
 def UAVEnvMain(args):
