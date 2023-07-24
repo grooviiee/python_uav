@@ -100,7 +100,6 @@ class Agent(Entity):
         # script behavior to execute
         self.action_callback = None
 
-        # zoe 20200420
         print(f"Create agent as isMBS: {isMBS}")
 
 
@@ -366,23 +365,20 @@ class World(object):
     # Calculate Distance
     def d(self, uav, user):
         x = uav.state.x - user.state.x
-        y = uav.state.y - user.state.y
-        
+        y = uav.state.y - user.state.y        
         return math.sqrt(math.pow(x, 2) + math.pow(y, 2))
-
-
 
     def mbs_apply_agent_association(self, action_set):
         association = action_set # [nodes][users]
         tmp_association = [[1 for j in range(self.num_agents)] for i in range(self.num_users)]
         
-        #init 
+        # init association
         for i, node in enumerate(self.agents):
             node.state.association = []
             for j, user in enumerate(self.users):
                 user.state.association = []
 
-        #set
+        # set uav and user states following action
         for i, node in enumerate(self.agents):
             for j, user in enumerate(self.users):
                 if tmp_association[j][i]:
@@ -412,10 +408,12 @@ class World(object):
                 agent.state.power.append(0)
         
     def uav_apply_trajectory(self, action_dist, action_angle, agent):
-        #print(f'[uav_apply_trajectory] {agent}, prev: {agent.state.x}, {agent.state.y}')
+        prev_x = agent.state.x
+        prev_y = agent.state.y
         agent.state.x =  agent.state.x + action_dist * math.cos(action_angle)
-        agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)     
-        #print(f'[uav_apply_trajectory] {agent}, curr: {agent.state.x}, {agent.state.y}')   
+        agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)
+     
+        print(f'[uav_apply_trajectory] {agent}, prev: {prev_x}, {prev_y}, curr: {agent.state.x}, {agent.state.y}')   
 
     def update_user_state(self, user):
         #print(f'[update_user_state] {user}')
