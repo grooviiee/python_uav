@@ -8,9 +8,8 @@
 
 on-policy/algorithms
  -> 실질적으로 RL Training을 실행하는 폴더
- - 그런데 알고리즘에 폴더가 꽤 많다.
  -- r_mappo/r_actor_critic.py : 
-    - Actor와 critic 클래스가 존재.
+    - Actor와 critic 클래스가 각각 존재.
 	-- Actor: Outputs actions given observations.
 	-- Critic: Outputs value function predictions given centralized input (MAPPO) or local observations (IPPO).
  -- r_mappo/rMAPPOPolicy.py : Wraps actor and critic networks to compute actions and value function predictions.
@@ -18,18 +17,18 @@ on-policy/algorithms
  - r_mappo.py : Trainer class for MAPPO to update policies.
  
  
-
 on-policy/envs
- -> 여러가지 환경에서의 강화학습을 제공한다. 여기는 그 환경에 대한 코드이다.
- - envs/mpe를 주로 보면 될 듯 하다.
- - core.py 부분에서 agent와 user의 행동에 따른 state를 수정한다.
+ -> 여러가지 환경에서의 강화학습을 제공한다. 여기는 그 환경에 대한 코드
+ - core.py: 시뮬레이션의 모든 Entity 정보를 다룬다. agent와 user의 행동에 따른 state를 수정
   
  
 on-policy/runner
- - seperated와 shared 환경을 제공한다.
- - 공통 부분을 base_runner로 빼낸 뒤, 이를 상속해서 각각의 환경에서 가져다 쓴다.
- - 생각을 해보니, multi mbs 환경은 상속이 어려울 수도 있을 것
-같다. ric 서버를 둬야할 것 같다는 생각이 든다. 
+ - seperated buffer와 shared buffer 환경을 제공
+      (partial obs와 sharing obs의 차이점)
+ - 공통 부분을 base_runner로 빼낸 뒤, 이를 상속해서 각각의 환경에서 가져다 씀
+ - runner 환경이 바뀌면, 새로운 state, aciton space에 대한 정의가 필요해 보인다.
+       예를 들어서, multiple BS 환경에서는 이를 Orchestration해주는 RIC 서버를 둬야할 것 같다. 
+       이 과정에서 추가적으로 아이디어를 가져갈 수 있어 보인다.
 
 on-policy/scripts
  -> main 코드가 여기에 들어있음
