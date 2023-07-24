@@ -2,7 +2,7 @@
 
 import gym
 import torch
-from torch.distribution import Categorical
+from torch.distributions import Categorical
 from torch import nn
 from torch import optim
 import torch.nn.functional as F
@@ -134,14 +134,16 @@ def main():
     for episode in range(num_episode):
         state = env.reset()
         done = False
-
+        state = state[0]
         while not done:
             # STEP 1. T Step 만큼 게임을 진행 후에 training 진행
             for step in range(num_step):
                 # STEP 1.1. def PPO.pi policy(critic): 상태 s를 넣으면 행동확률분포를 돌려준다.
+                # print(f'state: {state}, {state[0]}')
                 prob = model.pi(torch.from_numpy(state).float())
                 # STEP 1.2. Categorical : 확률 값을 Categorical 데이터로 변환해준다.
                 # e.g. [0.6, 0.3, 0.1] -> Categorical([0.6, 0.3, 0.1])
+                # print(f'action prob {prob}')
                 m = Categorical(prob)
                 
                 # STEP 1.3. Categorical(tensor값).sample().item()을 하면 행동 분포 중에서 가장 확률이 높은 index를 돌려준다.
@@ -149,7 +151,8 @@ def main():
                 action = m.sample().item()
 
                 # STEP 1.4. action a일 때 next_state와 reward, 게임종료 여부 등을 받아낸다.
-                s_prime, reward, done, info = env.step(action)
+
+                s_prime, reward, done, info, dummy = env.step(action)
 
                 # STEP 1.5. replay buffer에다가 결과 데이터를 집어 넣는다.
                 model.put_data(
