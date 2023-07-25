@@ -51,14 +51,14 @@ def main(arglist):
     # select device
     print("choose device...", arglist.n_training_threads)
     if torch.cuda.is_available():
-        print("choose to use gpu...")
-        device = torch.device("gpu")
+        print("choose to use [GPU]...")
+        device = torch.device("cuda")
         torch.set_num_threads(arglist.n_training_threads)
         if arglist.cuda_deterministic:
             torch.backends.cudnn.benchmark = False
             torch.backends.cudnn.deterministic = True
     else:
-        print("choose to use cpu...")
+        print("choose to use [CPU]...")
         device = torch.device("cpu")
         torch.set_num_threads(arglist.n_training_threads)
 

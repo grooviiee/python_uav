@@ -70,7 +70,7 @@ def parse_args():
     parser.add_argument(
         "--user_name",
         type=str,
-        default="marl",
+        default="grooviiee2",
         help="[for wandb usage], to specify user's name for simply collecting training data.",
     )
     parser.add_argument("--use_wandb", action='store_false', default=True, help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.")
