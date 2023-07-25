@@ -1,5 +1,4 @@
 import numpy as np
-import seaborn as sns
 import math
 
 # Rate calculation type
