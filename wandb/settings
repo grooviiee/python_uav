@@ -1,0 +1,5 @@
+[default]
+entity = grooviiee2
+project = python_uav
+base_url = https://api.wandb.ai
+

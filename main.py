@@ -6,6 +6,8 @@ import time
 import pickle
 import torch
 import os
+import wandb
+import socket
 from utils.config import parse_args
 from pathlib import Path
 from envs.UavEnvMain import UAVEnvMain
@@ -82,16 +84,13 @@ def main(arglist):
     # wandb
     if arglist.use_wandb:
         run = wandb.init(config=arglist,
-                         project=arglist.env_name,
+                         project="python_uav",
                          entity=arglist.user_name,
                          notes=socket.gethostname(),
-                         name=str(arglist.algorithm_name) + "_" +
-                         str(arglist.experiment_name) +
-                         "_seed" + str(arglist.seed),
+                         name=str(arglist.algorithm_name) + "_" + str(arglist.experiment_name) + "_seed" + str(arglist.seed),
                          group=arglist.scenario_name,
                          dir=str(run_dir),
-                         job_type="training",
-                         reinit=True)
+                         job_type="training")
     else:
         if not run_dir.exists():
             curr_run = 'run1'
