@@ -60,6 +60,8 @@ class MAPPOAgentPolicy:
         
         
         cent_obs = reshape_obs
+
+        # actions: distribution set, action_log_probs: sample probabilities
         actions, action_log_probs, rnn_states_actor = self.actor(reshape_obs,
                                                                  rnn_states_actor,
                                                                  masks,

@@ -104,15 +104,16 @@ class SingleBS_runner(Runner):
 
         start = time.time()
         episodes = int(self.num_env_steps) // self.episode_length // self.n_rollout_threads
-
+        episodes = 2
+        
         print(f'[RUNNER] Run Episode')
         for episode in range(episodes):
             for step in range(self.episode_length):
                 # Sample actions
                 values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
                 
-                raise NotImplementedError("Breakpoint")
-
+                # raise NotImplementedError("Breakpoint")
+                
                 # Obser reward and next obs
                 obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env)
                 print(f'[RUNNER] Get rewards: {rewards}')
