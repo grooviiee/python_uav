@@ -8,6 +8,7 @@ import torch
 import os
 import wandb
 import socket
+import logging
 from utils.config import parse_args
 from pathlib import Path
 from envs.UavEnvMain import UAVEnvMain
@@ -48,6 +49,24 @@ def make_eval_env(all_args):
 
 
 def main(arglist):
+    # set logging system
+    print("set logger...")
+    logger = logging.getLogger('simple_example')
+    logger.setLevel(logging.DEBUG)
+    
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    
+    fh = logging.FileHandler(filename="python_uav.log")
+    fh.setLevel(logging.INFO)
+    
+    logger.addHandler(ch)
+    logger.addHandler(fh)
+    
+    logger.info("Log system just set up...")
+    
+    formatter = logging.Formatter(u'%(asctime)s [%(levelname)8s] %(message)s')
+
     # select device
     print("choose device...", arglist.n_training_threads)
     if torch.cuda.is_available():
@@ -64,13 +83,13 @@ def main(arglist):
 
     # select algorithm 
     if arglist.algorithm_name == "mappo":
-        print("u are choosing to use mappo, we set use_recurrent_policy to be True")
+        print("Choose to use mappo, we set use_recurrent_policy to be True")
     elif arglist.algorithm_name == "ddpg":
-        print("u are choosing to use ddpg, we set use_recurrent_policy to be True")
+        print("Choose to use ddpg, we set use_recurrent_policy to be True")
         print(f"Not implemented yet")
         raise NotImplementedError
     elif arglist.algorithm_name == "attention_mappo":
-        print("u are choosing to use attention_mappo, we set use_recurrent_policy to be True")
+        print("Choose to use attention_based_mappo, we set use_recurrent_policy to be True")
         print(f"Not implemented yet")
         raise NotImplementedError
     else:

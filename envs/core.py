@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import logging
 
 # Rate calculation type
 TYPE_MBS_USER = 0
@@ -252,7 +253,11 @@ class World(object):
 
     # MBS - UAV
     def Calc_T_back(self, mbs, uav):
-        return S / self.R_T_back(mbs, uav)
+        backhaul_rate = self.R_T_back(mbs, uav)
+        if backhaul_rate == 0:
+            backhaul_rate = 0.00000001
+
+        return S / backhaul_rate
 
     # Tx to User.. i : mbs or uav , u: user, x: file req, y: has file, z: asso
     def R_T_down(self, mbs, user, type): 
@@ -269,7 +274,7 @@ class World(object):
         return r_t_down
 
     def R_T_back(self, mbs, uav):
-        left = math.log2(1 + self.calc_rate(mbs, uav, TYPE_MBS_UAV))
+        left = math.log2(1 + self.calc_rate_MBS_UAV(mbs, uav))
         # upper = 0
         # lower = 0
         # for file in self.num_files:
@@ -284,9 +289,24 @@ class World(object):
         #             lower += self.x(user, file) * self.z(user, node) * (1 - self.y(node, file))
         
         
-
+        print(f"%f, %f, %f", left, upper, lower)
         return left * upper / lower
 
+    # calculate rate
+    def calc_rate_MBS_USER(self, src, dst):
+        res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUser(src, dst) / 10))
+        return res
+    
+    def calc_rate_UAV_USER(self, src, dst):
+        lower = self.GetPower(src, dst) * math.pow(10, -self.h_UavUser(src, dst) / 10)
+        res = self.GetPower(src, dst) * math.pow(10, -self.h_UavUser(src, dst) / 10) / (NOISE_POWER * lower)
+        return res
+
+    def calc_rate_MBS_UAV(self, src, dst):
+        res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(src, dst) / 10))
+        print(f"MBS_POWER: {MBS_POWER}, NOISE_POWER: {NOISE_POWER}, res: {res}")
+        return res
+         
     def calc_rate(self, src, dst, type):
         if type == TYPE_MBS_USER:
             res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUser(src, dst) / 10))
@@ -302,7 +322,7 @@ class World(object):
 
         elif type == TYPE_MBS_UAV:
             res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(src, dst) / 10))
-
+            print(f"MBS_POWER: {MBS_POWER}, NOISE_POWER: {NOISE_POWER}, res: {res}")
         else:
             res = 0
 
