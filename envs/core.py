@@ -194,18 +194,22 @@ class World(object):
 
     def calculateReward(self, agent):
         epsilon = 0.2
-        print(f"[CALC_REWARD] Start Calculating rewards. epsilon: {epsilon}")
+        if self.log_level >= 4:
+            print(f"[CALC_REWARD] Start Calculating rewards. epsilon: {epsilon}")
+            
         # step 1. Get extr reward (Action에 대해서 state를 모두 바꾸었을 때, reward를 계산)
         extr_reward = self.calcExtrReward(agent)
         # step 2. Get intr reward
         intr_reward = self.calcIntrReward(agent)
         reward = extr_reward + epsilon * intr_reward
-        print(f"[CALC_REWARD] reward: {reward}, {extr_reward}, {epsilon}, {intr_reward}")
+        if self.log_level >= 4:
+            print(f"[CALC_REWARD] reward: {reward}, {extr_reward}, {epsilon}, {intr_reward}")
         return reward
     
 
     def calcIntrReward(self, agent):
-        print(f"[CALC_REWARD] Skip Calculating Intr. rewards.")
+        if self.log_level >= 4:
+            print(f"[CALC_REWARD] Skip Calculating Intr. rewards.")
         return 0 #Temp
 
     def calcExtrReward(self, agent):
@@ -214,7 +218,8 @@ class World(object):
         Delay = 0
         for agent in self.agents:
             agent.reward = 0
-            print(f"[CALC_REWARD] Get AGENT({agent.agent_id})-USER{agent.state.association}.")
+            if self.log_level >= 4:
+                print(f"[CALC_REWARD] Get AGENT({agent.agent_id})-USER{agent.state.association}.")
             
             for user_id in agent.state.association:
                 user = self.users[user_id]
@@ -233,10 +238,12 @@ class World(object):
         #             delay = (self.x(user, file) * self.z(user, node) * {self.T_down(node, user) + (1 - self.y(node, file)) * self.T_back(node, user)})
         delay = 0
         if isUAV == False:
-            print(f"[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
+            if self.log_level >= 4:
+                print(f"[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
             delay = self.Calc_T_down(agent, user, TYPE_MBS_USER)
         else:
-            print(f"[CALC_REWARD] HasFile {agent.state.has_file}, {type(agent.state.has_file)} || File_request {user.state.file_request}, {type(user.state.file_request)}")
+            if self.log_level >= 4:
+                print(f"[CALC_REWARD] HasFile {agent.state.has_file}, {type(agent.state.has_file)} || File_request {user.state.file_request}, {type(user.state.file_request)}")
             if np.isin(agent.state.has_file, user.state.file_request):
                 # Only consider UAV-User
                 delay = self.Calc_T_down(agent, user, TYPE_UAV_USER)
@@ -269,8 +276,8 @@ class World(object):
         #         lower += self.x(user, file) * self.z(user, mbs)
 
         r_t_down = upper / lower * math.log2(1 + self.calc_rate(mbs, user, type))
-        
-        print(f"[CALC_REWARD] R_T_down between {mbs.agent_id}, {user.user_id}: {r_t_down}")
+        if self.log_level >= 4:
+            print(f"[CALC_REWARD] R_T_down between {mbs.agent_id}, {user.user_id}: {r_t_down}")
         return r_t_down
 
     def R_T_back(self, mbs, uav):
@@ -288,8 +295,8 @@ class World(object):
         #         for node in self.num_agents:
         #             lower += self.x(user, file) * self.z(user, node) * (1 - self.y(node, file))
         
-        
-        print(f"%f, %f, %f", left, upper, lower)
+        if self.log_level >= 4:
+            print(f"left: {left}, upper: {upper}, lower: {lower}")
         return left * upper / lower
 
     # calculate rate
@@ -304,7 +311,8 @@ class World(object):
 
     def calc_rate_MBS_UAV(self, src, dst):
         res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(src, dst) / 10))
-        print(f"MBS_POWER: {MBS_POWER}, NOISE_POWER: {NOISE_POWER}, res: {res}")
+        if self.log_level >= 4:
+            print(f"MBS_POWER: {MBS_POWER}, NOISE_POWER: {NOISE_POWER}, res: {res}")
         return res
          
     def calc_rate(self, src, dst, type):

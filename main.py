@@ -9,6 +9,7 @@ import os
 import wandb
 import socket
 import logging
+from utils.logger import Logger
 from utils.config import parse_args
 from pathlib import Path
 from envs.UavEnvMain import UAVEnvMain
@@ -50,19 +51,7 @@ def make_eval_env(all_args):
 
 def main(arglist):
     # set logging system
-    print("set logger...")
-    logger = logging.getLogger('simple_example')
-    logger.setLevel(logging.DEBUG)
-    
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    
-    fh = logging.FileHandler(filename="python_uav.log")
-    fh.setLevel(logging.INFO)
-    
-    logger.addHandler(ch)
-    logger.addHandler(fh)
-    
+    logger = Logger()  
     logger.info("Log system just set up...")
     
     formatter = logging.Formatter(u'%(asctime)s [%(levelname)8s] %(message)s')
@@ -137,6 +126,7 @@ def main(arglist):
         "num_mbs": arglist.num_mbs,
         "num_users": arglist.num_users,
         "run_dir": run_dir,
+        "logger": logger,
     }
 
     # run experiment

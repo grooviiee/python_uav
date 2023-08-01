@@ -27,6 +27,7 @@ class SingleBS_runner(Runner):
         print("Choose SingleBS_runner")
         self.done = False
         self.total_reward = 0
+        self.logger = config['logger']
         self.all_args = config['args']
         self.envs = config['envs']
         self.eval_envs = config['eval_envs']
@@ -47,6 +48,7 @@ class SingleBS_runner(Runner):
         # interval
         self.save_interval = self.all_args.save_interval
         self.use_eval = self.all_args.use_eval
+        self.logger.info("[INIT_RUNNER] Insert Agent settings into Trainer")
         
         print(f'[INIT_RUNNER] Insert Agent settings into Trainer')
         from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
@@ -109,6 +111,7 @@ class SingleBS_runner(Runner):
         print(f'[RUNNER] Run Episode')
         for episode in range(episodes):
             for step in range(self.episode_length):
+                self.logger.info("[RUNNER] Step: {step}")
                 # Sample actions
                 values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
                 
