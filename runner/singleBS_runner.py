@@ -111,7 +111,7 @@ class SingleBS_runner(Runner):
         print(f'[RUNNER] Run Episode')
         for episode in range(episodes):
             for step in range(self.episode_length):
-                self.logger.info("[RUNNER] Step: {step}")
+                self.logger.info("[RUNNER] Step: %d", step)
                 # Sample actions
                 values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
                 
@@ -119,7 +119,7 @@ class SingleBS_runner(Runner):
                 
                 # Obser reward and next obs
                 obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env)
-                print(f'[RUNNER] Get rewards: {rewards}')
+                self.logger.info("[RUNNER] Get rewards: %f", rewards)
                 
                 # insert data into replay buffer
                 data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
@@ -291,14 +291,14 @@ class SingleBS_runner(Runner):
         
         share_obs = []
         for idx, o in enumerate(obs):
-            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, len(obs[idx]): {len(obs[idx])}')
             # share_obs.append(list(chain(*o))) 
             #TODO: Need to Have deep copy using "func CovertToStateList"
             #state_list = CovertToStateList(obs[idx])
             share_obs.append(obs[idx])
+            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, len(obs[idx]): {len(obs[idx])}, len(share_obs): {share_obs}')
 
         # Convert array type share_obs into np.array
-        share_obs = np.array(share_obs)
+        share_obs = np.array(share_obs, dtype=object)
         print(f'[RUNNER_INSERT] SHARE_OBS len(share_obs): {len(share_obs)}')
 
         for agent_id in range(self.num_agents):
