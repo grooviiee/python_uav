@@ -39,6 +39,8 @@ def get_shape_from_act_space(act_space, args, is_uav):
         act_shape = (args.num_uavs + args.num_mbs) * args.num_users
     else:
         act_shape = 4
+        
+    print(f"[REPLAYBUFFER_INIT] (get_shape_from_act_space) is_uav: {is_uav}, act_shape: {act_shape}")
     return act_shape
 
 def check(input):

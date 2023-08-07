@@ -85,18 +85,18 @@ class SeparatedReplayBuffer(object):
 
         self.step = 0
         
-        if self.args.log_level >= 3:
-            print(f'[REPLAYBUFFER] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
-            print(f'[REPLAYBUFFER] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
-            print(f'[REPLAYBUFFER] actions Buffer size : {self.episode_length + 1}, {self.n_rollout_threads}, {act_shape}')
+        if self.args.log_level >= 1:
+            print(f'[REPLAYBUFFER_INIT] share_obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_share_obs_shape}')
+            print(f'[REPLAYBUFFER_INIT] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
+            print(f'[REPLAYBUFFER_INIT] actions Buffer size : {self.episode_length + 1}, {self.n_rollout_threads}, {act_shape}')
 
     def buffer_insert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
         if self.args.log_level >= 1:
-            print(f'[INSERT_BUFFER] len_obs: {len(obs)}, len_buffer.obs: {len(self.obs[self.step + 1])}')
-            print(f'[INSERT_BUFFER] len_actions: {len(actions)}, len_buffer.actions: {len(self.actions[self.step])}')
-            print(f'[INSERT_BUFFER] action_log_probs type: {type(action_log_probs)}, action_len: {len(self.action_log_probs[self.step])}')
+            print(f"[INSERT_BUFFER] type_obs: {type(obs)}, len_obs: {len(obs)}, len_buffer.obs: {len(self.obs[self.step + 1])}")
+            print(f"[INSERT_BUFFER] type_actions: {type(actions)}, shape_actions: {actions.shape}, shape_buffer.actions: {self.actions[self.step].shape}")
+            print(f"[INSERT_BUFFER] action_log_probs type: {type(action_log_probs)}, shape_action_log_probs: {action_log_probs.shape}, shape_buffer_action_log_probs: {self.action_log_probs[self.step].shape}")
             
         self.obs[self.step + 1] = obs.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
