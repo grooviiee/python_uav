@@ -295,7 +295,7 @@ class SingleBS_runner(Runner):
             #TODO: Need to Have deep copy using "func CovertToStateList"
             #state_list = CovertToStateList(obs[idx])
             share_obs.append(obs[idx])
-            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, len(obs[idx]): {len(obs[idx])}, len(share_obs): {share_obs}')
+            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, len(obs[idx]): {len(obs[idx])}, len(share_obs): {len(share_obs)}')
 
         # Convert array type share_obs into np.array
         share_obs = np.array(share_obs, dtype=object)
