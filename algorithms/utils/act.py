@@ -71,10 +71,10 @@ class ACTLayer(nn.Module):
 
         :return actions: (torch.Tensor) actions to take.
         :return action_log_probs: (torch.Tensor) log probabilities of taken actions.
+        
+        :action_out calls [Categorical] or [DiagGaussian] or [Bernoulli]
         """
-
         #print(f'[ACTOR_ACTLAYER_FORWARD] input x.shape: {x.shape}')
-
         if self.mixed_action:
             actions = []
             action_log_probs = []
