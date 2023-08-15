@@ -17,3 +17,5 @@ Next step) Attention based actor-critic
 Next step) Graph based Attention Actor Critic
 
 Far Next step) Consider transformer based Reinforcement learning method. (It's the trend)
+https://hugrypiggykim.com/2022/03/29/decision-transformer-reinforcement-learning-via-sequence-modeling/
+를 참고해서 공부해볼 것
