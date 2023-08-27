@@ -24,7 +24,7 @@ def parse_args():
     parser.add_argument("--env_name", type=str, default="uavnet", choices=["uavnet"])
     parser.add_argument("--scenario_name", type=str, default="scenario_ref", choices=["scenario_ref, scenario_ric"])
     parser.add_argument("--runner_name", type=str, default="singleBS", choices=["singleBS", "multipleBS"]) #
-    parser.add_argument("--algorithm_name", type=str, default="mappo", choices=["ddpg", "mappo", "attention_mappo"])
+    parser.add_argument("--algorithm_name", type=str, default="mappo", choices=["random", "ddpg", "mappo", "attention_mappo"])
     parser.add_argument("--experiment_name",type=str,default="check",help="an identifier to distinguish different experiment.",)
     
     parser.add_argument(

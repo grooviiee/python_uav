@@ -71,7 +71,9 @@ def main(arglist):
         torch.set_num_threads(arglist.n_training_threads)
 
     # select algorithm 
-    if arglist.algorithm_name == "mappo":
+    if arglist.algorithm_name =="random":
+        print("Choose to use random walker. RL not work")
+    elif arglist.algorithm_name == "mappo":
         print("Choose to use mappo, we set use_recurrent_policy to be True")
     elif arglist.algorithm_name == "ddpg":
         print("Choose to use ddpg, we set use_recurrent_policy to be True")
@@ -122,6 +124,7 @@ def main(arglist):
         "envs": envs,
         "eval_envs": eval_envs,
         "device": device,
+        "algorighm": arglist.algorithm_name,
         "num_uavs": arglist.num_uavs,
         "num_mbs": arglist.num_mbs,
         "num_users": arglist.num_users,

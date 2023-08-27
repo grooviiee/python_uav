@@ -32,6 +32,7 @@ class SingleBS_runner(Runner):
         self.envs = config['envs']
         self.eval_envs = config['eval_envs']
         self.device = config['device']
+        self.algorithm = config['algorithm']
         self.num_uavs = config['num_uavs']
         self.num_mbs = config['num_mbs']
         self.num_agents = self.num_uavs + self.num_mbs
@@ -51,8 +52,15 @@ class SingleBS_runner(Runner):
         self.logger.info("[INIT_RUNNER] Insert Agent settings into Trainer")
         
         print(f'[INIT_RUNNER] Insert Agent settings into Trainer')
-        from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
-        from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
+        if self.algorithm == "mappo":
+            from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
+            from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
+        elif self.algorithm == "attention_mappo":
+            raise NotImplementedError
+        elif self.algorithm == "random":
+            raise NotImplementedError
+        else:
+            raise NotImplemented        
         
         print(f'[INIT_RUNNER] Make Actor Critic Policy for Agents')
         self.policy = []
