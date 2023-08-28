@@ -288,11 +288,14 @@ class UAV_ENV(gym.Env):
         else:
             NotImplementedError
 
+    def _set_random_action(self, agent_id, action, time=None):
+        NotImplementedError
+        
     # desc. Take step in environments
     # returns: next state, reward, done, etc.
-    def step(self, action):
+    def step(self, action, is_random_mode):
         # action is coming with n_threads
-        print(f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}/{len(self.action_space)}")
+        print(f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}/{len(self.action_space)}, is_random_mode: {is_random_mode}")
         self.current_step = self.current_step + 1
         obs_n = []
         reward_n = []
@@ -302,7 +305,10 @@ class UAV_ENV(gym.Env):
         self.agents = self.world.agents
         # set action for each agent
         for i, agent in enumerate(self.agents):
-            self._set_action(i, action[0], agent, self.action_space[i])
+            if is_random_mode == False:
+                self._set_action(i, action[0], agent, self.action_space[i])
+            else:
+                self._set_random_action(i, agent, self.action_space[i])
 
         # advance world state
         self.world.world_take_step()  # core.step()

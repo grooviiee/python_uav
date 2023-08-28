@@ -50,7 +50,7 @@ class SingleBS_runner(Runner):
         self.save_interval = self.all_args.save_interval
         self.use_eval = self.all_args.use_eval
         self.logger.info("[INIT_RUNNER] Insert Agent settings into Trainer")
-        
+        self.is_random_mode = False
         print(f'[INIT_RUNNER] Insert Agent settings into Trainer -> {self.algorithm}')
         if self.algorithm == "mappo":
             from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
@@ -59,6 +59,7 @@ class SingleBS_runner(Runner):
             raise NotImplementedError
         elif self.algorithm == "random":
             from algorithms.random import Random as RandomWalk
+            self.is_random_mode = True
         else:
             raise NotImplemented        
         
@@ -124,12 +125,14 @@ class SingleBS_runner(Runner):
 
                 # Sample actions (returned action: action_env)
                 if self.algorithm == "random":
-                    values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = RandomWalk(step)
+                    # I think random walk does not need get_action procedure.. Delete it
+                    # values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = RandomWalk(step)
+                    None
                 else:
                     values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
                 
                 # Obs, rewards and next_obs
-                obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env)
+                obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, self.is_random_mode)
 
                 self.logger.info("[RUNNER] Get rewards: %f", rewards)
                 
