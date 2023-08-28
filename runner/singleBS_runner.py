@@ -51,14 +51,14 @@ class SingleBS_runner(Runner):
         self.use_eval = self.all_args.use_eval
         self.logger.info("[INIT_RUNNER] Insert Agent settings into Trainer")
         
-        print(f'[INIT_RUNNER] Insert Agent settings into Trainer')
+        print(f'[INIT_RUNNER] Insert Agent settings into Trainer -> {self.algorithm}')
         if self.algorithm == "mappo":
             from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
             from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
         elif self.algorithm == "attention_mappo":
             raise NotImplementedError
         elif self.algorithm == "random":
-            raise NotImplementedError
+            from algorithms.random import Random as RandomWalk
         else:
             raise NotImplemented        
         
@@ -114,24 +114,29 @@ class SingleBS_runner(Runner):
 
         start = time.time()
         episodes = int(self.num_env_steps) // self.episode_length // self.n_rollout_threads
+        # TODO: replace num_episode into right calculation
         episodes = 2
         
         print(f'[RUNNER] Run Episode')
         for episode in range(episodes):
             for step in range(self.episode_length):
                 self.logger.info("[RUNNER] Step: %d", step)
-                # Sample actions
-                values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
+
+                # Sample actions (returned action: action_env)
+                if self.algorithm == "random":
+                    values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = RandomWalk(step)
+                else:
+                    values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
                 
-                # raise NotImplementedError("Breakpoint")
-                
-                # Obser reward and next obs
+                # Obs, rewards and next_obs
                 obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env)
+
                 self.logger.info("[RUNNER] Get rewards: %f", rewards)
                 
                 # insert data into replay buffer
                 data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
                 self.runner_insert(data)
+                
                 self.sum_rewards(origin_rewards)
                 #raise NotImplementedError("Breakpoint")
             
