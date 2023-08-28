@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 
-class RandomWalker:
+class Random:
     def __init__(self,
                  args,
                  policy,
@@ -25,3 +25,7 @@ class RandomWalker:
             self.value_normalizer = ValueNorm(1).to(self.device)
         else:
             self.value_normalizer = None
+            
+            
+        def RandomWalk(self):
+            NotImplementedError
