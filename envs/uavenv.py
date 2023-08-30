@@ -77,8 +77,8 @@ class UAV_ENV(gym.Env):
         # if true, every agent has the same reward
         self.shared_reward = world.collaborative if hasattr(world, 'collaborative') else False
 
-        # "Master MBS"
         print(f"[INIT_ENV] NUM_UAV: {world.num_uavs}, NUM_MBS: {world.num_mbs}, NUM_USER: {world.num_users}")
+        # "MBS"
         for agent in self.agents:
             if agent.isMBS == False:
                 continue
@@ -294,12 +294,31 @@ class UAV_ENV(gym.Env):
 
     def _set_random_action(self, agent_id, action, time=None):
         if agent.isUAV == True:
-            # association dimension: Array[nodes][users], value: {0,1}
-            agent.action = 0
+            # association dimension: Array[nodes][users], value: {0,1}   shape=((world.num_uavs + world.num_mbs) * world.num_users, )
+            # constraint Assocation MBS-USER = unlimit, UAV-USER = 4
+            random_action = [[]]    # define
+            random_action = [[False for i in range(self.world.num_uavs + self.world.num_mbs)] for j in range(self.world.num_users) ] # initialization
+            
+            for i in range(self.world.num_uavs + self.world.num_mbs):
+                for j in range(self.world.num_users):
+                    random_action[i][j] = random % 2
+
+            agent.action = random_action
             
         elif agent.isUAV == False:
             # location, power, caching
-            agent.action =  0       
+            power = random %24 # power: 0~23
+            cache = []
+            for i in range(self.args.cache_capa): # caching: 3~7 files capacity
+                cache.append(random % self.num_files)
+                
+            location1 = random % 21
+            location2 = random % 361
+             
+            agent.action.append(power)
+            agent.action.append(cache)
+            agent.action.append(location1)
+            agent.action.append(location2)       
             
         else:
             NotImplementedError
