@@ -130,21 +130,25 @@ class UAV_ENV(gym.Env):
             # Action = {y_m,f} for all files, {d_m}, {theta_m}, {power_m}
             total_action_space = []
 
+            # Caching
             u_action_space = spaces.Box(
                 low=0, high=1, shape=(world.num_files, ), dtype=np.bool8
             )  # [0,1][Num_files]
             total_action_space.append(u_action_space)
 
+            # Power
             u_action_space = spaces.Box(
                 low=0, high=23, shape=(1, ), dtype=np.float32
             )  # [max_power]
             total_action_space.append(u_action_space)
 
+            # Trajectory 1
             u_action_space = spaces.Box(
                 low=0, high=20, shape=(1, ), dtype=np.float32
             )  # [d_m]
             total_action_space.append(u_action_space)
 
+            # Trajectory 2
             u_action_space = spaces.Box(
                 low=0, high=360, shape=(1, ), dtype=np.float32
             )  # [theta_m]
@@ -289,7 +293,16 @@ class UAV_ENV(gym.Env):
             NotImplementedError
 
     def _set_random_action(self, agent_id, action, time=None):
-        NotImplementedError
+        if agent.isUAV == True:
+            # association dimension: Array[nodes][users], value: {0,1}
+            agent.action = 0
+            
+        elif agent.isUAV == False:
+            # location, power, caching
+            agent.action =  0       
+            
+        else:
+            NotImplementedError
         
     # desc. Take step in environments
     # returns: next state, reward, done, etc.
