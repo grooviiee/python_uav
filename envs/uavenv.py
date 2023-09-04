@@ -314,12 +314,16 @@ class UAV_ENV(gym.Env):
                 
             location1 = random % 21
             location2 = random % 361
-             
-            agent.action.append(power)
-            agent.action.append(cache)
-            agent.action.append(location1)
-            agent.action.append(location2)       
             
+            action_result = []
+            
+            action_result.append(power)
+            action_result.append(cache)
+            action_result.append(location1)
+            action_result.append(location2)
+       
+            agent.action = action_result
+
         else:
             NotImplementedError
         
