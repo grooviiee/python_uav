@@ -127,9 +127,8 @@ class SingleBS_runner(Runner):
 
                 # Sample actions (returned action: action_env)
                 if self.algorithm == "random":
-                    # I think random walk does not need get_action procedure.. Delete it
-                    # values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = RandomWalk(step)
-                    actions_env = RandomWalk(step)
+                    # I think random walk does not need get_action procedure.. it will work at step()
+                    actions_env = None
                 else:
                     values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
                 

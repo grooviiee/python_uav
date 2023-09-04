@@ -292,7 +292,7 @@ class UAV_ENV(gym.Env):
         else:
             NotImplementedError
 
-    def _set_random_action(self, agent_id, action, time=None):
+    def _set_random_action(self, agent_id, agent, action_space, time=None):
         if agent.isUAV == True:
             # association dimension: Array[nodes][users], value: {0,1}   shape=((world.num_uavs + world.num_mbs) * world.num_users, )
             # constraint Assocation MBS-USER = unlimit, UAV-USER = 4
@@ -309,7 +309,7 @@ class UAV_ENV(gym.Env):
             # location, power, caching
             power = random.randrange(0, 23) # power: 0~23
             cache = []
-            for i in range(self.args.cache_capa): 
+            for i in range(self.world.cache_capa): 
                 cache.append(random.randrange(0, self.num_files-1)) # caching: files capacity (3~7)
                 
             location1 = random.randrange(0, 21) 
@@ -331,7 +331,11 @@ class UAV_ENV(gym.Env):
     # returns: next state, reward, done, etc.
     def step(self, action, is_random_mode):
         # action is coming with n_threads
-        print(f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}/{len(self.action_space)}, is_random_mode: {is_random_mode}")
+        if is_random_mode == False:
+            print(f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}/{len(self.action_space)}")
+        else:
+            print(f"[ENV_STEP] Current_step: {self.current_step}, is_random_mode: {is_random_mode}")
+
         self.current_step = self.current_step + 1
         obs_n = []
         reward_n = []
