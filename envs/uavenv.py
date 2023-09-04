@@ -301,19 +301,19 @@ class UAV_ENV(gym.Env):
             
             for i in range(self.world.num_uavs + self.world.num_mbs):
                 for j in range(self.world.num_users):
-                    random_action[i][j] = random % 2
+                    random_action[i][j] = random.randrange(0, 1) # association: true, false
 
             agent.action = random_action
             
         elif agent.isUAV == False:
             # location, power, caching
-            power = random %24 # power: 0~23
+            power = random.randrange(0, 23) # power: 0~23
             cache = []
-            for i in range(self.args.cache_capa): # caching: 3~7 files capacity
-                cache.append(random % self.num_files)
+            for i in range(self.args.cache_capa): 
+                cache.append(random.randrange(0, self.num_files-1)) # caching: files capacity (3~7)
                 
-            location1 = random % 21
-            location2 = random % 361
+            location1 = random.randrange(0, 21) 
+            location2 = random.randrange(0, 361)
             
             action_result = []
             

@@ -124,7 +124,7 @@ def main(arglist):
         "envs": envs,
         "eval_envs": eval_envs,
         "device": device,
-        "algorighm": arglist.algorithm_name,
+        "algorithm": arglist.algorithm_name,
         "num_uavs": arglist.num_uavs,
         "num_mbs": arglist.num_mbs,
         "num_users": arglist.num_users,
