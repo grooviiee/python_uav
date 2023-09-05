@@ -298,10 +298,10 @@ class UAV_ENV(gym.Env):
             # constraint Assocation MBS-USER = unlimit, UAV-USER = 4
             random_action = [[]]    # define
             random_action = [[False for i in range(self.world.num_uavs + self.world.num_mbs)] for j in range(self.world.num_users) ] # initialization
-            
+            print(f"{self.world.num_uavs}, {self.world.num_mbs}, {self.world.num_users}, {len(random_action)}")
             for i in range(self.world.num_uavs + self.world.num_mbs):
                 for j in range(self.world.num_users):
-                    random_action[i][j] = random.randrange(0, 1) # association: true, false
+                    random_action[j][i] = random.randrange(0, 1) # association: true, false
 
             agent.action = random_action
             

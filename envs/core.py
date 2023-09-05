@@ -416,7 +416,7 @@ class World(object):
         
     def uav_apply_cache(self, action_cache, agent):
         print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
-        if action_cache.size > agent.state.cache_size:
+        if len(action_cache) > agent.state.cache_size:
             print(f"[uav_apply_cache] agent_id: {agent}, action_space overs cache_size: ({action_cache}/{agent.state.cache_size})")
             agent.state.cache_size = []
             for _, file in enumerate(action_cache):
