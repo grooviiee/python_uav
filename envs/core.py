@@ -397,7 +397,7 @@ class World(object):
 
     def mbs_apply_agent_association(self, action_set):
         association = action_set # [nodes][users]
-        tmp_association = [[1 for j in range(self.num_agents)] for i in range(self.num_users)]
+        tmp_association = [[1 for i in range(self.num_users)] for j in range(self.num_agents)]
         
         # init association
         for i, node in enumerate(self.agents):
@@ -408,7 +408,7 @@ class World(object):
         # set uav and user states following action
         for i, node in enumerate(self.agents):
             for j, user in enumerate(self.users):
-                if tmp_association[j][i]:
+                if tmp_association[i][j]:
                     print(f'[mbs_apply_agent_association] Set agent: {i}, user: {j} TRUE')
                     node.state.association.append(j)
                     user.state.association.append(i)

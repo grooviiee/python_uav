@@ -315,14 +315,16 @@ class UAV_ENV(gym.Env):
             location1 = random.randrange(0, 21) 
             location2 = random.randrange(0, 361)
             
-            action_result = []
+            # 1st dim : threads, 2nd dim: action space
+            action_result = [[]]
             
-            action_result.append(power)
-            action_result.append(cache)
-            action_result.append(location1)
-            action_result.append(location2)
+            action_result[0].append(power)
+            action_result[0].append(cache)
+            action_result[0].append(location1)
+            action_result[0].append(location2)
        
             agent.action = action_result
+            print(f"{agent.action}")
 
         else:
             NotImplementedError
