@@ -295,7 +295,7 @@ class UAV_ENV(gym.Env):
             NotImplementedError
 
     def _set_random_action(self, agent_id, agent, action_space, time=None):
-        if agent.isUAV == True:
+        if agent.isUAV == False:
             # association dimension: Array[nodes][users], value: {0,1}   shape=((world.num_uavs + world.num_mbs) * world.num_users, )
             # constraint Assocation MBS-USER = unlimit, UAV-USER = 4
             random_action = [[]]    # define
@@ -303,12 +303,12 @@ class UAV_ENV(gym.Env):
             print(f"{self.world.num_uavs}, {self.world.num_mbs}, {self.world.num_users}, {len(random_action)}")
             for i in range(self.world.num_uavs + self.world.num_mbs):
                 for j in range(self.world.num_users):
-                    random_action[j][i] = random.randrange(0, 1) # association: true, false
+                    random_action[j][i] = random.randrange(0, 2) # association: true, false
 
             agent.action = random_action
-            self.logger.info(f"UAV random_action: {agent.action}")
+            self.logger.info(f"MBS agein_id: {agent_id}, random_action: {agent.action}")
 
-        elif agent.isUAV == False:
+        elif agent.isUAV == True:
             # location, power, caching
             power = random.randrange(0, 23) # power: 0~23
             cache = []
@@ -318,16 +318,15 @@ class UAV_ENV(gym.Env):
             location1 = random.randrange(0, 21) 
             location2 = random.randrange(0, 361)
             
-            # 1st dim : threads, 2nd dim: action space
-            action_result = [[]]
-            
-            action_result[0].append(power)
+            # 1st dim : threads, 2nd dim: action space, order: cache -> power -> traj
+            action_result = [[]]            
             action_result[0].append(cache)
+            action_result[0].append(power)
             action_result[0].append(location1)
             action_result[0].append(location2)
        
             agent.action = action_result
-            self.logger.info(f"MBS random_action: {agent.action}")
+            self.logger.info(f"UAV agein_id: {agent_id}, random_action: {agent.action}")
 
         else:
             NotImplementedError
