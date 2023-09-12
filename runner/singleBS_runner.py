@@ -70,7 +70,7 @@ class SingleBS_runner(Runner):
         for agent_id in range(self.num_agents):
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
-            print(f'[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}')
+            self.logger.info(f'[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}')
             # policy network
             policy = Policy(self.all_args,
                         self.envs.observation_space[agent_id],

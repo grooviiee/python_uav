@@ -13,6 +13,7 @@ class UAV_ENV(gym.Env):
     def __init__(
         self,
         world,
+        logger,
         reset_callback=None,
         reward_callback=None,
         observation_callback=None,
@@ -26,6 +27,7 @@ class UAV_ENV(gym.Env):
         # parameter setting from args
         self.world = world
         self.log_level = world.log_level
+        self.logger = logger
         self.current_step = 0
         self.world_length = world.world_length
         self.num_uavs = world.num_uavs  # number of uavs
@@ -304,7 +306,8 @@ class UAV_ENV(gym.Env):
                     random_action[j][i] = random.randrange(0, 1) # association: true, false
 
             agent.action = random_action
-            
+            self.logger.info(f"UAV random_action: {agent.action}")
+
         elif agent.isUAV == False:
             # location, power, caching
             power = random.randrange(0, 23) # power: 0~23
@@ -324,7 +327,7 @@ class UAV_ENV(gym.Env):
             action_result[0].append(location2)
        
             agent.action = action_result
-            print(f"{agent.action}")
+            self.logger.info(f"MBS random_action: {agent.action}")
 
         else:
             NotImplementedError

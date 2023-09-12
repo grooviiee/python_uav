@@ -1,5 +1,6 @@
 from envs.uavenv import UAV_ENV
 from envs.scenarios import load
+from utils.logger import Logger
 
 # Start of Environment
 def UAVEnvMain(args):
@@ -8,8 +9,10 @@ def UAVEnvMain(args):
     scenario = load(args.scenario_name).Scenario()
     # create world (from scenario,py)
     world = scenario.make_world(args)
+    logger = Logger()  
+    logger.info("Log system just set up...")
     # create multiagent environment
-    env = UAV_ENV(world, scenario.reset_world,
+    env = UAV_ENV(world, logger, scenario.reset_world,
                         scenario.reward, scenario.observation, scenario.info)
 
     return env
