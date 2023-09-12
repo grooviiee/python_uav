@@ -239,12 +239,13 @@ class World(object):
         delay = 0
         if isUAV == False:
             if self.log_level >= 4:
-                print(f"[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
+                self.logger.info("[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
             delay = self.Calc_T_down(agent, user, TYPE_MBS_USER)
         else:
             if self.log_level >= 4:
                 print(f"[CALC_REWARD] HasFile {agent.state.has_file}, {type(agent.state.has_file)} || File_request {user.state.file_request}, {type(user.state.file_request)}")
-            if np.isin(agent.state.has_file, user.state.file_request):
+            
+            if user.state.file_request in agent.state.has_file:
                 # Only consider UAV-User
                 delay = self.Calc_T_down(agent, user, TYPE_UAV_USER)
             else:

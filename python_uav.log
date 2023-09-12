@@ -32,3 +32,71 @@ UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
 UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
 UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
 UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
+Log system just set up...
+Log system just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] Insert Agent settings into Trainer
+[RUNNER] Step: 0
+[RUNNER] Step: 0
+MBS agein_id: 0, random_action: [[1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [1, 1, 0, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 0, 0], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1], [1, 1, 0, 0, 0], [0, 0, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 1, 0, 1], [0, 1, 1, 1, 1], [1, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
+MBS agein_id: 0, random_action: [[1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [1, 1, 0, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 0, 0], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1], [1, 1, 0, 0, 0], [0, 0, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 1, 0, 1], [0, 1, 1, 1, 1], [1, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
+UAV agein_id: 1, random_action: [[[2, 20, 22], 6, 7, 351]]
+UAV agein_id: 1, random_action: [[[2, 20, 22], 6, 7, 351]]
+UAV agein_id: 2, random_action: [[[11, 18, 15], 21, 11, 108]]
+UAV agein_id: 2, random_action: [[[11, 18, 15], 21, 11, 108]]
+UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
+UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
+UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
+UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
+Log system just set up...
+Log system just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] Insert Agent settings into Trainer
+[RUNNER] Step: 0
+[RUNNER] Step: 0
+MBS agein_id: 0, random_action: [[1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [1, 1, 0, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 0, 0], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1], [1, 1, 0, 0, 0], [0, 0, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 1, 0, 1], [0, 1, 1, 1, 1], [1, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
+MBS agein_id: 0, random_action: [[1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [1, 1, 0, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 0, 0], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1], [1, 1, 0, 0, 0], [0, 0, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 1, 0, 1], [0, 1, 1, 1, 1], [1, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
+UAV agein_id: 1, random_action: [[[2, 20, 22], 6, 7, 351]]
+UAV agein_id: 1, random_action: [[[2, 20, 22], 6, 7, 351]]
+UAV agein_id: 2, random_action: [[[11, 18, 15], 21, 11, 108]]
+UAV agein_id: 2, random_action: [[[11, 18, 15], 21, 11, 108]]
+UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
+UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
+UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
+UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
+Log system just set up...
+Log system just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] Insert Agent settings into Trainer
+[RUNNER] Step: 0
+[RUNNER] Step: 0
+MBS agein_id: 0, random_action: [[1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [1, 1, 0, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 0, 0], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1], [1, 1, 0, 0, 0], [0, 0, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 1, 0, 1], [0, 1, 1, 1, 1], [1, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
+MBS agein_id: 0, random_action: [[1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [1, 1, 0, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 0, 0], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1], [1, 1, 0, 0, 0], [0, 0, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 1, 0, 1], [0, 1, 1, 1, 1], [1, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
+UAV agein_id: 1, random_action: [[[2, 20, 22], 6, 7, 351]]
+UAV agein_id: 1, random_action: [[[2, 20, 22], 6, 7, 351]]
+UAV agein_id: 2, random_action: [[[11, 18, 15], 21, 11, 108]]
+UAV agein_id: 2, random_action: [[[11, 18, 15], 21, 11, 108]]
+UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
+UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
+UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
+UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
+Log system just set up...
+Log system just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] Insert Agent settings into Trainer
+[RUNNER] Step: 0
+[RUNNER] Step: 0
+MBS agein_id: 0, random_action: [[1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [1, 1, 0, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 0, 0], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1], [1, 1, 0, 0, 0], [0, 0, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 1, 0, 1], [0, 1, 1, 1, 1], [1, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
+MBS agein_id: 0, random_action: [[1, 1, 0, 1, 1], [1, 1, 1, 1, 1], [0, 1, 1, 0, 1], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [1, 1, 0, 1, 1], [1, 0, 1, 0, 1], [1, 1, 1, 0, 0], [0, 0, 0, 1, 0], [1, 0, 1, 0, 1], [1, 1, 0, 0, 0], [0, 0, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 0, 1], [0, 1, 1, 0, 0], [1, 1, 1, 0, 1], [0, 1, 1, 1, 1], [1, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
+UAV agein_id: 1, random_action: [[[2, 20, 22], 6, 7, 351]]
+UAV agein_id: 1, random_action: [[[2, 20, 22], 6, 7, 351]]
+UAV agein_id: 2, random_action: [[[11, 18, 15], 21, 11, 108]]
+UAV agein_id: 2, random_action: [[[11, 18, 15], 21, 11, 108]]
+UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
+UAV agein_id: 3, random_action: [[[9, 6, 21], 9, 16, 269]]
+UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
+UAV agein_id: 4, random_action: [[[6, 27, 23], 19, 10, 141]]
