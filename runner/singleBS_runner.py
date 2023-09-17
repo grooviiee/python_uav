@@ -120,57 +120,64 @@ class SingleBS_runner(Runner):
         # TODO: replace num_episode into right calculation
         episodes = 2
         
-        print(f'[RUNNER] Run Episode')
-        for episode in range(episodes):
-            for step in range(self.episode_length):
-                self.logger.info("[RUNNER] Step: %d", step)
+        if self.algorithm == "random":
+            for episode in range(episodes):
+                for step in range(self.episode_length):
+                    self.logger.info("[RUNNER] isRandom (%s), Episode (%d), Step (%d)", "true", episode, step)
 
-                # Sample actions (returned action: action_env)
-                if self.algorithm == "random":
+                    # Sample actions (returned action: action_env)
                     # I think random walk does not need get_action procedure.. it will work at step()
                     actions_env = None
-                else:
+                    obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, self.is_random_mode)
+                    self.logger.info("[RUNNER] Get rewards: %f", rewards)
+                    self.sum_rewards(origin_rewards)
+
+        else:
+            print(f'[RUNNER] Run Episode')
+            for episode in range(episodes):
+                for step in range(self.episode_length):
+                    self.logger.info("[RUNNER] isRandom (%s), Episode (%d), Step (%d)", "false", episode, step)
                     values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(step)
+                    
+                    # Obs, rewards and next_obs
+                    obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, self.is_random_mode)
+
+                    self.logger.info("[RUNNER] Get rewards: %f", rewards)
+                    
+                    # insert data into replay buffer
+                    data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
+                    self.runner_insert(data)
+                    
+                    self.sum_rewards(origin_rewards)
+                    #raise NotImplementedError("Breakpoint")
                 
-                # Obs, rewards and next_obs
-                obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, self.is_random_mode)
+                # compute GAE and update network
+                print(f'[RUNNER] Compute GAE')
+                self.compute_gae() 
 
-                self.logger.info("[RUNNER] Get rewards: %f", rewards)
+                print(f'[RUNNER] TRAIN')
+                train_infos = self.train()
                 
-                # insert data into replay buffer
-                data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
-                self.runner_insert(data)
-                
-                self.sum_rewards(origin_rewards)
-                #raise NotImplementedError("Breakpoint")
-            
-            # compute GAE and update network
-            print(f'[RUNNER] Compute GAE')
-            self.compute_gae() 
+                # post process
+                total_num_steps = (episode + 1) * self.episode_length * self.n_rollout_threads
+                print(f'[RUNNER] total_num_steps: {total_num_steps}')
+                            
+                # save trained model
+                if (episode % self.save_interval == 0 or episode == episodes - 1):
+                    self.save()
 
-            print(f'[RUNNER] TRAIN')
-            train_infos = self.train()
-            
-            # post process
-            total_num_steps = (episode + 1) * self.episode_length * self.n_rollout_threads
-            print(f'[RUNNER] total_num_steps: {total_num_steps}')
-                        
-            # save trained model
-            if (episode % self.save_interval == 0 or episode == episodes - 1):
-                self.save()
+                # log information 
+                if episode % self.eval_interval == 0 and self.use_eval:
+                    for agent_id in range(self.num_agents):
+                        individual_rewards = []
+                        for into in infos:
+                            for count, info in enumerate(infos):
+                                if 'individual_reward' in infos[count][agent_id].keys():
+                                    individual_rewards.append(infos[count][agent_id].get('individual_reward', 0))
 
-            # log information 
-            if episode % self.eval_interval == 0 and self.use_eval:
-                for agent_id in range(self.num_agents):
-                    individual_rewards = []
-                    for into in infos:
-                        for count, info in enumerate(infos):
-                            if 'individual_reward' in infos[count][agent_id].keys():
-                                individual_rewards.append(infos[count][agent_id].get('individual_reward', 0))
-
-                    train_infos[agent_id].update({'individual_rewards': np.mean(individual_rewards)})
-                    train_infos[agent_id].update({"average_episode_rewards": np.mean(self.buffer[agent_id].rewards) * self.episode_length})
-                self.log_train(train_infos, total_num_steps)
+                        train_infos[agent_id].update({'individual_rewards': np.mean(individual_rewards)})
+                        train_infos[agent_id].update({"average_episode_rewards": np.mean(self.buffer[agent_id].rewards) * self.episode_length})
+                    self.log_train(train_infos, total_num_steps)
 
             # print(f'[RUNNER] EVAL')
             # self.eval(total_num_steps)
