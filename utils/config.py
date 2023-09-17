@@ -16,9 +16,9 @@ def parse_args():
     )
     
     # prepare parameters
-    parser.add_argument("--log_level", type=int, default=2, help="Choose printing logs(1:LOW, 2:MID, 3:HIGH)")
+    parser.add_argument("--log_level", type=int, default=1, help="Choose printing logs(1:LOW, 2:MID, 3:HIGH)")
     parser.add_argument("--device", default="gpu", help="Choose device. cpu or gpu?")
-    parser.add_argument("--num_env_steps", type=int, default=10e6,
+    parser.add_argument("--num_env_steps", type=int, default=1000,
                         help='Number of environment steps to train (default: 10e6)')
     
     parser.add_argument("--env_name", type=str, default="uavnet", choices=["uavnet"])
@@ -77,7 +77,7 @@ def parse_args():
 
     
     # replay buffer parameters
-    parser.add_argument("--episode_length", type=int, default=3, help="Max length for any episode")
+    parser.add_argument("--episode_length", type=int, default=50, help="Max length for any episode")
     
     # Environment settings
     parser.add_argument(

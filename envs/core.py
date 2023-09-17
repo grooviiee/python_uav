@@ -194,7 +194,7 @@ class World(object):
 
     def calculateReward(self, agent):
         epsilon = 0.2
-        if self.log_level >= 4:
+        if self.log_level >= 3:
             print(f"[CALC_REWARD] Start Calculating rewards. epsilon: {epsilon}")
             
         # step 1. Get extr reward (Action에 대해서 state를 모두 바꾸었을 때, reward를 계산)
@@ -202,7 +202,7 @@ class World(object):
         # step 2. Get intr reward
         intr_reward = self.calcIntrReward(agent)
         reward = extr_reward + epsilon * intr_reward
-        if self.log_level >= 4:
+        if self.log_level >= 3:
             print(f"[CALC_REWARD] reward: {reward}, {extr_reward}, {epsilon}, {intr_reward}")
         return reward
     
@@ -410,7 +410,8 @@ class World(object):
         for i, node in enumerate(self.agents):
             for j, user in enumerate(self.users):
                 if tmp_association[i][j]:
-                    print(f'[mbs_apply_agent_association] Set agent: {i}, user: {j} TRUE')
+                    if self.log_level >= 3:
+                        print(f'[mbs_apply_agent_association] Set agent: {i}, user: {j} TRUE')
                     node.state.association.append(j)
                     user.state.association.append(i)
 
@@ -440,8 +441,8 @@ class World(object):
         prev_y = agent.state.y
         agent.state.x =  agent.state.x + action_dist * math.cos(action_angle)
         agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)
-     
-        print(f'[uav_apply_trajectory] {agent}, prev: {prev_x}, {prev_y}, curr: {agent.state.x}, {agent.state.y}')   
+        if self.log_level >= 3:
+            print(f'[uav_apply_trajectory] {agent}, prev: {prev_x}, {prev_y}, curr: {agent.state.x}, {agent.state.y}')   
 
     def update_user_state(self, user):
         #print(f'[update_user_state] {user}')

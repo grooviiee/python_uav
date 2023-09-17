@@ -140,9 +140,11 @@ def main(arglist):
     else:
         NotImplemented
 
-    print(f'Load runner as {arglist.runner_name}')
+    print(f"Load runner as {arglist.runner_name}")
     runner = Runner(config)
     runner.run()
+    print(f"Running alorithm finished.")
+
 
     envs.close()
 

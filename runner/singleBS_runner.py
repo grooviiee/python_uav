@@ -71,6 +71,8 @@ class SingleBS_runner(Runner):
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
             self.logger.info(f'[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}')
+            self.logger.info("[INIT_RUNNER] agent_id: %d, action_space: %v", agent_id, self.envs.action_space[agent_id])
+
             # policy network
             policy = Policy(self.all_args,
                         self.envs.observation_space[agent_id],
@@ -118,12 +120,11 @@ class SingleBS_runner(Runner):
         start = time.time()
         episodes = int(self.num_env_steps) // self.episode_length // self.n_rollout_threads
         # TODO: replace num_episode into right calculation
-        episodes = 2
         
         if self.algorithm == "random":
             for episode in range(episodes):
                 for step in range(self.episode_length):
-                    self.logger.info("[RUNNER] isRandom (%s), Episode (%d), Step (%d)", "true", episode, step)
+                    self.logger.info("[RUNNER] isRandom (%s), Episode (%d/%d), Step (%d/%d)", "true", episode, episodes, step, self.episode_length)
 
                     # Sample actions (returned action: action_env)
                     # I think random walk does not need get_action procedure.. it will work at step()
@@ -296,7 +297,8 @@ class SingleBS_runner(Runner):
         
     def sum_rewards(self, rewards):
         total_reward = np.sum(rewards)
-        print(f'[RUNNER_REWARD] individual_reward: {rewards}, tatal_reward: {total_reward}')
+        print(f"[RUNNER_REWARD] individual_reward: {rewards}")
+        self.logger.info("[RUNNER_REWARD] tatal_reward: %f",total_reward)
         
     """To get type of sturct: type(variable) or struct.__class__"""    
     def runner_insert(self, data):
