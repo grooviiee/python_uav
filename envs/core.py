@@ -2,6 +2,7 @@ import numpy as np
 import math
 import logging
 from utils.logger import Logger
+from numpy import random
 
 # Rate calculation type
 TYPE_MBS_USER = 0
@@ -52,15 +53,6 @@ class UserState(EntityState):
         self.association = []
         self.file_request = 0
 
-
-# action of the agent
-class Action(object):
-    def __init__(self):
-        # physical action
-        self.moveX = None
-        # communication action
-        self.moveY = None
-
 # properties and state of physical world entity
 class Entity(object):
     def __init__(self):
@@ -93,7 +85,6 @@ class Agent(Entity):
         # state: including communication state(communication utterance) c and internal/mental state p_pos, p_vel
         self.state = AgentState(cache_capa)
         # action: physical action u & communication action c
-        self.action = Action()
         self.association = []
         self.mbs_associate = None
         self.user_associate = None        
@@ -188,17 +179,20 @@ class World(object):
                 self.uav_apply_cache(agent.action[0][0], agent)
                 self.uav_apply_power(agent.action[0][1], agent)
                 self.uav_apply_trajectory(agent.action[0][2], agent.action[0][3], agent)
-
+            
+        for user in self.users:    
+            self.update_user_state(user)
+        
         for agent in self.agents:
             # Print UAVs Location
             if agent.isUAV:
                 self.logger.info("[UAV_STATE] id(%d), (x,y): (%d,%d)", agent.agent_id, agent.state.x, agent.state.y)
             else:
                 self.logger.info("[MBS_STATE] id(%d)", agent.agent_id)
-            
-        for user in self.users:    
-            self.update_user_state(user)
-        
+                
+        for user in self.users:
+            self.logger.info("[USER_STATE] id(%d), (x,y): (%d, %d), file_request: (%d)", user.user_id, user.state.x, user.state.y, user.state.file_request)
+
         for agent in self.agents:
             agent.reward = self.calculateReward(agent)    
 
@@ -458,4 +452,8 @@ class World(object):
     def update_user_state(self, user):
         #print(f'[update_user_state] {user}')
         # Check new cache file request
-        NotImplemented
+        user.state.file_request = random.zipf(a=self.zipf_parameter, size=(1,1))
+        #         self.mbs_associate = None
+        # self.user_associate = None
+        # self.file_size = file_size
+        # self.zipf_parameter = zipf_parameter

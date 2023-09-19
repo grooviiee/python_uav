@@ -102,7 +102,7 @@ def parse_args():
         "--map_size", type=int, default=1800
     )
     parser.add_argument(
-        "--zipf_parameter", type=float, default=0.8
+        "--zipf_parameter", type=float, default=2
     )
     parser.add_argument(
         "--rank", type=int, default=5
