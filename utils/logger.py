@@ -1,7 +1,7 @@
 import logging
 
 
-def Logger():
+def Logger(dir):
     print("set logger...")
     logger = logging.getLogger('simple_example')
     logger.setLevel(logging.DEBUG)
@@ -9,7 +9,7 @@ def Logger():
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     
-    fh = logging.FileHandler(filename="python_uav.log")
+    fh = logging.FileHandler(filename=dir)
     fh.setLevel(logging.INFO)
     
     logger.addHandler(ch)

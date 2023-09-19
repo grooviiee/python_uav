@@ -51,7 +51,7 @@ def make_eval_env(all_args):
 
 def main(arglist):
     # set logging system
-    logger = Logger()  
+    logger = Logger("python_sim.log")
     logger.info("Log system just set up...")
     
     formatter = logging.Formatter(u'%(asctime)s [%(levelname)8s] %(message)s')

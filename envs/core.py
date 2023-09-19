@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import logging
+from utils.logger import Logger
 
 # Rate calculation type
 TYPE_MBS_USER = 0
@@ -118,6 +119,9 @@ class User(Entity):
 # multi-agent world
 class World(object):
     def __init__(self):
+
+        # self.logger = Logger("python_env.log")
+        # self.logger.info("Log system for environment just set up...")
         # list of agents and entities (can change at execution-time!)
         self.agents = []        # {mbs + uav} dtype: list
         self.users = []         # dtype: list
@@ -185,6 +189,13 @@ class World(object):
                 self.uav_apply_power(agent.action[0][1], agent)
                 self.uav_apply_trajectory(agent.action[0][2], agent.action[0][3], agent)
 
+        for agent in self.agents:
+            # Print UAVs Location
+            if agent.isUAV:
+                self.logger.info("[UAV_STATE] id(%d), (x,y): (%d,%d)", agent.agent_id, agent.state.x, agent.state.y)
+            else:
+                self.logger.info("[MBS_STATE] id(%d)", agent.agent_id)
+            
         for user in self.users:    
             self.update_user_state(user)
         

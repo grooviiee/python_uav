@@ -5,8 +5,9 @@ from envs.scenarios.scenario_base import BaseScenario
 
 
 class Scenario(BaseScenario):
-    def make_world(self, args):
+    def make_world(self, args, logger):
         world = World()
+        world.logger = logger
         world.log_level = args.log_level
         # set any world properties first
         world.world_length = args.episode_length

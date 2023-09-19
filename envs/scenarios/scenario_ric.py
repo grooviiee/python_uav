@@ -6,5 +6,5 @@ from envs.scenarios.scenario_base import BaseScenario
 # obs_space and action_space need to be changed by adding RIC
 
 class Scenario(BaseScenario):
-    def make_world(self, args):
+    def make_world(self, args, logger):
         world = World()
