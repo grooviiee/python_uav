@@ -152,15 +152,10 @@ def main(arglist):
     envs.close()
 
 if __name__ == "__main__":
-    if len(sys.argv) > 2:
-        print("Insufficient arguments")
-        sys.exit()
-
     print("Main code starts")
     arglist = parse_args()
     
-    if len(sys.argv) == 2:
-        # Get input algorithm
-        arglist.algorithm_name = algorithm
+    # Usage: input algorithm_name python main.pu --algorithm_name {random, ddpg, mappo, attention_mappo)
+    print(f"You choose \"{arglist.algorithm_name}\"")
 
     main(arglist)

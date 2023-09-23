@@ -171,10 +171,10 @@ class World(object):
         for agent in self.agents:
             if agent.isUAV == False:
                 # Set association
-                print(f'[WORLD_STEP] MBS action: {len(agent.action)}')
+                print(f'[WORLD_STEP] MBS ACTION: len ({len(agent.action)})')
                 self.mbs_apply_agent_association(agent.action)
             else:
-                print(f'[WORLD_STEP] UAV action: {len(agent.action)}')
+                print(f'[WORLD_STEP] UAV ACTION len ({len(agent.action)}) action ({agent.action}) ')
                 # Set position, Set cache, set power
                 self.uav_apply_cache(agent.action[0][0], agent)
                 self.uav_apply_power(agent.action[0][1], agent)
