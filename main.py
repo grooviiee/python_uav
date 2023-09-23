@@ -2,6 +2,7 @@
 # Choose environment, algorithm and other settings
 
 import numpy as np
+import sys
 import time
 import pickle
 import torch
@@ -17,6 +18,8 @@ from envs.UavEnvMain import UAVEnvMain
 # import maddpg.common.tf_util as U
 from algorithms.mappo import MAPPOAgentTrainer
 from envs.UavEnvMain import UAVEnvMain
+
+algorithm = sys.argv[1]
 
 def make_train_env(arglist, benchmark=False):
     if arglist.env_name == "uavnet":
@@ -149,6 +152,15 @@ def main(arglist):
     envs.close()
 
 if __name__ == "__main__":
+    if len(sys.argv) > 2:
+        print("Insufficient arguments")
+        sys.exit()
+
     print("Main code starts")
     arglist = parse_args()
+    
+    if len(sys.argv) == 2:
+        # Get input algorithm
+        arglist.algorithm_name = algorithm
+
     main(arglist)
