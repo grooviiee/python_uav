@@ -18,3 +18,53 @@ Log system just set up...
 [INIT_RUNNER] agent_id: 3, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
 [INIT_RUNNER] agent_id: 4, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
 [RUNNER] isRandom (false), Episode (0), Step (0)
+Log system just set up...
+Log system for environment just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] agent_id: 0, action_space: Box(False, True, (100,), bool)
+[INIT_RUNNER] agent_id: 1, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 2, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 3, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 4, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[RUNNER] isRandom (false), Episode (0), Step (0)
+Log system just set up...
+Log system for environment just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] agent_id: 0, action_space: Box(False, True, (100,), bool)
+[INIT_RUNNER] agent_id: 1, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 2, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 3, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 4, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[RUNNER] isRandom (false), Episode (0), Step (0)
+Log system just set up...
+Log system for environment just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] agent_id: 0, action_space: Box(False, True, (100,), bool)
+[INIT_RUNNER] agent_id: 1, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 2, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 3, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 4, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[RUNNER] isRandom (false), Episode (0), Step (0)
+Log system just set up...
+Log system for environment just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] agent_id: 0, action_space: Box(False, True, (100,), bool)
+[INIT_RUNNER] agent_id: 1, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 2, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 3, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 4, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[RUNNER] isRandom (false), Episode (0), Step (0)
+Log system just set up...
+Log system for environment just set up...
+Log system just set up...
+[INIT_RUNNER] Insert Agent settings into Trainer
+[INIT_RUNNER] agent_id: 0, action_space: Box(False, True, (100,), bool)
+[INIT_RUNNER] agent_id: 1, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 2, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 3, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[INIT_RUNNER] agent_id: 4, action_space: Tuple(Box(False, True, (30,), bool), Box(0.0, 23.0, (1,), float32), Box(0.0, 20.0, (1,), float32), Box(0.0, 360.0, (1,), float32))
+[RUNNER] isRandom (false), Episode (0), Step (0)

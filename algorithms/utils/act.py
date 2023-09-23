@@ -109,7 +109,7 @@ class ACTLayer(nn.Module):
             for action_out in self.action_outs:
                 action_logit = action_out(x)
                 action = action_logit.mode() if deterministic else action_logit.sample()
-                print(f"[ACTLayer_forward] (MBS) action_logits: {action_logit}, actions: {action.shape}")
+                print(f"[ACTLayer_forward] type ('tuple') action_logits ({action_logit}) action_logits.type ({type(action_logit)}) actions ({action.shape})")
 
                 action_log_prob = action_logit.log_probs(action)
                 actions.append(action)
@@ -117,12 +117,13 @@ class ACTLayer(nn.Module):
 
             actions = torch.cat(actions, -1)
             action_log_probs = torch.cat(action_log_probs, -1)
+
         else:
             # MBS goes here (where 'x' came from)
             action_logits = self.action_out(x)
             actions = action_logits.mode() if deterministic else action_logits.sample()
             action_log_probs = action_logits.log_probs(actions)
-            print(f"[ACTLayer_forward] (MBS) action_logits: {action_logits}, actions: {actions.shape}, action_log_probs: {action_log_probs}")
+            print(f"[ACTLayer_forward] type ('else') action_logits ({action_logit}) action_logits.type ({type(action_logit)}) actions ({action.shape})")
             
         return actions, action_log_probs
 
@@ -200,8 +201,7 @@ class ACTLayer(nn.Module):
                 action_log_probs.append(action_logit.log_probs(act))
                 if active_masks is not None:
                     dist_entropy.append(
-                        (action_logit.entropy() * active_masks.squeeze(-1)).sum()
-                        / active_masks.sum()
+                        (action_logit.entropy() * active_masks.squeeze(-1)).sum() / active_masks.sum()
                     )
                 else:
                     dist_entropy.append(action_logit.entropy().mean())

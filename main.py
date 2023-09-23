@@ -19,7 +19,6 @@ from envs.UavEnvMain import UAVEnvMain
 from algorithms.mappo import MAPPOAgentTrainer
 from envs.UavEnvMain import UAVEnvMain
 
-algorithm = sys.argv[1]
 
 def make_train_env(arglist, benchmark=False):
     if arglist.env_name == "uavnet":
@@ -155,6 +154,9 @@ if __name__ == "__main__":
     print("Main code starts")
     arglist = parse_args()
     
+    if len(sys.argv) == 2:
+        arglist.algorithm_name = sys.argv[1]
+
     # Usage: input algorithm_name python main.pu --algorithm_name {random, ddpg, mappo, attention_mappo)
     print(f"You choose \"{arglist.algorithm_name}\"")
 

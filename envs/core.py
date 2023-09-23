@@ -171,11 +171,11 @@ class World(object):
         for agent in self.agents:
             if agent.isUAV == False:
                 # Set association
-                print(f'[WORLD_STEP] MBS ACTION: len ({len(agent.action)})')
+                print(f'[WORLD_STEP] MBS ACTION: type ({type(agent.action)}) len ({len(agent.action)}) action ({agent.action})')
                 self.mbs_apply_agent_association(agent.action)
             else:
-                print(f'[WORLD_STEP] UAV ACTION len ({len(agent.action)}) action ({agent.action}) ')
-                # Set position, Set cache, set power
+                print(f'[WORLD_STEP] UAV ACTION: type ({type(agent.action)}) len ({len(agent.action)}) action ({agent.action})')
+                # Set position, Set cache, set power (1st dim: thread, 2nd dim: action_shape)
                 self.uav_apply_cache(agent.action[0][0], agent)
                 self.uav_apply_power(agent.action[0][1], agent)
                 self.uav_apply_trajectory(agent.action[0][2], agent.action[0][3], agent)
