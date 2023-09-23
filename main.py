@@ -51,7 +51,7 @@ def make_eval_env(all_args):
     else:
         return SubprocVecEnv([get_env_fn(i) for i in range(all_args.n_eval_rollout_threads)])
 
-
+#ToDo: python 실행 시 argument를 사용해서 알고리즘 선택할 수 있도록
 def main(arglist):
     # set logging system
     logger = Logger("python_sim.log")
