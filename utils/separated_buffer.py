@@ -90,20 +90,27 @@ class SeparatedReplayBuffer(object):
             print(f'[REPLAYBUFFER_INIT] obs Buffer size: {self.episode_length + 1}, {self.n_rollout_threads}, {res_obs_shape}')
             print(f'[REPLAYBUFFER_INIT] actions Buffer size : {self.episode_length + 1}, {self.n_rollout_threads}, {act_shape}')
 
-    def buffer_insert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
+    def buffer_insert(self, is_uav, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
         
+        if is_uav == "UAV":
+            modified_obs = np.array(obs)
+            modified_obs = np.squeeze(modified_obs)
+            #modified_obs = np.squeeze(modified_obs)
+        else:
+            modified_obs = obs
+  
         if self.args.log_level >= 1:
-            print(f"[INSERT_BUFFER] type_obs: {type(obs)}, len_obs: {len(obs)}, len_buffer.obs: {len(self.obs[self.step + 1])}")
-            print(f"[INSERT_BUFFER] type_actions: {type(actions)}, shape_actions: {actions.shape}, shape_buffer.actions: {self.actions[self.step].shape}")
-            print(f"[INSERT_BUFFER] action_log_probs type: {type(action_log_probs)}, shape_action_log_probs: {action_log_probs.shape}, shape_buffer_action_log_probs: {self.action_log_probs[self.step].shape}")
-            
-        self.obs[self.step + 1] = obs.copy()
+            print(f"[INSERT_BUFFER] obs type ({type(obs)}) len_obs: {modified_obs}({len(modified_obs)}) len_buffer.obs: {self.obs[self.step + 1]}({self.obs[self.step + 1].shape})")
+            print(f"[INSERT_BUFFER] actions type ({type(actions)}) shape_actions ({actions.shape}) shape_buffer.actions ({self.actions[self.step].shape})")
+            print(f"[INSERT_BUFFER] action_log_probs type ({type(action_log_probs)}) shape_action_log_probs: {action_log_probs.shape}, shape_buffer_action_log_probs: {self.action_log_probs[self.step].shape}")
+
+        self.obs[self.step + 1] = modified_obs.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
         self.rnn_states_critic[self.step + 1] = rnn_states_critic.copy()
-        self.actions[self.step] = actions.copy()
-        self.action_log_probs[self.step] = action_log_probs.copy()
-        self.value_preds[self.step] = value_preds.copy()
+        self.actions[self.step] = actions[0].copy()
+        self.action_log_probs[self.step] = action_log_probs[0].copy()
+        self.value_preds[self.step] = value_preds[0].copy()
         self.rewards[self.step] = rewards.copy()
         # self.masks[self.step + 1] = masks.copy()
         # if bad_masks is not None:

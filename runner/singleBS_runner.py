@@ -248,12 +248,12 @@ class SingleBS_runner(Runner):
                 action_env = np.squeeze(np.eye(self.envs.action_space[agent_id].n)[action], 1)
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Box':
                 # MBS Case -> [RUNNER] agent_id : 0, action space: Box(False, True, (100,), bool)
-                print(f'[RUNNER] BOX dType action.shape:  {action}')
+                print(f'[RUNNER] BOX dType action.shape:  {action.shape}')
                 action_env = action
                 
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Tuple':
                 # [RUNNER] agent_id : 4, action space dType: Tuple value: Tuple(Box(False, True, (2, 10), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-                print(f'[RUNNER] Tuple dType action.shape:  {action}')
+                print(f'[RUNNER] Tuple dType action.shape:  {action.shape}')
                 action_env = self.envs.action_space[agent_id]
                 action_env = action
                 # for i in range 
@@ -267,7 +267,7 @@ class SingleBS_runner(Runner):
             rnn_states_critic.append( _t2n(rnn_state_critic))
             # MBS: action_env [ True]
             # UAV: action_env Tuple(Box(False, True, (2, 30), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-            print(f"[RUNNER] agent_id: {agent_id} Done.. action_env.shape: {action_env.shape} / len: {len(temp_actions_env)}, n_rollout_threads: {self.n_rollout_threads}")
+            print(f"[RUNNER] (Getting action Finished) agent_id ({agent_id}) action_env.shape ({action_env.shape}) agg_action_size ({len(temp_actions_env)}) n_rollout_threads ({self.n_rollout_threads})")
 
 
         print(f"[RUNNER] Now ALL USER results aggregated..")
@@ -290,7 +290,7 @@ class SingleBS_runner(Runner):
             # print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(action_env_results)}')
 
 
-        print(f'[RUNNER] \"Aggregate ALL AGENT Actions\" ({actions}) action_log_probs ({len(action_log_probs)}) action_env_results ({action_env_results})')
+        print(f'[RUNNER] Aggregate ALL AGENT Actions ({len(actions)}) action_log_probs ({len(action_log_probs)}) action_env_results ({len(action_env_results)})')
         return values, actions, action_log_probs, rnn_states, rnn_states_critic, action_env_results
 
     def reset(self):
@@ -305,8 +305,8 @@ class SingleBS_runner(Runner):
     def runner_insert(self, data):
         obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic = data
 
-        if self.all_args.log_level >= 3:
-            print(f'[RUNNER_INSERT] (TYPE) obs.type: {obs}, reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
+        if self.all_args.log_level >= 4:
+            print(f'[RUNNER_INSERT] (TYPE) obs: {obs}\n reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
             print(f'[RUNNER_INSERT] (TYPE) actions: {actions}, action_log_probs: {type(action_log_probs)}, rnn_states: {rnn_states}, rnn_states_critic: {type(rnn_states_critic)}')
         # Dones가 True인 index에 대해서는 모두 0으로 설정하나 보다. -> 이건 나중에 고려하기로.
     
@@ -343,7 +343,7 @@ class SingleBS_runner(Runner):
                 print(f'[RUNNER_BUFFER_INSERT] {len(share_obs)} {obs[agent_id]} {len(rnn_states)} {len(rnn_states_critic)} {len(actions)} {len(action_log_probs)} {len(values)} {len(rewards)} {len(masks)}')
 
             # Save share_obs and other agent resource into replay buffer
-            self.buffer[agent_id].buffer_insert(share_obs,
+            self.buffer[agent_id].buffer_insert(is_uav, share_obs,
                                         list(chain(*obs[agent_id])),
                                         rnn_states[agent_id],
                                         rnn_states_critic[agent_id],

@@ -27,7 +27,8 @@ class ACTLayer(nn.Module):
         elif action_space.__class__.__name__ == "Box":
             self.box = True
             action_dim = action_space.shape[0]
-            print(f"[INIT_ACTOR_NETWORK] dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}, use_orthogonal: {use_orthogonal}")
+            print(f"[INIT_ACTOR_NETWORK] dtype: {action_space.__class__.__name__}, num_inputs: {inputs_dim}, num_outputs: {action_dim}, action_space: {action_space}, use_orthogonal: {use_orthogonal}")
+            #inputs_dim: num_inputs, action_dim: num_outputs
             self.action_out = DiagGaussian(inputs_dim, action_dim, use_orthogonal, gain)
             print(f"[INIT_ACTOR_NETWORK] self.action_out: {self.action_out}")
             
@@ -79,7 +80,6 @@ class ACTLayer(nn.Module):
         
         :action_out calls [Categorical] or [DiagGaussian] or [Bernoulli]
         """
-        #print(f'[ACTOR_ACTLAYER_FORWARD] input x.shape: {x.shape}')
         if self.mixed_action:
             actions = []
             action_log_probs = []
@@ -114,7 +114,7 @@ class ACTLayer(nn.Module):
             for idx, action_out in enumerate(self.action_outs):
                 action_logit = action_out(x)
                 action = action_logit.mode() if deterministic else action_logit.sample()
-                print(f"[ACTLayer_forward] type ('tuple') idx ({idx}) action_logit ({action_logit}) action_logit.type ({type(action_logit)}) actions ({action_logit.sample()})")
+                print(f"[ACTLayer_forward] type ('tuple') idx ({idx}) x ({x.shape}) action_logit ({action_logit}) action_logit.type ({type(action_logit)}) action.shape ({action.shape})")
 
                 action_log_prob = action_logit.log_probs(action)
                 actions.append(action)
@@ -128,7 +128,7 @@ class ACTLayer(nn.Module):
             action_logits = self.action_out(x)
             actions = action_logits.mode() if deterministic else action_logits.sample()
             action_log_probs = action_logits.log_probs(actions)
-            print(f"[ACTLayer_forward] type ('else') action_logits ({action_logits}) action_logits.type ({type(action_logits)}) actions ({actions.shape})")
+            print(f"[ACTLayer_forward] type ('else') x ({x.shape}) action_logits ({action_logits}) action_logits.type ({type(action_logits)}) actions.shape ({actions.shape})")
             
         return actions, action_log_probs
 

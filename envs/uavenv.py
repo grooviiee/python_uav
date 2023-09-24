@@ -248,6 +248,7 @@ class UAV_ENV(gym.Env):
             my_location = []
             my_location.append(agent.state.x)
             my_location.append(agent.state.y)
+            file_request = np.squeeze(file_request)
             obs.append(my_location)
             obs.append(user_location)
             obs.append(file_request)
