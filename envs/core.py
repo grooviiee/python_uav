@@ -176,9 +176,9 @@ class World(object):
             else:
                 print(f'[WORLD_STEP] UAV ACTION: type ({type(agent.action)}) len ({len(agent.action)}) action ({agent.action})')
                 # Set position, Set cache, set power (1st dim: thread, 2nd dim: action_shape)
-                self.uav_apply_cache(agent.action[0][0], agent)
-                self.uav_apply_power(agent.action[0][1], agent)
-                self.uav_apply_trajectory(agent.action[0][2], agent.action[0][3], agent)
+                self.uav_apply_cache(agent.action[0][0], agent)     # length: cache_size
+                self.uav_apply_power(agent.action[0][1], agent)     # length: 1
+                self.uav_apply_trajectory(agent.action[0][2], agent.action[0][3], agent) # length: 2
             
         for user in self.users:    
             self.update_user_state(user)
@@ -421,15 +421,20 @@ class World(object):
                     user.state.association.append(i)
 
         
-    def uav_apply_cache(self, action_cache, agent):
-        print(f'[uav_apply_cache] agent_id: {agent}, cache: {action_cache}')
-        if len(action_cache) > agent.state.cache_size:
-            print(f"[uav_apply_cache] agent_id: {agent}, action_space overs cache_size: ({action_cache}/{agent.state.cache_size})")
-            agent.state.cache_size = []
-            for _, file in enumerate(action_cache):
-                agent.state.cache_size.append(file)
-        else: # add all files to UAV
-            agent.state.has_file = action_cache
+    def uav_apply_cache(self, action_cache: list, agent):
+        print(f'[uav_apply_cache] agent_id ({agent}) action_cache ({action_cache}) type ({type(action_cache)})')
+        # Make empty list and append cache file
+        agent.state.has_file = []
+        if type(action_cache) is not list:
+            agent.state.has_file.append(action_cache)
+        else:
+            if len(action_cache) > agent.state.cache_size:
+                print(f"[uav_apply_cache] agent_id: {agent}, action_space overs cache_size: ({action_cache}/{agent.state.cache_size})")
+                agent.state.cache_size = []
+                for _, file in enumerate(action_cache):
+                    agent.state.cache_size.append(file)
+            else: # add all files to UAV
+                agent.state.has_file = action_cache
         
     def uav_apply_power(self, action_power, agent):
         print(f'[uav_apply_power] {agent}, {action_power}')
