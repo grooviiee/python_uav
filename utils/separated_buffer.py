@@ -65,8 +65,8 @@ class SeparatedReplayBuffer(object):
         self.rnn_states = np.zeros((self.episode_length + 1, self.n_rollout_threads, self.recurrent_N, self.rnn_hidden_size), dtype=np.float32)
         self.rnn_states_critic = np.zeros_like(self.rnn_states)
 
-        self.value_preds = np.zeros((self.episode_length + 1, self.n_rollout_threads, 1), dtype=np.float32)
-        self.returns = np.zeros((self.episode_length + 1, self.n_rollout_threads, 1), dtype=np.float32)
+        self.value_preds = np.zeros((self.episode_length + 2, self.n_rollout_threads, 1), dtype=np.float32)
+        self.returns = np.zeros((self.episode_length + 2, self.n_rollout_threads, 1), dtype=np.float32)
         
         if act_space.__class__.__name__ == 'Discrete':
             self.available_actions = np.ones((self.episode_length + 1, self.n_rollout_threads, act_space.n), dtype=np.float32)
@@ -79,7 +79,7 @@ class SeparatedReplayBuffer(object):
         self.action_log_probs = np.zeros((self.episode_length + 1, self.n_rollout_threads, act_shape), dtype=np.float32)
         self.rewards = np.zeros((self.episode_length + 1, self.n_rollout_threads, 1), dtype=np.float32)
         
-        self.masks = np.ones((self.episode_length + 1, self.n_rollout_threads, 1), dtype=np.float32)
+        self.masks = np.ones((self.episode_length + 2, self.n_rollout_threads, 1), dtype=np.float32)
         self.bad_masks = np.ones_like(self.masks)
         self.active_masks = np.ones_like(self.masks)
 
@@ -166,8 +166,7 @@ class SeparatedReplayBuffer(object):
                 gae = 0
                 for step in reversed(range(self.rewards.shape[0])):
                     if self._use_popart or self._use_valuenorm:
-                        delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(self.value_preds[
-                            step + 1]) * self.masks[step + 1] - value_normalizer.denormalize(self.value_preds[step])
+                        delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(self.value_preds[step + 1]) * self.masks[step + 1] - value_normalizer.denormalize(self.value_preds[step])
                         gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
                         gae = gae * self.bad_masks[step + 1]
                         self.returns[step] = gae + value_normalizer.denormalize(self.value_preds[step])
@@ -185,14 +184,15 @@ class SeparatedReplayBuffer(object):
                     else:
                         self.returns[step] = (self.returns[step + 1] * self.gamma * self.masks[step + 1] + self.rewards[step]) * self.bad_masks[step + 1] \
                             + (1 - self.bad_masks[step + 1]) * self.value_preds[step]
-        else:
-            if self._use_gae:
+        else:   # HERE
+            if self._use_gae:   # HERE
                 self.value_preds[-1] = next_value[0]
                 gae = 0
                 for step in reversed(range(self.rewards.shape[0])):
                     if self._use_popart or self._use_valuenorm:
-                        delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(self.value_preds[step + 1]) * self.masks[step + 1] - value_normalizer.denormalize(self.value_preds[step])
-                        gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
+                        print(f"[COMPUTE_GAE] (Compute_returns) step: {step}, self.rewards.shape[0]: {self.rewards.shape[0]}, masks: {len(self.masks)}, rewards: {len(self.rewards)}")
+                        delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(self.value_preds[step + 1]) * self.masks[step+1] - value_normalizer.denormalize(self.value_preds[step])
+                        gae = delta + self.gamma * self.gae_lambda * self.masks[step+1] * gae
                         self.returns[step] = gae + value_normalizer.denormalize(self.value_preds[step])
                     else:
                         delta = self.rewards[step] + self.gamma * self.value_preds[step + 1] * self.masks[step + 1] - self.value_preds[step]
