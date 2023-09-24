@@ -23,15 +23,18 @@ class ACTLayer(nn.Module):
         if action_space.__class__.__name__ == "Discrete":
             action_dim = action_space.n
             self.action_out = Categorical(inputs_dim, action_dim, use_orthogonal, gain)
+            
         elif action_space.__class__.__name__ == "Box":
             self.box = True
             action_dim = action_space.shape[0]
             print(f"[INIT_ACTOR_NETWORK] dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}, use_orthogonal: {use_orthogonal}")
             self.action_out = DiagGaussian(inputs_dim, action_dim, use_orthogonal, gain)
             print(f"[INIT_ACTOR_NETWORK] self.action_out: {self.action_out}")
+            
         elif action_space.__class__.__name__ == "MultiBinary":
             action_dim = action_space.shape[0]
             self.action_out = Bernoulli(inputs_dim, action_dim, use_orthogonal, gain)
+            
         elif action_space.__class__.__name__ == "MultiDiscrete":
             self.multi_discrete = True
             action_dims = action_space.high - action_space.low + 1
@@ -39,17 +42,19 @@ class ACTLayer(nn.Module):
             for action_dim in action_dims:
                 self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
             self.action_outs = nn.ModuleList(self.action_outs)
+            
         elif action_space.__class__.__name__ == "Tuple":
             self.tuple = True
             self.action_outs = []
             print(f"[ACTLayer] type (\'Tuple\') action_space: {action_space}")
             for action_info in action_space:
-                action_dim = action_info.shape[0]
+                action_dim = action_info.shape[0]       # extract thread dim
                 print(f"[INIT_ACTOR_NETWORK], dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}")
-
                 self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
+
             self.action_outs = nn.ModuleList(self.action_outs)
             print(f"[INIT_ACTOR_NETWORK] self.action_out: {self.action_outs}")
+            
         else:  # discrete + continous
             self.mixed_action = True
             continous_dim = action_space[0].shape[0]
@@ -109,7 +114,7 @@ class ACTLayer(nn.Module):
             for idx, action_out in enumerate(self.action_outs):
                 action_logit = action_out(x)
                 action = action_logit.mode() if deterministic else action_logit.sample()
-                print(f"[ACTLayer_forward] type ('tuple') idx ({idx}) action_logits ({action_logit}) action_logits.type ({type(action_logit)}) actions ({action_logit.sample()})")
+                print(f"[ACTLayer_forward] type ('tuple') idx ({idx}) action_logit ({action_logit}) action_logit.type ({type(action_logit)}) actions ({action_logit.sample()})")
 
                 action_log_prob = action_logit.log_probs(action)
                 actions.append(action)

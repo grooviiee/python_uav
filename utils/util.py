@@ -38,7 +38,7 @@ def get_shape_from_act_space(act_space, args, is_uav):
     if is_uav == False:
         act_shape = (args.num_uavs + args.num_mbs) * args.num_users
     else:
-        act_shape = 4
+        act_shape = 4   # tuple: {cache, power, velocity, angle}
         
     print(f"[REPLAYBUFFER_INIT] (get_shape_from_act_space) is_uav: {is_uav}, act_shape: {act_shape}")
     return act_shape

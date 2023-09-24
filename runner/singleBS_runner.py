@@ -70,9 +70,8 @@ class SingleBS_runner(Runner):
         for agent_id in range(self.num_agents):
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
-            self.logger.info(f'[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}')
-            self.logger.info("[INIT_RUNNER] agent_id: %d, action_space: %v", agent_id, self.envs.action_space[agent_id])
-
+            print(f'[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}')
+            
             # policy network
             policy = Policy(self.all_args,
                         self.envs.observation_space[agent_id],
@@ -130,7 +129,7 @@ class SingleBS_runner(Runner):
                     # I think random walk does not need get_action procedure.. it will work at step()
                     actions_env = None
                     obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, self.is_random_mode)
-                    self.logger.info("[RUNNER] Get rewards: %f", rewards)
+                    print(f"[RUNNER] Get rewards: {rewards}")
                     self.sum_rewards(origin_rewards)
 
         else:
@@ -142,8 +141,7 @@ class SingleBS_runner(Runner):
                     
                     # Obs, rewards and next_obs
                     obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, self.is_random_mode)
-
-                    self.logger.info("[RUNNER] Get rewards: %f", rewards)
+                    print(f"[RUNNER] Get rewards: {rewards}")
                     
                     # insert data into replay buffer
                     data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
