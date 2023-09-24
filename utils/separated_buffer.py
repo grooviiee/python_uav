@@ -20,9 +20,9 @@ class SeparatedReplayBuffer(object):
         self.gamma = args.gamma
         self.gae_lambda = args.gae_lambda
         self._use_gae = args.use_gae
-        self._use_popart = args.use_popart
-        self._use_valuenorm = args.use_valuenorm
-        self._use_proper_time_limits = args.use_proper_time_limits
+        self._use_popart = args.use_popart  # default False
+        self._use_valuenorm = args.use_valuenorm    # default True
+        self._use_proper_time_limits = args.use_proper_time_limits  
         self.is_uav = is_uav
         self.args = args
 
@@ -187,7 +187,7 @@ class SeparatedReplayBuffer(object):
                             + (1 - self.bad_masks[step + 1]) * self.value_preds[step]
         else:
             if self._use_gae:
-                self.value_preds[-1] = next_value
+                self.value_preds[-1] = next_value[0]
                 gae = 0
                 for step in reversed(range(self.rewards.shape[0])):
                     if self._use_popart or self._use_valuenorm:
