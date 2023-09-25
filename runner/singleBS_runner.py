@@ -49,7 +49,7 @@ class SingleBS_runner(Runner):
         # interval
         self.save_interval = self.all_args.save_interval
         self.use_eval = self.all_args.use_eval
-        self.logger.info("[INIT_RUNNER] Insert Agent settings into Trainer")
+        self.logger.debug("[INIT_RUNNER] Insert Agent settings into Trainer")
         self.is_random_mode = False
         print(f'[INIT_RUNNER] Insert Agent settings into Trainer -> {self.algorithm}')
         if self.algorithm == "random":

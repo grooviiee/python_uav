@@ -307,7 +307,7 @@ class UAV_ENV(gym.Env):
                     random_action[j][i] = random.randrange(0, 2) # association: true, false
 
             agent.action = random_action
-            self.logger.info(f"MBS agein_id: {agent_id}, random_action: {agent.action}")
+            self.logger.debug(f"MBS agein_id: {agent_id}, random_action: {agent.action}")
 
         elif agent.isUAV == True:
             # location, power, caching
@@ -327,7 +327,7 @@ class UAV_ENV(gym.Env):
             action_result[0].append(location2)
        
             agent.action = action_result
-            self.logger.info(f"UAV agein_id: {agent_id}, random_action: {agent.action}")
+            self.logger.debug(f"UAV agein_id: {agent_id}, random_action: {agent.action}")
 
         else:
             NotImplementedError

@@ -112,7 +112,7 @@ class World(object):
     def __init__(self):
 
         # self.logger = Logger("python_env.log")
-        # self.logger.info("Log system for environment just set up...")
+        # self.logger.debug("Log system for environment just set up...")
         # list of agents and entities (can change at execution-time!)
         self.agents = []        # {mbs + uav} dtype: list
         self.users = []         # dtype: list
@@ -186,12 +186,12 @@ class World(object):
         for agent in self.agents:
             # Print UAVs Location
             if agent.isUAV:
-                self.logger.info("[UAV_STATE] id(%d), (x,y): (%d,%d)", agent.agent_id, agent.state.x, agent.state.y)
+                self.logger.debug("[UAV_STATE] id(%d), (x,y): (%d,%d)", agent.agent_id, agent.state.x, agent.state.y)
             else:
-                self.logger.info("[MBS_STATE] id(%d)", agent.agent_id)
+                self.logger.debug("[MBS_STATE] id(%d)", agent.agent_id)
                 
         for user in self.users:
-            self.logger.info("[USER_STATE] id(%d), (x,y): (%d, %d), file_request: (%d)", user.user_id, user.state.x, user.state.y, user.state.file_request)
+            self.logger.debug("[USER_STATE] id(%d), (x,y): (%d, %d), file_request: (%d)", user.user_id, user.state.x, user.state.y, user.state.file_request)
 
         for agent in self.agents:
             agent.reward = self.calculateReward(agent)    
@@ -244,7 +244,7 @@ class World(object):
         delay = 0
         if isUAV == False:
             if self.log_level >= 4:
-                self.logger.info("[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
+                self.logger.debug("[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
             delay = self.Calc_T_down(agent, user, TYPE_MBS_USER)
         else:
             if self.log_level >= 4:

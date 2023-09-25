@@ -55,14 +55,14 @@ class SeparatedReplayBuffer(object):
 
 
         if is_uav == True:  #UAV
-            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 62), dtype=np.float32)
-            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 62), dtype=np.float32)      
+            self.share_obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, 62), dtype=np.float32)
+            self.obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, 62), dtype=np.float32)      
         else:
-            self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 50), dtype=np.float32)
-            self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, 50), dtype=np.float32)
+            self.share_obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, 50), dtype=np.float32)
+            self.obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, 50), dtype=np.float32)
 
 
-        self.rnn_states = np.zeros((self.episode_length + 1, self.n_rollout_threads, self.recurrent_N, self.rnn_hidden_size), dtype=np.float32)
+        self.rnn_states = np.zeros((self.episode_length + 2, self.n_rollout_threads, self.recurrent_N, self.rnn_hidden_size), dtype=np.float32)
         self.rnn_states_critic = np.zeros_like(self.rnn_states)
 
         self.value_preds = np.zeros((self.episode_length + 2, self.n_rollout_threads, 1), dtype=np.float32)

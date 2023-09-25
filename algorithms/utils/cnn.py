@@ -50,21 +50,21 @@ class CNNLayer(nn.Module):
         print(f'[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}')
 
         self.cnn = nn.Sequential(
-            init_(
-                nn.Conv2d(      # 2D Convolution function
-                    in_channels=input_channel,
-                    out_channels=hidden_size // 2,
-                    #out_channels=3,
-                    kernel_size=kernel_size,    # it was set to 2
-                    stride=stride,
-                )
-            ),
-            active_func,    # call nn.ReLU()
-            Flatten(),
-            init_(nn.Linear(conv2d_out_size, 64)),     # nn.Linear : Fully connected layer
-            active_func,
-            init_(nn.Linear(hidden_size, 64)),
-            active_func,
+                init_(
+                    nn.Conv2d(      # 2D Convolution function
+                        in_channels=input_channel,
+                        out_channels=hidden_size // 2,
+                        #out_channels=3,
+                        kernel_size=kernel_size,    # it was set to 2
+                        stride=stride,
+                    )
+                ),
+                active_func,    # call nn.ReLU()
+                Flatten(),
+                init_(nn.Linear(conv2d_out_size, 64)),     # nn.Linear : Fully connected layer
+                active_func,
+                init_(nn.Linear(hidden_size, 64)),
+                active_func,
         )
 
         # self.cnn = nn.Sequential(
@@ -104,11 +104,8 @@ class CNNBase(nn.Module):
 
         self._use_orthogonal = args.use_orthogonal
         self._use_ReLU = args.use_ReLU
-
         self.hidden_size = args.hidden_size
-
         self.is_uav = is_uav
-
         self.cnn = CNNLayer(
             obs_shape,
             self.hidden_size,

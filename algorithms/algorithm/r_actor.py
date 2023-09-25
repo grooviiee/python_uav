@@ -87,9 +87,7 @@ class R_Actor(nn.Module):
         print(f"[R_Actor] Forward actor_features: {actor_features.shape}, actions: {actions.shape}, action_log_probs: {action_log_probs.shape}")
         return actions, action_log_probs, rnn_states
 
-    def evaluate_actions(
-        self, obs, rnn_states, action, masks, available_actions=None, active_masks=None
-    ):
+    def evaluate_actions(self, obs, rnn_states, action, masks, available_actions=None, active_masks=None):
         """
         Compute log probability and entropy of given actions.
         :param obs: (torch.Tensor) observation inputs into network.
@@ -113,11 +111,11 @@ class R_Actor(nn.Module):
         if active_masks is not None:
             active_masks = check(active_masks).to(**self.tpdv)
 
-        print(f"[EVALUATE_ACTION] <input> obs: {obs}")
+        print(f"[(R_ACTOR)EVALUATE_ACTION] <input> obs: {obs}")
 
         actor_features = self.base(obs)
         
-        print(f"[EVALUATE_ACTION] <output> actor_features: {actor_features}, _use_naive_recurrent_policy: {self._use_naive_recurrent_policy}, _use_recurrent_policy: {self._use_recurrent_policy} ")
+        print(f"[(R_ACTOR)EVALUATE_ACTION] <output> actor_features: {actor_features}, _use_naive_recurrent_policy: {self._use_naive_recurrent_policy}, _use_recurrent_policy: {self._use_recurrent_policy} ")
         
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
