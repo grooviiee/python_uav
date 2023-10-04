@@ -6,6 +6,10 @@
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true
     },
+
+    "editor.insertSpaces": false,
+    "editor.formatOnSave": true,
+
     "editor.tokenColorCustomizations": {
         "textMateRules": [
             {
