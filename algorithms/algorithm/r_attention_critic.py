@@ -16,6 +16,8 @@ class R_Critic(nn.Module):
     :param args: (argparse.Namespace) arguments containing relevant model information.
     :param cent_obs_space: (gym.Space) (centralized) observation space.
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
+    
+    :variable base: determine NN layer according to cent_obs_shape
     """
     def __init__(self, args, cent_obs_space, is_uav, device=torch.device("cpu")):
         super(R_Critic, self).__init__()
@@ -30,7 +32,7 @@ class R_Critic(nn.Module):
 
         cent_obs_shape = get_shape_from_obs_space(cent_obs_space)
         base = CNNBase if len(cent_obs_shape) == 3 else MLPBase
-        self.base = base(args, cent_obs_shape, self.is_uav)
+        self.base = base(args, cent_obs_shape, self.is_uav, True)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             self.rnn = RNNLayer(self.hidden_size, self.hidden_size, self._recurrent_N, self._use_orthogonal)

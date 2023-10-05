@@ -98,7 +98,7 @@ class CNNLayer(nn.Module):
 
 
 class CNNBase(nn.Module):
-    def __init__(self, args, obs_shape, is_uav):
+    def __init__(self, args, obs_shape, is_uav, attention_mode):
         print(f"..Init CNNBase")
         super(CNNBase, self).__init__()
 
@@ -106,13 +106,22 @@ class CNNBase(nn.Module):
         self._use_ReLU = args.use_ReLU
         self.hidden_size = args.hidden_size
         self.is_uav = is_uav
-        self.cnn = CNNLayer(
-            obs_shape,
-            self.hidden_size,
-            self._use_orthogonal,
-            self._use_ReLU,
-            self.is_uav,
-        )
+        if attention_mode == True:
+            self.cnn = CNNLayer(
+                obs_shape,
+                self.hidden_size,
+                self._use_orthogonal,
+                self._use_ReLU,
+                self.is_uav,
+            )
+        else:
+            self.cnn = CNNLayer(
+                obs_shape,
+                self.hidden_size,
+                self._use_orthogonal,
+                self._use_ReLU,
+                self.is_uav,
+            )
 
     def forward(self, x):
         x = self.cnn(x)
