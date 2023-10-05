@@ -15,11 +15,6 @@ from utils.config import parse_args
 from pathlib import Path
 from envs.UavEnvMain import UAVEnvMain
 
-# import maddpg.common.tf_util as U
-from algorithms.mappo import MAPPOAgentTrainer
-from envs.UavEnvMain import UAVEnvMain
-
-
 def make_train_env(arglist, benchmark=False):
     if arglist.env_name == "uavnet":
         print("You choose " + arglist.scenario_name + " environment.")
@@ -50,7 +45,6 @@ def make_eval_env(all_args):
     else:
         return SubprocVecEnv([get_env_fn(i) for i in range(all_args.n_eval_rollout_threads)])
 
-#ToDo: python 실행 시 argument를 사용해서 알고리즘 선택할 수 있도록
 def main(arglist):
     # set logging system
     logger = Logger("python_sim.log")
@@ -77,12 +71,10 @@ def main(arglist):
         print("Choose to use random walker. RL not work")
     elif arglist.algorithm_name == "mappo":
         print("Choose to use mappo, we set use_recurrent_policy to be True")
+    elif arglist.algorithm_name == "attention":
+        print("Choose to use attention_based_mappo, we set use_recurrent_policy to be True")
     elif arglist.algorithm_name == "ddpg":
         print("Choose to use ddpg, we set use_recurrent_policy to be True")
-        print(f"Not implemented yet")
-        raise NotImplementedError
-    elif arglist.algorithm_name == "attention_mappo":
-        print("Choose to use attention_based_mappo, we set use_recurrent_policy to be True")
         print(f"Not implemented yet")
         raise NotImplementedError
     else:
@@ -157,7 +149,7 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         arglist.algorithm_name = sys.argv[1]
 
-    # Usage: input algorithm_name python main.pu --algorithm_name {random, ddpg, mappo, attention_mappo)
+    # Usage: input algorithm_name python main.pu --algorithm_name {random, ddpg, mappo, attention)
     print(f"You choose \"{arglist.algorithm_name}\"")
 
     main(arglist)

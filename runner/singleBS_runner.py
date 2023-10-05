@@ -60,8 +60,9 @@ class SingleBS_runner(Runner):
         if self.algorithm == "mappo":
             from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
             from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
-        elif self.algorithm == "attention_mappo":
-            raise NotImplementedError
+        elif self.algorithm == "attention":
+            from algorithms.atten_mappo import Attention_MAPPOAgentPolicy as TrainAlgo
+            from algorithms.algorithm.atten_mappoPolicy import MAPPOAgentPolicy as Policy
         else:
             raise NotImplemented        
         
