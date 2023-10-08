@@ -21,3 +21,11 @@ https://hugrypiggykim.com/2022/03/29/decision-transformer-reinforcement-learning
 이를 참고해서 공부해볼 것
 
 Attention based PPO --> Please refer git hub repository "https://github.com/RvuvuzelaM/self-attention-ppo-pytorch"
+
+to do:
+1. 어탠션 알고리즘 구현 완료
+구현 시에 actor critic network 세팅을 합치기
+
+2. 리워드 계산 방식 검증
+
+3. 네트워크 rnn 검증. (input과 output setting들)
