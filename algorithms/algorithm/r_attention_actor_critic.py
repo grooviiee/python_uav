@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from algorithms.utils.util import init, check
 from algorithms.utils.cnn import CNNBase
+from algorithms.utils.cnn import Attention_CNNBase
 from algorithms.utils.mlp import MLPBase
 from algorithms.utils.rnn import RNNLayer
 from algorithms.utils.act import ACTLayer
@@ -9,7 +10,12 @@ from algorithms.r_attention import MultiHeadAttention
 from utils.util import get_shape_from_obs_space
 
 
-class R_Critic(nn.Module):
+class R_Actor(nn.Module):
+    def __init__(self, args, obs_space, action_space, device=torch.device("cpu")):
+        super(R_Actor, self).__init__()
+        self.hidden_size = args.hidden_size
+
+class R_Attention_Critic(nn.Module):
     """
     Critic network class for MAPPO. Outputs value function predictions given centralized input (MAPPO) or
                             local observations (IPPO).
@@ -20,7 +26,7 @@ class R_Critic(nn.Module):
     :variable base: determine NN layer according to cent_obs_shape
     """
     def __init__(self, args, cent_obs_space, is_uav, device=torch.device("cpu")):
-        super(R_Critic, self).__init__()
+        super(R_Attention_Critic, self).__init__()
         self.hidden_size = args.hidden_size
         self._use_orthogonal = args.use_orthogonal
         self._use_naive_recurrent_policy = args.use_naive_recurrent_policy
@@ -31,7 +37,8 @@ class R_Critic(nn.Module):
         init_method = [nn.init.xavier_uniform_, nn.init.orthogonal_][self._use_orthogonal]
 
         cent_obs_shape = get_shape_from_obs_space(cent_obs_space)
-        base = CNNBase if len(cent_obs_shape) == 3 else MLPBase
+        # TODO: Need to Fix this...?
+        base = Attention_CNNBase if len(cent_obs_shape) == 3 else MLPBase
         self.base = base(args, cent_obs_shape, self.is_uav, True)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
