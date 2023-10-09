@@ -1,7 +1,7 @@
 import torch
 import numpy as np
-from algorithms.algorithm.r_actor import R_Actor
-from algorithms.algorithm.r_attention_critic import R_Critic
+from algorithms.algorithm.r_attention_actor_critic import R_Actor
+from algorithms.algorithm.r_attention_actor_critic import R_Attention_Critic
 # from algorithms.algorithm.r_critic import R_Critic
 
 class AttentionMappoAgent_Policy:
@@ -23,7 +23,7 @@ class AttentionMappoAgent_Policy:
 
         self.actor = R_Actor(args, self.obs_space, self.act_space, self.is_uav, self.device)
         self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), lr=self.lr, eps=self.opti_eps, weight_decay=self.weight_decay)        
-        self.critic = R_Critic(args, self.share_obs_space, self.is_uav, self.device)
+        self.critic = R_Attention_Critic(args, self.share_obs_space, self.is_uav, self.device)
         self.critic_optimizer = torch.optim.Adam(self.critic.parameters(), lr=self.critic_lr, eps=self.opti_eps, weight_decay=self.weight_decay)
         
     def get_actions(self, is_uav, cent_obs, obs, rnn_states_actor, rnn_states_critic, masks, available_actions=None, deterministic=False):

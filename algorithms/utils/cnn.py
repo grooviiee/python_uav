@@ -26,6 +26,8 @@ class CNNLayer(nn.Module):
         init_method = [nn.init.xavier_uniform_, nn.init.orthogonal_][use_orthogonal]
         gain = nn.init.calculate_gain(["tanh", "relu"][use_ReLU])
 
+        self.attention_size = 32
+        self.attention_layer = MultiHeadAttention(self.attention_size)
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
 
@@ -67,6 +69,25 @@ class CNNLayer(nn.Module):
                 active_func,
         )
 
+        self.attention_cnn = nn.Sequential(
+                init_(
+                    nn.Conv2d(      # 2D Convolution function
+                        in_channels=input_channel,
+                        out_channels=hidden_size // 2,
+                        #out_channels=3,
+                        kernel_size=kernel_size,    # it was set to 2
+                        stride=stride,
+                    )
+                ),
+                active_func,    # call nn.ReLU()
+                Flatten(),
+                init_(nn.Linear(conv2d_out_size, 64)),     # nn.Linear : Fully connected layer
+                active_func,
+                self.attention_layer(h, h, h),
+                active_func,
+                init_(nn.Linear(hidden_size, 64)),
+                active_func,
+        )
         # self.cnn = nn.Sequential(
         #     init_(
         #         nn.Conv2d(      # 2D Convolution function
@@ -127,6 +148,8 @@ class Attention_CNNBase(nn.Module):
         self._use_ReLU = args.use_ReLU
         self.hidden_size = args.hidden_size
         self.is_uav = is_uav
+        self.attention_size = 32
+        self.attention_layer = MultiHeadAttention(attention_size)
         self.cnn = CNNLayer(
             obs_shape,
             self.hidden_size,
@@ -139,3 +162,33 @@ class Attention_CNNBase(nn.Module):
     def forward(self, x):
         x = self.cnn(x)
         return x
+    
+class MultiHeadAttention(nn.Module):
+    def __init__(self, size):
+        super().__init__()
+        self.w_qs = nn.Conv2d(size, size, 1)
+        self.w_ks = nn.Conv2d(size, size, 1)
+        self.w_vs = nn.Conv2d(size, size, 1)
+
+        self.attention = ScaledDotProductAttention()
+
+    def forward(self, q, k, v):
+        residual = q
+        q = self.w_qs(q).permute(0, 2, 3, 1)
+        k = self.w_ks(k).permute(0, 2, 3, 1)
+        v = self.w_vs(v).permute(0, 2, 3, 1)
+
+        attention = self.attention(q, k, v).permute(0, 3, 1, 2)
+
+        out = attention + residual
+        return out
+    
+class ScaledDotProductAttention(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, q, k, v):
+        attn = torch.matmul(q, k.transpose(2, 3))
+        output = torch.matmul(attn, v)
+
+        return output
