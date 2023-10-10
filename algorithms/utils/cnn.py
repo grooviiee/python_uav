@@ -89,10 +89,10 @@ class CNNLayer(nn.Module):
         )
 
     def forward(self, x):
-        print(f"[CNN FORWARD]: (forward) input x: {x.shape}")
+        print(f"[CNN_FORWARD]: (forward) input x: {x.shape}")
         x = x / 255.0
         x = self.cnn(x)
-        print(f"[CNN FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
+        print(f"[CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
         return x
 
 
@@ -206,13 +206,13 @@ class Attention_CNNLayer(nn.Module):
         )
 
     def forward(self, x):
-        print(f"[CNN FORWARD]: (forward) input x: {x.shape}")
+        print(f"[CNN_FORWARD]: (forward) input x: {x.shape}")
         x = x / 255.0
         x = F.relu(self.c1(x))
         x = self.attention_layer(x, x, x)
         x = F.relu(self.c2(x))
         x = F.relu(self.c3(x))
-        print(f"[CNN FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
+        print(f"[CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
         return x
 
 class Attention_CNNBase(nn.Module):

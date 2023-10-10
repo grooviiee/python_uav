@@ -42,6 +42,7 @@ class R_Actor(nn.Module):
             # Only RIC will use this function 
             print(f"(We do not use this currently) [ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3")
             base = MLPBase
+
         self.base = base(args, obs_shape, is_uav, False)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
