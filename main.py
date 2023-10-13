@@ -70,11 +70,11 @@ def main(arglist):
     if arglist.algorithm_name =="random":
         print("Choose to use random walker. RL not work")
     elif arglist.algorithm_name == "mappo":
-        print("Choose to use mappo, we set use_recurrent_policy to be True")
+        print("Choose to use mappo, we set use_recurrent_policy to be False")
     elif arglist.algorithm_name == "attention":
-        print("Choose to use attention_based_mappo, we set use_recurrent_policy to be True")
+        print("Choose to use attention_based_mappo, we set use_recurrent_policy to be False")
     elif arglist.algorithm_name == "ddpg":
-        print("Choose to use ddpg, we set use_recurrent_policy to be True")
+        print("Choose to use ddpg, we set use_recurrent_policy to be False")
         print(f"Not implemented yet")
         raise NotImplementedError
     else:

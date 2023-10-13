@@ -92,14 +92,15 @@ class MAPPOAgentPolicy:
     def evaluate_actions(self, is_uav, cent_obs, obs, rnn_states_actor, rnn_states_critic, action, masks,
                          available_actions=None, active_masks=None):
         
-        if is_uav == False:
-            cent_obs[1] = np.reshape(cent_obs, (2,5,-1)) # (2, 5, 5)
-            obs[1] = np.reshape(obs, (2,5,-1)) # (2, 5, 5)
-        else:
-            cent_obs[1] = np.reshape(cent_obs, (1,2,-1)) # (2, 2, 17)
-            obs[1] = np.reshape(obs, (1,2,-1)) # (2, 2, 17)
+        print(f"[POLICY] (evaluate_actions) is_uav({is_uav}), cent_obs.shape: {cent_obs.shape}, obs: {obs.shape}")
+        # if is_uav == False:
+        #     cent_obs[1] = np.reshape(cent_obs, (2,5,-1)) # (2, 5, 5)
+        #     obs[1] = np.reshape(obs, (2,5,-1)) # (2, 5, 5)
+        # else:
+        #     cent_obs[1] = np.reshape(cent_obs, (1,2,-1)) # (2, 2, 17)
+        #     obs[1] = np.reshape(obs, (1,2,-1)) # (2, 2, 17)
 
-        action_log_probs, dist_entropy = self.actor.evaluate_actions(cent_obs,
+        action_log_probs, dist_entropy = self.actor.evaluate_actions(obs,
                                                                      rnn_states_actor,
                                                                      action,
                                                                      masks,

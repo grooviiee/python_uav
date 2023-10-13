@@ -54,6 +54,7 @@ class MAPPOAgentTrainer:
         
         # Create train_info
         train_info = {}
+
         train_info['value_loss'] = 0
         train_info['policy_loss'] = 0
         train_info['dist_entropy'] = 0
@@ -68,13 +69,16 @@ class MAPPOAgentTrainer:
                 data_generator = buffer.recurrent_generator(advantages, self.num_mini_batch, self.data_chunk_length)
             elif self._use_naive_recurrent:
                 data_generator = buffer.naive_recurrent_generator(advantages, self.num_mini_batch)
-            else:
+            else:      # <-- Now we use this generator
                 data_generator = buffer.feed_forward_generator(advantages, self.num_mini_batch)    
             
             print(f"[TRAIN] data_generator ({data_generator}) num_mini_batch ({self.num_mini_batch})")
-            for idx, sample in enumerate(data_generator):
-                print(f"[TRAIN] ppo_update. idx ({idx}) is_uav ({is_uav})")
-                value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights = self.ppo_update(is_uav, sample, update_actor)
+            idx = 0
+            for sample in data_generator:
+                
+                print(f"[TRAIN] ppo_update. Sample index ({idx}) is_uav ({is_uav})")
+                value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights \
+                    = self.ppo_update(is_uav, idx, sample, update_actor)
         	        
                 train_info['value_loss'] += value_loss.item()
                 train_info['policy_loss'] += policy_loss.item()
@@ -82,7 +86,8 @@ class MAPPOAgentTrainer:
                 train_info['actor_grad_norm'] += actor_grad_norm
                 train_info['critic_grad_norm'] += critic_grad_norm
                 train_info['ratio'] += imp_weights.mean()
-        	
+                idx = idx + 1            
+            
             num_updates = self.ppo_epoch * self.num_mini_batch
             
             for key in train_info.keys():
@@ -90,7 +95,7 @@ class MAPPOAgentTrainer:
                 
             return train_info
         
-    def ppo_update(self, is_uav, sample, update_actor=True):
+    def ppo_update(self, is_uav, sample_index, sample, update_actor=True):
         # Update Actor and Critic Network
         
         # Step 1. Parse input data
