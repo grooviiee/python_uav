@@ -71,7 +71,7 @@ class MAPPOAgentTrainer:
             else:
                 data_generator = buffer.feed_forward_generator(advantages, self.num_mini_batch)    
             
-            print(f"[TRAIN] data_generator {data_generator}, num_mini_batch: {self.num_mini_batch}")
+            print(f"[TRAIN] data_generator ({data_generator}) num_mini_batch ({self.num_mini_batch})")
             for idx, sample in enumerate(data_generator):
                 print(f"[TRAIN] ppo_update. idx ({idx}) is_uav ({is_uav})")
                 value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights = self.ppo_update(is_uav, sample, update_actor)
@@ -104,16 +104,17 @@ class MAPPOAgentTrainer:
         return_batch = check(return_batch).to(**self.tpdv)
         active_masks_batch = check(active_masks_batch).to(**self.tpdv)
 
-        print(f"share_obs_batch ({share_obs_batch.shape}), obs_batch ({obs_batch.shape})")
+        print(f"[PPO_UPDATE] (before_reshape) share_obs_batch ({share_obs_batch.shape}), obs_batch ({obs_batch.shape})")
         if is_uav == False:
             #share_obs_batch = np.reshape(share_obs_batch, (batch_size,8,2,-1)) # (2, 5, 5)
             #obs_batch = np.reshape(obs_batch, (batch_size,8,2,-1)) # (2, 5, 5)
-            share_obs_batch = np.reshape(share_obs_batch, (batch_size,2,5,-1)) # (2, 5, 5)
-            obs_batch = np.reshape(obs_batch, (batch_size,2,5,-1)) # (2, 5, 5)
+            share_obs_batch = np.reshape(share_obs_batch, (batch_size, 2, 5, -1)) # (2, 5, 5)
+            obs_batch = np.reshape(obs_batch, (batch_size, 2, 5, -1)) # (2, 5, 5)
         else:
             share_obs_batch = np.reshape(share_obs_batch, (batch_size,1,2,-1)) # (2, 2, 17)
             obs_batch= np.reshape(obs_batch, (batch_size,1,2,-1)) # (2, 2, 17)
 
+        print(f"[PPO_UPDATE] (after_reshape) share_obs_batch ({share_obs_batch.shape}), obs_batch ({obs_batch.shape})")
 
         # Reshape to do in a single forward pass for all steps
         values, action_log_probs, dist_entropy = self.policy.evaluate_actions(is_uav, share_obs_batch,

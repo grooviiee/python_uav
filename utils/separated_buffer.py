@@ -207,7 +207,7 @@ class SeparatedReplayBuffer(object):
         episode_length, n_rollout_threads = self.rewards.shape[0:2]
         batch_size = n_rollout_threads * episode_length
 
-        print(f"[FEED_FORWARD_GEN] batch_size: {batch_size} = episode_length: {episode_length} * n_rollout_threads: {n_rollout_threads} || num_mini_batch: {num_mini_batch}")
+        print(f"[FEED_FORWARD_GEN] batch_size({batch_size}) = episode_length({episode_length}) * n_rollout_threads({n_rollout_threads}) / num_mini_batch({num_mini_batch})")
         if mini_batch_size is None:
             assert batch_size >= num_mini_batch, (
                 "PPO requires the number of processes ({}) "

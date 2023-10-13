@@ -40,15 +40,21 @@ class CNNLayer(nn.Module):
             input_width = 2
             input_height = 31
             conv2d_out_size = 15
-        else:
+        elif is_uav == False:
             input_channel = 2
             input_width = 5
             input_height = 5
             conv2d_out_size = 4
-
-
+        else:
+            print(f"[CNN_LAYER_INIT] is_uav: {is_uav}")
+            input_channel = obs_shape[0][0]
+            input_width = obs_shape[1][0]
+            input_height = obs_shape[2][0]
+        
+        # Print cnn configurations
         print(f'[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}')
-
+        
+        
         self.cnn = nn.Sequential(
                 init_(
                     nn.Conv2d(      # 2D Convolution function
@@ -206,13 +212,13 @@ class Attention_CNNLayer(nn.Module):
         )
 
     def forward(self, x):
-        print(f"[CNN_FORWARD]: (forward) input x: {x.shape}")
+        print(f"[ATTEN_CNN_FORWARD]: (forward) input x: {x.shape}")
         x = x / 255.0
         x = F.relu(self.c1(x))
         x = self.attention_layer(x, x, x)
         x = F.relu(self.c2(x))
         x = F.relu(self.c3(x))
-        print(f"[CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
+        print(f"[ATTEN_CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
         return x
 
 class Attention_CNNBase(nn.Module):
