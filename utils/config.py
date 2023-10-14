@@ -19,7 +19,7 @@ def parse_args():
     parser.add_argument("--log_level", type=int, default=1, help="Choose printing logs(1:LOW, 2:MID, 3:HIGH)")
     parser.add_argument("--device", default="gpu", help="Choose device. cpu or gpu?")
     parser.add_argument("--num_env_steps", type=int, default=1000,
-                        help='Number of environment steps to train (default: 10e6)')
+                        help='Number of environment steps to train (default: 10e6). num_env_steps만큼 실행 후 Train')
     
     parser.add_argument("--env_name", type=str, default="uavnet", choices=["uavnet"])
     parser.add_argument("--scenario_name", type=str, default="scenario_ref", choices=["scenario_ref, scenario_ric"])
@@ -27,7 +27,7 @@ def parse_args():
     parser.add_argument("--algorithm_name", type=str, default="mappo", choices=["random", "mappo", "attention", "ddpg"])
     parser.add_argument("--experiment_name",type=str,default="check",help="an identifier to distinguish different experiment.",)
     
-    parser.add_argument(        "--seed", type=int, default=1, help="Random seed for numpy/torch"    )
+    parser.add_argument("--seed", type=int, default=1, help="Random seed for numpy/torch")
     parser.add_argument(
         "--cuda",
         action="store_false",
@@ -177,7 +177,7 @@ def parse_args():
     parser.add_argument("--use_value_active_masks",
                         action='store_false', default=True, help="by default True, whether to mask useless data in value loss.")
     parser.add_argument("--use_policy_active_masks",
-                        action='store_false', default=True, help="by default True, whether to mask useless data in policy loss.")
+                        action='store_false', default=False, help="by default True, whether to mask useless data in policy loss.")
     parser.add_argument("--huber_delta", type=float, default=10.0, help=" coefficience of huber loss.")
 
     # run parameters

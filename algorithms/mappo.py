@@ -62,9 +62,9 @@ class MAPPOAgentTrainer:
         train_info['critic_grad_norm'] = 0
         train_info['ratio'] = 0
         
-        # Start Train
+        # Start Train (episode: 51 -> batch_size: 51)
         print(f"[TRAIN] ppo_epoch: {self.ppo_epoch}")
-        for _ in range(self.ppo_epoch):
+        for _ in range(self.ppo_epoch): # epoch만큼 random sample을 뽑는다
             if self._use_recurrent_policy:
                 data_generator = buffer.recurrent_generator(advantages, self.num_mini_batch, self.data_chunk_length)
             elif self._use_naive_recurrent:
@@ -74,7 +74,7 @@ class MAPPOAgentTrainer:
             
             print(f"[TRAIN] data_generator ({data_generator}) num_mini_batch ({self.num_mini_batch})")
             idx = 0
-            for sample in data_generator:
+            for sample in data_generator: 
                 
                 print(f"[TRAIN] ppo_update. Sample index ({idx}) is_uav ({is_uav})")
                 value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights \
@@ -97,7 +97,8 @@ class MAPPOAgentTrainer:
         
     def ppo_update(self, is_uav, sample_index, sample, update_actor=True):
         # Update Actor and Critic Network
-        
+        # input: random generated sampled data
+
         # Step 1. Parse input data
         share_obs_batch, obs_batch, rnn_states_batch, rnn_states_critic_batch, actions_batch, \
             value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch, \
@@ -119,27 +120,28 @@ class MAPPOAgentTrainer:
             share_obs_batch = np.reshape(share_obs_batch, (batch_size,1,2,-1)) # (2, 2, 17)
             obs_batch= np.reshape(obs_batch, (batch_size,1,2,-1)) # (2, 2, 17)
 
-        print(f"[PPO_UPDATE] (after_reshape) share_obs_batch ({share_obs_batch.shape}), obs_batch ({obs_batch.shape})")
+        print(f"[PPO_UPDATE] (after_reshape) share_obs_batch ({share_obs_batch.shape}), obs_batch ({obs_batch.shape}), actions_batch ({actions_batch.shape})")
 
         # Reshape to do in a single forward pass for all steps
-        values, action_log_probs, dist_entropy = self.policy.evaluate_actions(is_uav, share_obs_batch,
-                                                                              obs_batch, 
+        values, action_log_probs, dist_entropy = self.policy.evaluate_actions(is_uav, share_obs_batch[sample_index],
+                                                                              obs_batch[sample_index], 
                                                                               rnn_states_batch, 
                                                                               rnn_states_critic_batch, 
-                                                                              actions_batch, 
+                                                                              actions_batch[sample_index], 
                                                                               masks_batch, 
                                                                               available_actions_batch,
                                                                               active_masks_batch)
         # Step 2. Actor update
-        imp_weights = torch.exp(action_log_probs - old_action_log_probs_batch)
+        print(f"[PPO_UPDATE] action_log_probs ({action_log_probs.shape}), old_action_log_probs_batch ({old_action_log_probs_batch.shape})")
+        imp_weights = torch.exp(action_log_probs - old_action_log_probs_batch[sample_index])
 
-        surr1 = imp_weights * adv_targ
-        surr2 = torch.clamp(imp_weights, 1.0 - self.clip_param, 1.0 + self.clip_param) * adv_targ
+        surr1 = imp_weights * adv_targ[sample_index]
+        surr2 = torch.clamp(imp_weights, 1.0 - self.clip_param, 1.0 + self.clip_param) * adv_targ[sample_index]
 
         if self._use_policy_active_masks:
             policy_action_loss = (-torch.sum(torch.min(surr1, surr2),
                                              dim=-1,
-                                             keepdim=True) * active_masks_batch).sum() / active_masks_batch.sum()
+                                             keepdim=True) * active_masks_batch[sample_index]).sum() / active_masks_batch[sample_index].sum()
         else:
             policy_action_loss = -torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True).mean()
 
@@ -158,7 +160,7 @@ class MAPPOAgentTrainer:
         self.policy.actor_optimizer.step()
 
         # Step 3. Critic update
-        value_loss = self.cal_value_loss(values, value_preds_batch, return_batch, active_masks_batch)
+        value_loss = self.cal_value_loss(values, value_preds_batch[sample_index], return_batch[sample_index], active_masks_batch[sample_index])
 
         self.policy.critic_optimizer.zero_grad()
 

@@ -166,7 +166,7 @@ class ACTLayer(nn.Module):
         :return action_log_probs: (torch.Tensor) log probabilities of the input actions.
         :return dist_entropy: (torch.Tensor) action distribution entropy for the given inputs.
         """
-        print(f"[EVALUATE_ACTIONS] mixed_action: {self.mixed_action}, multi_discrete: {self.multi_discrete}")
+        print(f"[EVALUATE_ACTIONS] action.shape: ({action.shape}), mixed_action: {self.mixed_action}, multi_discrete: {self.multi_discrete}")
         if self.mixed_action:
             a, b = action.split((2, 1), -1)
             b = b.long()
@@ -216,25 +216,26 @@ class ACTLayer(nn.Module):
 
         else:
             if self.box:  # Usually MBS
-                print(f"[ACT_EVALUATE_ACTIONS] <Box type> x: {x.shape}, available_actions: {available_actions}, self.action_out: {self.action_out}")
+                print(f"[ACT_EVALUATE_ACTIONS] <Box type> x.shape: {x.shape}, action.shape: {action.shape}, self.action_out: {self.action_out}")
                 # action_logits = self.action_out(x, available_actions)
                 action_logits = self.action_out(x)
                 action_log_probs = action_logits.log_probs(action)
-                print(f"[ACT_EVALUATE_ACTIONS] action_logits: {action_logits}")
+                print(f"[ACT_EVALUATE_ACTIONS] action_logits ({action_logits}), active_masks ({active_masks})")
                 if active_masks is not None:
                     dist_entropy = (
                         action_logits.entropy() * active_masks.squeeze(-1)
                     ).sum() / active_masks.sum()
                 else:
                     dist_entropy = action_logits.entropy().mean()
+                    
             elif self.tuple: # Usually UAV
-                print(f"[ACT_EVALUATE_ACTIONS] <Tuple type> x: {x.shape}, available_actions: {available_actions}, self.action_outs: {self.action_outs}")
-                action = torch.transpose(action, 0, 1)
+                print(f"[ACT_EVALUATE_ACTIONS] <Tuple type> x.shape: {x.shape}, action.shape: {action.shape}, action: ({action}), self.action_outs: {self.action_outs}")
                 action_log_probs = []
                 dist_entropy = []
-                for action_out, act in zip(self.action_outs, action):
+                for idx, action_out in enumerate(self.action_outs):
                     action_logit = action_out(x)
-                    action_log_probs.append(action_logit.log_probs(act))
+                    action = action_logit.sample()
+                    action_log_probs.append(action_logit.log_probs(action))
                     if active_masks is not None:
                         dist_entropy.append(
                             (action_logit.entropy() * active_masks.squeeze(-1)).sum()
@@ -242,8 +243,51 @@ class ACTLayer(nn.Module):
                         )
                     else:
                         dist_entropy.append(action_logit.entropy().mean())
-
+                        
                 action_log_probs = torch.cat(action_log_probs, -1)  # ! could be wrong
-                dist_entropy = sum(dist_entropy) / len(dist_entropy)
+                dist_entropy = sum(dist_entropy) / len(dist_entropy)  
+                
+                # ##########################
+                # action_logits = self.action_out(x)
+                # action_log_probs = action_logits.log_probs(action)
+                # print(f"[ACT_EVALUATE_ACTIONS] action_logits ({action_logits}), active_masks ({active_masks})")
+                # if active_masks is not None:
+                #     dist_entropy = (
+                #         action_logits.entropy() * active_masks.squeeze(-1)
+                #     ).sum() / active_masks.sum()
+                # else:
+                #     dist_entropy = action_logits.entropy().mean()
+                # #action = torch.transpose(action, 0, 1)
+                # ##############################
+                # actions = []
+                # action_log_probs = []
+                # for idx, action_out in enumerate(self.action_outs):
+                #     action_logit = action_out(x)
+                #     action = action_logit.mode() if deterministic else action_logit.sample()
+                #     print(f"[ACTLayer_forward] type ('tuple') idx ({idx}) x ({x.shape}) action_logit ({action_logit}) action_logit.type ({type(action_logit)}) action.shape ({action.shape})")
+
+                #     action_log_prob = action_logit.log_probs(action)
+                #     actions.append(action)
+                #     action_log_probs.append(action_log_prob)
+
+                # actions = torch.cat(actions, -1)
+                # action_log_probs = torch.cat(action_log_probs, -1)
+                # #######################
+                # # action_log_probs = []
+                # # dist_entropy = []
+                # # for action_out, act in zip(self.action_outs, action):
+                # #     action_logit = action_out(x)
+                # #     print(f"[ACT_EVALUATE_ACTIONS] <Tuple type> action_logit: ({action_logit}), action_out: ({action_out}) act: ({act})")
+                # #     action_log_probs.append(action_logit.log_probs(act))
+                # #     if active_masks is not None:
+                # #         dist_entropy.append(
+                # #             (action_logit.entropy() * active_masks.squeeze(-1)).sum()
+                # #             / active_masks.sum()
+                # #         )
+                # #     else:
+                # #         dist_entropy.append(action_logit.entropy().mean())
+
+                # # action_log_probs = torch.cat(action_log_probs, -1)  # ! could be wrong
+                # # dist_entropy = sum(dist_entropy) / len(dist_entropy)
 
         return action_log_probs, dist_entropy

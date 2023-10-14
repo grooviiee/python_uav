@@ -53,28 +53,31 @@ def main(arglist):
     formatter = logging.Formatter(u'%(asctime)s [%(levelname)8s] %(message)s')
 
     # select device
-    print("choose device...", arglist.n_training_threads)
+    print(f"[MAIN] choose device...")
     if torch.cuda.is_available():
-        print("choose to use [GPU]...")
+        print(f"[MAIN] choose to use [GPU]...")
         device = torch.device("cuda")
         torch.set_num_threads(arglist.n_training_threads)
         if arglist.cuda_deterministic:
             torch.backends.cudnn.benchmark = False
             torch.backends.cudnn.deterministic = True
     else:
-        print("choose to use [CPU]...")
+        print(f"[MAIN] choose to use [CPU]...")
         device = torch.device("cpu")
         torch.set_num_threads(arglist.n_training_threads)
 
+    # select algorithm settings   
+    print(f"[MAIN] choose algorithm settings. n_training_threads ({arglist.n_training_threads})")
+    print(f"[MAIN] choose algorithm settings. n_rollout_threads ({arglist.n_rollout_threads})")
     # select algorithm 
     if arglist.algorithm_name =="random":
-        print("Choose to use random walker. RL not work")
+        print("[MAIN] Choose to use random walker. RL not work")
     elif arglist.algorithm_name == "mappo":
-        print("Choose to use mappo, we set use_recurrent_policy to be False")
+        print("[MAIN] Choose to use mappo, we set use_recurrent_policy to be False")
     elif arglist.algorithm_name == "attention":
-        print("Choose to use attention_based_mappo, we set use_recurrent_policy to be False")
+        print("[MAIN] Choose to use attention_based_mappo, we set use_recurrent_policy to be False")
     elif arglist.algorithm_name == "ddpg":
-        print("Choose to use ddpg, we set use_recurrent_policy to be False")
+        print("[MAIN] Choose to use ddpg, we set use_recurrent_policy to be False")
         print(f"Not implemented yet")
         raise NotImplementedError
     else:
@@ -109,7 +112,7 @@ def main(arglist):
             os.makedirs(str(run_dir))
 
     # env init
-    print("Load Environement...")
+    print("[MAIN] Load Environement...")
     envs = make_train_env(arglist)
     eval_envs = make_eval_env(arglist) if arglist.use_eval else None
 
@@ -134,22 +137,22 @@ def main(arglist):
     else:
         NotImplemented
 
-    print(f"Load runner as {arglist.runner_name}")
+    print(f"[MAIN] Load runner as {arglist.runner_name}")
     runner = Runner(config)
     runner.run()
-    print(f"Running alorithm finished.")
+    print(f"[MAIN] Running alorithm finished.")
 
 
     envs.close()
 
 if __name__ == "__main__":
-    print("Main code starts")
+    print("[MAIN] Main code starts")
     arglist = parse_args()
     
     if len(sys.argv) == 2:
         arglist.algorithm_name = sys.argv[1]
 
     # Usage: input algorithm_name python main.pu --algorithm_name {random, ddpg, mappo, attention)
-    print(f"You choose \"{arglist.algorithm_name}\"")
+    print(f"[MAIN] You choose \"{arglist.algorithm_name}\"")
 
     main(arglist)
