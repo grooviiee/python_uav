@@ -18,14 +18,16 @@ def parse_args():
     # prepare parameters
     parser.add_argument("--log_level", type=int, default=1, help="Choose printing logs(1:LOW, 2:MID, 3:HIGH)")
     parser.add_argument("--device", default="gpu", help="Choose device. cpu or gpu?")
-    parser.add_argument("--num_env_steps", type=int, default=1000,
-                        help='Number of environment steps to train (default: 10e6). num_env_steps만큼 실행 후 Train')
-    
+
     parser.add_argument("--env_name", type=str, default="uavnet", choices=["uavnet"])
     parser.add_argument("--scenario_name", type=str, default="scenario_ref", choices=["scenario_ref, scenario_ric"])
     parser.add_argument("--runner_name", type=str, default="singleBS", choices=["singleBS", "multipleBS"]) #
     parser.add_argument("--algorithm_name", type=str, default="mappo", choices=["random", "mappo", "attention", "ddpg"])
     parser.add_argument("--experiment_name",type=str,default="check",help="an identifier to distinguish different experiment.",)
+
+    parser.add_argument("--num_episodes", type=int, default=1, help="Number of episodes. 시나리오를 몇 번 반복할지")
+    parser.add_argument("--num_env_steps", type=int, default=1000, help="Max length for any episode. 시나리오 하나의 길이")
+    parser.add_argument("--episode_length", type=int, default=40, help="Number of environment steps to train (default: 10e6). episode_length만큼 실행 후 Train 동작")
     
     parser.add_argument("--seed", type=int, default=1, help="Random seed for numpy/torch")
     parser.add_argument(
@@ -72,10 +74,6 @@ def parse_args():
         help="[for wandb usage], to specify user's name for simply collecting training data.",
     )
     parser.add_argument("--use_wandb", action='store_false', default=True, help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.")
-
-    
-    # replay buffer parameters
-    parser.add_argument("--episode_length", type=int, default=50, help="Max length for any episode")
     
     # Environment settings
     parser.add_argument(

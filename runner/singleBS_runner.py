@@ -41,8 +41,9 @@ class SingleBS_runner(Runner):
         self.buffer = []
         
         # parameters
-        self.num_env_steps = self.all_args.num_env_steps
+        self.num_episodes = self.all_args.num_episodes
         self.episode_length = self.all_args.episode_length  # step얼마 뒤에 train을 할지
+        self.num_env_steps = self.all_args.num_env_steps
         self.use_linear_lr_decay = self.all_args.use_linear_lr_decay
         self.hidden_size = self.all_args.hidden_size
 
@@ -115,32 +116,32 @@ class SingleBS_runner(Runner):
     def run(self):
         print(f'[RUNNER] Warm up')
         # basic procedure
-        num_episode = self.episode_length // int(self.num_env_steps)  // self.n_rollout_threads
+        num_episode = self.episode_length  // self.n_rollout_threads
 
-        for episode in range(num_episode):
-            print(f'[RUNNER] Run Episode ({episode}/{num_episode})')
+        for episode in range(self.num_episodes):
+            print(f'[RUNNER] Run Episode ({episode}/{self.num_episodes})')
             self.warmup()   
             start = time.time()
             
             if self.algorithm == "random":
-                for step in range(self.episode_length):
-                    self.logger.info("[RUNNER] isRandom (%s), Episode (%d/%d), Step (%d/%d)", "true", episode, episodes, step, self.episode_length)
+                for step in range(self.num_env_steps):
+                    self.logger.info("[RUNNER] isRandom (%s), big_step (%d/%d), small_step (%d/%d)", "true", episode, self.num_episodes, step, self.episode_length)
 
                     # Sample actions (returned action: action_env)
                     # I think random walk does not need get_action procedure.. it will work at step()
                     actions_env = None
-                    obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, self.is_random_mode)
+                    obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, True)
                     print(f"[RUNNER] Get rewards: {rewards}")
                     self.sum_rewards(origin_rewards)
 
             else:
-                for big_step in range(self.episodes_length):
-                    for small_step in range(self.num_env_steps):
-                        self.logger.info("[RUNNER] isRandom (%s), big_step (%d/%d), small_step (%d/%d)", "false", small_step, episodes_length, small_step, self.num_env_steps)
+                for big_step in range(self.num_env_steps):
+                    for small_step in range(self.episode_length):
+                        self.logger.info("[RUNNER] isRandom (%s), big_step (%d/%d), small_step (%d/%d)", "false", episode, self.num_env_steps, small_step, self.episode_length)
                         values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(small_step)
                         
                         # Obs, rewards and next_obs
-                        obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, self.is_random_mode)
+                        obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, False)
                         print(f"[RUNNER] Get rewards: {rewards}")
                         
                         # insert data into replay buffer
@@ -158,11 +159,11 @@ class SingleBS_runner(Runner):
                     train_infos = self.train()
                     
                     # post process
-                    total_num_steps = (big_step + 1) * self.num_env_steps * self.n_rollout_threads
-                    print(f'[RUNNER] total_num_steps: {total_num_steps}')
+                    total_num_trainings = (big_step + 1) * self.episode_length * self.n_rollout_threads
+                    print(f'[RUNNER] total_num_steps ({self.episode_length}/{total_num_trainings})')
                                 
                     # save trained model
-                    if (big_step % self.save_interval == 0 or big_step == episodes_length - 1):
+                    if (big_step % self.save_interval == 0 or big_step == self.episodes_length - 1):
                         self.save()
 
                     # log information 
