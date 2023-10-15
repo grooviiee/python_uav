@@ -205,6 +205,9 @@ class SingleBS_runner(Runner):
 
     @torch.no_grad()
     def runner_collect(self, step):
+        if step == 0:
+            step = 1
+
         values = []
         actions = []
         temp_actions_env = []
@@ -225,7 +228,7 @@ class SingleBS_runner(Runner):
                 is_uav = True
                 
             self.trainer[agent_id].prep_rollout()
-            print(f'[RUNNER] (GET_ACTION) agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
+            print(f'[RUNNER] (GET_ACTION) agent_id ({agent_id}), share_obs: {self.buffer[agent_id].share_obs[step]}, obs: {self.buffer[agent_id].obs[step]}')
             value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(is_uav,
                                                                                     self.buffer[agent_id].share_obs[step],
                                                                                     self.buffer[agent_id].obs[step],

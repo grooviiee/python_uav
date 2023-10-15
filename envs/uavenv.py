@@ -253,6 +253,7 @@ class UAV_ENV(gym.Env):
             obs.append(user_location)
             obs.append(file_request)
 
+        print(f"[ENV] [get_obs] agent_id: {agent.agent_id}, obs: {obs}")
         return obs
 
     # get reward for a particular agent
@@ -271,16 +272,11 @@ class UAV_ENV(gym.Env):
         print(f'is_done: {is_done}, self.current_step: {self.current_step}, self.world_length: {self.world_length}')
         return is_done
 
-    # set env action for the agent.. Just setting. Change states at core.py 
+    # change action values from probability into valid number
     def _set_action(self, agent_id, action, agent, action_space, time=None):
-
         action_set = action[agent_id]
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
-            # for i in len(action_set):
-            #     array = np.prod(action_set[i].shape)
-            # action = flatten(action_set[agent], 1)
-            # agent.action = flatten(action_set[agent_id], 1)
             agent.action = list(action_set)
             if self.log_level >= 3:
                 print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
@@ -348,6 +344,10 @@ class UAV_ENV(gym.Env):
         info_n = []
 
         self.agents = self.world.agents
+        
+        self.displayAgentState()
+        self.displayUserState()
+        
         # set action for each agent
         for i, agent in enumerate(self.agents):
             if is_random_mode == False:
@@ -381,3 +381,17 @@ class UAV_ENV(gym.Env):
             self.post_step_callback(self.world)
 
         return obs_n, reward_n, origin_reward_n, done_n, info_n
+    
+    
+    def displayAgentState(self):
+        print(f"[STATE(AGENT)] displayAgentState")
+        for idx, agent in enumerate(self.agents):
+            if agent.isMBS:
+                print(f"[STATE(AGENT)] agent_id({idx}), is_uav({agent.isUAV}), state(x,y): ({agent.state.x}, {agent.state.y}) state(association): {agent.state.association}")
+            else:
+                print(f"[STATE(AGENT)] agent_id({idx}), is_uav({agent.isUAV}), state(x,y): ({agent.state.x}, {agent.state.y}) state(has_file): {agent.state.has_file}, state(cache_size): {agent.state.cache_size}, state(conn_user_file_req): {agent.state.file_request}")
+
+    def displayUserState(self):
+        print(f"[STATE(USER)] displayUserState")
+        for idx, user in enumerate(self.users):
+            print(f"[STATE(USER)] user_id({idx}), state(x,y): ({user.state.x}, {user.state.y}) state(file_request): {user.state.file_request}")

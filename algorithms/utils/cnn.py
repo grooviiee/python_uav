@@ -98,7 +98,7 @@ class CNNLayer(nn.Module):
         print(f"[CNN_FORWARD]: (forward) input x: {x.shape}")
         x = x / 255.0
         x = self.cnn(x)
-        print(f"[CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
+        print(f"[CNN_FORWARD]: (forward_after_self.cnn(x)) returned x({x.shape}): x")
         return x
 
 
