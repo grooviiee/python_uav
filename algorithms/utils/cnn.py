@@ -24,8 +24,6 @@ class CNNLayer(nn.Module):
         init_method = [nn.init.xavier_uniform_, nn.init.orthogonal_][use_orthogonal]
         gain = nn.init.calculate_gain(["tanh", "relu"][use_ReLU])
 
-        self.attention_size = 32
-        self.attention_layer = MultiHeadAttention(self.attention_size)
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
 
@@ -78,9 +76,11 @@ class CNNLayer(nn.Module):
         )
 
     def forward(self, x):
+        #x = x + 1e-6
         print(f"[CNN_FORWARD]: (before) input x({x.shape}): {x}")
-        x = x / 255.0
-        x = self.cnn(x)
+        x_norm  = x / 255.0  + 1e-6
+        print(f"[CNN_FORWARD]: (normalized) input x_norm ({x_norm.shape}): {x_norm}")
+        x = self.cnn(x_norm)
         print(f"[CNN_FORWARD]: (after.cnn(x)) returned x({x.shape}): {x}")
         return x
 
@@ -110,7 +110,6 @@ class CNNBase(nn.Module):
 """ 
 Attention based CNN Architecture
 """
-
 class Attention_CNNLayer(nn.Module):
     def __init__(
         self,

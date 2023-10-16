@@ -58,15 +58,12 @@ class MAPPOAgentPolicy:
         else:
             reshape_obs = np.reshape(obs, (1,2,-1)) # (2, 2, 17)
         
-        
         cent_obs = reshape_obs
 
         # actions: distribution set, action_log_probs: sample probabilities
-        actions, action_log_probs, rnn_states_actor = self.actor(reshape_obs,
-                                                                 rnn_states_actor,
-                                                                 masks,
-                                                                 available_actions,
-                                                                 deterministic)
+        # self.actor = R_Actor(args, self.obs_space, self.act_space, self.is_uav, self.device)
+        actions, action_log_probs, rnn_states_actor = self.actor(reshape_obs, rnn_states_actor,
+                                                                 masks, available_actions, deterministic)
   
         values, rnn_states_critic = self.critic(cent_obs, rnn_states_critic, masks)
         

@@ -230,11 +230,11 @@ class SingleBS_runner(Runner):
             self.trainer[agent_id].prep_rollout()
             print(f'[RUNNER] (GET_ACTION) agent_id ({agent_id}), share_obs: {self.buffer[agent_id].share_obs[step]}, obs: {self.buffer[agent_id].obs[step]}')
             value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(is_uav,
-                                                                                    self.buffer[agent_id].share_obs[step],
-                                                                                    self.buffer[agent_id].obs[step],
-                                                                                    self.buffer[agent_id].rnn_states[step],
-                                                                                    self.buffer[agent_id].rnn_states_critic[step],
-                                                                                    self.buffer[agent_id].masks[step])
+                                                                                                                self.buffer[agent_id].share_obs[step],
+                                                                                                                self.buffer[agent_id].obs[step],
+                                                                                                                self.buffer[agent_id].rnn_states[step],
+                                                                                                                self.buffer[agent_id].rnn_states_critic[step],
+                                                                                                                self.buffer[agent_id].masks[step])
             # [agents, envs, dim]
             values.append(_t2n(value))
             action = _t2n(action)
