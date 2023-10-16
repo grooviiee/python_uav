@@ -30,8 +30,8 @@ class MAPPOAgentTrainer:
         self._use_huber_loss = args.use_huber_loss
         self._use_popart = args.use_popart
         self._use_valuenorm = args.use_valuenorm
-        self._use_value_active_masks = args.use_value_active_masks
-        self._use_policy_active_masks = args.use_policy_active_masks
+        self._use_value_active_masks = args.use_value_active_masks  #True
+        self._use_policy_active_masks = args.use_policy_active_masks    #False
 
         assert (self._use_popart and self._use_valuenorm) == False, ("self._use_popart and self._use_valuenorm can not be set True simultaneously")
         
@@ -139,9 +139,8 @@ class MAPPOAgentTrainer:
         surr2 = torch.clamp(imp_weights, 1.0 - self.clip_param, 1.0 + self.clip_param) * adv_targ[sample_index]
 
         if self._use_policy_active_masks:
-            policy_action_loss = (-torch.sum(torch.min(surr1, surr2),
-                                             dim=-1,
-                                             keepdim=True) * active_masks_batch[sample_index]).sum() / active_masks_batch[sample_index].sum()
+            policy_action_loss = (-torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True) *
+                                    active_masks_batch[sample_index]).sum() / active_masks_batch[sample_index].sum()
         else:
             policy_action_loss = -torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True).mean()
 
@@ -149,7 +148,9 @@ class MAPPOAgentTrainer:
 
         self.policy.actor_optimizer.zero_grad()
 
-        if update_actor:
+        # Step 2-1. Backpropagation
+        if update_actor == False:
+            print(f"[PPO_UPDATE] (update_actor) policy_loss: {policy_loss}, dist_entropy: {dist_entropy}, self.entropy_coef: {self.entropy_coef}")
             (policy_loss - dist_entropy * self.entropy_coef).backward()
 
         if self._use_max_grad_norm:
@@ -164,6 +165,8 @@ class MAPPOAgentTrainer:
 
         self.policy.critic_optimizer.zero_grad()
 
+        # Step 3-1. Backpropagation
+        print(f"[PPO_UPDATE] (update_critic) value_loss: {value_loss}, self.value_loss_coef: {self.value_loss_coef}")
         (value_loss * self.value_loss_coef).backward()
 
         if self._use_max_grad_norm:

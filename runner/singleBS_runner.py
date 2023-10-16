@@ -125,7 +125,7 @@ class SingleBS_runner(Runner):
             
             if self.algorithm == "random":
                 for step in range(self.num_env_steps):
-                    self.logger.info("[RUNNER] isRandom (%s), big_step (%d/%d), small_step (%d/%d)", "true", episode, self.num_episodes, step, self.episode_length)
+                    self.logger.info("[RUNNER] (random_walk) episode(%d/%d) big_step(%d/%d)", episode, self.num_episodes, step, self.num_env_steps)
 
                     # Sample actions (returned action: action_env)
                     # I think random walk does not need get_action procedure.. it will work at step()
@@ -137,7 +137,7 @@ class SingleBS_runner(Runner):
             else:
                 for big_step in range(self.num_env_steps):
                     for small_step in range(self.episode_length):
-                        self.logger.info("[RUNNER] isRandom (%s), big_step (%d/%d), small_step (%d/%d)", "false", episode, self.num_env_steps, small_step, self.episode_length)
+                        self.logger.info("[RUNNER] episode(%d/%d) big_step(%d/%d) small_step(%d/%d)", episode, self.num_episodes, big_step, self.num_env_steps, small_step, self.episode_length)
                         values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(small_step)
                         
                         # Obs, rewards and next_obs
@@ -228,7 +228,9 @@ class SingleBS_runner(Runner):
                 is_uav = True
                 
             self.trainer[agent_id].prep_rollout()
-            print(f'[RUNNER] (GET_ACTION) agent_id ({agent_id}), share_obs: {self.buffer[agent_id].share_obs[step]}, obs: {self.buffer[agent_id].obs[step]}')
+            if self.all_args.log_level >= 3:
+                print(f'[RUNNER] (GET_ACTION) agent_id ({agent_id}), share_obs: {self.buffer[agent_id].share_obs[step]}, obs: {self.buffer[agent_id].obs[step]}')
+
             value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(is_uav,
                                                                                                                 self.buffer[agent_id].share_obs[step],
                                                                                                                 self.buffer[agent_id].obs[step],

@@ -79,7 +79,7 @@ class R_Actor(nn.Module):
             available_actions = check(available_actions).to(**self.tpdv)
 
         # Get action feature map (actor_features is 32x64)
-        print(f"[R_Actor] self.base(obs): ({self.base})")
+        #print(f"[R_Actor] self.base(obs): ({self.base})")
         actor_features = self.base(obs) # CNN Base
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)
@@ -113,11 +113,11 @@ class R_Actor(nn.Module):
         if active_masks is not None:
             active_masks = check(active_masks).to(**self.tpdv)
 
-        print(f"[(R_ACTOR)EVALUATE_ACTION] <input> obs: {obs}")
+        # print(f"[(R_ACTOR)EVALUATE_ACTION] <input> obs: {obs}")
 
         actor_features = self.base(obs)
         
-        print(f"[(R_ACTOR)EVALUATE_ACTION] <output> actor_features: {actor_features}, _use_naive_recurrent_policy: {self._use_naive_recurrent_policy}, _use_recurrent_policy: {self._use_recurrent_policy} ")
+        # print(f"[(R_ACTOR)EVALUATE_ACTION] <output> actor_features: {actor_features}, _use_naive_recurrent_policy: {self._use_naive_recurrent_policy}, _use_recurrent_policy: {self._use_recurrent_policy} ")
         
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             actor_features, rnn_states = self.rnn(actor_features, rnn_states, masks)

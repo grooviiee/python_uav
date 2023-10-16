@@ -81,7 +81,7 @@ class DiagGaussian(nn.Module):
         self.logstd = AddBias(torch.zeros(num_outputs))
 
     def forward(self, x):
-        print(f'[DiagGaussian] param x({x.shape}): {x}')
+        # print(f'[DiagGaussian] param x({x.shape}): {x}')
 
         action_mean = self.fc_mean(x)
         print(f'[DiagGaussian] returned action_mean {action_mean.shape} from feature_map {x.shape}')

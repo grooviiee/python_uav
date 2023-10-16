@@ -77,11 +77,11 @@ class CNNLayer(nn.Module):
 
     def forward(self, x):
         #x = x + 1e-6
-        print(f"[CNN_FORWARD]: (before) input x({x.shape}): {x}")
+        #print(f"[CNN_FORWARD]: (before) input x({x.shape}): {x}")
         x_norm  = x / 255.0  + 1e-6
-        print(f"[CNN_FORWARD]: (normalized) input x_norm ({x_norm.shape}): {x_norm}")
+        #print(f"[CNN_FORWARD]: (normalized) input x_norm ({x_norm.shape}): {x_norm}")
         x = self.cnn(x_norm)
-        print(f"[CNN_FORWARD]: (after.cnn(x)) returned x({x.shape}): {x}")
+        #print(f"[CNN_FORWARD]: (after.cnn(x)) returned x({x.shape}): {x}")
         return x
 
 

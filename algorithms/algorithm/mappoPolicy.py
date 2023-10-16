@@ -62,6 +62,7 @@ class MAPPOAgentPolicy:
 
         # actions: distribution set, action_log_probs: sample probabilities
         # self.actor = R_Actor(args, self.obs_space, self.act_space, self.is_uav, self.device)
+        #     def forward(self, obs, rnn_states, masks, available_actions=None, deterministic=False)
         actions, action_log_probs, rnn_states_actor = self.actor(reshape_obs, rnn_states_actor,
                                                                  masks, available_actions, deterministic)
   
