@@ -1,253 +1,2469 @@
-[RUNNER] isRandom (false), big_step (0/1000), small_step (0/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (1/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (2/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (3/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (4/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (5/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (6/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (7/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (8/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (9/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (10/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (11/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (12/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (13/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (14/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (15/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (16/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (17/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (18/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (19/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (20/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (21/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (22/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (23/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (24/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (25/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (26/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (27/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (28/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (29/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (30/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (31/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (32/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (33/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (34/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (35/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (36/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (37/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (38/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(0/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (39/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(1/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (0/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(2/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (1/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(3/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (2/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(4/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (3/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(5/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (4/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(6/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (5/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(7/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (6/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(8/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (7/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(9/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (8/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(10/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (9/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(11/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (10/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(12/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (11/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(13/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (12/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(14/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (13/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(15/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (14/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(16/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (15/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(17/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (16/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(18/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (17/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(19/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (18/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(20/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (19/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(21/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (20/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(22/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (21/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(23/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (22/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(24/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (23/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(25/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (24/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(26/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (25/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(27/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (26/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(28/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (27/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(29/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (28/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(30/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (29/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(31/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (30/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(32/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (31/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(33/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (32/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(34/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (33/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(35/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (34/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(36/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (35/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(37/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (36/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(38/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (37/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(39/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (38/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(0/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (39/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(1/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (0/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(2/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (1/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(3/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (2/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(4/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (3/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(5/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (4/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(6/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (5/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(7/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (6/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(8/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (7/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(9/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (8/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(10/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (9/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(11/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (10/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(12/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (11/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(13/40)
 [RUNNER_REWARD] tatal_reward: nan
-[RUNNER] isRandom (false), big_step (0/1000), small_step (12/40)
+[RUNNER] episode(0/1) big_step(1/25) small_step(14/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(15/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(16/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(17/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(18/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(19/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(20/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(21/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(22/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(23/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(24/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(25/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(26/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(27/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(28/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(29/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(30/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(31/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(32/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(33/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(34/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(35/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(36/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(37/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(38/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(39/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(0/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(1/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(2/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(3/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(4/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(5/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(6/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(7/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(8/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(9/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(10/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(11/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(12/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(13/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(14/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(15/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(16/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(17/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(18/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(19/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(20/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(21/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(22/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(23/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(24/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(25/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(26/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(27/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(28/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(29/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(30/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(31/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(32/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(33/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(34/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(35/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(36/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(37/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(38/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(39/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(0/40)
 [RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(6/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(7/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(8/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(9/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(10/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(11/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(12/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(13/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(14/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(15/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(16/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(17/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(18/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(19/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(20/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(21/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(22/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(23/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(24/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(1/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(2/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(3/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(26/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(27/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(28/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(29/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(30/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(31/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(32/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(33/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(34/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(35/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(36/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(37/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(38/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(4/25) small_step(39/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(5/25) small_step(12/40)
+[RUNNER] episode(0/1) big_step(0/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: nan
+[RUNNER] episode(0/1) big_step(0/25) small_step(2/40)
 [RUNNER_REWARD] tatal_reward: nan

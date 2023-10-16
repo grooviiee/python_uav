@@ -116,8 +116,7 @@ class SingleBS_runner(Runner):
     def run(self):
         print(f'[RUNNER] Warm up')
         # basic procedure
-        num_episode = self.episode_length  // self.n_rollout_threads
-
+        num_big_steps = self.num_env_steps // self.episode_length // self.n_rollout_threads
         for episode in range(self.num_episodes):
             print(f'[RUNNER] Run Episode ({episode}/{self.num_episodes})')
             self.warmup()   
@@ -135,9 +134,10 @@ class SingleBS_runner(Runner):
                     self.sum_rewards(origin_rewards)
 
             else:
-                for big_step in range(self.num_env_steps):
-                    for small_step in range(self.episode_length):
-                        self.logger.info("[RUNNER] episode(%d/%d) big_step(%d/%d) small_step(%d/%d)", episode, self.num_episodes, big_step, self.num_env_steps, small_step, self.episode_length)
+                for big_step in range(num_big_steps):
+                    # for small_step in range(self.episode_length):
+                    for small_step in range(3):
+                        self.logger.info("[RUNNER] episode(%d/%d) big_step(%d/%d) small_step(%d/%d)", episode, self.num_episodes, big_step, num_big_steps, small_step, self.episode_length)
                         values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(small_step)
                         
                         # Obs, rewards and next_obs
@@ -149,8 +149,9 @@ class SingleBS_runner(Runner):
                         self.runner_insert(data)
                         
                         self.sum_rewards(origin_rewards)
-                        #raise NotImplementedError("Breakpoint")
+                        # raise NotImplementedError("Breakpoint")
                     
+                    raise NotImplementedError("Breakpoint")
                     # compute GAE and update network
                     print(f'[RUNNER] Compute GAE')
                     self.compute_gae() 
@@ -161,7 +162,7 @@ class SingleBS_runner(Runner):
                     # post process
                     total_num_trainings = (big_step + 1) * self.episode_length * self.n_rollout_threads
                     print(f'[RUNNER] total_num_steps ({self.episode_length}/{total_num_trainings})')
-                                
+
                     # save trained model
                     if (big_step % self.save_interval == 0 or big_step == self.episodes_length - 1):
                         self.save()
