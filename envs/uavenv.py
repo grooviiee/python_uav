@@ -277,13 +277,13 @@ class UAV_ENV(gym.Env):
         action_set = action[agent_id]
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
+            print(f"[UAV_ACTION] action_set: {action_set[0]}")
             agent.action = list(action_set)
             if self.log_level >= 1:
                 print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
         elif agent.isUAV == False:
             # Do MBS Action (Decide associateion)
-            # agent.action = action_space.sample()
             agent.action = self.refine_mbs_action(action_set[0])
             if self.log_level >= 1:
                 print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
@@ -294,10 +294,6 @@ class UAV_ENV(gym.Env):
 
     def refine_mbs_action(self, action_space):
         # action_space.shape = ((world.num_uavs + world.num_mbs) * world.num_users, )
-        # self.num_users
-        # self.num_uavs
-        print(f"[MBS_ACTION] action_space: {action_space}")
-
         action_results = []
         for idx, val in enumerate(action_space):
             agent_id = idx/self.num_users
@@ -313,7 +309,7 @@ class UAV_ENV(gym.Env):
                 else:
                     action_results.append(False)
         
-        print(f"[MBS_ACTION] action_results: {action_results}")
+        print(f"[MBS_ACTION] refined_actions: {action_results}")
         return action_results    
 
         

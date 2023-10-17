@@ -229,7 +229,7 @@ class SingleBS_runner(Runner):
                 is_uav = True
                 
             self.trainer[agent_id].prep_rollout()
-            if self.all_args.log_level >= 3:
+            if self.all_args.log_level >= 1:
                 print(f'[RUNNER] (GET_ACTION) agent_id ({agent_id}), share_obs: {self.buffer[agent_id].share_obs[step]}, obs: {self.buffer[agent_id].obs[step]}')
 
             value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(is_uav,
@@ -251,8 +251,10 @@ class SingleBS_runner(Runner):
                         action_env = uc_action_env
                     else:
                         action_env = np.concatenate((action_env, uc_action_env), axis=1)
+                        
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Discrete':
                 action_env = np.squeeze(np.eye(self.envs.action_space[agent_id].n)[action], 1)
+                
             elif self.envs.action_space[agent_id].__class__.__name__ == 'Box':
                 # MBS Case -> [RUNNER] agent_id : 0, action space: Box(False, True, (100,), bool)
                 print(f'[RUNNER] BOX dType action.shape:  {action.shape}')

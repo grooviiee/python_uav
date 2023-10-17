@@ -51,7 +51,7 @@ class ACTLayer(nn.Module):
             for action_info in action_space:
                 action_dim = action_info.shape[0]       # extract thread dim
                 print(f"[INIT_ACTOR_NETWORK], dtype: {action_space.__class__.__name__}, action_dim: {action_dim}, action_space: {action_space}")
-                self.action_outs.append(Categorical(inputs_dim, action_dim, use_orthogonal, gain))
+                self.action_outs.append(DiagGaussian(inputs_dim, action_dim, use_orthogonal, gain))
 
             self.action_outs = nn.ModuleList(self.action_outs)
             print(f"[INIT_ACTOR_NETWORK] self.action_out: {self.action_outs}")
@@ -114,7 +114,7 @@ class ACTLayer(nn.Module):
             for idx, action_out in enumerate(self.action_outs):
                 action_logit = action_out(x)
                 action = action_logit.mode() if deterministic else action_logit.sample()
-                print(f"[ACTLayer_forward] type ('tuple') idx ({idx}) x ({x.shape}) action_logit ({action_logit}) action_logit.type ({type(action_logit)}) action.shape ({action.shape})")
+                print(f"[ACTLayer_forward] type ('tuple') idx ({idx}) x ({x.shape}) action_logit[0]({action_logit}) action[0]({action}) action_logit.type({type(action_logit)}) action.shape({action.shape})")
 
                 action_log_prob = action_logit.log_probs(action)
                 actions.append(action)
