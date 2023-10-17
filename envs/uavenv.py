@@ -278,19 +278,46 @@ class UAV_ENV(gym.Env):
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
             agent.action = list(action_set)
-            if self.log_level >= 3:
+            if self.log_level >= 1:
                 print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
         elif agent.isUAV == False:
-            # Do MBS Action (Set associateion)
-            agent.action = action_space.sample()
-            if self.log_level >= 3:
+            # Do MBS Action (Decide associateion)
+            # agent.action = action_space.sample()
+            agent.action = self.refine_mbs_action(action_set[0])
+            if self.log_level >= 1:
                 print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
 
         else:
             NotImplementedError
 
+    def refine_mbs_action(self, action_space):
+        # action_space.shape = ((world.num_uavs + world.num_mbs) * world.num_users, )
+        # self.num_users
+        # self.num_uavs
+        print(f"[MBS_ACTION] action_space: {action_space}")
+
+        action_results = []
+        for idx, val in enumerate(action_space):
+            agent_id = idx/self.num_users
+            user = idx % self.num_users
+            if agent_id == 0:
+                if val >= 0:
+                    action_results.append(True)
+                else:
+                    action_results.append(False)
+            else:
+                if val >= 0:
+                    action_results.append(True)
+                else:
+                    action_results.append(False)
+        
+        print(f"[MBS_ACTION] action_results: {action_results}")
+        return action_results    
+
+        
+        
     def _set_random_action(self, agent_id, agent, action_space, time=None):
         if agent.isUAV == False:
             # association dimension: Array[nodes][users], value: {0,1}   shape=((world.num_uavs + world.num_mbs) * world.num_users, )
@@ -335,7 +362,7 @@ class UAV_ENV(gym.Env):
         if is_random_mode == False:
             print(f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}/{len(self.action_space)}")
         else:
-            print(f"[ENV_STEP] Current_step: {self.current_step}, is_random_mode: {is_random_mode}")
+            print(f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action[0])}, is_random_mode: {is_random_mode}")
 
         self.current_step = self.current_step + 1
         obs_n = []
