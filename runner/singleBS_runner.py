@@ -141,7 +141,7 @@ class SingleBS_runner(Runner):
                         values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(small_step)
                         
                         # Obs, rewards and next_obs
-                        obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, False)
+                        obs, rewards, origin_rewards, dones, infos, actions = self.envs.step(actions_env, False)
                         print(f"[RUNNER] Get rewards: {rewards}")
                         
                         # insert data into replay buffer
@@ -241,7 +241,7 @@ class SingleBS_runner(Runner):
             # [agents, envs, dim]
             values.append(_t2n(value))
             action = _t2n(action)
-            
+
             # re-arrange action
             print(f'[RUNNER] agent_id : {agent_id}, action space: {self.envs.action_space[agent_id]}')
             if self.envs.action_space[agent_id].__class__.__name__ == 'MultiDiscrete':

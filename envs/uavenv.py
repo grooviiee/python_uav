@@ -277,8 +277,9 @@ class UAV_ENV(gym.Env):
         action_set = action[agent_id]
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
-            print(f"[UAV_ACTION] action_set: {action_set[0]}")
+            print(f"[UAV_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: {action_set[0]}, action_set: {action_set[0]},action_set: {action_set[0]}")
             agent.action = list(action_set)
+            agent.action = self.refine_uav_action(action_set[0])
             if self.log_level >= 1:
                 print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
@@ -292,6 +293,18 @@ class UAV_ENV(gym.Env):
         else:
             NotImplementedError
 
+    def refine_uav_action(self, action_space):
+        cache_logit = action_space[0:self.num_files-1]
+        power = action_space[self.num_files]
+        location1 = action_space[self.num_files+1]
+        location2 = action_space[self.num_files+2]
+        
+        ranks = [sorted(cache_logit).index(ele) for ele in cache_logit]
+        print(f"ddddd {cache_logit} ranks: {ranks}, power: {power}, location1: {location1}, location2: {location2}")
+        
+        action_results = [ranks, power, location1, location2]
+        return action_results
+        
     def refine_mbs_action(self, action_space):
         # action_space.shape = ((world.num_uavs + world.num_mbs) * world.num_users, )
         action_results = []
@@ -365,6 +378,7 @@ class UAV_ENV(gym.Env):
         reward_n = []
         done_n = []
         info_n = []
+        action_n = []
 
         self.agents = self.world.agents
         
@@ -377,6 +391,8 @@ class UAV_ENV(gym.Env):
                 self._set_action(i, action[0], agent, self.action_space[i])
             else:
                 self._set_random_action(i, agent, self.action_space[i])
+                
+            action_n.append(agent.action)
 
         # advance world state
         self.world.world_take_step()  # core.step()
@@ -403,7 +419,7 @@ class UAV_ENV(gym.Env):
         if self.post_step_callback is not None:
             self.post_step_callback(self.world)
 
-        return obs_n, reward_n, origin_reward_n, done_n, info_n
+        return obs_n, reward_n, origin_reward_n, done_n, info_n, action_n
     
     
     def displayAgentState(self):

@@ -100,15 +100,15 @@ class SeparatedReplayBuffer(object):
         else:
             modified_obs = obs
   
-        if self.args.log_level >= 2:
+        if self.args.log_level >= 1:
             print(f"[INSERT_BUFFER] obs type ({type(obs)}) len_obs: {modified_obs}({len(modified_obs)}) len_buffer.obs: {self.obs[self.step + 1]}({self.obs[self.step + 1].shape})")
-            print(f"[INSERT_BUFFER] actions type ({type(actions)}) shape_actions ({actions.shape}) shape_buffer.actions ({self.actions[self.step].shape})")
+            print(f"[INSERT_BUFFER] actions type ({type(actions)}) len(actions) ({len(actions)}) shape_buffer.actions ({self.actions[self.step].shape})")
             print(f"[INSERT_BUFFER] action_log_probs type ({type(action_log_probs)}) shape_action_log_probs: {action_log_probs.shape}, shape_buffer_action_log_probs: {self.action_log_probs[self.step].shape}")
 
         self.obs[self.step + 1] = modified_obs.copy()
         self.rnn_states_critic[self.step + 1] = rnn_states_critic.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
-        self.actions[self.step] = actions[0].copy()
+        self.actions[self.step] = actions.copy()
         self.action_log_probs[self.step] = action_log_probs[0].copy()
         self.value_preds[self.step] = value_preds[0].copy()
         self.rewards[self.step] = rewards.copy()

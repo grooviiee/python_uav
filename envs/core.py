@@ -176,9 +176,9 @@ class World(object):
             else:
                 print(f'[WORLD_STEP] UAV ACTION: type ({type(agent.action)}) len ({len(agent.action)}) action ({agent.action})')
                 # Set position, Set cache, set power (1st dim: thread, 2nd dim: action_shape)
-                self.uav_apply_cache(agent.action[0][0], agent)     # length: cache_size
-                self.uav_apply_power(agent.action[0][1], agent)     # length: 1
-                self.uav_apply_trajectory(agent.action[0][2], agent.action[0][3], agent) # length: 2
+                self.uav_apply_cache(agent.action[0], agent)     # length: cache_size
+                self.uav_apply_power(agent.action[1], agent)     # length: 1
+                self.uav_apply_trajectory(agent.action[2], agent.action[3], agent) # length: 2
             
         for user in self.users:    
             self.update_user_state(user)
@@ -422,9 +422,13 @@ class World(object):
 
         
     def uav_apply_cache(self, action_cache: list, agent):
+        # pop cache files as much as cache size
+        action_cache = action_cache[0:agent.state.cache_size]
         print(f'[uav_apply_cache] agent_id ({agent}) action_cache ({action_cache}) type ({type(action_cache)})')
         # Make empty list and append cache file
         agent.state.has_file = []
+        
+        
         if type(action_cache) is not list:
             agent.state.has_file.append(action_cache)
         else:
