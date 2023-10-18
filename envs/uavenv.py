@@ -279,7 +279,7 @@ class UAV_ENV(gym.Env):
             # Do UAV Action  (Set caching, trajectory, power)
             print(f"[UAV_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: {action_set[0]}, action_set: {action_set[0]},action_set: {action_set[0]}")
             agent.action = list(action_set)
-            agent.action = self.refine_uav_action(action_set[0])
+            agent.action = self.refine_uav_action(action_set[0], agent.state.cache_size)
             if self.log_level >= 1:
                 print(f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}")
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
@@ -293,16 +293,17 @@ class UAV_ENV(gym.Env):
         else:
             NotImplementedError
 
-    def refine_uav_action(self, action_space):
+    def refine_uav_action(self, action_space, cache_capa):
         cache_logit = action_space[0:self.num_files-1]
         power = action_space[self.num_files]
         location1 = action_space[self.num_files+1]
         location2 = action_space[self.num_files+2]
         
         ranks = [sorted(cache_logit).index(ele) for ele in cache_logit]
-        print(f"ddddd {cache_logit} ranks: {ranks}, power: {power}, location1: {location1}, location2: {location2}")
+        cache_list = ranks[0:cache_capa]
+        print(f"[UAVENV] (refine_uav_action) {cache_logit} ranks: {ranks}/{cache_capa}, power: {power}, location1: {location1}, location2: {location2}")
         
-        action_results = [ranks, power, location1, location2]
+        action_results = [cache_list, power.item(), location1.item(), location2.item()]
         return action_results
         
     def refine_mbs_action(self, action_space):

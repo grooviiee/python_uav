@@ -131,8 +131,21 @@ class MAPPOAgentTrainer:
                                                                               masks_batch, 
                                                                               available_actions_batch,
                                                                               active_masks_batch)
+        
+        # # modify action_log_probs
+        # if is_uav == True:
+        #     temp_list = []
+        #     for idx, val in enumerate(action_log_probs[0]):
+        #         temp_list.append(val)
+        #     temp_list.append(action_log_probs[1])
+        #     temp_list.append(action_log_probs[2])
+        #     temp_list.append(action_log_probs[3]) 
+        #     action_log_probs = temp_list
+        #     # action_log_probs = np.array(temp_list)
+            
+        
         # Step 2. Actor update
-        print(f"[PPO_UPDATE] action_log_probs ({action_log_probs.shape}), old_action_log_probs_batch ({old_action_log_probs_batch.shape})")
+        print(f"[PPO_UPDATE] action_log_probs ({action_log_probs})\nold_action_log_probs_batch ({old_action_log_probs_batch})")
         imp_weights = torch.exp(action_log_probs - old_action_log_probs_batch[sample_index])
 
         surr1 = imp_weights * adv_targ[sample_index]

@@ -422,8 +422,6 @@ class World(object):
 
         
     def uav_apply_cache(self, action_cache: list, agent):
-        # pop cache files as much as cache size
-        action_cache = action_cache[0:agent.state.cache_size]
         print(f'[uav_apply_cache] agent_id ({agent}) action_cache ({action_cache}) type ({type(action_cache)})')
         # Make empty list and append cache file
         agent.state.has_file = []

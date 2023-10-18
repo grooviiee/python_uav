@@ -135,23 +135,23 @@ class SingleBS_runner(Runner):
 
             else:
                 for big_step in range(num_big_steps):
-                    # for small_step in range(self.episode_length):
-                    for small_step in range(3):
+                    for small_step in range(self.episode_length):
+                    # for small_step in range(3):
                         self.logger.info("[RUNNER] episode(%d/%d) big_step(%d/%d) small_step(%d/%d)", episode, self.num_episodes, big_step, num_big_steps, small_step, self.episode_length)
                         values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(small_step)
                         
                         # Obs, rewards and next_obs
-                        obs, rewards, origin_rewards, dones, infos, actions = self.envs.step(actions_env, False)
+                        obs, rewards, origin_rewards, dones, infos, refined_actions = self.envs.step(actions_env, False)
                         print(f"[RUNNER] Get rewards: {rewards}")
                         
                         # insert data into replay buffer
-                        data = obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic 
+                        data = obs, rewards, dones, infos, values, refined_actions, action_log_probs, rnn_states, rnn_states_critic 
                         self.runner_insert(data)
                         
                         self.sum_rewards(origin_rewards)
                         # raise NotImplementedError("Breakpoint")
                     
-                    raise NotImplementedError("Breakpoint")
+                    # raise NotImplementedError("Breakpoint")
                     # compute GAE and update network
                     print(f'[RUNNER] Compute GAE')
                     self.compute_gae() 
@@ -347,7 +347,7 @@ class SingleBS_runner(Runner):
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
 
-            if self.all_args.log_level >= 3:
+            if self.all_args.log_level >= 1:
                 print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}')
                 print(f'[RUNNER_BUFFER_INSERT] {len(share_obs)} {obs[agent_id]} {len(rnn_states)} {len(rnn_states_critic)} {len(actions)} {len(action_log_probs)} {len(values)} {len(rewards)} {len(masks)}')
 

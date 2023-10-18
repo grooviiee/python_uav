@@ -154,7 +154,7 @@ class ACTLayer(nn.Module):
 
         return action_probs
 
-    def evaluate_actions(self, x, action, available_actions=None, active_masks=None):
+    def evaluate_actions(self, x, action, cache_capa, available_actions=None, active_masks=None):
         """
         Compute log probability and entropy of given actions.
         :param x: (torch.Tensor) input to network.
@@ -232,10 +232,18 @@ class ACTLayer(nn.Module):
                 print(f"[ACT_EVALUATE_ACTIONS] <Tuple type> x.shape: {x.shape}, action.shape: {action.shape}, action: ({action}), self.action_outs: {self.action_outs}")
                 action_log_probs = []
                 dist_entropy = []
+                action_idx = 0
                 for idx, action_out in enumerate(self.action_outs):
                     action_logit = action_out(x)
-                    action = action_logit.sample()
-                    action_log_probs.append(action_logit.log_probs(action))
+                    #action = action_logit.sample()
+                    if idx == 0:
+                        for i in range(3):
+                            action_log_probs.append(action_logit.log_probs(action[action_idx]))
+                            action_idx = action_idx + 1 
+                    else:
+                        action_log_probs.append(action_logit.log_probs(action[action_idx]))
+                        action_idx = action_idx + 1 
+
                     if active_masks is not None:
                         dist_entropy.append(
                             (action_logit.entropy() * active_masks.squeeze(-1)).sum()

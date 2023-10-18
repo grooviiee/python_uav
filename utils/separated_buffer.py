@@ -96,19 +96,20 @@ class SeparatedReplayBuffer(object):
         if is_uav == "UAV":
             modified_obs = np.array(obs)
             modified_obs = np.squeeze(modified_obs)
-            #modified_obs = np.squeeze(modified_obs)
+            actions = self.flatten_list(actions)
+            action_log_probs = self.flatten_list(action_log_probs)
         else:
             modified_obs = obs
   
         if self.args.log_level >= 1:
-            print(f"[INSERT_BUFFER] obs type ({type(obs)}) len_obs: {modified_obs}({len(modified_obs)}) len_buffer.obs: {self.obs[self.step + 1]}({self.obs[self.step + 1].shape})")
-            print(f"[INSERT_BUFFER] actions type ({type(actions)}) len(actions) ({len(actions)}) shape_buffer.actions ({self.actions[self.step].shape})")
-            print(f"[INSERT_BUFFER] action_log_probs type ({type(action_log_probs)}) shape_action_log_probs: {action_log_probs.shape}, shape_buffer_action_log_probs: {self.action_log_probs[self.step].shape}")
+            print(f"[INSERT_BUFFER] obs type ({type(obs)}) len_obs: {modified_obs}({len(modified_obs)}), len_buffer.obs: {self.obs[self.step + 1]}({self.obs[self.step + 1].shape})")
+            print(f"[INSERT_BUFFER] actions ({actions}), len(actions) ({len(actions)}), shape_buffer.actions ({self.actions[self.step].shape})")
+        #     print(f"[INSERT_BUFFER] action_log_probs type ({type(action_log_probs)}) shape_action_log_probs: {action_log_probs.shape}, shape_buffer_action_log_probs: {self.action_log_probs[self.step].shape}")
 
         self.obs[self.step + 1] = modified_obs.copy()
         self.rnn_states_critic[self.step + 1] = rnn_states_critic.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
-        self.actions[self.step] = actions.copy()
+        self.actions[self.step] = actions.copy()        #point
         self.action_log_probs[self.step] = action_log_probs[0].copy()
         self.value_preds[self.step] = value_preds[0].copy()
         self.rewards[self.step] = rewards.copy()
@@ -121,6 +122,16 @@ class SeparatedReplayBuffer(object):
         #     self.available_actions[self.step + 1] = available_actions.copy()
 
         self.step = (self.step + 1) % self.episode_length
+
+    def flatten_list(self, list):
+            temp_list = []
+            for idx, val in enumerate(list[0]):
+                temp_list.append(val)
+            temp_list.append(list[1])
+            temp_list.append(list[2])
+            temp_list.append(list[3]) 
+            
+            return temp_list
 
     def chooseinsert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                      value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
