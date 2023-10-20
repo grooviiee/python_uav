@@ -32,6 +32,7 @@ class R_Actor(nn.Module):
         self._recurrent_N = args.recurrent_N
         self.tpdv = dict(dtype=torch.float32, device=device)  # device type
         self.is_uav = is_uav
+        self.cache_capa = args.cache_capa
         obs_shape = get_shape_from_obs_space(obs_space)
         
         # Choose base network
@@ -126,6 +127,7 @@ class R_Actor(nn.Module):
             actor_features,
             action,
             available_actions,
+            cache_capa=self.cache_capa,
             active_masks=active_masks if self._use_policy_active_masks else None,
         )
 

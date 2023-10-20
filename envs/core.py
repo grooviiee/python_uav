@@ -136,7 +136,7 @@ class World(object):
         self.num_agents = 0
         self.num_users = 0
         self.map_size = 0
-        self.num_files = 0
+        self.num_contents = 0
         self.file_size = 0
         self.zipf_parameter = 0
 
@@ -236,10 +236,10 @@ class World(object):
 
     def getDelay(self, agent, user, mbs, isUAV):
         #     if isMbs == True:
-        #         for file in range(self.num_files):
+        #         for file in range(self.num_contents):
         #             delay = (self.x(user, file) * self.z(user, node) * self.T_down(node, user))
         #     else:
-        #         for file in range(self.num_files):
+        #         for file in range(self.num_contents):
         #             delay = (self.x(user, file) * self.z(user, node) * {self.T_down(node, user) + (1 - self.y(node, file)) * self.T_back(node, user)})
         delay = 0
         if isUAV == False:
@@ -278,7 +278,7 @@ class World(object):
         upper = numfile * W
         lower = 1
         # for user_idx, user in enumerate(self.users):
-        #     for file in range(self.num_files):
+        #     for file in range(self.num_contents):
         #         lower += self.x(user, file) * self.z(user, mbs)
 
         r_t_down = upper / lower * math.log2(1 + self.calc_rate(mbs, user, type))
@@ -290,14 +290,14 @@ class World(object):
         left = math.log2(1 + self.calc_rate_MBS_UAV(mbs, uav))
         # upper = 0
         # lower = 0
-        # for file in self.num_files:
+        # for file in self.num_contents:
         #     upper += self.x(u, file) * self.z(u, m) * (1 - self.y(m, file))
         upper = 1
         upper *= B
 
         lower = 1
         # for user in self.num_users:
-        #     for file in self.num_files:
+        #     for file in self.num_contents:
         #         for node in self.num_agents:
         #             lower += self.x(user, file) * self.z(user, node) * (1 - self.y(node, file))
         

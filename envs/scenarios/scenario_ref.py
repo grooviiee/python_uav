@@ -5,9 +5,9 @@ from envs.scenarios.scenario_base import BaseScenario
 
 
 class Scenario(BaseScenario):
-    def make_world(self, args, logger):
+    def make_world(self, args):
         world = World()
-        world.logger = logger
+        world.logger = args.logger
         world.log_level = args.log_level
         # set any world properties first
         world.world_length = args.episode_length
@@ -17,7 +17,7 @@ class Scenario(BaseScenario):
         world.num_users = args.num_users        # dtype: int 
         world.num_agents = args.num_uavs + args.num_mbs       # dtype: int
         world.map_size = args.map_size
-        world.num_files = args.num_files
+        world.num_contents = args.num_contents
         world.cache_capa = args.cache_capa
         # world.users = [User(args.file_size, args.zipf_parameter) for i in range(world.num_users)]
         world.file_size = args.file_size
@@ -36,7 +36,7 @@ class Scenario(BaseScenario):
         # Add user
         for i in range(world.num_users):
             world.users.append(
-                User(args.file_size, args.num_files, args.zipf_parameter)
+                User(args.file_size, args.num_contents, args.zipf_parameter)
             )
             world.users[i].user_id = i
 
@@ -64,7 +64,7 @@ class Scenario(BaseScenario):
         for user in world.users:
             user.state.x = random.randint(0, world.map_size)   #user.user_id%5
             user.state.y = random.randint(0, world.map_size)   #user.user_id%5
-            user.state.file_request = random.randint(0, world.num_files)
+            user.state.file_request = random.randint(0, world.num_contents)
 
     def reward(self, agent, world):
         # It is used at uavenv.py

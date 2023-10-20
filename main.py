@@ -49,7 +49,7 @@ def main(arglist):
     # set logging system
     logger = Logger("python_sim.log")
     logger.debug("Log system just set up...")
-    
+    arglist.logger = logger
     formatter = logging.Formatter(u'%(asctime)s [%(levelname)8s] %(message)s')
 
     # select device
@@ -121,12 +121,12 @@ def main(arglist):
         "envs": envs,
         "eval_envs": eval_envs,
         "device": device,
+        "logger": logger,
         "algorithm": arglist.algorithm_name,
         "num_uavs": arglist.num_uavs,
         "num_mbs": arglist.num_mbs,
         "num_users": arglist.num_users,
-        "run_dir": run_dir,
-        "logger": logger,
+        "run_dir": run_dir
     }
 
     # run experiment

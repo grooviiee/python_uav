@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument("--algorithm_name", type=str, default="mappo", choices=["random", "mappo", "attention", "ddpg"])
     parser.add_argument("--experiment_name",type=str,default="check",help="an identifier to distinguish different experiment.",)
 
-    parser.add_argument("--num_episodes", type=int, default=1, help="Number of episodes. 시나리오를 몇 번 반복할지")
+    parser.add_argument("--num_episodes", type=int, default=3, help="Number of episodes. 시나리오를 몇 번 반복할지")
     parser.add_argument("--num_env_steps", type=int, default=1000, help="Max length for any episode. 시나리오 하나의 길이")
     parser.add_argument("--episode_length", type=int, default=40, help="Number of environment steps to train (default: 10e6). episode_length만큼 실행 후 Train 동작")
     
@@ -77,29 +77,21 @@ def parse_args():
     
     # Environment settings
     parser.add_argument(
-        "--num_mbs", type=int, default=1
-    )
+        "--num_mbs", type=int, default=1)
     parser.add_argument(
-        "--num_uavs", type=int, default=4
-    )
+        "--num_uavs", type=int, default=4)
     parser.add_argument(
-        "--cache_capa", type=int, default=3, help="Max Number of File stored in UAV"
-    )
+        "--num_users", type=int, default=20, help="Number of User Equipment")
     parser.add_argument(
-        "--num_users", type=int, default=20, help="Number of User Equipment"
-    )
+        "--cache_capa", type=int, default=7, help="Max Number of File stored in UAV")
     parser.add_argument(
-        "--num_files", type=int, default=30
-    )
+        "--num_contents", type=int, default=20, help="Number of Files in environment")
     parser.add_argument(
-        "--file_size", type=int, default=10*10^6, help="Constant File size."
-    )
+        "--file_size", type=int, default=10*10^6, help="Constant File size."    )
     parser.add_argument(
-        "--map_size", type=int, default=1800
-    )
+        "--map_size", type=int, default=1800    )
     parser.add_argument(
-        "--zipf_parameter", type=float, default=2
-    )
+        "--zipf_parameter", type=float, default=2    )
     parser.add_argument(
         "--rank", type=int, default=5
     )

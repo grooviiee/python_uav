@@ -34,7 +34,7 @@ class UAV_ENV(gym.Env):
         self.num_mbs = world.num_mbs    # number of base stations
         #self.num_nodes = self.num_uavs + self.num_mbs    # Not used currently
         self.agents = self.world.agents     # number of agents which has Deep Neural Network
-        self.num_files = world.num_files
+        self.num_contents = world.num_contents
         self.map_x_len = world.map_size
         self.map_y_len = world.map_size
 
@@ -54,7 +54,7 @@ class UAV_ENV(gym.Env):
         self.uav_obs_size = [
             [1, [self.map_x_len, self.map_y_len]],
             [self.num_users, [self.map_x_len, self.map_y_len]],
-            [[self.num_users], [self.num_files]],
+            [[self.num_users], [self.num_contents]],
         ]
         self.mbs_obs_size = [
             [1, [self.map_x_len, self.map_y_len]],
@@ -134,8 +134,8 @@ class UAV_ENV(gym.Env):
 
             # Caching
             u_action_space = spaces.Box(
-                low=0, high=1, shape=(world.num_files, ), dtype=np.bool8
-            )  # [0,1][Num_files]
+                low=0, high=1, shape=(world.num_contents, ), dtype=np.bool8
+            )  # [0,1][num_contents]
             total_action_space.append(u_action_space)
 
             # Power
@@ -169,7 +169,7 @@ class UAV_ENV(gym.Env):
             u_observation_space = spaces.Box(low=0, high=world.map_size, shape=(2*world.num_users, ), dtype=np.int32)  # [location][user]
             total_observation_space.append(u_observation_space)
 
-            u_observation_space = spaces.Box(low=0, high=world.num_files, shape=(world.num_users, ), dtype=np.int16)  # [user][files]
+            u_observation_space = spaces.Box(low=0, high=world.num_contents, shape=(world.num_users, ), dtype=np.int16)  # [user][files]
             total_observation_space.append(u_observation_space)
 
             obs_space = spaces.Tuple(total_observation_space)
@@ -189,7 +189,7 @@ class UAV_ENV(gym.Env):
         #     state = {x, y} for UAV itself, {x, y} for all users , file request dist. {x_u,f} for all user and files
         #     state = {x, y} for MBS itself, {x, y} for all users , {x, y} for UAVs
 
-        # uav_obs_size = [[1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [[self.num_users], [self.num_files]] ]
+        # uav_obs_size = [[1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [[self.num_users], [self.num_contents]] ]
         # mbs_obs_size = [[1, [self.x_len, self.y_len]], [self.num_users, [self.x_len, self.y_len]], [self.num_uavs, [self.x_len, self.y_len]]]
         # print("uav_obs_size: %d, mbs_obs_size: %d", %self.n_uav_observation_space, %self.n_mbs_observation_space)
         return self.n_uav_observation_space + self.n_mbs_observation_space
@@ -294,10 +294,10 @@ class UAV_ENV(gym.Env):
             NotImplementedError
 
     def refine_uav_action(self, action_space, cache_capa):
-        cache_logit = action_space[0:self.num_files-1]
-        power = action_space[self.num_files]
-        location1 = action_space[self.num_files+1]
-        location2 = action_space[self.num_files+2]
+        cache_logit = action_space[0:self.num_contents-1]
+        power = action_space[self.num_contents]
+        location1 = action_space[self.num_contents+1]
+        location2 = action_space[self.num_contents+2]
         
         ranks = [sorted(cache_logit).index(ele) for ele in cache_logit]
         cache_list = ranks[0:cache_capa]
@@ -347,7 +347,7 @@ class UAV_ENV(gym.Env):
             power = random.randrange(0, 23) # power: 0~23
             cache = []
             for i in range(self.world.cache_capa): 
-                cache.append(random.randrange(0, self.num_files-1)) # caching: files capacity (3~7)
+                cache.append(random.randrange(0, self.num_contents-1)) # caching: files capacity (3~7)
                 
             location1 = random.randrange(0, 21) 
             location2 = random.randrange(0, 361)

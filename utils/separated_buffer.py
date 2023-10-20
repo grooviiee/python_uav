@@ -58,8 +58,8 @@ class SeparatedReplayBuffer(object):
             self.share_obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, 62), dtype=np.float32)
             self.obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, 62), dtype=np.float32)      
         else:
-            self.share_obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, 50), dtype=np.float32)
-            self.obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, 50), dtype=np.float32)
+            self.share_obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, args.num_mbs*2+args.num_users*2+args.num_uavs*2), dtype=np.float32)
+            self.obs = np.zeros((self.episode_length + 2, self.n_rollout_threads, args.num_mbs*2+args.num_users*2+args.num_uavs*2), dtype=np.float32)
 
 
         self.rnn_states = np.zeros((self.episode_length + 2, self.n_rollout_threads, self.recurrent_N, self.rnn_hidden_size), dtype=np.float32)
