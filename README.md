@@ -29,3 +29,5 @@ to do:
 2. 리워드 계산 방식 검증
 
 3. 네트워크 rnn 검증. (input과 output setting들)
+
+matplot lib 붙이기
