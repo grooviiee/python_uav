@@ -11,3 +11,17 @@ plt.ylabel('y axis')
 plt.title('matplotlib sample')
 plt.legend(loc='upper right')
 plt.show()
+
+
+
+# draw multiple lines
+days = [1,2,3]
+az = [2,4,8]
+pfizer = [5,1,3]
+moderna = [1,2,5]
+
+plt.plot(days, az)
+plt.plot(days, pfizer)
+plt.plot(days, moderna)
+
+# draw rectangle
