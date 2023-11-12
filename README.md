@@ -25,9 +25,11 @@ Attention based PPO --> Please refer git hub repository "https://github.com/Rvuv
 to do:
 1. 어탠션 알고리즘 구현 완료
 구현 시에 actor critic network 세팅을 합치기
-
 2. 리워드 계산 방식 검증
-
 3. 네트워크 rnn 검증. (input과 output setting들)
 
-matplot lib 붙이기
+on going) matplot lib 붙이기
+
+Item.
+AoI (Age of Information): Timeliness index to characterize the freshness of contents.
+QoE (Quality of Experience): Measures CDI(Content Delay Index) which is formulated based on the latency involved in the delivery of contents requested by ground-based mobile users.
