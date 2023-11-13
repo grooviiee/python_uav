@@ -38,3 +38,5 @@ QoE (Quality of Experience): Measures CDI(Content Delay Index) which is formulat
 23.11.13
 -> 모두 Delay 관련된 matric을 최적화하는 Item인데, 그러면 기존 reference 논문과 비슷하지 않나??
 -> 후속논문으로 다른 item들이 있는지도 확인해봐야겠다.
+
+-> 만약에 User가 움직이는 환경이면 뭔가 달라질 수 있을까??
