@@ -33,3 +33,8 @@ on going) matplot lib 붙이기
 Item.
 AoI (Age of Information): Timeliness index to characterize the freshness of contents.
 QoE (Quality of Experience): Measures CDI(Content Delay Index) which is formulated based on the latency involved in the delivery of contents requested by ground-based mobile users.
+ -> CDI라는 matric을 사용하는데, Delay 산출 방식과 유사하다.
+
+23.11.13
+-> 모두 Delay 관련된 matric을 최적화하는 Item인데, 그러면 기존 reference 논문과 비슷하지 않나??
+-> 후속논문으로 다른 item들이 있는지도 확인해봐야겠다.
