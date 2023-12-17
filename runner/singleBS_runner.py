@@ -7,11 +7,14 @@ from gym.spaces.utils import flatdim, flatten
 
 
 import time
+
 # import wandb
 import os
 import numpy as np
 from itertools import chain
 import torch
+
+
 # config {
 #   "args": arglist,
 #   "envs": envs,
@@ -20,6 +23,7 @@ import torch
 def _t2n(x):
     return x.detach().cpu().numpy()
 
+
 class SingleBS_runner(Runner):
     def __init__(self, config):
         super(SingleBS_runner, self).__init__(config)
@@ -27,19 +31,19 @@ class SingleBS_runner(Runner):
         print("Choose SingleBS_runner")
         self.done = False
         self.total_reward = 0
-        self.logger = config['logger']
-        self.all_args = config['args']
-        self.envs = config['envs']
-        self.eval_envs = config['eval_envs']
-        self.device = config['device']
-        self.algorithm = config['algorithm']
-        self.num_uavs = config['num_uavs']
-        self.num_mbs = config['num_mbs']
+        self.logger = config["logger"]
+        self.all_args = config["args"]
+        self.envs = config["envs"]
+        self.eval_envs = config["eval_envs"]
+        self.device = config["device"]
+        self.algorithm = config["algorithm"]
+        self.num_uavs = config["num_uavs"]
+        self.num_mbs = config["num_mbs"]
         self.num_agents = self.num_uavs + self.num_mbs
-        self.num_users = config['num_users']
+        self.num_users = config["num_users"]
         self.trainer = []
         self.buffer = []
-        
+
         # parameters
         self.num_episodes = self.all_args.num_episodes
         self.episode_length = self.all_args.episode_length  # step얼마 뒤에 train을 할지
@@ -52,9 +56,10 @@ class SingleBS_runner(Runner):
         self.use_eval = self.all_args.use_eval
         self.logger.debug("[INIT_RUNNER] Insert Agent settings into Trainer")
         self.is_random_mode = False
-        print(f'[INIT_RUNNER] Insert Agent settings into Trainer -> {self.algorithm}')
+        print(f"[INIT_RUNNER] Insert Agent settings into Trainer -> {self.algorithm}")
         if self.algorithm == "random":
             from algorithms.random import Random as RandomWalk
+
             self.is_random_mode = True
             return
 
@@ -63,27 +68,33 @@ class SingleBS_runner(Runner):
             from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
         elif self.algorithm == "attention":
             from algorithms.atten_mappo import AttenMappoAgent_Trainer as TrainAlgo
-            from algorithms.algorithm.atten_mappoPolicy import AttentionMappoAgent_Policy as Policy
+            from algorithms.algorithm.atten_mappoPolicy import (
+                AttentionMappoAgent_Policy as Policy,
+            )
         else:
-            raise NotImplemented        
-        
-        print(f'[INIT_RUNNER] Make Actor Critic Policy for Agents')
+            raise NotImplemented
+
+        print(f"[INIT_RUNNER] Make Actor Critic Policy for Agents")
         self.policy = []
         for agent_id in range(self.num_agents):
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
-            print(f'[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}')
-            
+            print(
+                f"[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}"
+            )
+
             # policy network
-            policy = Policy(self.all_args,
-                        self.envs.observation_space[agent_id],
-                        share_observation_space,
-                        self.envs.action_space[agent_id],
-                        agent_id,
-                        device = self.device)
+            policy = Policy(
+                self.all_args,
+                self.envs.observation_space[agent_id],
+                share_observation_space,
+                self.envs.action_space[agent_id],
+                agent_id,
+                device=self.device,
+            )
             self.policy.append(policy)
-        
-        print(f'[INIT_RUNNER] Set Policy into Replay buffer and Trainer')
+
+        print(f"[INIT_RUNNER] Set Policy into Replay buffer and Trainer")
         # algorithm
         self.trainer = []
         self.buffer = []
@@ -93,100 +104,169 @@ class SingleBS_runner(Runner):
                 is_uav = False
             else:
                 is_uav = True
-            
+
             # Need Normalization!
-            
-            
-            tr = TrainAlgo(self.all_args, self.policy[agent_id], is_uav, device = self.device)
+
+            tr = TrainAlgo(
+                self.all_args, self.policy[agent_id], is_uav, device=self.device
+            )
             # buffer
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
-            bu = SeparatedReplayBuffer(self.all_args,
-                                       self.envs.observation_space[agent_id],
-                                       share_observation_space,
-                                       self.envs.action_space[agent_id],
-                                       is_uav)
+            bu = SeparatedReplayBuffer(
+                self.all_args,
+                self.envs.observation_space[agent_id],
+                share_observation_space,
+                self.envs.action_space[agent_id],
+                is_uav,
+            )
             self.buffer.append(bu)
             self.trainer.append(tr)
-        
+
         # For Debugging
         for agent_id in range(self.num_agents):
-            print(f'agend_id {agent_id} | {self.envs.observation_space[agent_id]} | self.buffer[{agent_id}].obs.shape {self.buffer[agent_id].obs.shape}')
+            print(
+                f"agend_id {agent_id} | {self.envs.observation_space[agent_id]} | self.buffer[{agent_id}].obs.shape {self.buffer[agent_id].obs.shape}"
+            )
 
         NotImplementedError
-        print(f'[RUNNER] Insert Agent settings into Trainer Finished')
+        print(f"[RUNNER] Insert Agent settings into Trainer Finished")
 
     def run(self):
-        print(f'[RUNNER] Warm up')
+        print(f"[RUNNER] Warm up")
         # basic procedure
-        num_big_steps = self.num_env_steps // self.episode_length // self.n_rollout_threads
+        num_big_steps = (
+            self.num_env_steps // self.episode_length // self.n_rollout_threads
+        )
         for episode in range(self.num_episodes):
-            print(f'[RUNNER] Run Episode ({episode}/{self.num_episodes})')
-            self.warmup()   
+            print(f"[RUNNER] Run Episode ({episode}/{self.num_episodes})")
+            self.warmup()
             start = time.time()
-            
+
             if self.algorithm == "random":
                 for step in range(self.num_env_steps):
-                    self.logger.info("[RUNNER] (random_walk) episode(%d/%d) big_step(%d/%d)", episode, self.num_episodes, step, self.num_env_steps)
+                    self.logger.info(
+                        "[RUNNER] (random_walk) episode(%d/%d) big_step(%d/%d)",
+                        episode,
+                        self.num_episodes,
+                        step,
+                        self.num_env_steps,
+                    )
 
                     # Sample actions (returned action: action_env)
                     # I think random walk does not need get_action procedure.. it will work at step()
                     actions_env = None
-                    obs, rewards, origin_rewards, dones, infos = self.envs.step(actions_env, True)
+                    obs, rewards, origin_rewards, dones, infos = self.envs.step(
+                        actions_env, True
+                    )
                     print(f"[RUNNER] Get rewards: {rewards}")
                     self.sum_rewards(origin_rewards)
 
             else:
                 for big_step in range(num_big_steps):
                     for small_step in range(self.episode_length):
-                    # for small_step in range(3):
-                        self.logger.info("[RUNNER] episode(%d/%d) big_step(%d/%d) small_step(%d/%d)", episode, self.num_episodes, big_step, num_big_steps, small_step, self.episode_length)
-                        values, actions, action_log_probs, rnn_states, rnn_states_critic, actions_env = self.runner_collect(small_step)
-                        
+                        # for small_step in range(3):
+                        self.logger.info(
+                            "[RUNNER] episode(%d/%d) big_step(%d/%d) small_step(%d/%d)",
+                            episode,
+                            self.num_episodes,
+                            big_step,
+                            num_big_steps,
+                            small_step,
+                            self.episode_length,
+                        )
+                        (
+                            values,
+                            actions,
+                            action_log_probs,
+                            rnn_states,
+                            rnn_states_critic,
+                            actions_env,
+                        ) = self.runner_collect(small_step)
+
                         # Obs, rewards and next_obs
-                        obs, rewards, origin_rewards, dones, infos, refined_actions = self.envs.step(actions_env, False)
+                        (
+                            obs,
+                            rewards,
+                            origin_rewards,
+                            dones,
+                            infos,
+                            refined_actions,
+                        ) = self.envs.step(actions_env, False)
                         print(f"[RUNNER] Get rewards: {rewards}")
-                        
+
                         # insert data into replay buffer
-                        data = obs, rewards, dones, infos, values, refined_actions, action_log_probs, rnn_states, rnn_states_critic 
+                        data = (
+                            obs,
+                            rewards,
+                            dones,
+                            infos,
+                            values,
+                            refined_actions,
+                            action_log_probs,
+                            rnn_states,
+                            rnn_states_critic,
+                        )
                         self.runner_insert(data)
-                        
+
                         self.sum_rewards(origin_rewards)
                         # raise NotImplementedError("Breakpoint")
-                    
+
                     # raise NotImplementedError("Breakpoint")
                     # compute GAE and update network
-                    print(f'[RUNNER] Compute GAE')
-                    self.compute_gae() 
+                    print(f"[RUNNER] Compute GAE")
+                    self.compute_gae()
 
-                    print(f'[RUNNER] TRAIN')
+                    print(f"[RUNNER] TRAIN")
                     train_infos = self.train()
-                    
+
                     # post process
-                    total_num_trainings = (big_step + 1) * self.episode_length * self.n_rollout_threads
-                    print(f'[RUNNER] total_num_steps ({self.episode_length}/{total_num_trainings})')
+                    total_num_trainings = (
+                        (big_step + 1) * self.episode_length * self.n_rollout_threads
+                    )
+                    print(
+                        f"[RUNNER] total_num_steps ({self.episode_length}/{total_num_trainings})"
+                    )
 
                     # save trained model
-                    if (big_step % self.save_interval == 0 or big_step == self.episodes_length - 1):
+                    if (
+                        big_step % self.save_interval == 0
+                        or big_step == self.episodes_length - 1
+                    ):
                         self.save()
 
-                    # log information 
+                    # log information
                     if big_step % self.eval_interval == 0 and self.use_eval:
                         for agent_id in range(self.num_agents):
                             individual_rewards = []
                             for into in infos:
                                 for count, info in enumerate(infos):
-                                    if 'individual_reward' in infos[count][agent_id].keys():
-                                        individual_rewards.append(infos[count][agent_id].get('individual_reward', 0))
+                                    if (
+                                        "individual_reward"
+                                        in infos[count][agent_id].keys()
+                                    ):
+                                        individual_rewards.append(
+                                            infos[count][agent_id].get(
+                                                "individual_reward", 0
+                                            )
+                                        )
 
-                            train_infos[agent_id].update({'individual_rewards': np.mean(individual_rewards)})
-                            train_infos[agent_id].update({"average_episode_rewards": np.mean(self.buffer[agent_id].rewards) * self.episodes_length})
+                            train_infos[agent_id].update(
+                                {"individual_rewards": np.mean(individual_rewards)}
+                            )
+                            train_infos[agent_id].update(
+                                {
+                                    "average_episode_rewards": np.mean(
+                                        self.buffer[agent_id].rewards
+                                    )
+                                    * self.episodes_length
+                                }
+                            )
                         self.log_train(train_infos, total_num_steps)
 
                 # print(f'[RUNNER] EVAL')
                 # self.eval(total_num_steps)
 
-                    
                 # eval
                 # if episode % self.eval_interval == 0 and self.use_eval:
                 #     print(f'[RUNNER] EVAL')
@@ -194,7 +274,7 @@ class SingleBS_runner(Runner):
 
     def warmup(self):
         NotImplemented
-        #TODO 
+        # TODO
         # reset env
         # obs = self.envs.reset()
         # share_obs = []
@@ -222,7 +302,9 @@ class SingleBS_runner(Runner):
         # For Debugging
         if self.all_args.log_level >= 3:
             for agent_id in range(self.num_agents):
-                print(f'[RUNNER_DEBUG] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}')
+                print(
+                    f"[RUNNER_DEBUG] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}"
+                )
                 NotImplementedError
 
         for agent_id in range(self.num_agents):
@@ -230,45 +312,57 @@ class SingleBS_runner(Runner):
                 is_uav = False
             else:
                 is_uav = True
-                
+
             self.trainer[agent_id].prep_rollout()
             if self.all_args.log_level >= 1:
-                print(f'[RUNNER] (GET_ACTION) agent_id ({agent_id}), share_obs: {self.buffer[agent_id].share_obs[step]}, obs: {self.buffer[agent_id].obs[step]}')
+                print(
+                    f"[RUNNER] (GET_ACTION) agent_id ({agent_id}), share_obs: {self.buffer[agent_id].share_obs[step]}, obs: {self.buffer[agent_id].obs[step]}"
+                )
 
-            value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(is_uav,
-                                                                                                                self.buffer[agent_id].share_obs[step],
-                                                                                                                self.buffer[agent_id].obs[step],
-                                                                                                                self.buffer[agent_id].rnn_states[step],
-                                                                                                                self.buffer[agent_id].rnn_states_critic[step],
-                                                                                                                self.buffer[agent_id].masks[step])
+            value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[
+                agent_id
+            ].policy.get_actions(
+                is_uav,
+                self.buffer[agent_id].share_obs[step],
+                self.buffer[agent_id].obs[step],
+                self.buffer[agent_id].rnn_states[step],
+                self.buffer[agent_id].rnn_states_critic[step],
+                self.buffer[agent_id].masks[step],
+            )
             # [agents, envs, dim]
             values.append(_t2n(value))
             action = _t2n(action)
 
             # re-arrange action
-            print(f'[RUNNER] agent_id : {agent_id}, action space: {self.envs.action_space[agent_id]}')
-            if self.envs.action_space[agent_id].__class__.__name__ == 'MultiDiscrete':
+            print(
+                f"[RUNNER] agent_id : {agent_id}, action space: {self.envs.action_space[agent_id]}"
+            )
+            if self.envs.action_space[agent_id].__class__.__name__ == "MultiDiscrete":
                 for i in range(self.envs.action_space[agent_id].shape):
-                    uc_action_env = np.eye(self.envs.action_space[agent_id].high[i]+1)[action[:, i]]
+                    uc_action_env = np.eye(
+                        self.envs.action_space[agent_id].high[i] + 1
+                    )[action[:, i]]
                     if i == 0:
                         action_env = uc_action_env
                     else:
                         action_env = np.concatenate((action_env, uc_action_env), axis=1)
-                        
-            elif self.envs.action_space[agent_id].__class__.__name__ == 'Discrete':
-                action_env = np.squeeze(np.eye(self.envs.action_space[agent_id].n)[action], 1)
-                
-            elif self.envs.action_space[agent_id].__class__.__name__ == 'Box':
+
+            elif self.envs.action_space[agent_id].__class__.__name__ == "Discrete":
+                action_env = np.squeeze(
+                    np.eye(self.envs.action_space[agent_id].n)[action], 1
+                )
+
+            elif self.envs.action_space[agent_id].__class__.__name__ == "Box":
                 # MBS Case -> [RUNNER] agent_id : 0, action space: Box(False, True, (100,), bool)
-                print(f'[RUNNER] BOX dType action.shape:  {action.shape}')
+                print(f"[RUNNER] BOX dType action.shape:  {action.shape}")
                 action_env = action
-                
-            elif self.envs.action_space[agent_id].__class__.__name__ == 'Tuple':
+
+            elif self.envs.action_space[agent_id].__class__.__name__ == "Tuple":
                 # [RUNNER] agent_id : 4, action space dType: Tuple value: Tuple(Box(False, True, (2, 10), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-                print(f'[RUNNER] Tuple dType action.shape:  {action.shape}')
+                print(f"[RUNNER] Tuple dType action.shape:  {action.shape}")
                 action_env = self.envs.action_space[agent_id]
                 action_env = action
-                # for i in range 
+                # for i in range
             else:
                 raise NotImplementedError
 
@@ -276,11 +370,12 @@ class SingleBS_runner(Runner):
             temp_actions_env.append(action_env)
             action_log_probs.append(_t2n(action_log_prob))
             rnn_states.append(_t2n(rnn_state))
-            rnn_states_critic.append( _t2n(rnn_state_critic))
+            rnn_states_critic.append(_t2n(rnn_state_critic))
             # MBS: action_env [ True]
             # UAV: action_env Tuple(Box(False, True, (2, 30), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-            print(f"[RUNNER] (Getting action Finished) agent_id ({agent_id}) action_env.shape ({action_env.shape}) agg_action_size ({len(temp_actions_env)}) n_rollout_threads ({self.n_rollout_threads})")
-
+            print(
+                f"[RUNNER] (Getting action Finished) agent_id ({agent_id}) action_env.shape ({action_env.shape}) agg_action_size ({len(temp_actions_env)}) n_rollout_threads ({self.n_rollout_threads})"
+            )
 
         print(f"[RUNNER] Now ALL USER results aggregated..")
         # ALL USER aggregated results.. action_env_results will be insert into "Env".
@@ -301,44 +396,69 @@ class SingleBS_runner(Runner):
             NotImplemented
             # print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(action_env_results)}')
 
-
-        print(f'[RUNNER] Aggregate ALL AGENT Actions ({len(actions)}) action_log_probs ({len(action_log_probs)}) action_env_results ({len(action_env_results)})')
-        return values, actions, action_log_probs, rnn_states, rnn_states_critic, action_env_results
+        print(
+            f"[RUNNER] Aggregate ALL AGENT Actions ({len(actions)}) action_log_probs ({len(action_log_probs)}) action_env_results ({len(action_env_results)})"
+        )
+        return (
+            values,
+            actions,
+            action_log_probs,
+            rnn_states,
+            rnn_states_critic,
+            action_env_results,
+        )
 
     def reset(self):
         """Reset sth here"""
-        
+
     def sum_rewards(self, rewards):
         total_reward = np.sum(rewards)
         print(f"[RUNNER_REWARD] individual_reward: {rewards}")
-        self.logger.info("[RUNNER_REWARD] tatal_reward: %f",total_reward)
-        
-    """To get type of sturct: type(variable) or struct.__class__"""    
+        self.logger.info("[RUNNER_REWARD] tatal_reward: %f", total_reward)
+
+    """To get type of sturct: type(variable) or struct.__class__"""
+
     def runner_insert(self, data):
-        obs, rewards, dones, infos, values, actions, action_log_probs, rnn_states, rnn_states_critic = data
+        (
+            obs,
+            rewards,
+            dones,
+            infos,
+            values,
+            actions,
+            action_log_probs,
+            rnn_states,
+            rnn_states_critic,
+        ) = data
 
         if self.all_args.log_level >= 4:
-            print(f'[RUNNER_INSERT] (TYPE) obs: {obs}\n reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}')
-            print(f'[RUNNER_INSERT] (TYPE) actions: {actions}, action_log_probs: {type(action_log_probs)}, rnn_states: {rnn_states}, rnn_states_critic: {type(rnn_states_critic)}')
+            print(
+                f"[RUNNER_INSERT] (TYPE) obs: {obs}\n reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}"
+            )
+            print(
+                f"[RUNNER_INSERT] (TYPE) actions: {actions}, action_log_probs: {type(action_log_probs)}, rnn_states: {rnn_states}, rnn_states_critic: {type(rnn_states_critic)}"
+            )
         # Dones가 True인 index에 대해서는 모두 0으로 설정하나 보다. -> 이건 나중에 고려하기로.
-    
+
         npDones = np.array(dones)
         # rnn_states[npDones == True] = np.zeros(((npDones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
         # rnn_states_critic[npDones == True] = np.zeros(((npDones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
         masks = np.ones(self.num_agents, dtype=np.float32)
         # masks[npDones == True] = np.zeros(((npDones == True).sum(), 1), dtype=np.float32)
-        
+
         share_obs = []
         for idx, o in enumerate(obs):
-            # share_obs.append(list(chain(*o))) 
-            #TODO: Need to Have deep copy using "func CovertToStateList"
-            #state_list = CovertToStateList(obs[idx])
+            # share_obs.append(list(chain(*o)))
+            # TODO: Need to Have deep copy using "func CovertToStateList"
+            # state_list = CovertToStateList(obs[idx])
             share_obs.append(obs[idx])
-            print(f'[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, len(obs[idx]): {len(obs[idx])}, len(share_obs): {len(share_obs)}')
+            print(
+                f"[RUNNER_INSERT] MAKE_SHARE_OBS: idx: {idx}, len(obs[idx]): {len(obs[idx])}, len(share_obs): {len(share_obs)}"
+            )
 
         # Convert array type share_obs into np.array
         share_obs = np.array(share_obs, dtype=object)
-        print(f'[RUNNER_INSERT] SHARE_OBS len(share_obs): {len(share_obs)}')
+        print(f"[RUNNER_INSERT] SHARE_OBS len(share_obs): {len(share_obs)}")
 
         for agent_id in range(self.num_agents):
             if agent_id < self.num_mbs:
@@ -351,71 +471,109 @@ class SingleBS_runner(Runner):
                 share_obs = np.array(list(obs[:, agent_id]))
 
             if self.all_args.log_level >= 1:
-                print(f'[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}')
-                print(f'[RUNNER_BUFFER_INSERT] {len(share_obs)} {obs[agent_id]} {len(rnn_states)} {len(rnn_states_critic)} {len(actions)} {len(action_log_probs)} {len(values)} {len(rewards)} {len(masks)}')
+                print(
+                    f"[RUNNER_BUFFER_INSERT] agent_id: {agent_id} which is {is_uav}, Refined_SHARE_OBS.shape: {len(share_obs)}"
+                )
+                print(
+                    f"[RUNNER_BUFFER_INSERT] {len(share_obs)} {obs[agent_id]} {len(rnn_states)} {len(rnn_states_critic)} {len(actions)} {len(action_log_probs)} {len(values)} {len(rewards)} {len(masks)}"
+                )
 
             # Save share_obs and other agent resource into replay buffer
-            self.buffer[agent_id].buffer_insert(is_uav, share_obs,
-                                        list(chain(*obs[agent_id])),
-                                        rnn_states[agent_id],
-                                        rnn_states_critic[agent_id],
-                                        actions[agent_id],
-                                        action_log_probs[agent_id],
-                                        values[agent_id],
-                                        rewards[agent_id],
-                                        masks[agent_id])
-            
-    @torch.no_grad()            
+            self.buffer[agent_id].buffer_insert(
+                is_uav,
+                share_obs,
+                list(chain(*obs[agent_id])),
+                rnn_states[agent_id],
+                rnn_states_critic[agent_id],
+                actions[agent_id],
+                action_log_probs[agent_id],
+                values[agent_id],
+                rewards[agent_id],
+                masks[agent_id],
+            )
+
+    @torch.no_grad()
     def compute_gae(self):
         for agent_id in range(self.num_agents):
             if agent_id < self.num_mbs:
                 is_uav = False
             else:
                 is_uav = True
-            
-            print(f"[RUNNER_BUFFER_INSERT] agent_id:{agent_id}\nshare_obs:{self.buffer[agent_id].share_obs[-1]}\nrnn_states_critic:{self.buffer[agent_id].rnn_states_critic[-1]}, masks: {self.buffer[agent_id].masks[-1]}")
+
+            print(
+                f"[RUNNER_BUFFER_INSERT] agent_id:{agent_id}\nshare_obs:{self.buffer[agent_id].share_obs[-1]}\nrnn_states_critic:{self.buffer[agent_id].rnn_states_critic[-1]}, masks: {self.buffer[agent_id].masks[-1]}"
+            )
 
             self.trainer[agent_id].prep_rollout()
-            next_value = self.trainer[agent_id].policy.get_values(is_uav, self.buffer[agent_id].share_obs[-1], 
-                                                                self.buffer[agent_id].rnn_states_critic[-1],
-                                                                self.buffer[agent_id].masks[-1])
+            next_value = self.trainer[agent_id].policy.get_values(
+                is_uav,
+                self.buffer[agent_id].share_obs[-1],
+                self.buffer[agent_id].rnn_states_critic[-1],
+                self.buffer[agent_id].masks[-1],
+            )
             next_value = _t2n(next_value)
-            self.buffer[agent_id].compute_returns(next_value, self.trainer[agent_id].value_normalizer)
-            
+            self.buffer[agent_id].compute_returns(
+                next_value, self.trainer[agent_id].value_normalizer
+            )
+
     @torch.no_grad()
     def eval(self, total_num_steps):
         eval_episode_rewards = []
         eval_obs = self.eval_envs.reset()
 
-        eval_rnn_states = np.zeros((self.n_eval_rollout_threads, self.num_agents, self.recurrent_N, self.hidden_size), dtype=np.float32)
-        eval_masks = np.ones((self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32)
+        eval_rnn_states = np.zeros(
+            (
+                self.n_eval_rollout_threads,
+                self.num_agents,
+                self.recurrent_N,
+                self.hidden_size,
+            ),
+            dtype=np.float32,
+        )
+        eval_masks = np.ones(
+            (self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32
+        )
 
         for eval_step in range(self.episode_length):
             eval_temp_actions_env = []
             for agent_id in range(self.num_agents):
                 self.trainer[agent_id].prep_rollout()
-                eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(np.array(list(eval_obs[:, agent_id])),
-                                                                                eval_rnn_states[:, agent_id],
-                                                                                eval_masks[:, agent_id],
-                                                                                deterministic=True)
+                eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(
+                    np.array(list(eval_obs[:, agent_id])),
+                    eval_rnn_states[:, agent_id],
+                    eval_masks[:, agent_id],
+                    deterministic=True,
+                )
 
                 eval_action = eval_action.detach().cpu().numpy()
                 # rearrange action
-                if self.eval_envs.action_space[agent_id].__class__.__name__ == 'MultiDiscrete':
+                if (
+                    self.eval_envs.action_space[agent_id].__class__.__name__
+                    == "MultiDiscrete"
+                ):
                     for i in range(self.eval_envs.action_space[agent_id].shape):
-                        eval_uc_action_env = np.eye(self.eval_envs.action_space[agent_id].high[i]+1)[eval_action[:, i]]
+                        eval_uc_action_env = np.eye(
+                            self.eval_envs.action_space[agent_id].high[i] + 1
+                        )[eval_action[:, i]]
                         if i == 0:
                             eval_action_env = eval_uc_action_env
                         else:
-                            eval_action_env = np.concatenate((eval_action_env, eval_uc_action_env), axis=1)
-                elif self.eval_envs.action_space[agent_id].__class__.__name__ == 'Discrete':
-                    eval_action_env = np.squeeze(np.eye(self.eval_envs.action_space[agent_id].n)[eval_action], 1)
+                            eval_action_env = np.concatenate(
+                                (eval_action_env, eval_uc_action_env), axis=1
+                            )
+                elif (
+                    self.eval_envs.action_space[agent_id].__class__.__name__
+                    == "Discrete"
+                ):
+                    eval_action_env = np.squeeze(
+                        np.eye(self.eval_envs.action_space[agent_id].n)[eval_action], 1
+                    )
                 else:
                     raise NotImplementedError
 
                 eval_temp_actions_env.append(eval_action_env)
                 eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)
-                
+
             # [envs, agents, dim]
             eval_actions_env = []
             for i in range(self.n_eval_rollout_threads):
@@ -425,19 +583,35 @@ class SingleBS_runner(Runner):
                 eval_actions_env.append(eval_one_hot_action_env)
 
             # Obser reward and next obs
-            eval_obs, eval_rewards, eval_dones, eval_infos = self.eval_envs.step(eval_actions_env)
+            eval_obs, eval_rewards, eval_dones, eval_infos = self.eval_envs.step(
+                eval_actions_env
+            )
             eval_episode_rewards.append(eval_rewards)
 
-            eval_rnn_states[eval_dones == True] = np.zeros(((eval_dones == True).sum(), self.recurrent_N, self.hidden_size), dtype=np.float32)
-            eval_masks = np.ones((self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32)
-            eval_masks[eval_dones == True] = np.zeros(((eval_dones == True).sum(), 1), dtype=np.float32)
+            eval_rnn_states[eval_dones == True] = np.zeros(
+                ((eval_dones == True).sum(), self.recurrent_N, self.hidden_size),
+                dtype=np.float32,
+            )
+            eval_masks = np.ones(
+                (self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32
+            )
+            eval_masks[eval_dones == True] = np.zeros(
+                ((eval_dones == True).sum(), 1), dtype=np.float32
+            )
 
         eval_episode_rewards = np.array(eval_episode_rewards)
-        
+
         eval_train_infos = []
         for agent_id in range(self.num_agents):
-            eval_average_episode_rewards = np.mean(np.sum(eval_episode_rewards[:, :, agent_id], axis=0))
-            eval_train_infos.append({'eval_average_episode_rewards': eval_average_episode_rewards})
-            print("eval average episode rewards of agent%i: " % agent_id + str(eval_average_episode_rewards))
+            eval_average_episode_rewards = np.mean(
+                np.sum(eval_episode_rewards[:, :, agent_id], axis=0)
+            )
+            eval_train_infos.append(
+                {"eval_average_episode_rewards": eval_average_episode_rewards}
+            )
+            print(
+                "eval average episode rewards of agent%i: " % agent_id
+                + str(eval_average_episode_rewards)
+            )
 
-        self.log_train(eval_train_infos, total_num_steps)  
+        self.log_train(eval_train_infos, total_num_steps)
