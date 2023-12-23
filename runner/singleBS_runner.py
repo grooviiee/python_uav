@@ -28,7 +28,7 @@ class SingleBS_runner(Runner):
     def __init__(self, config):
         super(SingleBS_runner, self).__init__(config)
 
-        print("Choose SingleBS_runner")
+        print("[Runner] SingleBS_runner")
         self.done = False
         self.total_reward = 0
         self.logger = config["logger"]
@@ -72,7 +72,7 @@ class SingleBS_runner(Runner):
                 AttentionMappoAgent_Policy as Policy,
             )
         else:
-            raise NotImplemented
+            raise NotImplementedError
 
         print(f"[INIT_RUNNER] Make Actor Critic Policy for Agents")
         self.policy = []
@@ -94,7 +94,7 @@ class SingleBS_runner(Runner):
             )
             self.policy.append(policy)
 
-        print(f"[INIT_RUNNER] Set Policy into Replay buffer and Trainer")
+        print(f"[RUNNER] Init Buffer.. Set Policy into Replay buffer and Trainer")
         # algorithm
         self.trainer = []
         self.buffer = []

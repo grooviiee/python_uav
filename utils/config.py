@@ -16,7 +16,6 @@ def parse_args():
         description="Reinforcement Learning experiments for multiagent environments"
     )
 
-    # prepare parameters
     parser.add_argument(
         "--log_level",
         type=int,
@@ -67,6 +66,25 @@ def parse_args():
         help="Number of environment steps to train (default: 10e6). episode_length만큼 실행 후 Train 동작",
     )
 
+    # Environment settings
+    parser.add_argument("--num_mbs", type=int, default=1)
+    parser.add_argument("--num_uavs", type=int, default=1)
+    parser.add_argument(
+        "--num_users", type=int, default=5, help="Number of User Equipment"
+    )
+    parser.add_argument(
+        "--cache_capa", type=int, default=7, help="Max Number of File stored in UAV"
+    )
+    parser.add_argument(
+        "--num_contents", type=int, default=20, help="Number of Files in environment"
+    )
+    parser.add_argument(
+        "--file_size", type=int, default=10 * (10**6), help="Constant File size."
+    )
+    parser.add_argument("--map_size", type=int, default=1800)
+    parser.add_argument("--zipf_parameter", type=float, default=2)
+    parser.add_argument("--rank", type=int, default=5)
+
     parser.add_argument(
         "--seed", type=int, default=1, help="Random seed for numpy/torch"
     )
@@ -114,30 +132,12 @@ def parse_args():
         help="[for wandb usage], to specify user's name for simply collecting training data.",
     )
     parser.add_argument(
-        "--use_wandb",
+        "--experiment_tracking_tool",  # --experiment_tracking_tool
         action="store_false",
-        default=True,
+        default="not_used",
+        choices=["not_used", "use_wandb", "manual"],
         help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.",
     )
-
-    # Environment settings
-    parser.add_argument("--num_mbs", type=int, default=1)
-    parser.add_argument("--num_uavs", type=int, default=4)
-    parser.add_argument(
-        "--num_users", type=int, default=20, help="Number of User Equipment"
-    )
-    parser.add_argument(
-        "--cache_capa", type=int, default=7, help="Max Number of File stored in UAV"
-    )
-    parser.add_argument(
-        "--num_contents", type=int, default=20, help="Number of Files in environment"
-    )
-    parser.add_argument(
-        "--file_size", type=int, default=10 * (10**6), help="Constant File size."
-    )
-    parser.add_argument("--map_size", type=int, default=1800)
-    parser.add_argument("--zipf_parameter", type=float, default=2)
-    parser.add_argument("--rank", type=int, default=5)
 
     # network paramters
     parser.add_argument(
