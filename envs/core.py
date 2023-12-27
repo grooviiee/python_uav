@@ -20,11 +20,12 @@ QUOTA_UAV = 4
 QUOTA_MBS = 20
 PATHLOSS_EXP = 2
 NOISE_POWER = -100  # dB/Hz
-X_Los = 6 #dB
-X_NLos = 20 #dB
+X_Los = 6  # dB
+X_NLos = 20  # dB
 c_1 = 11.9
 c_2 = 0.13
-v_c = 3 * 10^8 # speed of light
+v_c = 3 * 10 ^ 8  # speed of light
+
 
 # physical/external base state of all entites
 class EntityState(object):
@@ -32,6 +33,7 @@ class EntityState(object):
         # User and Agent in common
         self.x = None
         self.y = None
+
 
 # state of agents (including communication and internal/mental state)
 class AgentState(EntityState):
@@ -47,11 +49,13 @@ class AgentState(EntityState):
         self.power = []
         # for MBS
 
+
 class UserState(EntityState):
     def __init__(self):
         # Set internal state set for user
         self.association = []
         self.file_request = 0
+
 
 # properties and state of physical world entity
 class Entity(object):
@@ -87,8 +91,8 @@ class Agent(Entity):
         # action: physical action u & communication action c
         self.association = []
         self.mbs_associate = None
-        self.user_associate = None        
-        
+        self.user_associate = None
+
         # script behavior to execute
         self.action_callback = None
 
@@ -96,27 +100,28 @@ class Agent(Entity):
 
 
 class User(Entity):
-    def __init__(self, file_size, num_file, zipf_parameter):
+    def __init__(self, file_size, num_files, zipf_parameter):
         self.user_id = None
         self.state = UserState()
         self.movable = False
         self.mbs_associate = None
         self.user_associate = None
+        self.num_contents = num_files
         self.file_size = file_size
         self.zipf_parameter = zipf_parameter
-        #self.state.file_request = np.random.zipf(1 / zipf_parameter, file_size)
+        self.remaining_file_size = file_size
+        # self.state.file_request = np.random.zipf(1 / zipf_parameter, file_size)
 
 
 # multi-agent world
 class World(object):
     def __init__(self):
-
         # self.logger = Logger("python_env.log")
         # self.logger.debug("Log system for environment just set up...")
         # list of agents and entities (can change at execution-time!)
-        self.agents = []        # {mbs + uav} dtype: list
-        self.users = []         # dtype: list
-        
+        self.agents = []  # {mbs + uav} dtype: list
+        self.users = []  # dtype: list
+
         # color dimensionality
         self.dim_color = 3
         # simulation timestep
@@ -150,7 +155,6 @@ class World(object):
     def policy_agents(self):
         return [agent for agent in self.agents if agent.action_callback is None]
 
-
     # user color
     def assign_user_colors(self):
         for user in self.users:
@@ -171,51 +175,68 @@ class World(object):
         for agent in self.agents:
             if agent.isUAV == False:
                 # Set association
-                print(f'[WORLD_STEP] MBS ACTION: type ({type(agent.action)}) len ({len(agent.action)}) action ({agent.action})')
+                print(
+                    f"[WORLD_STEP] MBS ACTION: type ({type(agent.action)}) len ({len(agent.action)}) action ({agent.action})"
+                )
                 self.mbs_apply_agent_association(agent.action)
             else:
-                print(f'[WORLD_STEP] UAV ACTION: type ({type(agent.action)}) len ({len(agent.action)}) action ({agent.action})')
+                print(
+                    f"[WORLD_STEP] UAV ACTION: type ({type(agent.action)}) len ({len(agent.action)}) action ({agent.action})"
+                )
                 # Set position, Set cache, set power (1st dim: thread, 2nd dim: action_shape)
-                self.uav_apply_cache(agent.action[0], agent)     # length: cache_size
-                self.uav_apply_power(agent.action[1], agent)     # length: 1
-                self.uav_apply_trajectory(agent.action[2], agent.action[3], agent) # length: 2
-            
-        for user in self.users:    
+                self.uav_apply_cache(agent.action[0], agent)  # length: cache_size
+                self.uav_apply_power(agent.action[1], agent)  # length: 1
+                self.uav_apply_trajectory(
+                    agent.action[2], agent.action[3], agent
+                )  # length: 2
+
+        for user in self.users:
             self.update_user_state(user)
-        
+
         for agent in self.agents:
             # Print UAVs Location
             if agent.isUAV:
-                self.logger.debug("[UAV_STATE] id(%d), (x,y): (%d,%d)", agent.agent_id, agent.state.x, agent.state.y)
+                self.logger.debug(
+                    "[UAV_STATE] id(%d), (x,y): (%d,%d)",
+                    agent.agent_id,
+                    agent.state.x,
+                    agent.state.y,
+                )
             else:
                 self.logger.debug("[MBS_STATE] id(%d)", agent.agent_id)
-                
+
         for user in self.users:
-            self.logger.debug("[USER_STATE] id(%d), (x,y): (%d, %d), file_request: (%d)", user.user_id, user.state.x, user.state.y, user.state.file_request)
+            self.logger.debug(
+                "[USER_STATE] id(%d), (x,y): (%d, %d), file_request: (%d)",
+                user.user_id,
+                user.state.x,
+                user.state.y,
+                user.state.file_request,
+            )
 
         for agent in self.agents:
-            agent.reward = self.calculateReward(agent)    
-
+            agent.reward = self.calculateReward(agent)
 
     def calculateReward(self, agent):
         epsilon = 0.2
         if self.log_level >= 3:
             print(f"[CALC_REWARD] Start Calculating rewards. epsilon: {epsilon}")
-            
+
         # step 1. Get extr reward (Action에 대해서 state를 모두 바꾸었을 때, reward를 계산)
         extr_reward = self.calcExtrReward(agent)
         # step 2. Get intr reward
         intr_reward = self.calcIntrReward(agent)
         reward = extr_reward + epsilon * intr_reward
         if self.log_level >= 3:
-            print(f"[CALC_REWARD] reward: {reward}, {extr_reward}, {epsilon}, {intr_reward}")
+            print(
+                f"[CALC_REWARD] reward: {reward}, {extr_reward}, {epsilon}, {intr_reward}"
+            )
         return reward
-    
 
     def calcIntrReward(self, agent):
         if self.log_level >= 4:
             print(f"[CALC_REWARD] Skip Calculating Intr. rewards.")
-        return 0 #Temp
+        return 0  # Temp
 
     def calcExtrReward(self, agent):
         # step 2. 변경된 status로 reward 계산
@@ -224,8 +245,10 @@ class World(object):
         for agent in self.agents:
             agent.reward = 0
             if self.log_level >= 4:
-                print(f"[CALC_REWARD] Get AGENT({agent.agent_id})-USER{agent.state.association}.")
-            
+                print(
+                    f"[CALC_REWARD] Get AGENT({agent.agent_id})-USER{agent.state.association}."
+                )
+
             for user_id in agent.state.association:
                 user = self.users[user_id]
                 agent.reward += self.getDelay(agent, user, self.agents[0], agent.isUAV)
@@ -244,21 +267,26 @@ class World(object):
         delay = 0
         if isUAV == False:
             if self.log_level >= 4:
-                self.logger.debug("[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}")
+                self.logger.debug(
+                    "[CALC_REWARD] GetDelay {agent.agent_id} || {user.state.file_request}"
+                )
             delay = self.Calc_T_down(agent, user, TYPE_MBS_USER)
         else:
             if self.log_level >= 4:
-                print(f"[CALC_REWARD] HasFile {agent.state.has_file}, {type(agent.state.has_file)} || File_request {user.state.file_request}, {type(user.state.file_request)}")
-            
+                print(
+                    f"[CALC_REWARD] HasFile {agent.state.has_file}, {type(agent.state.has_file)} || File_request {user.state.file_request}, {type(user.state.file_request)}"
+                )
+
             if user.state.file_request in agent.state.has_file:
                 # Only consider UAV-User
                 delay = self.Calc_T_down(agent, user, TYPE_UAV_USER)
             else:
                 # Consider backhaul network also
-                delay = self.Calc_T_down(agent, user, TYPE_UAV_USER) + self.Calc_T_back(mbs, agent)
+                delay = self.Calc_T_down(agent, user, TYPE_UAV_USER) + self.Calc_T_back(
+                    mbs, agent
+                )
 
         return delay
-
 
     # it could be MBS-User or UAV-User
     def Calc_T_down(self, agent, user, type):
@@ -273,7 +301,7 @@ class World(object):
         return S / backhaul_rate
 
     # Tx to User.. i : mbs or uav , u: user, x: file req, y: has file, z: asso
-    def R_T_down(self, mbs, user, type): 
+    def R_T_down(self, mbs, user, type):
         numfile = 1
         upper = numfile * W
         lower = 1
@@ -283,7 +311,9 @@ class World(object):
 
         r_t_down = upper / lower * math.log2(1 + self.calc_rate(mbs, user, type))
         if self.log_level >= 4:
-            print(f"[CALC_REWARD] R_T_down between {mbs.agent_id}, {user.user_id}: {r_t_down}")
+            print(
+                f"[CALC_REWARD] R_T_down between {mbs.agent_id}, {user.user_id}: {r_t_down}"
+            )
         return r_t_down
 
     def R_T_back(self, mbs, uav):
@@ -300,7 +330,7 @@ class World(object):
         #     for file in self.num_contents:
         #         for node in self.num_agents:
         #             lower += self.x(user, file) * self.z(user, node) * (1 - self.y(node, file))
-        
+
         if self.log_level >= 4:
             print(f"left: {left}, upper: {upper}, lower: {lower}")
         return left * upper / lower
@@ -309,10 +339,14 @@ class World(object):
     def calc_rate_MBS_USER(self, src, dst):
         res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUser(src, dst) / 10))
         return res
-    
+
     def calc_rate_UAV_USER(self, src, dst):
         lower = self.GetPower(src, dst) * math.pow(10, -self.h_UavUser(src, dst) / 10)
-        res = self.GetPower(src, dst) * math.pow(10, -self.h_UavUser(src, dst) / 10) / (NOISE_POWER * lower)
+        res = (
+            self.GetPower(src, dst)
+            * math.pow(10, -self.h_UavUser(src, dst) / 10)
+            / (NOISE_POWER * lower)
+        )
         return res
 
     def calc_rate_MBS_UAV(self, src, dst):
@@ -320,10 +354,12 @@ class World(object):
         if self.log_level >= 4:
             print(f"MBS_POWER: {MBS_POWER}, NOISE_POWER: {NOISE_POWER}, res: {res}")
         return res
-         
+
     def calc_rate(self, src, dst, type):
         if type == TYPE_MBS_USER:
-            res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUser(src, dst) / 10))
+            res = MBS_POWER / (
+                NOISE_POWER * math.pow(10, self.h_MbsUser(src, dst) / 10)
+            )
 
         elif type == TYPE_UAV_USER:  # follows UAV Power
             # lower = 0
@@ -331,8 +367,14 @@ class World(object):
             #     if uavIdx == i:
             #         continue
             #     lower += self.GetPower(uavIdx, i) * math.pow(10, -self.h_UavUser(src, dst) / 10)
-            lower = self.GetPower(src, dst) * math.pow(10, -self.h_UavUser(src, dst) / 10)
-            res = self.GetPower(src, dst) * math.pow(10, -self.h_UavUser(src, dst) / 10) / (NOISE_POWER * lower)
+            lower = self.GetPower(src, dst) * math.pow(
+                10, -self.h_UavUser(src, dst) / 10
+            )
+            res = (
+                self.GetPower(src, dst)
+                * math.pow(10, -self.h_UavUser(src, dst) / 10)
+                / (NOISE_POWER * lower)
+            )
 
         elif type == TYPE_MBS_UAV:
             res = MBS_POWER / (NOISE_POWER * math.pow(10, self.h_MbsUav(src, dst) / 10))
@@ -350,14 +392,18 @@ class World(object):
             if value == user_idx:
                 user_id = idx
                 break
-            
+
         return uav.state.power[user_id]
-    
+
     def h_UavUser(self, m, u):
-        return self.PLos(m, u) * self.hLos(m, u) + (1 - self.PLos(m, u)) * self.hNLos(m, u)
+        return self.PLos(m, u) * self.hLos(m, u) + (1 - self.PLos(m, u)) * self.hNLos(
+            m, u
+        )
 
     def h_MbsUav(self, b, m):
-        return self.PLos(b, m) * self.hLos(b, m) + (1 - self.PLos(b, m)) * self.hNLos(b, m)
+        return self.PLos(b, m) * self.hLos(b, m) + (1 - self.PLos(b, m)) * self.hNLos(
+            b, m
+        )
 
     def h_MbsUser(self, b, u):
         return 15.3 + 37.6 * math.log10(self.d(b, u))
@@ -384,7 +430,7 @@ class World(object):
             return 1
         else:
             return 0
-    
+
     # node associated with user
     def z(self, node, user):
         if user in node.state.association:
@@ -393,18 +439,20 @@ class World(object):
             return False
 
     def theta(self, uav, user):
-        return 180/math.pi*math.asin(H/self.d(uav,user))
+        return 180 / math.pi * math.asin(H / self.d(uav, user))
 
     # Calculate Distance
     def d(self, uav, user):
         x = uav.state.x - user.state.x
-        y = uav.state.y - user.state.y        
+        y = uav.state.y - user.state.y
         return math.sqrt(math.pow(x, 2) + math.pow(y, 2))
 
     def mbs_apply_agent_association(self, action_set):
-        association = action_set # [nodes][users]
-        tmp_association = [[1 for i in range(self.num_users)] for j in range(self.num_agents)]
-        
+        association = action_set  # [nodes][users]
+        tmp_association = [
+            [1 for i in range(self.num_users)] for j in range(self.num_agents)
+        ]
+
         # init association
         for i, node in enumerate(self.agents):
             node.state.association = []
@@ -416,30 +464,34 @@ class World(object):
             for j, user in enumerate(self.users):
                 if tmp_association[i][j]:
                     if self.log_level >= 3:
-                        print(f'[mbs_apply_agent_association] Set agent: {i}, user: {j} TRUE')
+                        print(
+                            f"[mbs_apply_agent_association] Set agent: {i}, user: {j} TRUE"
+                        )
                     node.state.association.append(j)
                     user.state.association.append(i)
 
-        
     def uav_apply_cache(self, action_cache: list, agent):
-        print(f'[uav_apply_cache] agent_id ({agent}) action_cache ({action_cache}) type ({type(action_cache)})')
+        print(
+            f"[uav_apply_cache] agent_id ({agent}) action_cache ({action_cache}) type ({type(action_cache)})"
+        )
         # Make empty list and append cache file
         agent.state.has_file = []
-        
-        
+
         if type(action_cache) is not list:
             agent.state.has_file.append(action_cache)
         else:
             if len(action_cache) > agent.state.cache_size:
-                print(f"[uav_apply_cache] agent_id: {agent}, action_space overs cache_size: ({action_cache}/{agent.state.cache_size})")
+                print(
+                    f"[uav_apply_cache] agent_id: {agent}, action_space overs cache_size: ({action_cache}/{agent.state.cache_size})"
+                )
                 agent.state.cache_size = []
                 for _, file in enumerate(action_cache):
                     agent.state.cache_size.append(file)
-            else: # add all files to UAV
+            else:  # add all files to UAV
                 agent.state.has_file = action_cache
-        
+
     def uav_apply_power(self, action_power, agent):
-        print(f'[uav_apply_power] {agent}, {action_power}')
+        print(f"[uav_apply_power] {agent}, {action_power}")
         agent.power = action_power
         for user_id in range(self.num_users):
             if user_id in agent.state.association:
@@ -447,19 +499,21 @@ class World(object):
                 agent.state.power.append(power)
             else:
                 agent.state.power.append(0)
-        
+
     def uav_apply_trajectory(self, action_dist, action_angle, agent):
         prev_x = agent.state.x
         prev_y = agent.state.y
-        agent.state.x =  agent.state.x + action_dist * math.cos(action_angle)
-        agent.state.y =  agent.state.y + action_dist * math.sin(action_angle)
+        agent.state.x = agent.state.x + action_dist * math.cos(action_angle)
+        agent.state.y = agent.state.y + action_dist * math.sin(action_angle)
         if self.log_level >= 3:
-            print(f'[uav_apply_trajectory] {agent}, prev: {prev_x}, {prev_y}, curr: {agent.state.x}, {agent.state.y}')   
+            print(
+                f"[uav_apply_trajectory] {agent}, prev: {prev_x}, {prev_y}, curr: {agent.state.x}, {agent.state.y}"
+            )
 
     def update_user_state(self, user):
-        #print(f'[update_user_state] {user}')
+        # print(f'[update_user_state] {user}')
         # Check new cache file request
-        user.state.file_request = random.zipf(a=self.zipf_parameter, size=(1,1))
+        user.state.file_request = random.zipf(a=self.zipf_parameter, size=(1, 1))
         #         self.mbs_associate = None
         # self.user_associate = None
         # self.file_size = file_size

@@ -29,9 +29,9 @@ class Runner(object):
             if not os.path.exists(self.gif_dir):
                 os.makedirs(self.gif_dir)
         else:
-            if self.experiment_tracking_tool:
+            if self.experiment_tracking_tool == "use_wandb":
                 self.save_dir = str(wandb.run.dir)
-            else:
+            elif self.experiment_tracking_tool == "manual":
                 self.run_dir = config["run_dir"]
                 self.log_dir = str(self.run_dir / "logs")
                 if not os.path.exists(self.log_dir):

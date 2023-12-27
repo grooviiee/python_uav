@@ -133,10 +133,10 @@ def parse_args():
     )
     parser.add_argument(
         "--experiment_tracking_tool",  # --experiment_tracking_tool
-        action="store_false",
+        type=str,
         default="not_used",
         choices=["not_used", "use_wandb", "manual"],
-        help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.",
+        # help="[for wandb usage], by default True, will log date to wandb server. or else will use tensorboard to log data.",
     )
 
     # network paramters

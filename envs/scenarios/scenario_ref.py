@@ -14,15 +14,15 @@ class Scenario(BaseScenario):
         world.collaborative = True  # whether agents share rewards
         world.num_uavs = args.num_uavs
         world.num_mbs = args.num_mbs
-        world.num_users = args.num_users        # dtype: int 
-        world.num_agents = args.num_uavs + args.num_mbs       # dtype: int
+        world.num_users = args.num_users  # dtype: int
+        world.num_agents = args.num_uavs + args.num_mbs  # dtype: int
         world.map_size = args.map_size
         world.num_contents = args.num_contents
         world.cache_capa = args.cache_capa
         # world.users = [User(args.file_size, args.zipf_parameter) for i in range(world.num_users)]
         world.file_size = args.file_size
         world.zipf_parameter = args.zipf_parameter
-        
+
         # Add agent as mbs
         for i in range(world.num_mbs):
             world.agents.append(Agent(True, 0))
@@ -58,13 +58,18 @@ class Scenario(BaseScenario):
 
         # 위치 조정 (randomly)
         for agent in world.agents:
-            agent.state.x = random.randint(0, world.map_size)  #agent.agent_id%4
-            agent.state.y = random.randint(0, world.map_size)  #agent.agent_id%4
+            if agent.isMBS:
+                agent.state.x = world.map_size / 2
+                agent.state.y = world.map_size / 2
+            else:
+                agent.state.x = random.randint(0, world.map_size)  # agent.agent_id%4
+                agent.state.y = random.randint(0, world.map_size)  # agent.agent_id%4
 
         for user in world.users:
-            user.state.x = random.randint(0, world.map_size)   #user.user_id%5
-            user.state.y = random.randint(0, world.map_size)   #user.user_id%5
+            user.state.x = random.randint(0, world.map_size)  # user.user_id%5
+            user.state.y = random.randint(0, world.map_size)  # user.user_id%5
             user.state.file_request = random.randint(0, world.num_contents)
+            user.remaining_file_size = user.file_size
 
     def reward(self, agent, world):
         # It is used at uavenv.py

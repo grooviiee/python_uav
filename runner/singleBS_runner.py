@@ -4,7 +4,10 @@ from utils.shared_buffer import SharedReplayBuffer
 from utils.separated_buffer import SeparatedReplayBuffer
 from runner.base_runner import Runner
 from gym.spaces.utils import flatdim, flatten
-
+from algorithms.atten_mappo import AttenMappoAgent_Trainer
+from algorithms.mappo import MAPPOAgentTrainer
+from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy
+from algorithms.algorithm.atten_mappoPolicy import AttentionMappoAgent_Policy
 
 import time
 
@@ -54,27 +57,13 @@ class SingleBS_runner(Runner):
         # interval
         self.save_interval = self.all_args.save_interval
         self.use_eval = self.all_args.use_eval
-        self.logger.debug("[INIT_RUNNER] Insert Agent settings into Trainer")
         self.is_random_mode = False
         print(f"[INIT_RUNNER] Insert Agent settings into Trainer -> {self.algorithm}")
         if self.algorithm == "random":
-            from algorithms.random import Random as RandomWalk
-
             self.is_random_mode = True
             return
 
-        if self.algorithm == "mappo":
-            from algorithms.mappo import MAPPOAgentTrainer as TrainAlgo
-            from algorithms.algorithm.mappoPolicy import MAPPOAgentPolicy as Policy
-        elif self.algorithm == "attention":
-            from algorithms.atten_mappo import AttenMappoAgent_Trainer as TrainAlgo
-            from algorithms.algorithm.atten_mappoPolicy import (
-                AttentionMappoAgent_Policy as Policy,
-            )
-        else:
-            raise NotImplementedError
-
-        print(f"[INIT_RUNNER] Make Actor Critic Policy for Agents")
+        print("[INIT_RUNNER] Make Actor Critic Policy for Agents")
         self.policy = []
         for agent_id in range(self.num_agents):
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
@@ -84,17 +73,30 @@ class SingleBS_runner(Runner):
             )
 
             # policy network
-            policy = Policy(
-                self.all_args,
-                self.envs.observation_space[agent_id],
-                share_observation_space,
-                self.envs.action_space[agent_id],
-                agent_id,
-                device=self.device,
-            )
+            if self.algorithm == "mappo":
+                policy = MAPPOAgentPolicy(
+                    self.all_args,
+                    self.envs.observation_space[agent_id],
+                    share_observation_space,
+                    self.envs.action_space[agent_id],
+                    agent_id,
+                    device=self.device,
+                )
+            elif self.algorithm == "attention":
+                policy = AttentionMappoAgent_Policy(
+                    self.all_args,
+                    self.envs.observation_space[agent_id],
+                    share_observation_space,
+                    self.envs.action_space[agent_id],
+                    agent_id,
+                    device=self.device,
+                )
+            else:
+                raise NotImplementedError
+
             self.policy.append(policy)
 
-        print(f"[RUNNER] Init Buffer.. Set Policy into Replay buffer and Trainer")
+        print("[RUNNER] Init Buffer.. Set Policy into Replay buffer and Trainer")
         # algorithm
         self.trainer = []
         self.buffer = []
@@ -107,9 +109,17 @@ class SingleBS_runner(Runner):
 
             # Need Normalization!
 
-            tr = TrainAlgo(
-                self.all_args, self.policy[agent_id], is_uav, device=self.device
-            )
+            if self.algorithm == "mappo":
+                tr = MAPPOAgentTrainer(
+                    self.all_args, self.policy[agent_id], is_uav, device=self.device
+                )
+            elif self.algorithm == "attention":
+                tr = AttenMappoAgent_Trainer(
+                    self.all_args, self.policy[agent_id], is_uav, device=self.device
+                )
+            else:
+                raise NotImplementedError
+
             # buffer
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
@@ -128,9 +138,9 @@ class SingleBS_runner(Runner):
             print(
                 f"agend_id {agent_id} | {self.envs.observation_space[agent_id]} | self.buffer[{agent_id}].obs.shape {self.buffer[agent_id].obs.shape}"
             )
-
-        NotImplementedError
         print(f"[RUNNER] Insert Agent settings into Trainer Finished")
+
+        return
 
     def run(self):
         print(f"[RUNNER] Warm up")
@@ -214,10 +224,10 @@ class SingleBS_runner(Runner):
 
                     # raise NotImplementedError("Breakpoint")
                     # compute GAE and update network
-                    print(f"[RUNNER] Compute GAE")
+                    print("[RUNNER] Compute GAE")
                     self.compute_gae()
 
-                    print(f"[RUNNER] TRAIN")
+                    print("[RUNNER] TRAIN")
                     train_infos = self.train()
 
                     # post process
@@ -235,34 +245,34 @@ class SingleBS_runner(Runner):
                     ):
                         self.save()
 
-                    # log information
-                    if big_step % self.eval_interval == 0 and self.use_eval:
-                        for agent_id in range(self.num_agents):
-                            individual_rewards = []
-                            for into in infos:
-                                for count, info in enumerate(infos):
-                                    if (
-                                        "individual_reward"
-                                        in infos[count][agent_id].keys()
-                                    ):
-                                        individual_rewards.append(
-                                            infos[count][agent_id].get(
-                                                "individual_reward", 0
-                                            )
-                                        )
+                    # # log information
+                    # if big_step % self.eval_interval == 0 and self.use_eval:
+                    #     for agent_id in range(self.num_agents):
+                    #         individual_rewards = []
+                    #         for into in infos:
+                    #             for count, info in enumerate(infos):
+                    #                 if (
+                    #                     "individual_reward"
+                    #                     in infos[count][agent_id].keys()
+                    #                 ):
+                    #                     individual_rewards.append(
+                    #                         infos[count][agent_id].get(
+                    #                             "individual_reward", 0
+                    #                         )
+                    #                     )
 
-                            train_infos[agent_id].update(
-                                {"individual_rewards": np.mean(individual_rewards)}
-                            )
-                            train_infos[agent_id].update(
-                                {
-                                    "average_episode_rewards": np.mean(
-                                        self.buffer[agent_id].rewards
-                                    )
-                                    * self.episodes_length
-                                }
-                            )
-                        self.log_train(train_infos, total_num_steps)
+                    #         train_infos[agent_id].update(
+                    #             {"individual_rewards": np.mean(individual_rewards)}
+                    #         )
+                    #         train_infos[agent_id].update(
+                    #             {
+                    #                 "average_episode_rewards": np.mean(
+                    #                     self.buffer[agent_id].rewards
+                    #                 )
+                    #                 * self.episodes_length
+                    #             }
+                    #         )
+                    #     self.log_train(train_infos, total_num_steps)
 
                 # print(f'[RUNNER] EVAL')
                 # self.eval(total_num_steps)
@@ -273,8 +283,13 @@ class SingleBS_runner(Runner):
                 #     self.eval(total_num_steps)
 
     def warmup(self):
-        NotImplemented
+        print("Warm up not implemented yet.. skip")
         # TODO
+        # self.num_uavs = config["num_uavs"]
+        # self.num_mbs = config["num_mbs"]
+        # self.num_agents = self.num_uavs + self.num_mbs
+        # self.num_users = config["num_users"]
+
         # reset env
         # obs = self.envs.reset()
         # share_obs = []
