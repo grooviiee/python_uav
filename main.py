@@ -10,18 +10,20 @@ import os
 import wandb
 import socket
 import logging
-from utils.logger import Logger
+from utils.logger import SetLogger
 from utils.config import parse_args
 from pathlib import Path
 from envs.UavEnvMain import UAVEnvMain
+from runner.singleBS_runner import SingleBS_runner
+from runner.multipleBS_runner import MultipleBS_runner
 
 
 def main(arglist):
     # set logging system
-    logger = Logger("python_sim.log")
-    logger.debug("Log system just set up...")
-    arglist.logger = logger
+    LOGGER = SetLogger("python_sim.log")
     formatter = logging.Formatter("%(asctime)s [%(levelname)8s] %(message)s")
+    LOGGER.debug("Log system just set up...")
+    arglist.logger = LOGGER
 
     # select device
     print(f"[MAIN] Training device...")
@@ -123,7 +125,6 @@ def main(arglist):
         "envs": envs,
         "eval_envs": eval_envs,
         "device": device,
-        "logger": logger,
         "algorithm": arglist.algorithm_name,
         "num_uavs": arglist.num_uavs,
         "num_mbs": arglist.num_mbs,
@@ -131,18 +132,17 @@ def main(arglist):
         "run_dir": run_dir,
     }
 
+    print(f"[MAIN] Load runner as {arglist.runner_name}")
     # run experiment
     if arglist.runner_name == "singleBS":
-        from runner.singleBS_runner import SingleBS_runner as Runner
+        runner = SingleBS_runner(config)
     elif arglist.runner_name == "multipleBS":
-        from runner.multipleBS_runner import MultipleBS_runner as Runner
+        runner = MultipleBS_runner(config)
     else:
-        NotImplemented
+        raise NotImplementedError
 
-    print(f"[MAIN] Load runner as {arglist.runner_name}")
-    runner = Runner(config)
     runner.run()
-    print(f"[MAIN] Running alorithm finished.")
+    print("[MAIN] Running alorithm finished.")
 
     envs.close()
 

@@ -17,12 +17,20 @@ import numpy as np
 from itertools import chain
 import torch
 
-
-# config {
-#   "args": arglist,
-#   "envs": envs,
-#   "device": device,
+# config = {
+#     "args": arglist,
+#     "envs": envs,
+#     "eval_envs": eval_envs,
+#     "device": device,
+#     "logger": logger,
+#     "algorithm": arglist.algorithm_name,
+#     "num_uavs": arglist.num_uavs,
+#     "num_mbs": arglist.num_mbs,
+#     "num_users": arglist.num_users,
+#     "run_dir": run_dir,
 # }
+
+
 def _t2n(x):
     return x.detach().cpu().numpy()
 
@@ -30,11 +38,10 @@ def _t2n(x):
 class SingleBS_runner(Runner):
     def __init__(self, config):
         super(SingleBS_runner, self).__init__(config)
-
         print("[Runner] SingleBS_runner")
         self.done = False
         self.total_reward = 0
-        self.logger = config["logger"]
+        # self.logger = config["logger"]
         self.all_args = config["args"]
         self.envs = config["envs"]
         self.eval_envs = config["eval_envs"]
@@ -320,7 +327,7 @@ class SingleBS_runner(Runner):
                 print(
                     f"[RUNNER_DEBUG] agent_id : {agent_id}, share_obs.shape: {self.buffer[agent_id].share_obs[step].shape}, obs.shape: {self.buffer[agent_id].obs[step].shape}"
                 )
-                NotImplementedError
+                raise NotImplementedError
 
         for agent_id in range(self.num_agents):
             if agent_id < self.num_mbs:
