@@ -41,7 +41,6 @@ class SingleBS_runner(Runner):
         print("[Runner] SingleBS_runner")
         self.done = False
         self.total_reward = 0
-        # self.logger = config["logger"]
         self.all_args = config["args"]
         self.envs = config["envs"]
         self.eval_envs = config["eval_envs"]
@@ -53,6 +52,7 @@ class SingleBS_runner(Runner):
         self.num_users = config["num_users"]
         self.trainer = []
         self.buffer = []
+        self.logger = self.all_args.logger
 
         # parameters
         self.num_episodes = self.all_args.num_episodes

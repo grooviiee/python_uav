@@ -1,6 +1,9 @@
 import logging
 
 
+# def Logger():
+
+
 def SetLogger(dir):
     print("set logger...")
     logger = logging.getLogger("simple_example")

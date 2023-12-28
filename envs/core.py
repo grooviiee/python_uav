@@ -1,7 +1,6 @@
 import numpy as np
 import math
 import logging
-from utils.logger import Logger
 from numpy import random
 
 # Rate calculation type

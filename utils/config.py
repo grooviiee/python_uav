@@ -84,7 +84,13 @@ def parse_args():
     parser.add_argument("--map_size", type=int, default=1800)
     parser.add_argument("--zipf_parameter", type=float, default=2)
     parser.add_argument("--rank", type=int, default=5)
-
+    parser.add_argument(
+        "--opt_function",
+        type=str,
+        help="Parameters to optimize",
+        nargs="+",
+        default=["power", "association", "file_cache"],
+    )
     parser.add_argument(
         "--seed", type=int, default=1, help="Random seed for numpy/torch"
     )
