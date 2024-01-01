@@ -3,9 +3,12 @@ import torch.nn.functional as F
 from .util import init
 
 """CNN Modules and utils."""
+
+
 class Flatten(nn.Module):
     def forward(self, x):
         return x.view(x.size(0), -1)
+
 
 class CNNLayer(nn.Module):
     def __init__(
@@ -48,27 +51,28 @@ class CNNLayer(nn.Module):
             input_channel = obs_shape[0][0]
             input_width = obs_shape[1][0]
             input_height = obs_shape[2][0]
-        
+
         # Print cnn configurations
-        print(f'[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}')
-        
-        
+        print(
+            f"[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}"
+        )
+
         self.cnn = nn.Sequential(
-                init_(
-                    nn.Conv2d(      # 2D Convolution function
-                        in_channels=input_channel,
-                        out_channels=hidden_size // 2,
-                        #out_channels=3,
-                        kernel_size=kernel_size,    # it was set to 2
-                        stride=stride,
-                    )
-                ),
-                active_func,    # call nn.ReLU()
-                Flatten(),
-                init_(nn.Linear(conv2d_out_size, 64)),     # nn.Linear : Fully connected layer
-                active_func,
-                init_(nn.Linear(hidden_size, 64)),
-                active_func,
+            init_(
+                nn.Conv2d(  # 2D Convolution function
+                    in_channels=input_channel,
+                    out_channels=hidden_size // 2,
+                    # out_channels=3,
+                    kernel_size=kernel_size,  # it was set to 2
+                    stride=stride,
+                )
+            ),
+            active_func,  # call nn.ReLU()
+            Flatten(),
+            init_(nn.Linear(conv2d_out_size, 64)),  # nn.Linear : Fully connected layer
+            active_func,
+            init_(nn.Linear(hidden_size, 64)),
+            active_func,
         )
 
         print(
@@ -76,12 +80,12 @@ class CNNLayer(nn.Module):
         )
 
     def forward(self, x):
-        #x = x + 1e-6
-        #print(f"[CNN_FORWARD]: (before) input x({x.shape}): {x}")
-        x_norm  = x / 255.0  + 1e-6
-        #print(f"[CNN_FORWARD]: (normalized) input x_norm ({x_norm.shape}): {x_norm}")
+        # x = x + 1e-6
+        # print(f"[CNN_FORWARD]: (before) input x({x.shape}): {x}")
+        x_norm = x / 255.0 + 1e-6
+        # print(f"[CNN_FORWARD]: (normalized) input x_norm ({x_norm.shape}): {x_norm}")
         x = self.cnn(x_norm)
-        #print(f"[CNN_FORWARD]: (after.cnn(x)) returned x({x.shape}): {x}")
+        # print(f"[CNN_FORWARD]: (after.cnn(x)) returned x({x.shape}): {x}")
         return x
 
 
@@ -110,6 +114,8 @@ class CNNBase(nn.Module):
 """ 
 Attention based CNN Architecture
 """
+
+
 class Attention_CNNLayer(nn.Module):
     def __init__(
         self,
@@ -129,6 +135,7 @@ class Attention_CNNLayer(nn.Module):
         gain = nn.init.calculate_gain(["tanh", "relu"][use_ReLU])
 
         self.attention_layer = MultiHeadAttention(attention_size)
+
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
 
@@ -138,7 +145,7 @@ class Attention_CNNLayer(nn.Module):
 
         # MBS: input_channel 2, input_width 8, input_height 40, UAV: input_channel 8, input_width 40, input_height 600
         # inputs: [N(Bacth), C(Channel), W(Width), H(Height)]
-        if is_uav == True:
+        if is_uav is True:
             input_channel = 1
             input_width = 2
             input_height = 31
@@ -149,27 +156,28 @@ class Attention_CNNLayer(nn.Module):
             input_height = 5
             conv2d_out_size = 4
 
-
-        print(f'[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}')
+        print(
+            f"[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}"
+        )
 
         self.attention_cnn = nn.Sequential(
-                init_(
-                    nn.Conv2d(      # 2D Convolution function
-                        in_channels=input_channel,
-                        out_channels=hidden_size // 2,
-                        #out_channels=3,
-                        kernel_size=kernel_size,    # it was set to 2
-                        stride=stride,
-                    )
-                ),
-                active_func,    # call nn.ReLU()
-                Flatten(),
-                init_(nn.Linear(conv2d_out_size, 64)),     # nn.Linear : Fully connected layer
-                active_func,
-                self.attention_layer(h, h, h),
-                active_func,
-                init_(nn.Linear(hidden_size, 64)),
-                active_func,
+            init_(
+                nn.Conv2d(  # 2D Convolution function
+                    in_channels=input_channel,
+                    out_channels=hidden_size // 2,
+                    # out_channels=3,
+                    kernel_size=kernel_size,  # it was set to 2
+                    stride=stride,
+                )
+            ),
+            active_func,  # call nn.ReLU()
+            Flatten(),
+            init_(nn.Linear(conv2d_out_size, 64)),  # nn.Linear : Fully connected layer
+            active_func,
+            self.attention_layer(h, h, h),
+            active_func,
+            init_(nn.Linear(hidden_size, 64)),
+            active_func,
         )
         # self.cnn = nn.Sequential(
         #     init_(
@@ -203,6 +211,7 @@ class Attention_CNNLayer(nn.Module):
         print(f"[ATTEN_CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
         return x
 
+
 class Attention_CNNBase(nn.Module):
     def __init__(self, args, obs_shape, is_uav, attention_mode):
         print(f"..Init CNNBase")
@@ -223,11 +232,11 @@ class Attention_CNNBase(nn.Module):
             attention_size=self.attention_size,
         )
 
-
     def forward(self, x):
         x = self.cnn(x)
         return x
-    
+
+
 class MultiHeadAttention(nn.Module):
     def __init__(self, size):
         super().__init__()
@@ -247,7 +256,8 @@ class MultiHeadAttention(nn.Module):
 
         out = attention + residual
         return out
-    
+
+
 class ScaledDotProductAttention(nn.Module):
     def __init__(self):
         super().__init__()

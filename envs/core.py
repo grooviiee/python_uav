@@ -143,6 +143,7 @@ class World(object):
         self.num_contents = 0
         self.file_size = 0
         self.zipf_parameter = 0
+        self.logger = None
 
     # return all entities in the world
     @property
