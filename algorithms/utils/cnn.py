@@ -1,7 +1,7 @@
 import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
-from envs.rl_params.rl_params import CNN_Conv
+from envs.rl_params.rl_params import CNN_Conv, Get_obs_shape
 from algorithms.utils.util import init
 
 
@@ -110,7 +110,7 @@ class CNNBase(nn.Module):
         num_users = args.num_users
         num_files = args.num_contents
         cnn_input_size = CNN_Conv(is_uav, num_uavs, num_users, num_files)
-
+        obs_shape = Get_obs_shape(is_uav, num_uavs, num_users, num_files)
         self.cnn = CNNLayer(
             obs_shape,
             cnn_input_size,
