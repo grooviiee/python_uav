@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from algorithms.algorithm.r_actor import R_Actor
 from algorithms.algorithm.r_critic import R_Critic
-from envs.rl_params import CNN_Conv
+from envs.rl_params.rl_params import CNN_Conv
 
 
 class MAPPOAgentPolicy:

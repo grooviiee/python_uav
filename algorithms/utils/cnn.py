@@ -1,8 +1,8 @@
+import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
-from .util import init
-
-"""CNN Modules and utils."""
+from envs.rl_params.rl_params import CNN_Conv
+from algorithms.utils.util import init
 
 
 class Flatten(nn.Module):
@@ -14,6 +14,7 @@ class CNNLayer(nn.Module):
     def __init__(
         self,
         obs_shape,
+        input_size,
         hidden_size,
         use_orthogonal,
         use_ReLU,
@@ -30,27 +31,33 @@ class CNNLayer(nn.Module):
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
 
-        input_channel = obs_shape[0][0]
-        input_width = obs_shape[1][0]
-        input_height = obs_shape[2][0]
+        if len(input_size) != 3:
+            raise NotImplementedError
 
-        # MBS: input_channel 2, input_width 8, input_height 40, UAV: input_channel 8, input_width 40, input_height 600
-        # inputs: [N(Bacth), C(Channel), W(Width), H(Height)]
-        if is_uav == True:
-            input_channel = 1
-            input_width = 2
-            input_height = 31
-            conv2d_out_size = 15
-        elif is_uav == False:
-            input_channel = 2
-            input_width = 5
-            input_height = 5
-            conv2d_out_size = 4
-        else:
-            print(f"[CNN_LAYER_INIT] is_uav: {is_uav}")
-            input_channel = obs_shape[0][0]
-            input_width = obs_shape[1][0]
-            input_height = obs_shape[2][0]
+        obs_shape = np.reshape(obs_shape, (input_size[0], input_size[1], input_size[2]))
+
+        input_channel = obs_shape[0]
+        input_width = obs_shape[1]
+        input_height = obs_shape[2]
+        conv2d_out_size = 4
+
+        # # MBS: input_channel 2, input_width 8, input_height 40, UAV: input_channel 8, input_width 40, input_height 600
+        # # inputs: [N(Bacth), C(Channel), W(Width), H(Height)]
+        # if is_uav == True:
+        #     input_channel = 1
+        #     input_width = 2
+        #     input_height = 31
+        #     conv2d_out_size = 15
+        # elif is_uav == False:
+        #     input_channel = 2
+        #     input_width = 5
+        #     input_height = 5
+        #     conv2d_out_size = 4
+        # else:
+        #     print(f"[CNN_LAYER_INIT] is_uav: {is_uav}")
+        #     input_channel = obs_shape[0][0]
+        #     input_width = obs_shape[1][0]
+        #     input_height = obs_shape[2][0]
 
         # Print cnn configurations
         print(
@@ -98,8 +105,15 @@ class CNNBase(nn.Module):
         self._use_ReLU = args.use_ReLU
         self.hidden_size = args.hidden_size
         self.is_uav = is_uav
+
+        num_uavs = args.num_uavs
+        num_users = args.num_users
+        num_files = args.num_contents
+        cnn_input_size = CNN_Conv(is_uav, num_uavs, num_users, num_files)
+
         self.cnn = CNNLayer(
             obs_shape,
+            cnn_input_size,
             self.hidden_size,
             self._use_orthogonal,
             self._use_ReLU,
