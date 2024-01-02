@@ -6,6 +6,8 @@ from algorithms.utils.mlp import MLPBase
 from algorithms.utils.rnn import RNNLayer
 from algorithms.utils.act import ACTLayer
 from algorithms.utils.popart import PopArt
+from gym.spaces.utils import flatdim, flatten
+from itertools import chain
 from utils.util import get_shape_from_obs_space
 
 
@@ -43,9 +45,16 @@ class R_Actor(nn.Module):
         # Choose base network
         if len(obs_shape) == 3:
             print(
-                f"[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3"
+                f"[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3."
             )
-            self.base = CNNBase(args, obs_shape, is_uav, False)
+
+            # flatten(obs_shape)
+            temp_list = list(chain(*obs_shape))
+            print(
+                f"[ACTOR] reshaped obs_shape: {temp_list} which length is {len(temp_list)}."
+            )
+
+            self.base = CNNBase(args, temp_list, is_uav, False)
         else:
             # Only RIC will use this function
             print(

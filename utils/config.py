@@ -68,7 +68,7 @@ def parse_args():
 
     # Environment settings
     parser.add_argument("--num_mbs", type=int, default=1)
-    parser.add_argument("--num_uavs", type=int, default=1)
+    parser.add_argument("--num_uavs", type=int, default=3)
     parser.add_argument(
         "--num_users", type=int, default=5, help="Number of User Equipment"
     )
