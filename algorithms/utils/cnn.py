@@ -31,10 +31,8 @@ class CNNLayer(nn.Module):
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
 
-        if len(input_size) != 3:
+        if len(obs_shape) != 3:
             raise NotImplementedError
-
-        obs_shape = np.reshape(obs_shape, (input_size[0], input_size[1], input_size[2]))
 
         input_channel = obs_shape[0]
         input_width = obs_shape[1]
@@ -106,11 +104,8 @@ class CNNBase(nn.Module):
         self.hidden_size = args.hidden_size
         self.is_uav = is_uav
 
-        num_uavs = args.num_uavs
-        num_users = args.num_users
-        num_files = args.num_contents
-        cnn_input_size = CNN_Conv(is_uav, num_uavs, num_users, num_files)
-        obs_shape = Get_obs_shape(is_uav, num_uavs, num_users, num_files)
+        cnn_input_size = CNN_Conv(is_uav, args.num_uavs, args.num_users, args.num_contents)
+        obs_shape = Get_obs_shape(is_uav, args.num_uavs, args.num_users, args.num_contents)
         self.cnn = CNNLayer(
             obs_shape,
             cnn_input_size,
