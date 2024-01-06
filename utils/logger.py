@@ -6,6 +6,11 @@ import logging
 
 def SetLogger(dir):
     print("set logger...")
+    logging.basicConfig(
+        format="%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
+        datefmt="%d-%m-%Y:%H:%M:%S",
+        level=logging.DEBUG,
+    )
     logger = logging.getLogger("simple_example")
     logger.setLevel(logging.DEBUG)
 

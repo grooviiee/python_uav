@@ -99,13 +99,13 @@ class Agent(Entity):
 
 
 class User(Entity):
-    def __init__(self, file_size, num_files, zipf_parameter):
+    def __init__(self, file_size, num_contents, zipf_parameter):
         self.user_id = None
         self.state = UserState()
         self.movable = False
         self.mbs_associate = None
         self.user_associate = None
-        self.num_contents = num_files
+        self.num_contents = num_contents
         self.file_size = file_size
         self.zipf_parameter = zipf_parameter
         self.remaining_file_size = file_size

@@ -56,7 +56,7 @@ class UAV_ENV(gym.Env):
         self.uav_obs_size = [
             [1, [self.map_x_len, self.map_y_len]],
             [self.num_users, [self.map_x_len, self.map_y_len]],
-            [[self.num_users], [self.num_contents]],
+            [self.num_users, self.num_contents],
         ]
         self.mbs_obs_size = [
             [1, [self.map_x_len, self.map_y_len]],

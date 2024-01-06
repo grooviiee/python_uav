@@ -22,7 +22,7 @@ def Get_obs_shape(is_uav, num_uavs, num_users, num_files):
     result = []
     if is_uav is True:
         # channel, width, height
-        input_size = 2 + 2 * num_users + num_users * num_files
+        input_size = 2 + 2 * num_users + num_users
         height = input_size // 10 + 1
         result.append(2)
         result.append(5)
@@ -45,7 +45,7 @@ def CNN_Conv(is_uav, num_uavs, num_users, num_files):
     # num_files can be 10 20 30 40 50
 
     if is_uav is True:
-        input_size = 2 + 2 * num_users + num_users * num_files
+        input_size = 2 + 2 * num_users + num_users
 
         input_channel = 2
         input_height = 5

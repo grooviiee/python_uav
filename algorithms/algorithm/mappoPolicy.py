@@ -85,6 +85,7 @@ class MAPPOAgentPolicy:
         """
 
         # CNN_Conv(is_uav, )
+        print(f"obs_org_size: {len(obs[0])}")
         obs = Adjust_list_size(obs)
         channel, width, height = CNN_Conv(
             is_uav, self.args.num_uavs, self.args.num_users, self.args.num_contents

@@ -353,7 +353,15 @@ class SingleBS_runner(Runner):
             )
             # [agents, envs, dim]
             values.append(_t2n(value))
-            action = _t2n(action)
+
+            if type(action) is not list:
+                action_log_prob = _t2n(action_log_prob)
+            if type(action) is not list:
+                rnn_state = _t2n(rnn_state)
+            if type(action) is not list:
+                rnn_state_critic = _t2n(rnn_state_critic)
+            if type(action) is not list:
+                action = _t2n(action)
 
             # re-arrange action
             print(
@@ -375,13 +383,11 @@ class SingleBS_runner(Runner):
                 )
 
             elif self.envs.action_space[agent_id].__class__.__name__ == "Box":
-                # MBS Case -> [RUNNER] agent_id : 0, action space: Box(False, True, (100,), bool)
-                print(f"[RUNNER] BOX dType action.shape:  {action.shape}")
+                # print(f"[RUNNER] BOX dType action.shape:  {action.shape}")
                 action_env = action
 
             elif self.envs.action_space[agent_id].__class__.__name__ == "Tuple":
-                # [RUNNER] agent_id : 4, action space dType: Tuple value: Tuple(Box(False, True, (2, 10), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-                print(f"[RUNNER] Tuple dType action.shape:  {action.shape}")
+                # print(f"[RUNNER] Tuple dType action.shape:  {action.shape}")
                 action_env = self.envs.action_space[agent_id]
                 action_env = action
                 # for i in range
@@ -390,14 +396,12 @@ class SingleBS_runner(Runner):
 
             actions.append(action)
             temp_actions_env.append(action_env)
-            action_log_probs.append(_t2n(action_log_prob))
-            rnn_states.append(_t2n(rnn_state))
-            rnn_states_critic.append(_t2n(rnn_state_critic))
-            # MBS: action_env [ True]
-            # UAV: action_env Tuple(Box(False, True, (2, 30), bool), Box(0.0, 23.0, (2,), float32), Box(0.0, 5.0, (2,), float32), Box(0.0, 3.0, (2,), float32))
-            print(
-                f"[RUNNER] (Getting action Finished) agent_id ({agent_id}) action_env.shape ({action_env.shape}) agg_action_size ({len(temp_actions_env)}) n_rollout_threads ({self.n_rollout_threads})"
-            )
+            action_log_probs.append(action_log_prob)
+            rnn_states.append(rnn_state)
+            rnn_states_critic.append(rnn_state_critic)
+            # print(
+            #     f"[RUNNER] (Getting action Finished) agent_id ({agent_id}) action_env.shape ({action_env.shape}) agg_action_size ({len(temp_actions_env)}) n_rollout_threads ({self.n_rollout_threads})"
+            # )
 
         print(f"[RUNNER] Now ALL USER results aggregated..")
         # ALL USER aggregated results.. action_env_results will be insert into "Env".

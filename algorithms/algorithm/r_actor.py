@@ -107,9 +107,9 @@ class R_Actor(nn.Module):
 
         # Get action_space from feature_map
         actions, action_log_probs = self.act(actor_features)
-        print(
-            f"[R_Actor] Forward actor_features: {actor_features.shape}, actions: {actions.shape}, action_log_probs: {action_log_probs.shape}"
-        )
+        # print(
+        #     f"[R_Actor] Forward actor_features: {actor_features.shape}, actions: {actions.shape}, action_log_probs: {action_log_probs.shape}"
+        # )
         return actions, action_log_probs, rnn_states
 
     def evaluate_actions(
