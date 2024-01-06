@@ -68,9 +68,9 @@ def parse_args():
 
     # Environment settings
     parser.add_argument("--num_mbs", type=int, default=1)
-    parser.add_argument("--num_uavs", type=int, default=1)
+    parser.add_argument("--num_uavs", type=int, default=2)
     parser.add_argument(
-        "--num_users", type=int, default=5, help="Number of User Equipment"
+        "--num_users", type=int, default=10, help="Number of User Equipment"
     )
     parser.add_argument(
         "--cache_capa", type=int, default=7, help="Max Number of File stored in UAV"

@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from algorithms.algorithm.r_actor import R_Actor
 from algorithms.algorithm.r_critic import R_Critic
-from envs.rl_params import CNN_Conv
+from envs.rl_params.rl_params import CNN_Conv, Get_obs_shape, Adjust_list_size
 
 
 class MAPPOAgentPolicy:
@@ -15,6 +15,7 @@ class MAPPOAgentPolicy:
         agent_id,
         device=torch.device("cpu"),
     ):
+        self.args = args
         self.device = device
         self.lr = args.lr
         self.critic_lr = args.critic_lr
@@ -84,11 +85,12 @@ class MAPPOAgentPolicy:
         """
 
         # CNN_Conv(is_uav, )
-
-        if is_uav is False:  # MBS
-            reshape_obs = np.reshape(obs, (2, 5, -1))  # (2, 5, 5)
-        else:  # UAV
-            reshape_obs = np.reshape(obs, (1, 2, -1))  # (2, 2, 17)
+        obs = Adjust_list_size(obs)
+        channel, width, height = CNN_Conv(
+            is_uav, self.args.num_uavs, self.args.num_users, self.args.num_contents
+        )
+        print(f"{is_uav}, {len(obs)}, {channel}, {width}, {height}")
+        reshape_obs = np.reshape(obs, (channel, width, height))
 
         cent_obs = reshape_obs
 
