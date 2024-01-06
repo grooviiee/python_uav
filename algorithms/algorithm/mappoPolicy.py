@@ -89,6 +89,7 @@ class MAPPOAgentPolicy:
         channel, width, height = CNN_Conv(
             is_uav, self.args.num_uavs, self.args.num_users, self.args.num_contents
         )
+        print(f"{is_uav}, {len(obs)}, {channel}, {width}, {height}")
         reshape_obs = np.reshape(obs, (channel, width, height))
 
         cent_obs = reshape_obs
