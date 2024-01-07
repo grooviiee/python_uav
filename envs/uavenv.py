@@ -293,12 +293,12 @@ class UAV_ENV(gym.Env):
 
     # change action values from probability into valid number
     def _set_action(self, agent_id, action, agent, action_space, time=None):
-        action_set = action[agent_id]
+        action_set = action[0][agent_id]
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
-            print(
-                f"[UAV_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: action_set[0]: {action_set[0]}, action_set: {action_set}"
-            )
+            # print(
+            #     f"[UAV_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: action_set[0]: {action_set[0]}, action_set: {action_set}"
+            # )
             agent.action = list(action_set)
             agent.action = self.refine_uav_action(action_set[0], agent.state.cache_size)
             if self.log_level >= 1:
@@ -308,10 +308,10 @@ class UAV_ENV(gym.Env):
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
         elif agent.isUAV == False:
             # Do MBS Action (Decide associateion)
-            print(
-                f"[MBS_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: action_set[0]: {action_set[0]}, action_set: {action_set}"
-            )
-            agent.action = self.refine_mbs_action(action_set[0])
+            # print(
+            #     f"[MBS_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: action_set[0]: {action_set[0]}, action_set: {action_set}"
+            # )
+            agent.action = self.refine_mbs_action(action_set)
             if self.log_level >= 1:
                 print(
                     f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}"
@@ -423,7 +423,7 @@ class UAV_ENV(gym.Env):
             )
         else:
             print(
-                f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action[0])}, is_random_mode: {is_random_mode}"
+                f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}, is_random_mode: {is_random_mode}"
             )
 
         self.current_step = self.current_step + 1
