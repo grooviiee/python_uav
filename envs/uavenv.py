@@ -297,7 +297,7 @@ class UAV_ENV(gym.Env):
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
             print(
-                f"[UAV_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: {action_set[0]}, action_set: {action_set[0]},action_set: {action_set[0]}"
+                f"[UAV_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: action_set[0]: {action_set[0]}, action_set: {action_set}"
             )
             agent.action = list(action_set)
             agent.action = self.refine_uav_action(action_set[0], agent.state.cache_size)
@@ -308,6 +308,9 @@ class UAV_ENV(gym.Env):
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
         elif agent.isUAV == False:
             # Do MBS Action (Decide associateion)
+            print(
+                f"[MBS_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: action_set[0]: {action_set[0]}, action_set: {action_set}"
+            )
             agent.action = self.refine_mbs_action(action_set[0])
             if self.log_level >= 1:
                 print(
@@ -316,7 +319,7 @@ class UAV_ENV(gym.Env):
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
 
         else:
-            NotImplementedError
+            raise NotImplementedError
 
     def refine_uav_action(self, action_space, cache_capa):
         cache_logit = action_space[0 : self.num_contents - 1]
@@ -335,10 +338,17 @@ class UAV_ENV(gym.Env):
 
     def refine_mbs_action(self, action_space):
         # action_space.shape = ((world.num_uavs + world.num_mbs) * world.num_users, )
+        action_space = np.squeeze(action_space, axis=(0, 2))
+        print(
+            f"[refine_mbs_action] {type(action_space)} action_space: {action_space}, {action_space.shape}"
+        )
+
         action_results = []
-        for idx, val in enumerate(action_space):
+        # TODO: why we choose action_space[0]???
+        for idx, val in enumerate(action_space[0]):
             agent_id = idx / self.num_users
             user = idx % self.num_users
+
             if agent_id == 0:
                 if val >= 0:
                     action_results.append(True)
@@ -431,7 +441,7 @@ class UAV_ENV(gym.Env):
         # set action for each agent
         for i, agent in enumerate(self.agents):
             if is_random_mode is False:
-                self._set_action(i, action[0], agent, self.action_space[i])
+                self._set_action(i, action, agent, self.action_space[i])
             else:
                 self._set_random_action(i, agent, self.action_space[i])
 

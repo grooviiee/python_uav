@@ -403,7 +403,7 @@ class SingleBS_runner(Runner):
             #     f"[RUNNER] (Getting action Finished) agent_id ({agent_id}) action_env.shape ({action_env.shape}) agg_action_size ({len(temp_actions_env)}) n_rollout_threads ({self.n_rollout_threads})"
             # )
 
-        print(f"[RUNNER] Now ALL USER results aggregated..")
+        print(f"[RUNNER] ALL USER results aggregated")
         # ALL USER aggregated results.. action_env_results will be insert into "Env".
         # [envs, agents, dim] -> action dimension depends on num threads
         action_env_results = []
