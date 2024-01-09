@@ -192,6 +192,7 @@ class SingleBS_runner(Runner):
                             small_step,
                             self.episode_length,
                         )
+
                         (
                             values,
                             actions,
@@ -399,32 +400,31 @@ class SingleBS_runner(Runner):
             action_log_probs.append(action_log_prob)
             rnn_states.append(rnn_state)
             rnn_states_critic.append(rnn_state_critic)
-            # print(
-            #     f"[RUNNER] (Getting action Finished) agent_id ({agent_id}) action_env.shape ({action_env.shape}) agg_action_size ({len(temp_actions_env)}) n_rollout_threads ({self.n_rollout_threads})"
-            # )
 
         print(f"[RUNNER] ALL USER results aggregated")
+        action_env_results = temp_actions_env
+
         # ALL USER aggregated results.. action_env_results will be insert into "Env".
         # [envs, agents, dim] -> action dimension depends on num threads
-        action_env_results = []
-        for i in range(self.n_rollout_threads):
-            one_hot_action_env = []
-            for temp_action_env in temp_actions_env:
-                one_hot_action_env.append(temp_action_env)
-            action_env_results.append(one_hot_action_env)
+        # action_env_results = []
+        # for i in range(self.n_rollout_threads):
+        #     one_hot_action_env = []
+        #     for temp_action_env in temp_actions_env:
+        #         one_hot_action_env.append(temp_action_env)
+        #     action_env_results.append(one_hot_action_env)
 
         # values = np.array(values).transpose()
         # actions = np.transpose(actions, (1, 0, 2))
         # action_log_probs = np.array(action_log_probs).transpose()
         # rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
         # rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
-        for return_action_info in action_env_results:
-            NotImplemented
-            # print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(action_env_results)}')
+        # for return_action_info in action_env_results:
+        #     NotImplemented
+        #     # print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(action_env_results)}')
 
-        print(
-            f"[RUNNER] Aggregate ALL AGENT Actions ({len(actions)}) action_log_probs ({len(action_log_probs)}) action_env_results ({len(action_env_results)})"
-        )
+        # print(
+        #     f"[RUNNER] Aggregate ALL AGENT Actions ({len(actions)}) action_log_probs ({len(action_log_probs)}) action_env_results ({len(action_env_results)})"
+        # )
         return (
             values,
             actions,

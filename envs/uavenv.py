@@ -293,14 +293,16 @@ class UAV_ENV(gym.Env):
 
     # change action values from probability into valid number
     def _set_action(self, agent_id, action, agent, action_space, time=None):
-        action_set = action[0][agent_id]
+        agent_action_set = action[agent_id]
         if agent.isUAV == True:
             # Do UAV Action  (Set caching, trajectory, power)
-            # print(
-            #     f"[UAV_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: action_set[0]: {action_set[0]}, action_set: {action_set}"
-            # )
-            agent.action = list(action_set)
-            agent.action = self.refine_uav_action(action_set[0], agent.state.cache_size)
+            print(
+                f"[UAV_ACTION] agent_action_set length:({len(agent_action_set)}), agent_action_set[0]({len(agent_action_set[0])}): {agent_action_set[0]}"
+            )
+            agent.action = list(agent_action_set)
+            agent.action = self.refine_uav_action(
+                agent_action_set, agent.state.cache_size
+            )
             if self.log_level >= 1:
                 print(
                     f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}"
@@ -308,10 +310,10 @@ class UAV_ENV(gym.Env):
                 print(f"[UAVENV] (_set_action) action: {agent.action}")
         elif agent.isUAV == False:
             # Do MBS Action (Decide associateion)
-            # print(
-            #     f"[MBS_ACTION] action_set: {len(action_set)}, {len(action_set[0])}: action_set[0]: {action_set[0]}, action_set: {action_set}"
-            # )
-            agent.action = self.refine_mbs_action(action_set)
+            print(
+                f"[MBS_ACTION] action_set: {len(agent_action_set)}, {len(agent_action_set[0])}: agent_action_set[0]: {agent_action_set[0]}, agent_action_set: {agent_action_set}"
+            )
+            agent.action = self.refine_mbs_action(agent_action_set)
             if self.log_level >= 1:
                 print(
                     f"[UAVENV] (_set_action) agent_id: {agent_id}, action_space: {action_space}, action: {action[agent_id]}"
@@ -322,10 +324,13 @@ class UAV_ENV(gym.Env):
             raise NotImplementedError
 
     def refine_uav_action(self, action_space, cache_capa):
-        cache_logit = action_space[0 : self.num_contents - 1]
-        power = action_space[self.num_contents]
-        location1 = action_space[self.num_contents + 1]
-        location2 = action_space[self.num_contents + 2]
+        print(
+            f"[UAVENV] (refine_uav_action) cache_logit ({len(action_space[0][0])}): {action_space[0][0][0]}, power ({len(action_space[1])}): {action_space[1]}, location1 ({len(action_space[2])}), location2 ({len(action_space[3])})"
+        )
+        cache_logit = action_space[0][0][0].tolist()
+        power = action_space[1]
+        location1 = action_space[2]
+        location2 = action_space[3]
 
         ranks = [sorted(cache_logit).index(ele) for ele in cache_logit]
         cache_list = ranks[0:cache_capa]
@@ -419,11 +424,11 @@ class UAV_ENV(gym.Env):
         # action is coming with n_threads
         if is_random_mode is False:
             print(
-                f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}/{len(self.action_space)}"
+                f"[ENV_STEP] NUM_MBS({self.num_mbs}) NUM_UAV({self.num_uavs}), Current_step: {self.current_step}, length: {len(action)}/{len(self.action_space)}"
             )
         else:
             print(
-                f"[ENV_STEP] Current_step: {self.current_step}, length: {len(action)}, is_random_mode: {is_random_mode}"
+                f"[ENV_STEP] NUM_MBS({self.num_mbs}) NUM_UAV({self.num_uavs}), Current_step: {self.current_step}, length: {len(action)}, is_random_mode: {is_random_mode}"
             )
 
         self.current_step = self.current_step + 1
