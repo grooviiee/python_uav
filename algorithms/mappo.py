@@ -151,6 +151,9 @@ class MAPPOAgentTrainer:
                 reshaped_share_obs_batch.append(reshaped_tmp)
                 reshaped_obs_batch.append(reshaped_tmp)
 
+        reshaped_share_obs_batch = np.array(reshaped_share_obs_batch, dtype=np.float32)
+        reshaped_obs_batch = np.array(reshaped_obs_batch, dtype=np.float32)
+
         # if is_uav == False:
         #     share_obs_batch = np.reshape(
         #         share_obs_batch, (batch_size, 2, 5, -1)
@@ -163,14 +166,14 @@ class MAPPOAgentTrainer:
         #     obs_batch = np.reshape(obs_batch, (batch_size, 1, 2, -1))  # (2, 2, 17)
 
         print(
-            f"[PPO_UPDATE] (after_reshape) share_obs_batch ({share_obs_batch.shape}), obs_batch ({obs_batch.shape}), actions_batch ({actions_batch.shape})"
+            f"[PPO_UPDATE] (after_reshape) share_obs_batch ({reshaped_share_obs_batch.shape}), obs_batch ({reshaped_obs_batch.shape}), actions_batch ({actions_batch.shape})"
         )
 
         # Reshape to do in a single forward pass for all steps
         values, action_log_probs, dist_entropy = self.policy.evaluate_actions(
             is_uav,
-            share_obs_batch[sample_index],
-            obs_batch[sample_index],
+            reshaped_share_obs_batch[sample_index],
+            reshaped_obs_batch[sample_index],
             rnn_states_batch,
             rnn_states_critic_batch,
             actions_batch[sample_index],
