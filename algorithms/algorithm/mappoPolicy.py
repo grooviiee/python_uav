@@ -86,7 +86,7 @@ class MAPPOAgentPolicy:
 
         # CNN_Conv(is_uav, )
         print(f"obs_org_size: {len(obs[0])}")
-        obs = Adjust_list_size(obs)
+        obs = Adjust_list_size(obs[0])
         channel, width, height = CNN_Conv(
             is_uav, self.args.num_uavs, self.args.num_users, self.args.num_contents
         )
@@ -119,7 +119,7 @@ class MAPPOAgentPolicy:
         #     reshaped_cent_obs = np.reshape(cent_obs, (2, 5, -1))  # (2, 5, 5)
         # else:  # UAV
         #     reshaped_cent_obs = np.reshape(cent_obs, (1, 2, -1))  # (2, 2, 17)
-        cent_obs = Adjust_list_size(cent_obs)
+        cent_obs = Adjust_list_size(cent_obs[0])
         channel, width, height = CNN_Conv(
             is_uav, self.args.num_uavs, self.args.num_users, self.args.num_contents
         )

@@ -6,7 +6,6 @@ params: is_uav, input_channel, input_width, input_height, num_files
 
 
 def Adjust_list_size(list):
-    list = list[0]
     current_size = len(list)
     remainder = current_size % 10
     list_from_array = list.tolist()

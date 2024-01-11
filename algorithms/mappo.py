@@ -3,6 +3,7 @@ import numpy as np
 from onpolicy.utils.util import get_gard_norm, huber_loss, mse_loss
 from onpolicy.utils.valuenorm import ValueNorm
 from algorithms.utils.util import check
+from envs.rl_params.rl_params import CNN_Conv, Get_obs_shape, Adjust_list_size
 
 
 class MAPPOAgentTrainer:
@@ -28,6 +29,7 @@ class MAPPOAgentTrainer:
         self._use_valuenorm = args.use_valuenorm
         self._use_value_active_masks = args.use_value_active_masks  # True
         self._use_policy_active_masks = args.use_policy_active_masks  # False
+        self.args = args
 
         assert (
             self._use_popart and self._use_valuenorm
@@ -135,18 +137,30 @@ class MAPPOAgentTrainer:
         print(
             f"[PPO_UPDATE] (before_reshape) share_obs_batch ({share_obs_batch.shape}), obs_batch ({obs_batch.shape})"
         )
-        if is_uav == False:
-            # share_obs_batch = np.reshape(share_obs_batch, (batch_size,8,2,-1)) # (2, 5, 5)
-            # obs_batch = np.reshape(obs_batch, (batch_size,8,2,-1)) # (2, 5, 5)
-            share_obs_batch = np.reshape(
-                share_obs_batch, (batch_size, 2, 5, -1)
-            )  # (2, 5, 5)
-            obs_batch = np.reshape(obs_batch, (batch_size, 2, 5, -1))  # (2, 5, 5)
-        else:
-            share_obs_batch = np.reshape(
-                share_obs_batch, (batch_size, 1, 2, -1)
-            )  # (2, 2, 17)
-            obs_batch = np.reshape(obs_batch, (batch_size, 1, 2, -1))  # (2, 2, 17)
+        reshaped_share_obs_batch = []
+        reshaped_obs_batch = []
+        
+        for batch_idx, list in enumerate(share_obs_batch):
+                tmp = Adjust_list_size(list)
+                channel, width, height = CNN_Conv(
+                    is_uav, self.args.num_uavs, self.args.num_users, self.args.num_contents
+                )
+                print(f"idx({batch_idx}), {is_uav}, {len(tmp)}, ({channel}, {width}, {height})")
+                reshaped_tmp = np.reshape(tmp, (channel, width, height))
+
+                reshaped_share_obs_batch.append(reshaped_tmp)
+                reshaped_obs_batch.append(reshaped_tmp)
+
+        # if is_uav == False:
+        #     share_obs_batch = np.reshape(
+        #         share_obs_batch, (batch_size, 2, 5, -1)
+        #     )  # (2, 5, 5)
+        #     obs_batch = np.reshape(obs_batch, (batch_size, 2, 5, -1))  # (2, 5, 5)
+        # else:
+        #     share_obs_batch = np.reshape(
+        #         share_obs_batch, (batch_size, 1, 2, -1)
+        #     )  # (2, 2, 17)
+        #     obs_batch = np.reshape(obs_batch, (batch_size, 1, 2, -1))  # (2, 2, 17)
 
         print(
             f"[PPO_UPDATE] (after_reshape) share_obs_batch ({share_obs_batch.shape}), obs_batch ({obs_batch.shape}), actions_batch ({actions_batch.shape})"
@@ -164,17 +178,6 @@ class MAPPOAgentTrainer:
             available_actions_batch,
             active_masks_batch,
         )
-
-        # # modify action_log_probs
-        # if is_uav == True:
-        #     temp_list = []
-        #     for idx, val in enumerate(action_log_probs[0]):
-        #         temp_list.append(val)
-        #     temp_list.append(action_log_probs[1])
-        #     temp_list.append(action_log_probs[2])
-        #     temp_list.append(action_log_probs[3])
-        #     action_log_probs = temp_list
-        #     # action_log_probs = np.array(temp_list)
 
         # Step 2. Actor update
         print(
