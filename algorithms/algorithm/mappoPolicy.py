@@ -115,12 +115,18 @@ class MAPPOAgentPolicy:
 
         :return values: (torch.Tensor) value function predictions.
         """
-        if is_uav == False:  # MBS
-            reshaped_cent_obs = np.reshape(cent_obs, (2, 5, -1))  # (2, 5, 5)
-        else:  # UAV
-            reshaped_cent_obs = np.reshape(cent_obs, (1, 2, -1))  # (2, 2, 17)
+        # if is_uav == False:  # MBS
+        #     reshaped_cent_obs = np.reshape(cent_obs, (2, 5, -1))  # (2, 5, 5)
+        # else:  # UAV
+        #     reshaped_cent_obs = np.reshape(cent_obs, (1, 2, -1))  # (2, 2, 17)
+        cent_obs = Adjust_list_size(cent_obs)
+        channel, width, height = CNN_Conv(
+            is_uav, self.args.num_uavs, self.args.num_users, self.args.num_contents
+        )
+        print(f"{is_uav}, {len(cent_obs)}, {channel}, {width}, {height}")
+        reshape_obs = np.reshape(cent_obs, (channel, width, height))
 
-        values, _ = self.critic(reshaped_cent_obs, rnn_states_critic, masks)
+        values, _ = self.critic(reshape_obs, rnn_states_critic, masks)
         return values
 
     def evaluate_actions(

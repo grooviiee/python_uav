@@ -416,8 +416,8 @@ class SingleBS_runner(Runner):
         # values = np.array(values).transpose()
         # actions = np.transpose(actions, (1, 0, 2))
         # action_log_probs = np.array(action_log_probs).transpose()
-        # rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
-        # rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
+        # rnn_states = np.array(rnn_states)
+        # rnn_states_critic = np.array(rnn_states_critic)
         # for return_action_info in action_env_results:
         #     NotImplemented
         #     # print(f'[RUNNER_COLLECT] Spit actionInfo As {return_action_info} /len: {len(action_env_results)}')
@@ -457,12 +457,12 @@ class SingleBS_runner(Runner):
             rnn_states_critic,
         ) = data
 
-        if self.all_args.log_level >= 4:
+        if self.all_args.log_level >= 1:
             print(
-                f"[RUNNER_INSERT] (TYPE) obs: {obs}\n reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}"
+                f"[RUNNER_INSERT] (TYPE) 1. obs: {type(obs)}\n reward: {type(rewards)}, dones: {type(dones)}, infos: {type(infos)}, values: {type(values)}"
             )
             print(
-                f"[RUNNER_INSERT] (TYPE) actions: {actions}, action_log_probs: {type(action_log_probs)}, rnn_states: {rnn_states}, rnn_states_critic: {type(rnn_states_critic)}"
+                f"[RUNNER_INSERT] (TYPE) 2. actions: {type(actions)}, action_log_probs: {type(action_log_probs)}, rnn_states: {type(rnn_states)}, rnn_states_critic: {type(rnn_states_critic)}"
             )
         # Dones가 True인 index에 대해서는 모두 0으로 설정하나 보다. -> 이건 나중에 고려하기로.
 

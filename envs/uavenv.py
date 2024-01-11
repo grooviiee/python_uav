@@ -1,6 +1,7 @@
 import numpy as np
 from gym import spaces
 import gym
+from itertools import chain
 from gym.spaces.space import Space
 from gym.spaces.utils import flatdim, flatten
 
@@ -145,7 +146,7 @@ class UAV_ENV(gym.Env):
 
             # Caching
             u_action_space = spaces.Box(
-                low=0, high=1, shape=(world.num_contents,), dtype=np.bool8
+                low=0, high=1, shape=(world.cache_capa,), dtype=np.bool8
             )  # [0,1][num_contents]
             total_action_space.append(u_action_space)
 
@@ -328,6 +329,7 @@ class UAV_ENV(gym.Env):
             f"[UAVENV] (refine_uav_action) cache_logit ({len(action_space[0][0])}): {action_space[0][0][0]}, power ({len(action_space[1])}): {action_space[1]}, location1 ({len(action_space[2])}), location2 ({len(action_space[3])})"
         )
         cache_logit = action_space[0][0][0].tolist()
+        cache_logit = list(chain(*cache_logit))
         power = action_space[1]
         location1 = action_space[2]
         location2 = action_space[3]
