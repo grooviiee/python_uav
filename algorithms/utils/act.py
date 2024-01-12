@@ -278,23 +278,8 @@ class ACTLayer(nn.Module):
                         )
                     else:
                         dist_entropy.append(action_logit.entropy().mean())
-                # for idx, action_out in enumerate(self.action_outs):
-                #     action_logit = action_out(x)
-                #     action_log_probs.append(action_logit.log_probs(action[idx]))
 
-                #     if active_masks is not None:
-                #         dist_entropy.append(
-                #             (action_logit.entropy() * active_masks.squeeze(-1)).sum()
-                #             / active_masks.sum()
-                #         )
-                #     else:
-                #         dist_entropy.append(action_logit.entropy().mean())
-
-                #action_log_probs = torch.sum(torch.cat(action_log_probs, -1), -1, keepdim=True)
-                print(f"[ACT_EVALUATE_ACTIONS] action_log_probs: {action_log_probs}, len(action_log_probs): {len(action_log_probs)}")
                 action_log_probs = torch.cat((action_log_probs[0].view(-1), action_log_probs[1].view(-1),action_log_probs[2].view(-1),action_log_probs[3].view(-1)))
-                
-
                 dist_entropy = sum(dist_entropy) / len(dist_entropy)
 
                 # ##########################
