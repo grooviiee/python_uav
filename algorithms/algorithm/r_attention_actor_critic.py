@@ -42,7 +42,12 @@ class R_Attention_Critic(nn.Module):
 
         cent_obs_shape = get_shape_from_obs_space(cent_obs_space)
         # TODO: Need to Fix this...?
-        base = Attention_CNNBase if len(cent_obs_shape) == 3 else MLPBase
+        if len(cent_obs_shape) == 3:
+            base = Attention_CNNBase
+        else 
+            raise NotImplementedError
+            base = MLPBase
+
         self.base = base(args, cent_obs_shape, self.is_uav, True)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:

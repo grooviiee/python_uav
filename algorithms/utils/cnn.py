@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from envs.rl_params.rl_params import CNN_Conv, Get_obs_shape

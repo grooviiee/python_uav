@@ -182,7 +182,6 @@ class SingleBS_runner(Runner):
             else:
                 for big_step in range(num_big_steps):
                     for small_step in range(self.episode_length):
-                        # for small_step in range(3):
                         self.logger.info(
                             "[RUNNER] episode(%d/%d) big_step(%d/%d) small_step(%d/%d)",
                             episode,
