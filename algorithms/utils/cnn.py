@@ -180,7 +180,8 @@ class Attention_CNNLayer(nn.Module):
             Flatten(),
             init_(nn.Linear(conv2d_out_size, 64)),  # nn.Linear : Fully connected layer
             active_func,
-            self.attention_layer(h, h, h),
+            #self.attention_layer(h, h, h),
+            self.attention_layer,
             active_func,
             init_(nn.Linear(hidden_size, 64)),
             active_func,
@@ -219,9 +220,9 @@ class Attention_CNNLayer(nn.Module):
 
 
 class Attention_CNNBase(nn.Module):
-    def __init__(self, args, obs_shape, is_uav, attention_mode):
+    def __init__(self, args, obs_shape, is_uav):
         print(f"..Init CNNBase")
-        super(CNNBase, self).__init__()
+        super(Attention_CNNBase, self).__init__()
 
         self._use_orthogonal = args.use_orthogonal
         self._use_ReLU = args.use_ReLU

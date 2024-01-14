@@ -1,11 +1,12 @@
 import torch
 import numpy as np
-from algorithms.algorithm.r_attention_actor_critic import R_Actor
+from algorithms.algorithm.r_actor import R_Actor
 from algorithms.algorithm.r_attention_actor_critic import R_Attention_Critic
 # from algorithms.algorithm.r_critic import R_Critic
 
 class AttentionMappoAgent_Policy:
     def __init__(self, args, obs_space, cent_obs_space, act_space, agent_id, device=torch.device("cpu")):
+        self.args = args
         self.device = device
         self.lr = args.lr
         self.critic_lr = args.critic_lr        
@@ -28,12 +29,14 @@ class AttentionMappoAgent_Policy:
         
     def get_actions(self, is_uav, cent_obs, obs, rnn_states_actor, rnn_states_critic, masks, available_actions=None, deterministic=False):
         
-        if is_uav == False:
-            reshape_obs = np.reshape(obs, (2,5,-1)) # (2, 5, 5)
-        else:
-            reshape_obs = np.reshape(obs, (1,2,-1)) # (2, 2, 17)
-        
-        
+        print(f"obs_org_size: {len(obs[0])}")
+        obs = Adjust_list_size(obs[0])
+        channel, width, height = CNN_Conv(
+            is_uav, self.args.num_uavs, self.args.num_users, self.args.num_contents
+        )
+        print(f"{is_uav}, {len(obs)}, {channel}, {width}, {height}")
+        reshape_obs = np.reshape(obs, (channel, width, height))
+
         cent_obs = reshape_obs
 
         # actions: distribution set, action_log_probs: sample probabilities

@@ -11,10 +11,55 @@ from utils.util import get_shape_from_obs_space
 
 
 class R_Actor(nn.Module):
-    def __init__(self, args, obs_space, action_space, device=torch.device("cpu")):
+    def __init__(self, args, obs_space, action_space, is_uav, device=torch.device("cpu")):
         super(R_Actor, self).__init__()
         self.hidden_size = args.hidden_size
 
+        self._gain = args.gain
+        self._use_orthogonal = args.use_orthogonal
+        self._use_policy_active_masks = args.use_policy_active_masks
+        self._use_naive_recurrent_policy = args.use_naive_recurrent_policy
+        self._use_recurrent_policy = args.use_recurrent_policy
+        self._recurrent_N = args.recurrent_N
+        self.tpdv = dict(dtype=torch.float32, device=device)  # device type
+        self.is_uav = is_uav
+        self.cache_capa = args.cache_capa
+        obs_shape = get_shape_from_obs_space(obs_space)
+
+        # Choose base network
+        if len(obs_shape) == 3:
+            print(
+                f"[ACTOR] returned obs_shape: {obs_shape}. CNN Base because length is 3."
+            )
+
+            # flatten(obs_shape)
+            temp_list = list(chain(*obs_shape))
+            print(
+                f"[ACTOR] reshaped obs_shape: {temp_list} which length is {len(temp_list)}."
+            )
+
+            self.base = CNNBase(args, temp_list, is_uav, False)
+        else:
+            # Only RIC will use this function
+            print(
+                f"(We do not use this currently) [ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3"
+            )
+            self.base = MLPBase(args, obs_shape, is_uav, False)
+
+        if self._use_naive_recurrent_policy or self._use_recurrent_policy:
+            print(f"self.rnn = RNNLayer")
+            self.rnn = RNNLayer(
+                self.hidden_size,
+                self.hidden_size,
+                self._recurrent_N,
+                self._use_orthogonal,
+            )
+
+        self.act = ACTLayer(
+            action_space, self.hidden_size, self._use_orthogonal, self._gain
+        )
+
+        self.to(device)
 
 class R_Attention_Critic(nn.Module):
     """
@@ -41,14 +86,13 @@ class R_Attention_Critic(nn.Module):
         ]
 
         cent_obs_shape = get_shape_from_obs_space(cent_obs_space)
-        # TODO: Need to Fix this...?
         if len(cent_obs_shape) == 3:
-            base = Attention_CNNBase
-        else 
+            self.base = Attention_CNNBase(args, cent_obs_shape, self.is_uav)
+        else:
             raise NotImplementedError
-            base = MLPBase
+            self.base = MLPBase(args, cent_obs_shape, self.is_uav)
 
-        self.base = base(args, cent_obs_shape, self.is_uav, True)
+        # self.base = base(args, cent_obs_shape, self.is_uav)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             self.rnn = RNNLayer(
