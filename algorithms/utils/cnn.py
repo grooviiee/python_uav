@@ -166,46 +166,56 @@ class Attention_CNNLayer(nn.Module):
             f"[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}"
         )
 
-        self.attention_cnn = nn.Sequential(
-            init_(
-                nn.Conv2d(  # 2D Convolution function
-                    in_channels=input_channel,
-                    out_channels=hidden_size // 2,
-                    # out_channels=3,
-                    kernel_size=kernel_size,  # it was set to 2
-                    stride=stride,
-                )
-            ),
-            active_func,  # call nn.ReLU()
-            Flatten(),
-            init_(nn.Linear(conv2d_out_size, 64)),  # nn.Linear : Fully connected layer
-            active_func,
-            #self.attention_layer(h, h, h),
-            self.attention_layer,
-            active_func,
-            init_(nn.Linear(hidden_size, 64)),
-            active_func,
-        )
-        # self.cnn = nn.Sequential(
+        # self.attention_cnn = nn.Sequential(
         #     init_(
-        #         nn.Conv2d(      # 2D Convolution function
+        #         nn.Conv2d(  # 2D Convolution function
         #             in_channels=input_channel,
-        #             #out_channels=hidden_size // 2,
-        #             out_channels=3,
-        #             kernel_size=kernel_size,    # it was set to 2
+        #             out_channels=hidden_size // 2,
+        #             # out_channels=3,
+        #             kernel_size=kernel_size,  # it was set to 2
         #             stride=stride,
         #         )
         #     ),
-        #     active_func,    # call nn.ReLU()
+        #     active_func,  # call nn.ReLU()
         #     Flatten(),
-        #     init_(nn.Linear(num_hidden_layer, 64)),     # nn.Linear : Fully connected layer
+        #     init_(nn.Linear(conv2d_out_size, 64)),  # nn.Linear : Fully connected layer
+        #     active_func,
+        #     #self.attention_layer(h, h, h),
+        #     self.attention_layer,
         #     active_func,
         #     init_(nn.Linear(hidden_size, 64)),
         #     active_func,
         # )
+        self.attention_cnn = nn.Sequential(
+            init_(
+                nn.Conv2d(
+                    in_channels=input_channel,
+                    # out_channels=hidden_size // 2,
+                    out_channels=hidden_size // 2,
+                    kernel_size=kernel_size,
+                    stride=stride,
+                )
+            ),
+            active_func,
+            Flatten(),
+            init_(
+                nn.Linear(
+                    in_features=hidden_size
+                    // 2
+                    * (input_width - kernel_size + stride)
+                    * (input_height - kernel_size + stride),
+                    out_features=hidden_size,
+                )
+            ),
+            active_func,
+            self.attention_layer,
+            active_func,
+            init_(nn.Linear(hidden_size, hidden_size)),
+            active_func,
+        )
 
         print(
-            f"[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}],{self.cnn}"
+            f"[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}],{self.attention_cnn}"
         )
 
     def forward(self, x):

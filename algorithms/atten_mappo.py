@@ -5,6 +5,7 @@ import torch.nn as nn
 # from algorithms.utils.util import get_gard_norm, huber_loss, mse_loss
 from onpolicy.utils.valuenorm import ValueNorm
 from algorithms.utils.util import check
+from envs.rl_params.rl_params import CNN_Conv, Get_obs_shape, Adjust_list_size
 
 
 class AttenMappoAgent_Trainer:
@@ -18,7 +19,9 @@ class AttenMappoAgent_Trainer:
         self.num_mini_batch = args.num_mini_batch
         self.data_chunk_length = args.data_chunk_length
         self.value_loss_coef = args.value_loss_coef
-
+        self._use_popart = args.use_popart
+        self._use_valuenorm = args.use_valuenorm
+        
         assert (
             self._use_popart and self._use_valuenorm
         ) == False, "self._use_popart and self._use_valuenorm can not be set True simultaneously"
@@ -90,3 +93,11 @@ class AttenMappoAgent_Trainer:
             train_info[k] /= num_updates
 
         return train_info
+
+    def prep_training(self):
+        self.policy.actor.train()
+        self.policy.critic.train()
+
+    def prep_rollout(self):
+        self.policy.actor.eval()
+        self.policy.critic.eval()

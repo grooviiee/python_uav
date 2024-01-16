@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from algorithms.algorithm.r_actor import R_Actor
 from algorithms.algorithm.r_attention_actor_critic import R_Attention_Critic
-# from algorithms.algorithm.r_critic import R_Critic
+from envs.rl_params.rl_params import CNN_Conv, Get_obs_shape, Adjust_list_size
 
 class AttentionMappoAgent_Policy:
     def __init__(self, args, obs_space, cent_obs_space, act_space, agent_id, device=torch.device("cpu")):
