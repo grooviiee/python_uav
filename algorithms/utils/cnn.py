@@ -41,7 +41,6 @@ class CNNLayer(nn.Module):
         input_channel = obs_shape[0]
         input_width = obs_shape[1]
         input_height = obs_shape[2]
-        conv2d_out_size = 4
 
         # Print cnn configurations
         print(
@@ -130,9 +129,9 @@ class Attention_CNNLayer(nn.Module):
         use_orthogonal,
         use_ReLU,
         is_uav,
-        attention_size=32,
-        kernel_size=2,
-        stride=2,
+        attention_size,
+        kernel_size=3,
+        stride=1,
     ):
         super(Attention_CNNLayer, self).__init__()
 
@@ -151,17 +150,15 @@ class Attention_CNNLayer(nn.Module):
         input_channel = obs_shape[0]
         input_width = obs_shape[1]
         input_height = obs_shape[2]
-        conv2d_out_size = 4
 
         print(
             f"[CNN_LAYER_INIT] is_uav: {is_uav}, input_channel {input_channel}, input_width {input_width}, input_height {input_height} hidden_size {hidden_size}"
         )
 
-        self.attention_cnn = nn.Sequential(
-            init_(
+        self.cnn_c1 = nn.Sequential(
+            init_(      #c1
                 nn.Conv2d(
                     in_channels=input_channel,
-                    # out_channels=hidden_size // 2,
                     out_channels=hidden_size // 2,
                     kernel_size=kernel_size,
                     stride=stride,
@@ -169,7 +166,24 @@ class Attention_CNNLayer(nn.Module):
             ),
             active_func,
             Flatten(),
-            init_(
+            # init_(      #c2
+            #     nn.Linear(
+            #         in_features=hidden_size
+            #         // 2
+            #         * (input_width - kernel_size + stride)
+            #         * (input_height - kernel_size + stride),
+            #         out_features=hidden_size,
+            #     )
+            # ),
+            # active_func,
+            # self.attention_layer(attention_size, attention_size, attention_size),
+            # active_func,
+            # init_(nn.Linear(hidden_size, hidden_size)),
+            # active_func,
+        )
+
+        self.cnn_c2 = nn.Sequential(
+            init_(      #c2
                 nn.Linear(
                     in_features=hidden_size
                     // 2
@@ -179,23 +193,20 @@ class Attention_CNNLayer(nn.Module):
                 )
             ),
             active_func,
-            self.attention_layer,
-            active_func,
             init_(nn.Linear(hidden_size, hidden_size)),
             active_func,
         )
-
         print(
             f"[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}],{self.attention_cnn}"
         )
- 
     def forward(self, x):
         print(f"[ATTEN_CNN_FORWARD]: (forward) input x: {x.shape}")
         x_norm = x / 255.0
-        x = self.attention_cnn(x_norm)
-        print(f"[ATTEN_CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {x.shape}")
-        return x
-
+        c1_x = self.cnn_c1(x_norm)
+        atten_x = self.attention_layer(c1_x, c1_x, c1_x),
+        c2_x = self.cnn_c2(atten_x),
+        print(f"[ATTEN_CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {c2_x}")
+        return c2_x
 
 class Attention_CNNBase(nn.Module):
     def __init__(self, args, obs_shape, is_uav):
@@ -244,6 +255,7 @@ class MultiHeadAttention(nn.Module):
         self.attention = ScaledDotProductAttention()
 
     def forward(self, q, k, v):
+        print(f"[MultiHeadAttention] input q: {q}, k: {k}, v: {v}")
         residual = q
         q = self.w_qs(q).permute(0, 2, 3, 1)
         k = self.w_ks(k).permute(0, 2, 3, 1)
