@@ -165,21 +165,7 @@ class Attention_CNNLayer(nn.Module):
                 )
             ),
             active_func,
-            Flatten(),
-            # init_(      #c2
-            #     nn.Linear(
-            #         in_features=hidden_size
-            #         // 2
-            #         * (input_width - kernel_size + stride)
-            #         * (input_height - kernel_size + stride),
-            #         out_features=hidden_size,
-            #     )
-            # ),
-            # active_func,
-            # self.attention_layer(attention_size, attention_size, attention_size),
-            # active_func,
-            # init_(nn.Linear(hidden_size, hidden_size)),
-            # active_func,
+            #Flatten(),
         )
 
         self.cnn_c2 = nn.Sequential(
@@ -197,7 +183,10 @@ class Attention_CNNLayer(nn.Module):
             active_func,
         )
         print(
-            f"[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}],{self.attention_cnn}"
+            f"[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}]"
+        )
+        print(
+            f"[INIT_CNN_LAYER] Init CNNLayer: [cnn_c1: {self.cnn_c1}, self.attention_layer: {self.attention_layer}, self.cnn_c2: {self.cnn_c2}]"
         )
     def forward(self, x):
         print(f"[ATTEN_CNN_FORWARD]: (forward) input x: {x.shape}")
@@ -230,7 +219,6 @@ class Attention_CNNBase(nn.Module):
         )
         
         self.attention_size = 32
-        self.attention_layer = MultiHeadAttention(self.attention_size)
         self.attention_cnn = Attention_CNNLayer(
             obs_shape,
             self.hidden_size,
@@ -255,13 +243,13 @@ class MultiHeadAttention(nn.Module):
         self.attention = ScaledDotProductAttention()
 
     def forward(self, q, k, v):
-        print(f"[MultiHeadAttention] input q: {q}, k: {k}, v: {v}")
+        print(f"[MultiHeadAttention] input q({q.shape}): {q}, k({k.shape}): {k}, v({v.shape}): {v}")
         residual = q
-        q = self.w_qs(q).permute(0, 2, 3, 1)
-        k = self.w_ks(k).permute(0, 2, 3, 1)
-        v = self.w_vs(v).permute(0, 2, 3, 1)
+        q = self.w_qs(q).permute(0, 2, 1)
+        k = self.w_ks(k).permute(0, 2, 1)
+        v = self.w_vs(v).permute(0, 2, 1)
 
-        attention = self.attention(q, k, v).permute(0, 3, 1, 2)
+        attention = self.attention(q, k, v).permute(0, 1, 2)
 
         out = attention + residual
         return out
