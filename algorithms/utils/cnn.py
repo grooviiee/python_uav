@@ -141,6 +141,7 @@ class Attention_CNNLayer(nn.Module):
 
         self.attention_layer = MultiHeadAttention(attention_size)
 
+
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
 
@@ -169,6 +170,7 @@ class Attention_CNNLayer(nn.Module):
         )
 
         self.cnn_c2 = nn.Sequential(
+            active_func,
             init_(      #c2
                 nn.Linear(
                     in_features=hidden_size
@@ -192,7 +194,8 @@ class Attention_CNNLayer(nn.Module):
         print(f"[ATTEN_CNN_FORWARD]: (forward) input x: {x.shape}")
         x_norm = x / 255.0
         c1_x = self.cnn_c1(x_norm)
-        atten_x = self.attention_layer(c1_x, c1_x, c1_x),
+        atten_x = self.attention_layer(c1_x, c1_x, c1_x)
+        print(f"atten_x({atten_x.shape}): {atten_x}")
         c2_x = self.cnn_c2(atten_x),
         print(f"[ATTEN_CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {c2_x}")
         return c2_x
@@ -260,7 +263,8 @@ class ScaledDotProductAttention(nn.Module):
         super().__init__()
 
     def forward(self, q, k, v):
-        attn = torch.matmul(q, k.transpose(2, 3))
+        print(f"[ScaledDotProductAttention] input q({q.shape}): {q}, k({k.shape}): {k}, v({v.shape}): {v}")
+        attn = torch.matmul(q, k.transpose(-2, -1))
         output = torch.matmul(attn, v)
 
         return output
