@@ -182,7 +182,7 @@ class Attention_CNNLayer(nn.Module):
             ),
             active_func,
             init_(nn.Linear(hidden_size, hidden_size)),
-            active_func,
+        active_func,
         )
         print(
             f"[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}]"
@@ -195,8 +195,9 @@ class Attention_CNNLayer(nn.Module):
         x_norm = x / 255.0
         c1_x = self.cnn_c1(x_norm)
         atten_x = self.attention_layer(c1_x, c1_x, c1_x)
-        print(f"atten_x({atten_x.shape}): {atten_x}")
-        c2_x = self.cnn_c2(atten_x),
+        reshaped_atten_x = atten_x.view(3, -1)
+        print(f"[ATTEN_CNN_FORWARD] atten_x({atten_x.shape}),  reshaped_atten_x({reshaped_atten_x.shape})")
+        c2_x = self.cnn_c2(mod_atten_x),
         print(f"[ATTEN_CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {c2_x}")
         return c2_x
 
