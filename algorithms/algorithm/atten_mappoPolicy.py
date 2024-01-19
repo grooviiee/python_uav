@@ -2,6 +2,7 @@ import torch
 import numpy as np
 from algorithms.algorithm.r_actor import R_Actor
 from algorithms.algorithm.r_attention_actor_critic import R_Attention_Critic
+from algorithms.algorithm.r_attention_actor_critic import R_Attention_Actor
 from envs.rl_params.rl_params import CNN_Conv, Get_obs_shape, Adjust_list_size
 
 class AttentionMappoAgent_Policy:

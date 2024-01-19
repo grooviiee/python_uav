@@ -54,13 +54,14 @@ class R_Actor(nn.Module):
                 f"[ACTOR] reshaped obs_shape: {temp_list} which length is {len(temp_list)}."
             )
 
-            self.base = CNNBase(args, temp_list, is_uav, False)
+            self.base = CNNBase(args, temp_list, is_uav)
         else:
             # Only RIC will use this function
             print(
                 f"(We do not use this currently) [ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3"
             )
-            self.base = MLPBase(args, obs_shape, is_uav, False)
+            raise NotImplementedError
+            self.base = MLPBase(args, obs_shape, is_uav)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             print(f"self.rnn = RNNLayer")

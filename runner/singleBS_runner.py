@@ -76,7 +76,7 @@ class SingleBS_runner(Runner):
             # share_observation_space = self.envs.share_observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
             share_observation_space = self.envs.observation_space[agent_id]
             print(
-                f"[INIT_RUNNER] agent_id: {agent_id}, action_space: {self.envs.action_space[agent_id]}"
+                f"[INIT_RUNNER] algorithm:{self.algorithm}, agent_id:{agent_id}, action_space:{self.envs.action_space[agent_id]}"
             )
 
             # policy network
@@ -87,15 +87,17 @@ class SingleBS_runner(Runner):
                     share_observation_space,
                     self.envs.action_space[agent_id],
                     agent_id,
+                    attention=False,
                     device=self.device,
                 )
             elif self.algorithm == "attention":
-                policy = AttentionMappoAgent_Policy(
+                policy = MAPPOAgentPolicy(
                     self.all_args,
                     self.envs.observation_space[agent_id],
                     share_observation_space,
                     self.envs.action_space[agent_id],
                     agent_id,
+                    attention=True,
                     device=self.device,
                 )
             else:

@@ -10,9 +10,9 @@ from algorithms.algorithm.r_attention import MultiHeadAttention
 from utils.util import get_shape_from_obs_space
 
 
-class R_Actor(nn.Module):
+class R_Attention_Actor(nn.Module):
     def __init__(self, args, obs_space, action_space, is_uav, device=torch.device("cpu")):
-        super(R_Actor, self).__init__()
+        super(R_Attention_Actor, self).__init__()
         self.hidden_size = args.hidden_size
 
         self._gain = args.gain
@@ -38,13 +38,12 @@ class R_Actor(nn.Module):
                 f"[ACTOR] reshaped obs_shape: {temp_list} which length is {len(temp_list)}."
             )
 
-            self.base = CNNBase(args, temp_list, is_uav, False)
-        else:
-            # Only RIC will use this function
-            print(
-                f"(We do not use this currently) [ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3"
-            )
-            self.base = MLPBase(args, obs_shape, is_uav, False)
+            cent_obs_shape = get_shape_from_obs_space(cent_obs_space)
+            if len(cent_obs_shape) == 3:
+                self.base = Attention_CNNBase(args, cent_obs_shape, self.is_uav)
+            else:
+                print(f"(We do not use this currently) [ACTOR] returned obs_shape: {obs_shape}. MLP Base because length is not 3")
+                self.base = MLPBase(args, obs_shape, is_uav, False)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             print(f"self.rnn = RNNLayer")
@@ -92,8 +91,6 @@ class R_Attention_Critic(nn.Module):
             raise NotImplementedError
             self.base = MLPBase(args, cent_obs_shape, self.is_uav)
 
-        # self.base = base(args, cent_obs_shape, self.is_uav)
-
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             self.rnn = RNNLayer(
                 self.hidden_size,
@@ -126,10 +123,16 @@ class R_Attention_Critic(nn.Module):
         cent_obs = check(cent_obs).to(**self.tpdv)
         rnn_states = check(rnn_states).to(**self.tpdv)
         masks = check(masks).to(**self.tpdv)
+        print(f"[critic_features]")
 
         critic_features = self.base(cent_obs)
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             critic_features, rnn_states = self.rnn(critic_features, rnn_states, masks)
-        values = self.v_out(critic_features)
+        
+        # if type(critic_features) == tuple:
+        #     print(f"[critic_features] critic_features({type(critic_features[0])}), {len(critic_features[0])}")
+
+        #     critic_features = critic_features[0].view(-1)
+        values = self.v_out(critic_features[0][0])
 
         return values, rnn_states

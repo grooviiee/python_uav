@@ -2,10 +2,10 @@ import torch
 import torch.nn as nn
 from algorithms.utils.util import init, check
 from algorithms.utils.cnn import CNNBase
+from algorithms.utils.cnn import Attention_CNNBase
 from algorithms.utils.mlp import MLPBase
 from algorithms.utils.rnn import RNNLayer
 from algorithms.utils.act import ACTLayer
-from algorithms.utils.popart import PopArt
 from utils.util import get_shape_from_obs_space
 
 class R_Critic(nn.Module):
@@ -16,7 +16,7 @@ class R_Critic(nn.Module):
     :param cent_obs_space: (gym.Space) (centralized) observation space.
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
     """
-    def __init__(self, args, cent_obs_space, is_uav, device=torch.device("cpu")):
+    def __init__(self, args, cent_obs_space, is_uav, attention, device=torch.device("cpu")):
         super(R_Critic, self).__init__()
         self.hidden_size = args.hidden_size
         self._use_orthogonal = args.use_orthogonal
@@ -29,8 +29,16 @@ class R_Critic(nn.Module):
         init_method = [nn.init.xavier_uniform_, nn.init.orthogonal_][self._use_orthogonal]
 
         cent_obs_shape = get_shape_from_obs_space(cent_obs_space)
-        base = CNNBase if len(cent_obs_shape) == 3 else MLPBase
-        self.base = base(args, cent_obs_shape, self.is_uav, False)
+        if len(cent_obs_shape) is 3:
+            if attention is True:
+                base = Attention_CNNBase
+            else:
+                base = CNNBase
+        else:
+            raise NotImplementedError
+            base = MLPBase        
+
+        self.base = base(args, cent_obs_shape, self.is_uav)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             self.rnn = RNNLayer(self.hidden_size, self.hidden_size, self._recurrent_N, self._use_orthogonal)
@@ -61,6 +69,6 @@ class R_Critic(nn.Module):
         critic_features = self.base(cent_obs)
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             critic_features, rnn_states = self.rnn(critic_features, rnn_states, masks)
-        values = self.v_out(critic_features)
+        values = self.v_out(critic_features[0][0])
 
         return values, rnn_states

@@ -3323,3 +3323,100 @@
 [RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
 [RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
 [RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: 7751112984241700864.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: 7751112984241700864.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: 7751112984241700864.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: 7751112984241700864.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: 23253338952377434112.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: 7751112984241700864.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: 15889781617512939520.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: 7944890808843370496.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(13/40)
+[RUNNER_REWARD] tatal_reward: 15889781617512939520.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(14/40)
+[RUNNER_REWARD] tatal_reward: 7944890808843370496.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(15/40)
+[RUNNER_REWARD] tatal_reward: 7944890808843370496.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(16/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(17/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(18/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(19/40)
+[RUNNER_REWARD] tatal_reward: 16297211915393433600.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(20/40)
+[RUNNER_REWARD] tatal_reward: 8148605957783617536.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(21/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(22/40)
+[RUNNER_REWARD] tatal_reward: 16297211915393433600.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(23/40)
+[RUNNER_REWARD] tatal_reward: 8148605957783617536.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(24/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(25/40)
+[RUNNER_REWARD] tatal_reward: 7944890808843370496.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(26/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(1/40)
+[RUNNER_REWARD] tatal_reward: 107983565361266688.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(2/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(3/40)
+[RUNNER_REWARD] tatal_reward: 111429043773636608.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(4/40)
+[RUNNER_REWARD] tatal_reward: 106499876965597184.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(5/40)
+[RUNNER_REWARD] tatal_reward: 107910231870488576.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(6/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(7/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(8/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(9/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(10/40)
+[RUNNER_REWARD] tatal_reward: 106321723943206912.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(11/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(12/40)
+[RUNNER_REWARD] tatal_reward: 173801472.000000
+[RUNNER] episode(0/3) big_step(0/25) small_step(13/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)
+[RUNNER] episode(0/3) big_step(0/25) small_step(0/40)

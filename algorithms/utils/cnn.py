@@ -87,7 +87,7 @@ class CNNLayer(nn.Module):
 
 
 class CNNBase(nn.Module):
-    def __init__(self, args, obs_shape, is_uav, attention_mode):
+    def __init__(self, args, obs_shape, is_uav):
         print(f"..Init CNNBase")
         super(CNNBase, self).__init__()
 
@@ -182,7 +182,7 @@ class Attention_CNNLayer(nn.Module):
             ),
             active_func,
             init_(nn.Linear(hidden_size, hidden_size)),
-        active_func,
+            active_func,
         )
         print(
             f"[INIT_CNN_LAYER] Init CNNLayer: [{input_channel},{input_width},{input_height}]"
@@ -197,8 +197,8 @@ class Attention_CNNLayer(nn.Module):
         atten_x = self.attention_layer(c1_x, c1_x, c1_x)
         reshaped_atten_x = atten_x.view(3, -1)
         print(f"[ATTEN_CNN_FORWARD] atten_x({atten_x.shape}),  reshaped_atten_x({reshaped_atten_x.shape})")
-        c2_x = self.cnn_c2(mod_atten_x),
-        print(f"[ATTEN_CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {c2_x}")
+        c2_x = self.cnn_c2(reshaped_atten_x),
+        print(f"[ATTEN_CNN_FORWARD]: (forward_after_self.cnn(x)) returned x: {c2_x}, type: {type(c2_x)}")
         return c2_x
 
 class Attention_CNNBase(nn.Module):
@@ -247,7 +247,6 @@ class MultiHeadAttention(nn.Module):
         self.attention = ScaledDotProductAttention()
 
     def forward(self, q, k, v):
-        print(f"[MultiHeadAttention] input q({q.shape}): {q}, k({k.shape}): {k}, v({v.shape}): {v}")
         residual = q
         q = self.w_qs(q).permute(0, 2, 1)
         k = self.w_ks(k).permute(0, 2, 1)
@@ -255,7 +254,9 @@ class MultiHeadAttention(nn.Module):
 
         attention = self.attention(q, k, v).permute(0, 1, 2)
 
+        print(f"[MultiHeadAttention] input q({q.shape}), k({k.shape}), v({v.shape}), attention({attention.shape}), residual({residual.shape})")
         out = attention + residual
+        
         return out
 
 
@@ -264,7 +265,7 @@ class ScaledDotProductAttention(nn.Module):
         super().__init__()
 
     def forward(self, q, k, v):
-        print(f"[ScaledDotProductAttention] input q({q.shape}): {q}, k({k.shape}): {k}, v({v.shape}): {v}")
+        print(f"[ScaledDotProductAttention] input q({q.shape}), k({k.shape}), v({v.shape})")
         attn = torch.matmul(q, k.transpose(-2, -1))
         output = torch.matmul(attn, v)
 

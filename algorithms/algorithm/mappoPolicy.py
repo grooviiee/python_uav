@@ -13,9 +13,11 @@ class MAPPOAgentPolicy:
         cent_obs_space,
         act_space,
         agent_id,
+        attention,
         device=torch.device("cpu"),
     ):
         self.args = args
+        self.attention = attention
         self.device = device
         self.lr = args.lr
         self.critic_lr = args.critic_lr
@@ -40,8 +42,9 @@ class MAPPOAgentPolicy:
             eps=self.opti_eps,
             weight_decay=self.weight_decay,
         )
-
-        self.critic = R_Critic(args, self.share_obs_space, self.is_uav, self.device)
+        
+        self.critic = R_Critic(args, self.share_obs_space, self.is_uav, self.attention, self.device)
+        
         self.critic_optimizer = torch.optim.Adam(
             self.critic.parameters(),
             lr=self.critic_lr,
