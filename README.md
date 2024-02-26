@@ -6,9 +6,9 @@ Implementation course:
 
 1. Deep Learning -> v
 2. Q-learning -> v
-3. Deep Q-learning -> on going
-4. REINFORCE -> on going
-5. Actor-critic
+3. Deep Q-learning -> v
+4. REINFORCE -> v
+5. Actor-critic -> v
 6. DDPG
 
 Implementing MultiAgent-PPO
@@ -40,3 +40,8 @@ QoE (Quality of Experience): Measures CDI(Content Delay Index) which is formulat
 -> 후속논문으로 다른 item들이 있는지도 확인해봐야겠다.
 
 -> 만약에 User가 움직이는 환경이면 뭔가 달라질 수 있을까??
+
+
+24.02.27
+-> 기존 알고리즘에 대한 검증 필요
+-> IAB에 대한 리서치가 필요할 것 같다. (연구 주제와 겹칠 우려가 발생)
