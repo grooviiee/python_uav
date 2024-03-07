@@ -45,3 +45,7 @@ QoE (Quality of Experience): Measures CDI(Content Delay Index) which is formulat
 24.02.27
 -> 기존 알고리즘에 대한 검증 필요
 -> IAB에 대한 리서치가 필요할 것 같다. (연구 주제와 겹칠 우려가 발생)
+
+24.03.07
+-> 알고리즘 구현이 너무 복잡한 것 같아서 갈아타야 겠다는 생각이 들었음
+(내가 구현을 했는데, 디버깅이 어려울 것 같아서..)
