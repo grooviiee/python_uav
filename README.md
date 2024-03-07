@@ -49,3 +49,4 @@ QoE (Quality of Experience): Measures CDI(Content Delay Index) which is formulat
 24.03.07
 -> 알고리즘 구현이 너무 복잡한 것 같아서 갈아타야 겠다는 생각이 들었음
 (내가 구현을 했는데, 디버깅이 어려울 것 같아서..)
+-> action_space.n이 여러개인 환경에 대해서 학습이 좀 더 필요해보인다. 이게 맞나...?
