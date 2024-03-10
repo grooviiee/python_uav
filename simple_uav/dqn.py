@@ -1,10 +1,10 @@
 # import gymnasium as gym
 from simple_uav.gym import UAVEnvMain
+import argparse, sys
 import math
 import random
-# TODO: Will be uncapped
-# import matplotlib
-# import matplotlib.pyplot as plt
+import matplotlib
+import matplotlib.pyplot as plt
 from collections import namedtuple, deque
 from itertools import count
 
@@ -13,8 +13,24 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--scenario_name",type=str,default="scenario_ref",choices=["scenario_ref, scenario_ric"],)
+parser.add_argument("--runner_name",type=str,default="singleBS",choices=["singleBS", "multipleBS"],)  #
+parser.add_argument("--algorithm_name",type=str,default="mappo",choices=["random", "mappo", "attention", "ddpg"],)
+parser.add_argument('--mbs', help=' : Set number of MBS') 
+parser.add_argument('--uav', help=' : Set number of UAV', default='train')
+parser.add_argument('--user', help=' : Set number of USER', default='2021-11-02')
+# parser.add_argument('-end_date', help=' : Please set the last date of prediction(default)', default='2021-12-02') 
+args = parser.parse_args()
+
 # env = gym.make("CartPole-v1")
-env = UAVEnvMain.make_world()
+
+# gym에서 agent와 user의 갯수를 얻습니다.
+n_users = args.user
+n_uav_agents = args.uav
+n_mbs_agents = args.mbs
+
+env = UAVEnvMain.make_world(n_mbs_agents, n_uav_agents, n_users)
 
 # # TODO: matplotlib 설정
 # is_ipython = 'inline' in matplotlib.get_backend()
@@ -72,6 +88,7 @@ LR = 1e-4
 
 # gym 행동 공간에서 행동의 숫자를 얻습니다.
 n_actions = env.action_space.n
+
 # 상태 관측 횟수를 얻습니다.
 state, info = env.reset()
 n_observations = len(state)
@@ -215,10 +232,10 @@ for i_episode in range(num_episodes):
 
         if done:
             episode_durations.append(t + 1)
-            plot_durations()
+            # TODO: plot_durations()
             break
 
 print('Complete')
-plot_durations(show_result=True)
+# TODO: plot_durations(show_result=True)
 plt.ioff()
 plt.show()
