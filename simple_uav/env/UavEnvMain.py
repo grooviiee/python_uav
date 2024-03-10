@@ -1,5 +1,5 @@
-from envs.uavenv import UAV_ENV
-from envs.scenarios import load
+from env.uavenv import UAV_ENV
+# from envs.scenarios import load
 
 
 # Start of Environment

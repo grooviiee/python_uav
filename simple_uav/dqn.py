@@ -1,5 +1,5 @@
 # import gymnasium as gym
-from simple_uav.gym import UAVEnvMain
+from env.UavEnvMain import UAVEnvMain
 import argparse, sys
 import math
 import random
@@ -17,9 +17,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--scenario_name",type=str,default="scenario_ref",choices=["scenario_ref, scenario_ric"],)
 parser.add_argument("--runner_name",type=str,default="singleBS",choices=["singleBS", "multipleBS"],)  #
 parser.add_argument("--algorithm_name",type=str,default="mappo",choices=["random", "mappo", "attention", "ddpg"],)
-parser.add_argument('--mbs', help=' : Set number of MBS') 
-parser.add_argument('--uav', help=' : Set number of UAV', default='train')
-parser.add_argument('--user', help=' : Set number of USER', default='2021-11-02')
+parser.add_argument('--mbs', type=int, default= 1, help=' : Set number of MBS') 
+parser.add_argument('--uav', type=int, default= 3, help=' : Set number of UAV')
+parser.add_argument('--user', type=int, default= 10, help=' : Set number of USER')
 # parser.add_argument('-end_date', help=' : Please set the last date of prediction(default)', default='2021-12-02') 
 args = parser.parse_args()
 
@@ -30,6 +30,7 @@ n_users = args.user
 n_uav_agents = args.uav
 n_mbs_agents = args.mbs
 
+print(f"users: {n_users}, uav: {n_uav_agents}, mbs: {n_mbs_agents}")
 env = UAVEnvMain.make_world(n_mbs_agents, n_uav_agents, n_users)
 
 # # TODO: matplotlib 설정
