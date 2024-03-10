@@ -30,15 +30,15 @@ n_users = args.user
 n_uav_agents = args.uav
 n_mbs_agents = args.mbs
 
-print(f"users: {n_users}, uav: {n_uav_agents}, mbs: {n_mbs_agents}")
+print(f"[Setting] users: {n_users}, uav: {n_uav_agents}, mbs: {n_mbs_agents}")
 env = UAVEnvMain.make_world(n_mbs_agents, n_uav_agents, n_users)
 
-# # TODO: matplotlib 설정
-# is_ipython = 'inline' in matplotlib.get_backend()
-# if is_ipython:
-#     from IPython import display
+# TODO: matplotlib 설정
+is_ipython = 'inline' in matplotlib.get_backend()
+if is_ipython:
+    from IPython import display
 
-# plt.ion()
+plt.ion()
 
 # GPU를 사용할 경우
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -87,6 +87,8 @@ EPS_DECAY = 1000
 TAU = 0.005
 LR = 1e-4
 
+n_agents = n_mbs_agents + n_uav_agents
+
 # gym 행동 공간에서 행동의 숫자를 얻습니다.
 n_actions = env.action_space.n
 
@@ -94,8 +96,10 @@ n_actions = env.action_space.n
 state, info = env.reset()
 n_observations = len(state)
 
-policy_net = DQN(n_observations, n_actions).to(device)
-target_net = DQN(n_observations, n_actions).to(device)
+for agents in n_agents:
+    policy_net = DQN(n_observations, n_actions).to(device)
+    target_net = DQN(n_observations, n_actions).to(device)
+
 target_net.load_state_dict(policy_net.state_dict())
 
 optimizer = optim.AdamW(policy_net.parameters(), lr=LR, amsgrad=True)
@@ -204,37 +208,38 @@ for i_episode in range(num_episodes):
     state, info = env.reset()
     state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
     for t in count():
-        action = select_action(state)
-        observation, reward, terminated, truncated, _ = env.step(action.item())
-        reward = torch.tensor([reward], device=device)
-        done = terminated or truncated
+        for agent in (n_uav_agents + n_mbs_agents):
+            action = select_action(state)
+            observation, reward, terminated, truncated, _ = env.step(action.item())
+            reward = torch.tensor([reward], device=device)
+            done = terminated or truncated
 
-        if terminated:
-            next_state = None
-        else:
-            next_state = torch.tensor(observation, dtype=torch.float32, device=device).unsqueeze(0)
+            if terminated:
+                next_state = None
+            else:
+                next_state = torch.tensor(observation, dtype=torch.float32, device=device).unsqueeze(0)
 
-        # 메모리에 변이 저장
-        memory.push(state, action, next_state, reward)
+            # 메모리에 변이 저장
+            memory.push(state, action, next_state, reward)
 
-        # 다음 상태로 이동
-        state = next_state
+            # 다음 상태로 이동
+            state = next_state
 
-        # (정책 네트워크에서) 최적화 한단계 수행
-        optimize_model()
+            # (정책 네트워크에서) 최적화 한단계 수행
+            optimize_model()
 
-        # 목표 네트워크의 가중치를 소프트 업데이트
-        # θ′ ← τ θ + (1 −τ )θ′
-        target_net_state_dict = target_net.state_dict()
-        policy_net_state_dict = policy_net.state_dict()
-        for key in policy_net_state_dict:
-            target_net_state_dict[key] = policy_net_state_dict[key]*TAU + target_net_state_dict[key]*(1-TAU)
-        target_net.load_state_dict(target_net_state_dict)
+            # 목표 네트워크의 가중치를 소프트 업데이트
+            # θ′ ← τ θ + (1 −τ )θ′
+            target_net_state_dict = target_net.state_dict()
+            policy_net_state_dict = policy_net.state_dict()
+            for key in policy_net_state_dict:
+                target_net_state_dict[key] = policy_net_state_dict[key]*TAU + target_net_state_dict[key]*(1-TAU)
+            target_net.load_state_dict(target_net_state_dict)
 
-        if done:
-            episode_durations.append(t + 1)
-            # TODO: plot_durations()
-            break
+            if done:
+                episode_durations.append(t + 1)
+                # TODO: plot_durations()
+                break
 
 print('Complete')
 # TODO: plot_durations(show_result=True)

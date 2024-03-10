@@ -1,6 +1,6 @@
 import numpy as np
 from gym import spaces
-import env
+# import env
 from itertools import chain
 from gym.spaces.space import Space
 from gym.spaces.utils import flatdim, flatten
@@ -11,7 +11,8 @@ import random
 
 
 # UAV Environment scenario
-class UAV_ENV(env.Env):
+# class UAV_ENV(env.Env):
+class UAV_ENV():
     def __init__(
         self,
         world,
