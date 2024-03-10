@@ -28,8 +28,8 @@ class UAV_ENV():
     ):
         # parameter setting from args
         self.world = world
-        self.log_level = world.log_level
-        self.logger = logger
+        # self.log_level = world.log_level
+        # self.logger = logger
         self.current_step = 0
         self.world_length = world.world_length
         self.num_uavs = world.num_uavs  # number of uavs

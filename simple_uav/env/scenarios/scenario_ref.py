@@ -10,17 +10,17 @@ class Scenario(BaseScenario):
         # set any world properties first
         # world.world_length = args.episode_length
         # world.collaborative = True  # whether agents share rewards
-        world.num_uavs = args.num_uavs
-        world.num_mbs = args.num_mbs
-        world.num_users = args.num_users  # dtype: int
-        world.num_agents = args.num_uavs + args.num_mbs  # dtype: int
+        world.num_uavs = args.n_uavs
+        world.num_mbs = args.n_mbs
+        world.num_users = args.n_users  # dtype: int
+        world.num_agents = world.num_uavs + world.num_mbs  # dtype: int
         
-        world.map_size = args.map_size
-        world.num_contents = args.num_contents
-        world.cache_capa = args.cache_capa
+        world.map_size = 100 # args.map_size
+        world.num_contents = 20 #args.num_contents
+        world.cache_capa = 5 #args.cache_capa
         # world.users = [User(args.file_size, args.zipf_parameter) for i in range(world.num_users)]
-        world.file_size = args.file_size
-        world.zipf_parameter = args.zipf_parameter
+        world.file_size = 20 #args.file_size
+        world.zipf_parameter = 3#args.zipf_parameter
 
         # Add agent as mbs
         for i in range(world.num_mbs):
@@ -34,9 +34,7 @@ class Scenario(BaseScenario):
 
         # Add user
         for i in range(world.num_users):
-            world.users.append(
-                User(args.file_size, args.num_contents, args.zipf_parameter)
-            )
+            world.users.append(User(world.file_size, world.num_contents, world.zipf_parameter))
             world.users[i].user_id = i
 
         for i, agent in enumerate(world.agents):

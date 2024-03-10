@@ -17,23 +17,23 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--scenario_name",type=str,default="scenario_ref",choices=["scenario_ref, scenario_ric"],)
 parser.add_argument("--runner_name",type=str,default="singleBS",choices=["singleBS", "multipleBS"],)  #
 parser.add_argument("--algorithm_name",type=str,default="mappo",choices=["random", "mappo", "attention", "ddpg"],)
-parser.add_argument('--mbs', type=int, default= 1, help=' : Set number of MBS') 
-parser.add_argument('--uav', type=int, default= 3, help=' : Set number of UAV')
-parser.add_argument('--user', type=int, default= 10, help=' : Set number of USER')
+parser.add_argument('--n_mbs', type=int, default= 1, help=' : Set number of MBS') 
+parser.add_argument('--n_uavs', type=int, default= 3, help=' : Set number of UAV')
+parser.add_argument('--n_users', type=int, default= 10, help=' : Set number of USER')
 # parser.add_argument('-end_date', help=' : Please set the last date of prediction(default)', default='2021-12-02') 
 args = parser.parse_args()
 
 # env = gym.make("CartPole-v1")
 
 # gym에서 agent와 user의 갯수를 얻습니다.
-n_users = args.user
-n_uav_agents = args.uav
-n_mbs_agents = args.mbs
+n_users = args.n_users
+n_uav_agents = args.n_uavs
+n_mbs_agents = args.n_mbs
 
 print(f"[Setting] users: {n_users}, uav: {n_uav_agents}, mbs: {n_mbs_agents}")
 env = UAVEnvMain(args)
 
-make_world(n_mbs_agents, n_uav_agents, n_users)
+# make_world(n_mbs_agents, n_uav_agents, n_users)
 
 # TODO: matplotlib 설정
 is_ipython = 'inline' in matplotlib.get_backend()
