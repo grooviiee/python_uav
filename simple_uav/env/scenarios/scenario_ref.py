@@ -7,15 +7,14 @@ from env.scenarios.scenario_base import BaseScenario
 class Scenario(BaseScenario):
     def make_world(self, args):
         world = World()
-        world.logger = args.logger
-        world.log_level = args.log_level
         # set any world properties first
-        world.world_length = args.episode_length
-        world.collaborative = True  # whether agents share rewards
+        # world.world_length = args.episode_length
+        # world.collaborative = True  # whether agents share rewards
         world.num_uavs = args.num_uavs
         world.num_mbs = args.num_mbs
         world.num_users = args.num_users  # dtype: int
         world.num_agents = args.num_uavs + args.num_mbs  # dtype: int
+        
         world.map_size = args.map_size
         world.num_contents = args.num_contents
         world.cache_capa = args.cache_capa

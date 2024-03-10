@@ -1,5 +1,5 @@
 from env.uavenv import UAV_ENV
-from env.scenarios import scenario_ref as Scenario
+from env.scenarios.scenario_ref import Scenario
 # from envs.scenarios import load
 
 
@@ -8,16 +8,14 @@ def UAVEnvMain(args):
     print("[ENV] Load Scenario: ", args.scenario_name)
 
     # load scenario from script
+    scenario = Scenario()
 
-    scenario = Scenario
-
-    # create world (from scenario,py)
-    world = Scenario.make_world(args)
+    # create world (from scenario.py)
+    world = scenario.make_world(args)
 
     # create multiagent environment
     env = UAV_ENV(
         world,
-        args.logger,
         scenario.reset_world,
         scenario.reward,
         scenario.observation,
@@ -26,5 +24,5 @@ def UAVEnvMain(args):
 
     return env
 
-def make_world(num_mbs, num_uav, num_user):
-    return Scenario
+# def make_world(num_mbs, num_uav, num_user):
+#     return Scenario

@@ -31,7 +31,9 @@ n_uav_agents = args.uav
 n_mbs_agents = args.mbs
 
 print(f"[Setting] users: {n_users}, uav: {n_uav_agents}, mbs: {n_mbs_agents}")
-env = UAVEnvMain.make_world(n_mbs_agents, n_uav_agents, n_users)
+env = UAVEnvMain(args)
+
+make_world(n_mbs_agents, n_uav_agents, n_users)
 
 # TODO: matplotlib 설정
 is_ipython = 'inline' in matplotlib.get_backend()
