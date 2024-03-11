@@ -213,6 +213,12 @@ class UAV_ENV():
         # print("uav_obs_size: %d, mbs_obs_size: %d", %self.n_uav_observation_space, %self.n_mbs_observation_space)
         return self.n_uav_observation_space + self.n_mbs_observation_space
 
+    def get_action_space_n(self, is_mbs):
+        if is_mbs is True:
+            return self.n_uav_action
+        else:
+            return self.n_mbs_action
+    
     def seed(self, seed=None):
         if seed is None:
             random.seed(1)
