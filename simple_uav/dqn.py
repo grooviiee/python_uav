@@ -90,18 +90,22 @@ TAU = 0.005
 LR = 1e-4
 
 n_agents = n_mbs_agents + n_uav_agents
-
-# gym 행동 공간에서 행동의 숫자를 얻습니다.
-n_actions = env.action_space.n
-
-# 상태 관측 횟수를 얻습니다.
-state, info = env.reset()
-n_observations = len(state)
+action_list = []
+observation_list = []
+policy_net = []
+target_net = []
 
 for agents in n_agents:
+    # gym 행동 공간에서 행동의 숫자를 얻습니다.
+    # n_actions = env.action_space.n
+    n_actions = env.get_action_size()
+    # 상태 관측 횟수를 얻습니다.
+    
+    n_observations = len(state)
     policy_net = DQN(n_observations, n_actions).to(device)
     target_net = DQN(n_observations, n_actions).to(device)
 
+state, info = env.reset()
 target_net.load_state_dict(policy_net.state_dict())
 
 optimizer = optim.AdamW(policy_net.parameters(), lr=LR, amsgrad=True)
@@ -200,6 +204,8 @@ def optimize_model():
     torch.nn.utils.clip_grad_value_(policy_net.parameters(), 100)
     optimizer.step()
 
+
+# Start scenario
 if torch.cuda.is_available():
     num_episodes = 600
 else:
