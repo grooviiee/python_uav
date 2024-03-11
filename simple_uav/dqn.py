@@ -13,6 +13,9 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
+
+printon = True
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--scenario_name",type=str,default="scenario_ref",choices=["scenario_ref, scenario_ric"],)
 parser.add_argument("--runner_name",type=str,default="singleBS",choices=["singleBS", "multipleBS"],)  #
@@ -30,7 +33,8 @@ n_users = args.n_users
 n_uav_agents = args.n_uavs
 n_mbs_agents = args.n_mbs
 
-print(f"[Setting] users: {n_users}, uav: {n_uav_agents}, mbs: {n_mbs_agents}")
+if printon:
+    print(f"[Get Settings] mbs: {n_mbs_agents}, uav: {n_uav_agents}, users: {n_users}")
 env = UAVEnvMain(args)
 
 # make_world(n_mbs_agents, n_uav_agents, n_users)
@@ -95,12 +99,20 @@ observation_list = []
 policy_net = []
 target_net = []
 
-for agents in n_agents:
+
+# Agent의 state, action set, network를 정의합니다.
+for agent in n_agents:
+    is_mbs = False
+    if agent < n_mbs_agents:
+        is_mbs = True
+
+    if printon:
+        print(f"[RUNNER] agents: {agent} / n_agents: {n_agents} / is_mbs: {is_mbs}")
+
     # gym 행동 공간에서 행동의 숫자를 얻습니다.
-    # n_actions = env.action_space.n
-    n_actions = env.get_action_size()
+    n_actions = env.get_action_size(is_mbs)
+
     # 상태 관측 횟수를 얻습니다.
-    
     n_observations = len(state)
     policy_net = DQN(n_observations, n_actions).to(device)
     target_net = DQN(n_observations, n_actions).to(device)
